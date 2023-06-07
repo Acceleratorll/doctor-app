@@ -6,12 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Schedule extends Model
+class MedicalRecord extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function reservations()
+    public function employee()
     {
-        return $this->hasMany(Reservation::class);
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
     }
 }

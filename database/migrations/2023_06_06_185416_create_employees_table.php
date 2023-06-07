@@ -15,11 +15,13 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('role_id')->constrained();
             $table->string('name');
             $table->string('address');
-            $table->string('number');
-            $table->string('jabatan');
+            $table->string('phone');
             $table->string('qualification');
+            $table->string('username');
+            $table->string('password');
             $table->softDeletes();
             $table->timestamps();
         });
