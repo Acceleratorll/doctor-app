@@ -19,6 +19,7 @@ class CreatePatientsTable extends Migration
             $table->string('phone');
             $table->date('birth_date');
             $table->string('gender');
+            $table->float('height')->nullable();
             $table->float('weight')->nullable();
             $table->string('medical_history');
             $table->string('username');
