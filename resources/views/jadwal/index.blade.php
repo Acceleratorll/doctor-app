@@ -47,11 +47,14 @@
                                             <td>{{ $schedule->schedule_date }}</td>
                                             <td>{{ $schedule->schedule_time }}</td>
                                             <td class="project-actions text-center">
-                                                <a class="btn btn-danger btn-sm" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </a>
+                                                <form action="{{ route('jadwal.destroy', $schedule->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                             @endforeach

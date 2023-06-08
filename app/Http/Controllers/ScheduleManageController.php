@@ -90,5 +90,7 @@ class ScheduleManageController extends Controller
      */
     public function destroy($id)
     {
+        Schedule::findOrFail($id)->delete();
+        return back();
     }
 }
