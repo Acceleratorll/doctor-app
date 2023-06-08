@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ScheduleRequest;
 use App\Models\Employee;
 use App\Models\Schedule;
 use Carbon\Carbon;
@@ -17,9 +18,8 @@ class ScheduleManageController extends Controller
     public function index()
     {
         $today = Carbon::today()->toDateString();
-        $schedules = Schedule::where('schedule_date', '>=', $today)->first();
-        $doctor = Employee::where('role_id', 1)->get();
-        return view('jadwal.index', compact(['schedules', 'doctor']));
+        $schedules = Schedule::with('employee')->where('schedule_date', '>=', $today)->get();
+        return view('jadwal.index', compact('schedules'));
     }
 
     /**
@@ -29,7 +29,8 @@ class ScheduleManageController extends Controller
      */
     public function create()
     {
-        return view('jadwal.create');
+        $doctor = Employee::where('role_id', 1)->first();
+        return view('jadwal.create', compact('doctor'));
     }
 
     /**
@@ -38,9 +39,16 @@ class ScheduleManageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ScheduleRequest $request)
     {
-        
+        $today = Carbon::today()->toDateString();
+        if ($request['schedule_date'] < $today) {
+            return back();
+        } else {
+            $input = $request->validated();
+            Schedule::create($input);
+            return redirect()->route('jadwal.index');
+        }
     }
 
     /**
@@ -51,7 +59,6 @@ class ScheduleManageController extends Controller
      */
     public function show($id)
     {
-        
     }
 
     /**
@@ -62,7 +69,6 @@ class ScheduleManageController extends Controller
      */
     public function edit($id)
     {
-        
     }
 
     /**
@@ -74,7 +80,6 @@ class ScheduleManageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
     }
 
     /**
@@ -85,6 +90,5 @@ class ScheduleManageController extends Controller
      */
     public function destroy($id)
     {
-        
     }
 }

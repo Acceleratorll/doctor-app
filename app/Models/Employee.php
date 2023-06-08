@@ -21,6 +21,11 @@ class Employee extends Model
         return $this->hasMany(Reservation::class);
     }
 
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
     public function medical_record()
     {
         return $this->hasMany(MedicalRecord::class);

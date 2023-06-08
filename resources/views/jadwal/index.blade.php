@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Master Jadwal                 
+        Daftar Jadwal                 
     </h1>
 @endsection
 
@@ -23,12 +23,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/tambahjadwal') }}'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/jadwal/create') }}'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="table">
+                                        @if($schedules != null)
                                         <thead>
                                         <tr>
                                             <th scope="col" class="text-center">ID Dokter</th>
@@ -39,11 +40,12 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach($schedules as $schedule)
                                         <tr>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td> 
-                                            <td>#11232</td>
+                                            <td>{{ $schedule->employee->id }}</td>
+                                            <td>{{ $schedule->employee->name }}</td>
+                                            <td>{{ $schedule->schedule_date }}</td>
+                                            <td>{{ $schedule->schedule_time }}</td>
                                             <td class="project-actions text-center">
                                                 <a class="btn btn-danger btn-sm" href="#">
                                                     <i class="fas fa-trash">
@@ -51,18 +53,11 @@
                                                     Delete
                                                 </a>
                                             </td>
-                                        <tr>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td> 
-                                            <td>#11232</td>
-                                            <td class="project-actions text-center">
-                                                <a class="btn btn-danger btn-sm" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </a>
-                                            </td>
+                                        </tr>
+                                            @endforeach
+                                        @else
+                                        <strong>Tidak ada Jadwal</strong>
+                                        @endif
                                         </tbody>
                                     </table>
                                 </div>

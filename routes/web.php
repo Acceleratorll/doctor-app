@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MedicalRecordManageController;
+use App\Http\Controllers\ScheduleManageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resources([
+    'jadwal' => ScheduleManageController::class,
+    'rekam-medis' => MedicalRecordManageController::class,
+]);
