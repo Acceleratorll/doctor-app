@@ -54,6 +54,10 @@
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='{{ url('/editjadwal' . $category->id . '/edit') }}'">
+                                                        <i class="fa fa-edit"></i>
+                                                        Edit
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
