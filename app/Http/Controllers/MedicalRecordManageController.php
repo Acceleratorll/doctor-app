@@ -9,7 +9,7 @@ class MedicalRecordManageController extends Controller
 {
     public function index()
     {
-        $medical_records = MedicalRecord::with('patient')->latest()->first();
+        $medical_records = MedicalRecord::with('patient')->latest()->get();
         return view('rekam_medis.index', compact('medical_records'));
     }
 

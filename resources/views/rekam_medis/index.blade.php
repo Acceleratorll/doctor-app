@@ -23,12 +23,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/tambahrekammedis') }}'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/rekam-medis/create'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="table">
+                                        @if(empty($medical_records))
                                         <thead>
                                         <tr>
                                             <th scope="col" class="text-center">ID Pasien</th>
@@ -41,35 +42,29 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach($medical_records as $medical_record)
                                         <tr>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td> 
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
+                                            <td>{{ $medical_record->patient->id }}</td>
+                                            <td>{{ $medical_record->patient->name }}</td>
+                                            <td>{{ $medical_record->patient->birth_date }}</td>
+                                            <td>{{ $medical_record->patient->gender }}</td>
+                                            <td>{{ $medical_record->diagnosis }}</td>
+                                            <td>{{ $medical_record->test_result }}</td>
                                             <td class="project-actions text-center">
-                                                <a class="btn btn-danger btn-sm" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </a>
+                                                <form action="{{ route('rekam-medis.destroy', $medical_record->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </button>
+                                                </form>
                                             </td>
-                                        <tr>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td> 
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td class="project-actions text-center">
-                                                <a class="btn btn-danger btn-sm" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </a>
-                                            </td>
+                                            @endforeach
                                         </tbody>
+                                        @else
+                                        Tidak ada Data
+                                        @endif
                                     </table>
                                 </div>
                             </div>

@@ -225,7 +225,7 @@
         <!-- register form section starts -->
         <section class="register-form">
 
-            <form action="">
+            <form method="POST" action="{{ route('register') }}">
                 <h3>register now</h3>
                 <div class="inputBox">
                     <span class="fas fa-user"></span>
@@ -264,7 +264,7 @@
                     <input type="password" name="" placeholder="confirm your password" id="">
                 </div>
                 <input type="submit" value="sign up" class="btn">
-                <a href="login.html" class="btn">already have an account</a>
+                <a href="{{ route('login') }}" class="btn">already have an account</a>
             </form>
         </section>
         <!-- register form section ends -->

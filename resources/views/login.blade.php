@@ -220,7 +220,7 @@
 
         <section class="login-form">
 
-            <form action="">
+            <form method="POST" action="{{ route('login') }}">
                 <h3>user login</h3>
                 <!-- Alert -->
                             @if(session()->has('success'))
@@ -239,14 +239,14 @@
 
                 <div class="inputBox">
                     <span class="fas fa-user"></span>
-                    <input type="email" name="" placeholder="enter your email" id="">
+                    <input type="email" name="email" placeholder="enter your email" id="" :value="old('email')" required autofocus>
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-lock"></span>
-                    <input type="password" name="" placeholder="enter your password" id="">
+                    <input type="password" name="password" placeholder="enter your password" id="" required autocomplete="current-password">
                 </div>
                 <input type="submit" value="sign in" class="btn">
-                <a href="register.html" class="btn">create an account</a>
+                <a href="{{ route('register') }}" class="btn">create an account</a>
             </form>
 
         </section>

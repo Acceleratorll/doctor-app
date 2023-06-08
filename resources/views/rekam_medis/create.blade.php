@@ -9,7 +9,7 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            <form action="{{ url('/tambahpegawai') }}" method="post">
+            <form action="/rekam-medis/store" method="post">
                 @csrf
             <div class="form-row">
                 <div class="col">

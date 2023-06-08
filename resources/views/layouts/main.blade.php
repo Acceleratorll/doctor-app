@@ -185,13 +185,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('/tambahjadwal') }}" class="nav-link">
+                                    <a href="/jadwal/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Jadwal</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('/masterjadwal') }}" class="nav-link">
+                                    <a href="/jadwal" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Jadwal</p>
                                     </a>
@@ -231,13 +231,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('/tambahrekammedis') }}" class="nav-link">
+                                    <a href="/rekam-medis/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Rekam Medis</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('/masterrekammedis') }}" class="nav-link">
+                                    <a href="/rekam-medis" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Rekam Medis</p>
                                     </a>
