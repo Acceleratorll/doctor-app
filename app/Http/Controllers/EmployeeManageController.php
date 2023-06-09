@@ -15,7 +15,7 @@ class EmployeeManageController extends Controller
      */
     public function index()
     {
-        $employees = Employee::latest()->get();
+        $employees = Employee::all();
         return view('pegawai.index', compact('employees'));
     }
 
@@ -37,10 +37,9 @@ class EmployeeManageController extends Controller
      */
     public function store(EmployeeRequest $request)
     {
-        // $input = $request->validated();
-        // Employee::create($input);
-
-        return redirect()->route('employee.index');
+        $input = $request->validated();
+        Employee::create($input);
+        return redirect()->route('pegawai.index');
     }
 
     /**
@@ -62,7 +61,8 @@ class EmployeeManageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = Employee::findOrFail($id);
+        return view('pegawai.edit', compact('employee'));
     }
 
     /**
@@ -85,6 +85,7 @@ class EmployeeManageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Employee::findOrFail($id)->delete();
+        return back();
     }
 }

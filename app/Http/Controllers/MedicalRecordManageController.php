@@ -24,11 +24,9 @@ class MedicalRecordManageController extends Controller
 
     public function store(MedicalRecordRequest $request)
     {
-        // $request['employee_id'] = auth()->user()->id;
-        $request['employee_id'] = 1;
         $input = $request->validated();
         MedicalRecord::create($input);
-        return redirect()->route('rekam_medis.index');
+        return redirect()->route('medis.index');
     }
 
     public function show($id)
@@ -46,8 +44,9 @@ class MedicalRecordManageController extends Controller
     public function update(Request $request, $id)
     {
         $medical_record = MedicalRecord::findOrFail($id);
-        $medical_record->update($request);
-        return view();
+        $input = $request->validated();
+        $medical_record->update($input);
+        return redirect()->route('medis.index');
     }
 
     public function destroy($id)

@@ -22,6 +22,14 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" placeholder="Masukkan Alamat" class="form-control" name="address" id="alamat" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
                         <label for="Tanggal Lahir">Tanggal Lahir</label>
                         <input type="date" placeholder="Masukkan Tanggal Lahir" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="birth_date" id="tanggallahir" required>
                     </div>

@@ -28,6 +28,7 @@ class EmployeeRequest extends FormRequest
             'name' => 'required',
             'address' => 'required',
             'birth_date' => 'required',
+            'gender' => 'required',
             'email' => 'required',
             'phone' => 'required',
             'qualification' => 'required',

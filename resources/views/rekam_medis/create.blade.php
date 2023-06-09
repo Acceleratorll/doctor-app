@@ -14,7 +14,7 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="Nama Pasien">Nama Pasien</label>
+                            <label for="namapasien">Nama Pasien</label>
                             <select class="form-control" name="patient_id" id="namapasien" required>
                                 @foreach($patients as $patient)
                                 <option value="{{ $patient->id }}">{{ $patient->name }}</option>
@@ -44,6 +44,8 @@
                         <div class="form-group">
                             <label for="Hasil Diagnosa">Hasil Diagnosa</label>
                             <input type="text" placeholder="Masukkan Hasil Diagnosa" class="form-control" name="diagnosis" id="hasildiagnosa" required>
+                            <input type="hidden" name="employee_id" value="1">
+                            {{-- <input type="hidden" name="employee_id" value="{{ auth()->user()->id }}"> --}}
                         </div>
                     </div>
                 </div><div class="form-row">
@@ -63,10 +65,10 @@
     </div>
     
     <script>
+		$("#namapasien").select2();
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
         
-		$("#namapasien").select2();
 
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
