@@ -24,14 +24,8 @@ Route::get('/', function () {
 // Route::middleware('auth')->group(function () {
 Route::resources([
     'jadwal' => ScheduleManageController::class,
-    'rekam-medis' => MedicalRecordManageController::class,
+    'medis' => MedicalRecordManageController::class,
     'pasien' => PatientManageController::class,
     'pegawai' => EmployeeManageController::class,
 ]);
 // });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__ . '/auth.php';

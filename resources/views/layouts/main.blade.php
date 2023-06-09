@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin</title>
 
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -231,13 +233,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/rekam-medis/create" class="nav-link">
+                                    <a href="/medis/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Rekam Medis</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/rekam-medis" class="nav-link">
+                                    <a href="/medis" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Rekam Medis</p>
                                     </a>

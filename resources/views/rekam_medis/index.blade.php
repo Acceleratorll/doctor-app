@@ -23,7 +23,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='/rekam-medis/create'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/medis/create'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
@@ -53,7 +53,7 @@
                                             <td>{{ $medical_record->diagnosis }}</td>
                                             <td>{{ $medical_record->test_result }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('rekam-medis.destroy', $medical_record->id) }}" method="POST">
+                                                <form action="{{ route('medis.destroy', $medical_record->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">

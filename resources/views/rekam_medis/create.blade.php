@@ -9,52 +9,55 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            <form action="/rekam-medis/store" method="post">
+            <form action="/medis" method="POST" enctype="multipart/form-data">
                 @csrf
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="Nama Pasien">Nama Pasien</label>
-                        <input type="text" placeholder="Masukkan Nama Pasien" class="form-control" name="namapasien" id="namapasien" required>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Nama Pasien">Nama Pasien</label>
+                            <select class="form-control" name="patient_id" id="namapasien" required>
+                                @foreach($patients as $patient)
+                                <option value="{{ $patient->id }}">{{ $patient->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="Tanggal Lahir">Tanggal Lahir</label>
-                        <input type="date" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="tanggallahir" id="tanggallahir" required>
+                {{-- <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Tanggal Lahir">Tanggal Lahir</label>
+                            <input type="date" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="birth_date" id="tanggallahir" required>
+                        </div>
+                    </div>
+                </div> --}}
+                {{-- <div class="form-group">
+                    <label for="Gender">Gender</label>
+                    <select class="form-control">
+                        <option value="" disabled selected hidden>Pilih Gender</option>
+                        <option>Pria</option>
+                        <option>Wanita</option>
+                    </select>
+                </div> --}}
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Hasil Diagnosa">Hasil Diagnosa</label>
+                            <input type="text" placeholder="Masukkan Hasil Diagnosa" class="form-control" name="diagnosis" id="hasildiagnosa" required>
+                        </div>
+                    </div>
+                </div><div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Hasil Tes">Hasil Tes</label>
+                            <textarea type="text" placeholder="Masukkan Hasil Tes" class="form-control" name="test_result" id="hasiltes" required></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="Gender">Gender</label>
-                <select class="form-control">
-                    <option value="" disabled selected hidden>Pilih Gender</option>
-                    <option>Pria</option>
-                    <option>Wanita</option>
-                </select>
-            </div>
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="Hasil Diagnosa">Hasil Diagnosa</label>
-                        <input type="text" placeholder="Masukkan Hasil Diagnosa" class="form-control" name="hasildiagnosa" id="hasildiagnosa" required>
-                    </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
+                    <button type="reset" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </button>
                 </div>
-            </div><div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="Hasil Tes">Hasil Tes</label>
-                        <input type="text" placeholder="Masukkan Hasil Tes" class="form-control" name="hasiltes" id="hasiltes" required>
-                    </div>
-                </div>
-            </div>
-            <div class="text-right">
-                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
-                <button type="reset" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </button>
-            </div>
-            
             </form>
         </div>
     </div>
@@ -62,6 +65,8 @@
     <script>
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
+        
+		$("#namapasien").select2();
 
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {

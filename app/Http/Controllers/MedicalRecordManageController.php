@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MedicalRecordRequest;
 use App\Models\MedicalRecord;
+use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MedicalRecordManageController extends Controller
 {
@@ -15,12 +18,16 @@ class MedicalRecordManageController extends Controller
 
     public function create()
     {
-        return view('rekam_medis.create');
+        $patients = Patient::all();
+        return view('rekam_medis.create', compact('patients'));
     }
 
-    public function store(Request $request)
+    public function store(MedicalRecordRequest $request)
     {
-        MedicalRecord::create($request);
+        // $request['employee_id'] = auth()->user()->id;
+        $request['employee_id'] = 1;
+        $input = $request->validated();
+        MedicalRecord::create($input);
         return redirect()->route('rekam_medis.index');
     }
 
@@ -38,7 +45,7 @@ class MedicalRecordManageController extends Controller
 
     public function update(Request $request, $id)
     {
-        $medical_record = MedicalRecord::find($id);
+        $medical_record = MedicalRecord::findOrFail($id);
         $medical_record->update($request);
         return view();
     }
