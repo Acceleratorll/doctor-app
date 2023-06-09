@@ -63,11 +63,11 @@
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                </form>
                                                     <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pegawai/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>
+                                                </form>
                                             </td>
                                             @endforeach
                                         </tbody>

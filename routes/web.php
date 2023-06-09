@@ -21,11 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::middleware('auth')->group(function () {
 Route::resources([
     'jadwal' => ScheduleManageController::class,
     'medis' => MedicalRecordManageController::class,
     'pasien' => PatientManageController::class,
     'pegawai' => EmployeeManageController::class,
 ]);
-// });

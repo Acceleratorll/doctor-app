@@ -37,8 +37,9 @@ class EmployeeManageController extends Controller
      */
     public function store(EmployeeRequest $request)
     {
-        $input = $request->validated();
-        Employee::create($input);
+        // $input = $request->validated();
+        // Employee::create($input);
+
         return redirect()->route('employee.index');
     }
 

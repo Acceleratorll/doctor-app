@@ -26,7 +26,7 @@ class MedicalRecordRequest extends FormRequest
 
         return [
             'patient_id' => 'required',
-            'employee_id' => 'required',
+            // 'employee_id' => 'required',
             'test_result' => 'required',
             'diagnosis' => 'required',
         ];

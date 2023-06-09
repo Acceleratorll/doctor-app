@@ -24,11 +24,11 @@ class EmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'role_id' => 'required|integer',
+            'role_id' => 'required',
             'name' => 'required',
             'address' => 'required',
-            'birth_date' => 'required|date',
-            'email' => 'required|email',
+            'birth_date' => 'required',
+            'email' => 'required',
             'phone' => 'required',
             'qualification' => 'required',
             'username' => 'required',
