@@ -67,7 +67,7 @@
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/medis/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/medis/{{ $medical_record->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>

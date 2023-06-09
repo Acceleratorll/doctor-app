@@ -63,7 +63,7 @@
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pegawai/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pegawai/{{ $employee->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>

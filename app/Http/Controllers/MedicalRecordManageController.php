@@ -36,11 +36,12 @@ class MedicalRecordManageController extends Controller
 
     public function edit($id)
     {
-        $medical_record = MedicalRecord::find($id);
-        return view('rekam_medis.edit', compact('medical_record'));
+        $medical_record = MedicalRecord::with('patient')->find($id);
+        $patients = Patient::all();
+        return view('rekam_medis.edit', compact(['medical_record', 'patients']));
     }
 
-    public function update(Request $request, $id)
+    public function update(MedicalRecordRequest $request, $id)
     {
         $medical_record = MedicalRecord::findOrFail($id);
         $input = $request->validated();

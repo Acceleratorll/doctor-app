@@ -62,7 +62,7 @@
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pasien/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pasien/{{ $patient->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>
