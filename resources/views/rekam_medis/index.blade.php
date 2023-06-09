@@ -46,10 +46,17 @@
                                         <tbody>
                                             @foreach($medical_records as $medical_record)
                                         <tr>
+                                             @if ($medical_record->patient->id === 0)
+                                             <td>User telah terhapus</td>
+                                             <td>User telah terhapus</td>
+                                             <td>User telah terhapus</td>
+                                             <td>User telah terhapus</td>
+                                             @else
                                             <td>{{ $medical_record->patient->id }}</td>
                                             <td>{{ $medical_record->patient->name }}</td>
                                             <td>{{ $medical_record->patient->birth_date }}</td>
                                             <td>{{ $medical_record->patient->gender }}</td>
+                                            @endif
                                             <td>{{ $medical_record->diagnosis }}</td>
                                             <td>{{ $medical_record->test_result }}</td>
                                             <td class="project-actions text-center">
@@ -59,6 +66,10 @@
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
                                                         <i class="fas fa-trash"></i>
                                                         Delete
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/medis/edit'">
+                                                        <i class="fa fa-edit"></i>
+                                                        Edit
                                                     </button>
                                                 </form>
                                             </td>

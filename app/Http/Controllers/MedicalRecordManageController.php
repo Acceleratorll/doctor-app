@@ -6,7 +6,6 @@ use App\Http\Requests\MedicalRecordRequest;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class MedicalRecordManageController extends Controller
 {

@@ -9,13 +9,22 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            <form action="{{ url('/tambahpegawai') }}" method="post">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            <form action="/pasien" method="post">
                 @csrf
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Nama Pasien">Nama Pasien</label>
-                        <input type="text" placeholder="Masukkan Nama Pasien" class="form-control" name="namapasien" id="namapasien" required>
+                        <input type="text" placeholder="Masukkan Nama Pasien" class="form-control" name="name" id="namapasien" required>
                     </div>
                 </div>
             </div>
@@ -23,13 +32,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Tanggal Lahir">Tanggal Lahir</label>
-                        <input type="date" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="tanggallahir" id="tanggallahir" required>
+                        <input type="date" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="birth_date" id="tanggallahir" required>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="Gender">Gender</label>
-                <select class="form-control">
+                <select class="form-control" name="gender">
                     <option value="" disabled selected hidden>Pilih Gender</option>
                     <option>Pria</option>
                     <option>Wanita</option>
@@ -38,8 +47,16 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="email" placeholder="Masukkan Email" class="form-control" name="email" id="email" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
                         <label for="Alamat">Alamat</label>
-                        <input type="text" placeholder="Masukkan Alamat" class="form-control" name="alamat" id="alamat" required>
+                        <input type="text" placeholder="Masukkan Alamat" class="form-control" name="address" id="alamat" required>
                     </div>
                 </div>
             </div>
@@ -47,7 +64,23 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Nomor Handphone">Nomor Handphone</label>
-                        <input type="number" placeholder="Masukkan Nomor Handphone" class="form-control" name="nomorhandphone" id="nomorhandphone" required>
+                        <input type="number" placeholder="Masukkan Nomor Handphone" class="form-control" name="phone" id="nomorhandphone" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="Nomor Handphone">Tinggi Badan</label>
+                        <input type="number" placeholder="Masukkan Tinggi Badan" class="form-control" name="height" id="nomorhandphone">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="Nomor Handphone">Berat Badan</label>
+                        <input type="number" placeholder="Masukkan Berat Badan" class="form-control" name="weight" id="nomorhandphone">
                     </div>
                 </div>
             </div>

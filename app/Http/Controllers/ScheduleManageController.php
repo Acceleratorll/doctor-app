@@ -25,14 +25,9 @@ class ScheduleManageController extends Controller
 
     public function store(ScheduleRequest $request)
     {
-        $today = Carbon::today()->toDateString();
-        if ($request['schedule_date'] < $today) {
-            return back();
-        } else {
-            $input = $request->validated();
-            Schedule::create($input);
-            return redirect()->route('jadwal.index');
-        }
+        $input = $request->validated();
+        Schedule::create($input);
+        return redirect()->route('jadwal.index');
     }
 
     public function show($id)
@@ -48,14 +43,9 @@ class ScheduleManageController extends Controller
     public function update(ScheduleRequest $request, $id)
     {
         $schedule = Schedule::findOrFail($id);
-        $today = Carbon::today()->toDateString();
-        if ($request['schedule_date'] < $today) {
-            return back();
-        } else {
-            $input = $request->validated();
-            $schedule->update($input);
-            return redirect()->route('jadwal.index');
-        }
+        $input = $request->validated();
+        $schedule->update($input);
+        return redirect()->route('jadwal.index');
     }
 
     public function destroy($id)

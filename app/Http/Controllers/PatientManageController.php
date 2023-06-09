@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PatientManageController extends Controller
@@ -25,15 +27,21 @@ class PatientManageController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(PatientRequest $request)
     {
-        
+        $today = Carbon::today()->toDateString();
+        if ($request['birth_date'] > $today) {
+            return back()->withErrors(['message' => 'Masukkan Tanggal Lahir dengan Benar !']);
+        } else {
+            $input = $request->validated();
+            Patient::create($input);
+            return redirect()->route('pasien.index');
+        }
     }
 
 
     public function show($id)
     {
-        
     }
 
     /**
@@ -44,7 +52,8 @@ class PatientManageController extends Controller
      */
     public function edit($id)
     {
-        
+        $patient = Patient::findOrFail($id);
+        return view('patient.edit', compact('patient'));
     }
 
     /**
@@ -54,9 +63,12 @@ class PatientManageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PatientRequest $request, $id)
     {
-        
+        $patient = Patient::findOrFail($id);
+        $input = $request->validated();
+        $patient->update($input);
+        return redirect()->route('pasien.index');
     }
 
     /**
@@ -67,6 +79,7 @@ class PatientManageController extends Controller
      */
     public function destroy($id)
     {
-        
+        Patient::findOrFail($id)->delete();
+        return back();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EmployeeManageController extends Controller
@@ -74,7 +75,10 @@ class EmployeeManageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $employee = Employee::findOrFail($id);
+        $input = $request->validated();
+        $employee->update($input);
+        return redirect()->route('pegawai.index');
     }
 
     /**

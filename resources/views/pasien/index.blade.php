@@ -23,7 +23,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/tambahpasien') }}'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/pasien/create'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
@@ -45,21 +45,30 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach($patients as $patient)
                                         <tr>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td> 
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
+                                            <td>{{ $patient->id }}</td>
+                                            <td>{{ $patient->name }}</td>
+                                            <td>{{ $patient->birth_date }}</td>
+                                            <td>{{ $patient->gender }}</td>
+                                            <td>{{ $patient->address }}</td>
+                                            <td>{{ $patient->phone }}</td>
+                                            <td>{{ $patient->username }}</td>
                                             <td class="project-actions text-center">
-                                                <a class="btn btn-danger btn-sm" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </a>
+                                                <form action="{{ route('pasien.destroy', $patient->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?')">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pasien/edit'">
+                                                        <i class="fa fa-edit"></i>
+                                                        Edit
+                                                    </button>
+                                                </form>
                                             </td>
+                                            @endforeach
                                         </tbody>
                                         @endif
                                     </table>
