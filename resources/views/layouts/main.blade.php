@@ -139,13 +139,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('/tambahpegawai') }}" class="nav-link">
+                                    <a href="/pegawai/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Pegawai</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('/masterpegawai') }}" class="nav-link">
+                                    <a href="/pegawai" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Pegawai</p>
                                     </a>
@@ -162,13 +162,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('/tambahpasien') }}" class="nav-link">
+                                    <a href="/pasien/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Pasien</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('/masterpasien') }}" class="nav-link">
+                                    <a href="/pasien" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Pasien</p>
                                     </a>

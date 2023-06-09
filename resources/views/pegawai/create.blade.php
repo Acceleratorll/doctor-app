@@ -9,13 +9,13 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            <form action="{{ url('/tambahpegawai') }}" method="post">
+            <form action="/pegawai" method="post">
                 @csrf
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Nama Pegawai">Nama Pegawai</label>
-                        <input type="text" placeholder="Masukkan Nama Pegawai" class="form-control" name="namapegawai" id="namapegawai" required>
+                        <input type="text" placeholder="Masukkan Nama Pegawai" class="form-control" name="name" id="namapegawai" required>
                     </div>
                 </div>
             </div>
@@ -23,13 +23,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Tanggal Lahir">Tanggal Lahir</label>
-                        <input type="date" placeholder="Masukkan Tanggal Lahir" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="tanggallahir" id="tanggallahir" required>
+                        <input type="date" placeholder="Masukkan Tanggal Lahir" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="birth_date" id="tanggallahir" required>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="Gender">Gender</label>
-                <select class="form-control">
+                <select class="form-control" name="gender">
                     <option value="" disabled selected hidden>Pilih Gender</option>
                     <option>Pria</option>
                     <option>Wanita</option>
@@ -47,7 +47,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Nomor Handphone">Nomor Handphone</label>
-                        <input type="number" placeholder="Masukkan Nomor Handphone" class="form-control" name="nomorhandphone" id="nomorhandphone" required>
+                        <input type="number" placeholder="Masukkan Nomor Handphone" class="form-control" name="phone" id="nomorhandphone" required>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="kualifikasi">Kualifikasi</label>
-                        <input type="text" placeholder="Masukkan Kualifikasi" class="form-control" name="kualifikasi" id="kualifikasi" required>
+                        <input type="text" placeholder="Masukkan Kualifikasi" class="form-control" name="qualification" id="kualifikasi" required>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Role">Role</label>
-                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role" id="role" required>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_name" id="role" value="Pegawai" readonly>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role" value="1" hidden>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Master Pegawai                 
+        Master Pasien                 
     </h1>
 @endsection
 
@@ -23,22 +23,23 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/tambahpegawai') }}'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/tambahpasien') }}'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="table">
+                                        @if($patients->count() < 1)
+                                        Tidak ada Data Pasien
+                                        @else
                                         <thead>
                                         <tr>
-                                            <th scope="col" class="text-center">ID Pegawai</th>
-                                            <th scope="col" class="text-center">Nama Pegawai</th>
+                                            <th scope="col" class="text-center">ID Pasien</th>
+                                            <th scope="col" class="text-center">Nama Pasien</th>
                                             <th scope="col" class="text-center">Tanggal Lahir</th>
                                             <th scope="col" class="text-center">Gender</th>
-                                            <th scope="col" class="text-center">Email</th>
+                                            <th scope="col" class="text-center">Alamat</th>
                                             <th scope="col" class="text-center">Nomor HP</th>
-                                            <th scope="col" class="text-center">Kualifikasi</th>
-                                            <th scope="col" class="text-center">Role</th>
                                             <th scope="col" class="text-center">Username</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
@@ -52,25 +53,6 @@
                                             <td>#11232</td>
                                             <td>#11232</td>
                                             <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td class="project-actions text-center">
-                                                <a class="btn btn-danger btn-sm" href="#">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </a>
-                                            </td>
-                                        <tr>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td> 
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
-                                            <td>#11232</td>
                                             <td class="project-actions text-center">
                                                 <a class="btn btn-danger btn-sm" href="#">
                                                     <i class="fas fa-trash">
@@ -79,6 +61,7 @@
                                                 </a>
                                             </td>
                                         </tbody>
+                                        @endif
                                     </table>
                                 </div>
                             </div>

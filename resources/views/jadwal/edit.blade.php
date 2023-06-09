@@ -9,13 +9,15 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            <form action="{{ url('/') }}" method="post">
-                @csrf
+           <form action="/jadwal/{{ $schedule->id }}" method="POST">
+            @csrf
+            @method('PUT')
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Nama Dokter">Nama Dokter</label>
-                        <input type="text" placeholder="Masukkan Nama Dokter" class="form-control" name="namadokter" id="namadokter" required>
+                        <input type="text" placeholder="Masukkan Nama Dokter" class="form-control" value="{{ $schedule->employee->name }}" name="namadokter" id="namadokter" readonly>
+                        <input type="number" class="form-control" value="{{ $schedule->employee_id }}" name="employee_id" hidden>
                     </div>
                 </div>
             </div>
@@ -23,7 +25,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Tanggal">Tanggal</label>
-                        <input type="date" placeholder="Masukkan Tanggal" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="linkmaps" id="linkmaps" required>
+                        <input type="date" placeholder="Masukkan Tanggal" class="form-control" value="{{ $schedule->schedule_date }}" name="schedule_date" id="linkmaps" required>
                     </div>
                 </div>
             </div>
@@ -31,7 +33,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Jam">Jam</label>
-                        <input type="time" placeholder="Masukkan Jam" class="form-control" name="schedule_time" id="jam" required>
+                        <input type="time" placeholder="Masukkan Jam" class="form-control" value="{{ $schedule->schedule_time }}" name="schedule_time" id="jam" required>
                     </div>
                 </div>
             </div>

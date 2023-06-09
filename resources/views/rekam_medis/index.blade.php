@@ -29,7 +29,9 @@
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="table">
-                                        @if(empty($medical_records))
+                                        @if($medical_records->count() < 1)
+                                        Tidak ada Data Rekam Medis
+                                        @else
                                         <thead>
                                         <tr>
                                             <th scope="col" class="text-center">ID Pasien</th>
@@ -62,8 +64,6 @@
                                             </td>
                                             @endforeach
                                         </tbody>
-                                        @else
-                                        Tidak ada Data
                                         @endif
                                     </table>
                                 </div>
