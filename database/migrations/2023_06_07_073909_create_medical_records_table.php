@@ -15,11 +15,11 @@ class CreateMedicalRecordsTable extends Migration
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained();
+            $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             $table->foreignId('employee_id')->constrained();
             $table->string('diagnosis');
             $table->string('test_result');
-            $table->softDeletes();
+            $table->softDeletes()->nullable();
             $table->timestamps();
         });
     }

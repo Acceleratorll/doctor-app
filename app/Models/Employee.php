@@ -11,14 +11,26 @@ class Employee extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'patient_id',
-        'employee_id',
-        'date'
+        'role_id',
+        'name',
+        'address',
+        'birth_date',
+        'gender',
+        'email',
+        'phone',
+        'qualification',
+        'username',
+        'password',
     ];
 
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
     }
 
     public function medical_record()

@@ -12,8 +12,9 @@ class Reservation extends Model
 
     protected $fillable = [
         'patient_id',
-        'employee_id',
-        'date'
+        'schedule_id',
+        'reservation_code',
+        'status'
     ];
 
     public function patient()

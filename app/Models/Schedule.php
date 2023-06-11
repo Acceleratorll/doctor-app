@@ -10,8 +10,19 @@ class Schedule extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'employee_id',
+        'schedule_date',
+        'schedule_time'
+    ];
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }

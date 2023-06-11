@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'patient' => [
+            'redirectTo'    => 'reservation/view',
+            'driver'        => 'session',
+            'provider'      => 'patients',
+        ],
     ],
 
     /*
@@ -64,6 +69,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'patients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Patient::class,
+        ],
+
 
         // 'users' => [
         //     'driver' => 'database',
@@ -93,6 +103,7 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
     ],
 
     /*

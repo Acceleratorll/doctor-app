@@ -18,10 +18,14 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('role_id')->constrained();
             $table->string('name');
             $table->string('address');
+            $table->date('birth_date');
+            $table->string('gender');
+            $table->string('email');
             $table->string('phone');
             $table->string('qualification');
             $table->string('username');
             $table->string('password');
+            $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
         });
