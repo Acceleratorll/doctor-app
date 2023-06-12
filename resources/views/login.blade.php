@@ -53,7 +53,7 @@
 
             .heading {
             text-align: center;
-            background: #333;
+            background: #21cdc0;
             }
 
             .heading h1 {
@@ -73,7 +73,7 @@
             }
 
             .heading p a:hover {
-            color: #333;
+            color: #21cdc0;
             }
 
             .title {
@@ -186,7 +186,7 @@
 
             .login-form form .flex a:hover,
             .register-form form .flex a:hover {
-            color: #e84393;
+            color: #21cdc0;
             }
 
             .login-form form input[type="submit"],
@@ -197,7 +197,7 @@
 
             .login-form form input[type="submit"]:hover,
             .register-form form input[type="submit"]:hover {
-            background: #e84393;
+            background: #21cdc0;
             }
 
             .login-form form .btn,
