@@ -32,13 +32,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
-        
-        // if (auth()->user()->role_id == '1') {
-        //     return redirect()->intended(RouteServiceProvider::SUPERADMIN);
-        // } elseif (Auth::user()->role_id == '3') {
-        //     return redirect()->intended(RouteServiceProvider::HOMEPATIENT);
-        // }
+        if (auth()->user()->role_id == '1') {
+            return redirect()->intended(RouteServiceProvider::HOME);
+        } elseif (Auth::user()->role_id == '3') {
+            return redirect()->route('/reservation/view');
+        }
     }
 
     /**
