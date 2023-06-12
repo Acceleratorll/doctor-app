@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\PatientManageController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +37,5 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::post('reservation/finish/{reservation}', [ReservationController::class, 'finish']);
     Route::get('reservation/view', [ReservationController::class, 'reservation_view']);
 });
-
-// Route::get('/sch', [ScheduleManageController::class, 'index']);
 
 require __DIR__ . '/auth.php';
