@@ -11,16 +11,8 @@ class Employee extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'role_id',
-        'name',
-        'address',
-        'birth_date',
-        'gender',
-        'email',
-        'phone',
+        'user_id',
         'qualification',
-        'username',
-        'password',
     ];
 
     public function reservations()

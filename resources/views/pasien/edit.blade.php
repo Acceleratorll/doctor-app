@@ -25,7 +25,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Nama Pasien">Nama Pasien</label>
-                        <input type="text" value="{{ $patient->name }}" placeholder="Masukkan Nama Pasien" class="form-control" name="name" id="namapasien" required>
+                        <input type="text" value="{{ $patient->user->name }}" placeholder="Masukkan Nama Pasien" class="form-control" name="name" id="namapasien" required>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Tanggal Lahir">Tanggal Lahir</label>
-                        <input type="date" value="{{ $patient->birth_date }}" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="birth_date" id="tanggallahir" required>
+                        <input type="date" value="{{ $patient->user->birth_date }}" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="birth_date" id="tanggallahir" required>
                     </div>
                 </div>
             </div>
@@ -41,15 +41,15 @@
                 <label for="Gender">Gender</label>
                 <select class="form-control" name="gender" required>
                     <option value="" disabled selected hidden>Pilih Gender</option>
-                    <option value="Pria" {{ $patient->gender == 'Pria' ? 'selected' : '' }}>Pria</option>
-                    <option value="Wanita" {{ $patient->gender == 'Wanita' ? 'selected' : '' }}>Wanita</option>
+                    <option value="Pria" {{ $patient->user->gender == 'Pria' ? 'selected' : '' }}>Pria</option>
+                    <option value="Wanita" {{ $patient->user->gender == 'Wanita' ? 'selected' : '' }}>Wanita</option>
                 </select>
             </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Email">Email</label>
-                        <input type="email" value="{{ $patient->email }}" placeholder="Masukkan Email" class="form-control" name="email" id="email" required>
+                        <input type="email" value="{{ $patient->user->email }}" placeholder="Masukkan Email" class="form-control" name="email" id="email" required>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Alamat">Alamat</label>
-                        <input type="text" value="{{ $patient->address }}" placeholder="Masukkan Alamat" class="form-control" name="address" id="alamat" required>
+                        <input type="text" value="{{ $patient->user->address }}" placeholder="Masukkan Alamat" class="form-control" name="address" id="alamat" required>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Nomor Handphone">Nomor Handphone</label>
-                        <input type="text" value="{{ $patient->phone }}" placeholder="Masukkan Nomor Handphone" class="form-control" name="phone" id="nomorhandphone" required>
+                        <input type="text" value="{{ $patient->user->phone }}" placeholder="Masukkan Nomor Handphone" class="form-control" name="phone" id="nomorhandphone" required>
                     </div>
                 </div>
             </div>
@@ -88,8 +88,17 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
+                        <label for="Role">Role</label>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_name" id="role" value="Pasien" readonly>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role" value="3" hidden>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
                         <label for="Username">Username</label>
-                        <input type="text" value="{{ $patient->username }}" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
+                        <input type="text" value="{{ $patient->user->username }}" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
                     </div>
                 </div>
             </div>

@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="button-action" style="margin-bottom: 20px">
-                        <button type="button" class="btn btn-primary" onclick="location.href='/pasien/create'">
+                        <button type="button" class="btn btn-primary" onclick="location.href='/admin/pasien/create'">
                             <span>+ Add Items</span>
                         </button>
                     </div>

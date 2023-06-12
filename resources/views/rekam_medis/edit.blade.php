@@ -26,9 +26,9 @@
                         <div class="form-group">
                             <label for="namapasien">Nama Pasien</label>
                             <select class="form-control" name="patient_id" id="namapasien" required>
-                                <option value="{{ $medical_record->patient->id }}">{{ $medical_record->patient->name }}</option>
+                                <option value="{{ $medical_record->patient->id }}">{{ $medical_record->patient->user->name }}</option>
                                 @foreach($patients as $patient)
-                                <option value="{{ $patient->id }}">{{ $patient->name }}</option>
+                                <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
                                 @endforeach
                             </select>
                         </div>

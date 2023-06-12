@@ -53,9 +53,9 @@
                                              <td>User telah terhapus</td>
                                              @else
                                             <td>{{ $medical_record->patient->id }}</td>
-                                            <td>{{ $medical_record->patient->name }}</td>
-                                            <td>{{ $medical_record->patient->birth_date }}</td>
-                                            <td>{{ $medical_record->patient->gender }}</td>
+                                            <td>{{ $medical_record->patient->user->name }}</td>
+                                            <td>{{ $medical_record->patient->user->birth_date }}</td>
+                                            <td>{{ $medical_record->patient->user->gender }}</td>
                                             @endif
                                             <td>{{ $medical_record->diagnosis }}</td>
                                             <td>{{ $medical_record->test_result }}</td>

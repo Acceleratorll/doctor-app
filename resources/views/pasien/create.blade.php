@@ -87,6 +87,15 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
+                        <label for="Role">Role</label>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_name" id="role" value="Pasien" readonly>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role" value="3" hidden>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
                         <label for="Username">Username</label>
                         <input type="text" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
                     </div>

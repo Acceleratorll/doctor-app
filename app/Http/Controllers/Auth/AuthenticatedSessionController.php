@@ -10,22 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     *
-     * @return \Illuminate\View\View
-     */
+
     public function create()
     {
         return view('login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(LoginRequest $request)
     {
         $request->authenticate();
@@ -35,16 +25,10 @@ class AuthenticatedSessionController extends Controller
         if (auth()->user()->role_id == '1') {
             return redirect()->intended(RouteServiceProvider::HOME);
         } elseif (Auth::user()->role_id == '3') {
-            return redirect()->route('/reservation/view');
+            return redirect()->route('admin/reservation/view');
         }
     }
 
-    /**
-     * Destroy an authenticated session.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();

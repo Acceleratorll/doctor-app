@@ -47,14 +47,14 @@
                                             @foreach($employees as $employee)
                                         <tr>
                                             <td>{{ $employee->id }}</td>
-                                            <td>{{ $employee->name }}</td>
-                                            <td>{{ $employee->birth_date }}</td>
-                                            <td>{{ $employee->gender }}</td>
-                                            <td>{{ $employee->email }}</td>
-                                            <td>{{ $employee->phone }}</td>
+                                            <td>{{ $employee->user->name }}</td>
+                                            <td>{{ $employee->user->birth_date }}</td>
+                                            <td>{{ $employee->user->gender }}</td>
+                                            <td>{{ $employee->user->email }}</td>
+                                            <td>{{ $employee->user->phone }}</td>
                                             <td>{{ $employee->qualification }}</td>
-                                            <td>{{ $employee->role_id }}</td>
-                                            <td>{{ $employee->username }}</td>
+                                            <td>{{ $employee->user->role_id }}</td>
+                                            <td>{{ $employee->user->username }}</td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST">
                                                     @csrf

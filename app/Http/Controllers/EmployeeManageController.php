@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class EmployeeManageController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+        $employees = Employee::with('user')->get();
         return view('pegawai.index', compact('employees'));
     }
 
@@ -39,7 +40,21 @@ class EmployeeManageController extends Controller
     public function store(EmployeeRequest $request)
     {
         $input = $request->validated();
-        Employee::create($input);
+        $user = User::create([
+            'role_id' => $input['role_id'],
+            'name' => $input['name'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'birth_date' => $input['birth_date'],
+            'gender' => $input['gender'],
+            'email' => $input['email'],
+            'username' => $input['username'],
+            'password' => bcrypt($input['password']),
+        ]);
+        Employee::create([
+            'user_id' => $user->id,
+            'qualification' => $input['qualification'],
+        ]);
         return redirect()->route('admin.pegawai.index');
     }
 
@@ -62,7 +77,7 @@ class EmployeeManageController extends Controller
      */
     public function edit($id)
     {
-        $employee = Employee::findOrFail($id);
+        $employee = Employee::with('user')->findOrFail($id);
         return view('pegawai.edit', compact('employee'));
     }
 
@@ -75,9 +90,25 @@ class EmployeeManageController extends Controller
      */
     public function update(EmployeeRequest $request, $id)
     {
-        $employee = Employee::findOrFail($id);
+        $patient = Employee::findOrFail($id);
         $input = $request->validated();
-        $employee->update($input);
+        $user = User::findOrFail($patient->user_id);
+        $user->update([
+            'role_id' => $input['role_id'],
+            'name' => $input['name'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'birth_date' => $input['birth_date'],
+            'gender' => $input['gender'],
+            'email' => $input['email'],
+            'username' => $input['username'],
+            'password' => bcrypt($input['password']),
+        ]);
+
+        $patient->update([
+            'user_id' => $user->id,
+            'qualification' => $input['qualification'],
+        ]);
         return redirect()->route('admin.pegawai.index');
     }
 

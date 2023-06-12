@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PatientManageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $patients = Patient::with('user')->latest()->get();
@@ -26,63 +22,64 @@ class PatientManageController extends Controller
         return view('pasien.create');
     }
 
-
     public function store(PatientRequest $request)
     {
-        $today = Carbon::today()->toDateString();
-        if ($request['birth_date'] > $today) {
-            return back()->withErrors(['message' => 'Masukkan Tanggal Lahir dengan Benar !']);
-        } else {
-            $input = $request->validated();
-            $user = User::create([
-                
-            ]);
-            Patient::create([
-                'height' => $input['height'],
-                'weight' => $input['weight'],
-            ]);
-            return redirect()->route('admin.pasien.index');
-        }
+        $input = $request->validated();
+        $user = User::create([
+            'role_id' => $input['role_id'],
+            'name' => $input['name'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'birth_date' => $input['birth_date'],
+            'gender' => $input['gender'],
+            'email' => $input['email'],
+            'username' => $input['username'],
+            'password' => bcrypt($input['password']),
+        ]);
+        Patient::create([
+            'user_id' => $user->id,
+            'height' => $input['height'],
+            'weight' => $input['weight'],
+        ]);
+        return redirect()->route('admin.pasien.index');
     }
-
 
     public function show($id)
     {
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $patient = Patient::findOrFail($id);
+        $patient = Patient::with('user')->findOrFail($id);
         return view('pasien.edit', compact('patient'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(PatientRequest $request, $id)
     {
         $patient = Patient::findOrFail($id);
         $input = $request->validated();
-        $patient->update($input);
+        $user = User::findOrFail($patient->user_id);
+        $user->update([
+            'role_id' => $input['role_id'],
+            'name' => $input['name'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'birth_date' => $input['birth_date'],
+            'gender' => $input['gender'],
+            'email' => $input['email'],
+            'username' => $input['username'],
+            'password' => bcrypt($input['password']),
+        ]);
+
+        $patient->update([
+            'user_id' => $user->id,
+            'height' => $input['height'],
+            'weight' => $input['weight'],
+        ]);
+
         return redirect()->route('admin.pasien.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         Patient::findOrFail($id)->delete();

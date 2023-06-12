@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label for="Role">Role</label>
                         <input type="text" placeholder="Masukkan Role" class="form-control" name="role_name" id="role" value="Pegawai" readonly>
-                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role" value="1" hidden>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role" value="2" hidden>
                     </div>
                 </div>
             </div>

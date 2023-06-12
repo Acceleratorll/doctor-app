@@ -23,7 +23,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='/pasien/create'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/admin/pasien/create'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
@@ -66,7 +66,7 @@
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pasien/{{ $patient->id }}/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/pasien/{{ $patient->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>

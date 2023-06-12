@@ -17,7 +17,7 @@ class MedicalRecordManageController extends Controller
 
     public function create()
     {
-        $patients = Patient::all();
+        $patients = Patient::with('user')->get();
         return view('rekam_medis.create', compact('patients'));
     }
 
