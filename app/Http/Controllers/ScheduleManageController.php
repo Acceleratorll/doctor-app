@@ -8,6 +8,7 @@ use App\Models\Schedule;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ScheduleManageController extends Controller
 {
@@ -56,5 +57,14 @@ class ScheduleManageController extends Controller
     {
         Schedule::findOrFail($id)->delete();
         return back();
+    }
+
+    public function get_schedule_by_employee_id($employee_id)
+    {
+        $schedules = Schedule::where('employee_id', $employee_id)->get();
+
+        return response()->json([
+            'schedules' => $schedules
+        ], Response::HTTP_OK);
     }
 }

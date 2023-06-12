@@ -11,9 +11,9 @@ class Reservation extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'patient_id',
-        'employee_id',
-        'date'
+        'schedule_id',
+        'reservation_code',
+        'status',
     ];
 
     public function patient()

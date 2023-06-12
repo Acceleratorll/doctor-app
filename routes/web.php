@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\PatientManageController;
@@ -29,6 +28,13 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/pasien' => PatientManageController::class,
         '/pegawai' => EmployeeManageController::class,
     ], ['as' => 'admin']);
+});
+
+
+Route::middleware(['auth', 'patient'])->group(function () {
+    Route::get('schedule/{employee_id}', [ScheduleManageController::class, 'get_schedule_by_employee_id']);
+    Route::post('reservation/finish/{reservation}', [ReservationController::class, 'finish']);
+    Route::get('reservation/view', [ReservationController::class, 'reservation_view']);
 });
 
 // Route::get('/sch', [ScheduleManageController::class, 'index']);
