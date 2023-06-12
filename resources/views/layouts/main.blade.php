@@ -141,13 +141,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/pegawai/create" class="nav-link">
+                                    <a href="/admin/pegawai/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Pegawai</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/pegawai" class="nav-link">
+                                    <a href="/admin/pegawai" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Pegawai</p>
                                     </a>
@@ -164,13 +164,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/pasien/create" class="nav-link">
+                                    <a href="/admin/pasien/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Pasien</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/pasien" class="nav-link">
+                                    <a href="/admin/pasien" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Pasien</p>
                                     </a>
@@ -187,13 +187,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/jadwal/create" class="nav-link">
+                                    <a href="/admin/jadwal/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Jadwal</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/jadwal" class="nav-link">
+                                    <a href="/admin/jadwal" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Jadwal</p>
                                     </a>
@@ -233,25 +233,27 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/medis/create" class="nav-link">
+                                    <a href="/admin/medis/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Rekam Medis</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/medis" class="nav-link">
+                                    <a href="/admin/medis" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Rekam Medis</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-
-                        <li class="nav-item">
-                            <a href="{{ url('/logout') }}" class="nav-link">
-                                <button type="button" class="btn btn-danger">Logout</button>
-                            </a>
-                        </li>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <button type="submit" class="btn btn-danger">Logout</button>
+                                </a>
+                            </li>
+                        </form>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

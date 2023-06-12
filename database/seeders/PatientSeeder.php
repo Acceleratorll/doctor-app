@@ -16,14 +16,9 @@ class PatientSeeder extends Seeder
     {
         $patient = [
             [
-                'name' => 'Pasien 1',
-                'phone' => '+628097637221',
-                'birth_date' => '1984-2-26',
-                'email' => 'superadmin@mail.com',
-                'gender' => 'Pria',
-                'address' => 'Jl. Address Palace',
-                'username' => 'pasien',
-                'password' => bcrypt('12345'),
+                'user_id' => 2,
+                'height' => '144',
+                'weight' => '44',
             ],
         ];
         DB::table('patients')->insert($patient);

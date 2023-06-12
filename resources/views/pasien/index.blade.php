@@ -39,6 +39,8 @@
                                             <th scope="col" class="text-center">Tanggal Lahir</th>
                                             <th scope="col" class="text-center">Gender</th>
                                             <th scope="col" class="text-center">Alamat</th>
+                                            <th scope="col" class="text-center">Height</th>
+                                            <th scope="col" class="text-center">Weight</th>
                                             <th scope="col" class="text-center">Nomor HP</th>
                                             <th scope="col" class="text-center">Username</th>
                                             <th scope="col" class="text-center">Action</th>
@@ -48,14 +50,16 @@
                                             @foreach($patients as $patient)
                                         <tr>
                                             <td>{{ $patient->id }}</td>
-                                            <td>{{ $patient->name }}</td>
-                                            <td>{{ $patient->birth_date }}</td>
-                                            <td>{{ $patient->gender }}</td>
-                                            <td>{{ $patient->address }}</td>
-                                            <td>{{ $patient->phone }}</td>
-                                            <td>{{ $patient->username }}</td>
+                                            <td>{{ $patient->user->name }}</td>
+                                            <td>{{ $patient->user->birth_date }}</td>
+                                            <td>{{ $patient->user->gender }}</td>
+                                            <td>{{ $patient->user->address }}</td>
+                                            <td>{{ $patient->height }}</td>
+                                            <td>{{ $patient->weight }}</td>
+                                            <td>{{ $patient->user->phone }}</td>
+                                            <td>{{ $patient->user->username }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('pasien.destroy', $patient->id) }}" method="POST">
+                                                <form action="{{ route('admin.pasien.destroy', $patient->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?')">

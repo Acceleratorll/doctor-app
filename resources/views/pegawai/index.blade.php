@@ -23,7 +23,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='/pegawai/create'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/admin/pegawai/create'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
@@ -56,14 +56,14 @@
                                             <td>{{ $employee->role_id }}</td>
                                             <td>{{ $employee->username }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('pegawai.destroy', $employee->id) }}" method="POST">
+                                                <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?')">
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/pegawai/{{ $employee->id }}/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/pegawai/{{ $employee->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>

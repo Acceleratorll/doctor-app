@@ -15,16 +15,8 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')->constrained();
-            $table->string('name');
-            $table->string('address');
-            $table->date('birth_date');
-            $table->string('gender');
-            $table->string('email');
-            $table->string('phone');
+            $table->foreignId('user_id')->constrained();
             $table->string('qualification');
-            $table->string('username');
-            $table->string('password');
             $table->softDeletes();
             $table->timestamps();
         });

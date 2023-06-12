@@ -23,7 +23,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='/medis/create'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/admin/medis/create'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
@@ -60,14 +60,14 @@
                                             <td>{{ $medical_record->diagnosis }}</td>
                                             <td>{{ $medical_record->test_result }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('medis.destroy', $medical_record->id) }}" method="POST">
+                                                <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/medis/{{ $medical_record->id }}/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/medis/{{ $medical_record->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>

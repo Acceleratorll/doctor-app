@@ -18,7 +18,7 @@
                 </ul>
             </div>
             @endif
-            <form action="/pasien/{{ $patient->id }}" method="post">
+            <form action="/admin/pasien/{{ $patient->id }}" method="post">
                 @csrf
                 @method('PUT')
             <div class="form-row">

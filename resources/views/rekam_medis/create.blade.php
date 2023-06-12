@@ -18,7 +18,7 @@
             </div>
             @endif
         <div id="rcorners1">
-            <form action="/medis" method="POST" enctype="multipart/form-data">
+            <form action="/admin/medis" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-row">
                     <div class="col">

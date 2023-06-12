@@ -224,24 +224,37 @@
 
         <!-- register form section starts -->
         <section class="register-form">
-
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form method="POST" action="{{ route('register') }}">
+            @csrf
                 <h3>register now</h3>
                 <div class="inputBox">
                     <span class="fas fa-user"></span>
-                    <input type="text" name="" placeholder="enter your name" id="">
+                    <input type="text" name="name" placeholder="enter your name" id="">
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-user"></span>
-                    <input type="text" name="" placeholder="enter your username" id="">
+                    <input type="text" name="username" placeholder="enter your username" id="">
+                </div>
+                <div class="inputBox">
+                    <span class="fas fa-user"></span>
+                    <input type="text" name="email" placeholder="enter your email" id="">
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-envelope"></span>
-                    <input type="date" name="" placeholder="enter your date of birth" id="" value="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" name="birth_date" placeholder="enter your date of birth" id="" value="<?php echo date('Y-m-d'); ?>">
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-user"></span>
-                    <select class="form-control">
+                    <select class="form-control" name="gender">
                         <option value="" disabled selected hidden>enter your gender</option>
                         <option>Pria</option>
                         <option>Wanita</option>
@@ -249,22 +262,30 @@
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-address-book"></span>
-                    <input type="text" name="" placeholder="enter your addres" id="">
+                    <input type="text" name="address" placeholder="enter your addres" id="">
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-phone"></span> 
-                    <input type="number" name="" placeholder="enter your handphone" id="">
+                    <input type="number" name="phone" placeholder="enter your handphone" id="">
+                </div>
+                <div class="inputBox">
+                    <span class="fas fa-phone"></span> 
+                    <input type="number" name="height" placeholder="enter your height(optional)" id="">
+                </div>
+                <div class="inputBox">
+                    <span class="fas fa-phone"></span> 
+                    <input type="number" name="weight" placeholder="enter your weight(optional)" id="">
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-lock"></span>
-                    <input type="password" name="" placeholder="enter your password" id="">
+                    <input type="password" name="password" placeholder="enter your password" id="">
                 </div>
                 <div class="inputBox">
                     <span class="fas fa-lock"></span>
-                    <input type="password" name="" placeholder="confirm your password" id="">
+                    <input type="password" name="confirm_password" placeholder="confirm your password" id="">
                 </div>
                 <input type="submit" value="sign up" class="btn">
-                <a href="{{ route('login') }}" class="btn">already have an account</a>
+                <a href="{{ __('Login') }}" class="btn">already have an account</a>
             </form>
         </section>
         <!-- register form section ends -->

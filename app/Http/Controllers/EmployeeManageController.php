@@ -40,7 +40,7 @@ class EmployeeManageController extends Controller
     {
         $input = $request->validated();
         Employee::create($input);
-        return redirect()->route('pegawai.index');
+        return redirect()->route('admin.pegawai.index');
     }
 
     /**
@@ -78,7 +78,7 @@ class EmployeeManageController extends Controller
         $employee = Employee::findOrFail($id);
         $input = $request->validated();
         $employee->update($input);
-        return redirect()->route('pegawai.index');
+        return redirect()->route('admin.pegawai.index');
     }
 
     /**

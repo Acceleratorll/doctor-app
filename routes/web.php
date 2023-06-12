@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\PatientManageController;
@@ -17,13 +18,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('welcome');
 });
 
-Route::resources([
-    'jadwal' => ScheduleManageController::class,
-    'medis' => MedicalRecordManageController::class,
-    'pasien' => PatientManageController::class,
-    'pegawai' => EmployeeManageController::class,
-]);
+Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
+    Route::resources([
+        '/jadwal' => ScheduleManageController::class,
+        '/medis' => MedicalRecordManageController::class,
+        '/pasien' => PatientManageController::class,
+        '/pegawai' => EmployeeManageController::class,
+    ], ['as' => 'admin']);
+});
+
+// Route::get('/sch', [ScheduleManageController::class, 'index']);
+
+require __DIR__ . '/auth.php';

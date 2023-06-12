@@ -219,8 +219,17 @@
         <!-- login form section starts -->
 
         <section class="login-form">
-
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form method="POST" action="{{ route('login') }}">
+                @csrf
                 <h3>user login</h3>
                 <!-- Alert -->
                             @if(session()->has('success'))
@@ -229,7 +238,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                             @endif
-
+ 
                             @if(session()->has('loginError'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 {{ session('loginError') }}
@@ -246,7 +255,7 @@
                     <input type="password" name="password" placeholder="enter your password" id="" required autocomplete="current-password">
                 </div>
                 <input type="submit" value="sign in" class="btn">
-                <a href="{{ route('register') }}" class="btn">create an account</a>
+                <a href="{{ __('Register') }}" class="btn">create an account</a>
             </form>
 
         </section>

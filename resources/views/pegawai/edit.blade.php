@@ -18,7 +18,7 @@
             </div>
             @endif
         <div id="rcorners1">
-            <form action="/pegawai/{{ $employee->id }}" method="post">
+            <form action="/admin/pegawai/{{ $employee->id }}" method="post">
                 @csrf
                 @method('PUT')
             <div class="form-row">

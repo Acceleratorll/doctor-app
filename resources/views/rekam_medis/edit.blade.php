@@ -18,7 +18,7 @@
             </div>
             @endif
         <div id="rcorners1">
-            <form action="/medis/{{ $medical_record->id }}" method="POST">
+            <form action="/admin/medis/{{ $medical_record->id }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-row">

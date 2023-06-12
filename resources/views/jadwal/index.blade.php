@@ -23,7 +23,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/jadwal/create') }}'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/admin/jadwal/create') }}'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
@@ -43,18 +43,18 @@
                                             @foreach($schedules as $schedule)
                                         <tr>
                                             <td>{{ $schedule->employee->id }}</td>
-                                            <td>{{ $schedule->employee->name }}</td>
+                                            <td>{{ $schedule->employee->user->name }}</td>
                                             <td>{{ $schedule->schedule_date }}</td>
                                             <td>{{ $schedule->schedule_time }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('jadwal.destroy', $schedule->id) }}" method="POST">
+                                                <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/jadwal/{{ $schedule->id }}/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/jadwal/{{ $schedule->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>

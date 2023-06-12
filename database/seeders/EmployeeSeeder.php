@@ -16,16 +16,8 @@ class EmployeeSeeder extends Seeder
     {
         $employee = [
             [
-                'role_id' => 1,
-                'name' => 'Dr. Suhardji Sp. D. R.mN',
-                'address' => 'Jl. Address Palace',
-                'birth_date' => '1980-2-26',
-                'gender' => 'Pria',
-                'email' => 'superadmin@mail.com',
-                'phone' => '+628097637221',
+                'user_id' => 1,
                 'qualification' => 'Kulit dan Kelamin',
-                'username' => 'superadmin',
-                'password' => bcrypt('12345'),
             ],
         ];
         DB::table('employees')->insert($employee);

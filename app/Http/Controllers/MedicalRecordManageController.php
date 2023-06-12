@@ -25,7 +25,7 @@ class MedicalRecordManageController extends Controller
     {
         $input = $request->validated();
         MedicalRecord::create($input);
-        return redirect()->route('medis.index');
+        return redirect()->route('admin.medis.index');
     }
 
     public function show($id)
@@ -46,7 +46,7 @@ class MedicalRecordManageController extends Controller
         $medical_record = MedicalRecord::findOrFail($id);
         $input = $request->validated();
         $medical_record->update($input);
-        return redirect()->route('medis.index');
+        return redirect()->route('admin.medis.index');
     }
 
     public function destroy($id)

@@ -16,7 +16,7 @@ class PatientManageController extends Controller
      */
     public function index()
     {
-        $patients = Patient::latest()->get();
+        $patients = Patient::with('user')->latest()->get();
         return view('pasien.index', compact('patients'));
     }
 
@@ -34,8 +34,14 @@ class PatientManageController extends Controller
             return back()->withErrors(['message' => 'Masukkan Tanggal Lahir dengan Benar !']);
         } else {
             $input = $request->validated();
-            Patient::create($input);
-            return redirect()->route('pasien.index');
+            $user = User::create([
+                
+            ]);
+            Patient::create([
+                'height' => $input['height'],
+                'weight' => $input['weight'],
+            ]);
+            return redirect()->route('admin.pasien.index');
         }
     }
 
@@ -68,7 +74,7 @@ class PatientManageController extends Controller
         $patient = Patient::findOrFail($id);
         $input = $request->validated();
         $patient->update($input);
-        return redirect()->route('pasien.index');
+        return redirect()->route('admin.pasien.index');
     }
 
     /**

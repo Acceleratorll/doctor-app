@@ -37,4 +37,9 @@ class Employee extends Model
     {
         return $this->hasMany(MedicalRecord::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -18,7 +18,7 @@
             </div>
             @endif
         <div id="rcorners1">
-            <form action="/pegawai" method="post">
+            <form action="/admin/pegawai" method="post">
                 @csrf
             <div class="form-row">
                 <div class="col">

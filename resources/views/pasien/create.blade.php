@@ -18,7 +18,7 @@
                 </ul>
             </div>
             @endif
-            <form action="/pasien" method="post">
+            <form action="/admin/pasien" method="post">
                 @csrf
             <div class="form-row">
                 <div class="col">

@@ -21,6 +21,9 @@ class RoleSeeder extends Seeder
             [
                 'name' => 'pegawai',
             ],
+            [
+                'name' => 'pasien',
+            ],
         ];
         DB::table('roles')->insert($roles);
     }

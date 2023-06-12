@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ScheduleRequest;
 use App\Models\Employee;
 use App\Models\Schedule;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,9 @@ class ScheduleManageController extends Controller
 {
     public function index()
     {
+        if (!auth()->user()) {
+            return redirect('login');
+        }
         $today = Carbon::today()->toDateString();
         $schedules = Schedule::with('employee')->where('schedule_date', '>=', $today)->get();
         return view('jadwal.index', compact('schedules'));
@@ -19,7 +23,7 @@ class ScheduleManageController extends Controller
 
     public function create()
     {
-        $doctor = Employee::where('role_id', 1)->first();
+        $doctor = User::where('role_id', 1)->first();
         return view('jadwal.create', compact('doctor'));
     }
 
@@ -27,7 +31,7 @@ class ScheduleManageController extends Controller
     {
         $input = $request->validated();
         Schedule::create($input);
-        return redirect()->route('jadwal.index');
+        return redirect()->route('admin.jadwal.index');
     }
 
     public function show($id)
@@ -36,7 +40,7 @@ class ScheduleManageController extends Controller
 
     public function edit($id)
     {
-        $schedule = Schedule::findOrFail($id);
+        $schedule = Schedule::with('employee')->findOrFail($id);
         return view('jadwal.edit', compact('schedule'));
     }
 
@@ -45,7 +49,7 @@ class ScheduleManageController extends Controller
         $schedule = Schedule::findOrFail($id);
         $input = $request->validated();
         $schedule->update($input);
-        return redirect()->route('jadwal.index');
+        return redirect()->route('admin.jadwal.index');
     }
 
     public function destroy($id)
