@@ -25,7 +25,7 @@ class AuthenticatedSessionController extends Controller
         if (auth()->user()->role_id == '1') {
             return redirect()->intended(RouteServiceProvider::HOME);
         } elseif (Auth::user()->role_id == '3') {
-            return redirect()->route('admin/reservation/view');
+            return redirect()->route('/dashboard');
         }
     }
 
@@ -37,6 +37,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/dashboard');
     }
 }

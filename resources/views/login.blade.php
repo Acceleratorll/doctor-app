@@ -255,7 +255,7 @@
                     <input type="password" name="password" placeholder="enter your password" id="" required autocomplete="current-password">
                 </div>
                 <input type="submit" value="sign in" class="btn">
-                <a href="{{ __('Register') }}" class="btn">create an account</a>
+                <a href="{{ __('register') }}" class="btn">create an account</a>
             </form>
 
         </section>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PatientRequest;
+use App\Models\Patient;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -31,21 +33,29 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(PatientRequest $request)
     {
+        $input = $request->validated();
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'role_id' => $input['role_id'],
+            'name' => $input['name'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'birth_date' => $input['birth_date'],
+            'gender' => $input['gender'],
+            'email' => $input['email'],
+            'username' => $input['username'],
+            'password' => bcrypt($input['password']),
+        ]);
+        Patient::create([
+            'user_id' => $user->id,
+            'height' => $input['height'],
+            'weight' => $input['weight'],
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
-        if (auth()->user()->role_id == 3) {
-            return redirect(RouteServiceProvider::HOMEPATIENT);
-        } else {
-            // return redirect(RouteServiceProvider::HOMEADMIN);
-        }
+        return redirect('/dashboard');
     }
 }

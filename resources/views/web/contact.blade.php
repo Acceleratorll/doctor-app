@@ -9,7 +9,7 @@
         <!-- /.header-top -->
         <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url('/home') }}">
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
                 <img src="assets/images/logo/2.png" class="logo-light" alt="logo">
                 <img src="assets/images/logo/1.png" class="logo-dark" alt="logo">
             </a>
@@ -19,27 +19,39 @@
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="navbar-nav ml-auto">
                 <li class="nav__item">
-                    <a href="{{ url('/home') }}" class="nav__item-link">Home</a>
+                    <a href="{{ route('dashboard') }}" class="nav__item-link">Home</a>
                 </li>
                 <!-- /.nav-item -->
                 <li class="nav__item">
-                    <a href="{{ url('/layanan') }}" class="nav__item-link">Layanan</a>
+                    <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
-                    <a href="{{ url('/profile') }}" class="nav__item-link">Profile Doctors</a>
+                    <a href="{{ route('profile.index') }}" class="nav__item-link">Profile Doctors</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
-                    <a href="{{ url('/contact') }}" class="nav__item-link active">Contacts Us</a>
+                    <a href="{{ route('contact.index') }}" class="nav__item-link active">Contacts Us</a>
                 </li><!-- /.nav-item -->
                 </ul><!-- /.navbar-nav -->
                 <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>
             </div><!-- /.navbar-collapse -->
+            @if(auth()->user())
             <div class="d-none d-xl-flex align-items-center position-relative ml-30">
-                <a href="{{ url('/login') }}" class="btn btn__primary btn__rounded ml-30">
-                <i class="icon-calendar"></i>
-                <span>Login</span>
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn__primary btn__rounded ml-30">
+                        <i class="icon-calendar"></i>
+                        Logout
+                    </button>
+                </form>
+            </div>
+            @else
+            <div class="d-none d-xl-flex align-items-center position-relative ml-30">
+                <a href="{{ route('login') }}" class="btn btn__primary btn__rounded ml-30">
+                    <i class="icon-calendar"></i>
+                    <span>Login</span>
                 </a>
             </div>
+            @endif
             </div><!-- /.container -->
         </nav><!-- /.navabr -->
         </header><!-- /.Header -->
@@ -99,7 +111,7 @@
                         <i class="icon-clock"></i><a href="#">Senin - Sabtu: 8:00 - 18:00</a>
                         </li>
                     </ul>
-                    <a href="{{ url('/contact') }}" class="btn btn__white btn__rounded btn__outlined">Contact Us</a>
+                    <a href="{{ route('contact.index') }}" class="btn btn__white btn__rounded btn__outlined">Contact Us</a>
                     </div>
                 </div>
                 </div>

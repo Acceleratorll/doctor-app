@@ -272,6 +272,7 @@
                     <span class="fas fa-phone"></span> 
                     <input type="number" name="height" placeholder="enter your height(optional)" id="">
                 </div>
+                <input type="number" name="role_id" value="3" hidden>
                 <div class="inputBox">
                     <span class="fas fa-phone"></span> 
                     <input type="number" name="weight" placeholder="enter your weight(optional)" id="">
@@ -285,7 +286,7 @@
                     <input type="password" name="confirm_password" placeholder="confirm your password" id="">
                 </div>
                 <input type="submit" value="sign up" class="btn">
-                <a href="{{ __('Login') }}" class="btn">already have an account</a>
+                <a href="{{ __('login') }}" class="btn">already have an account</a>
             </form>
         </section>
         <!-- register form section ends -->

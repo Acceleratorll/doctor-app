@@ -68,7 +68,7 @@
                     </li>
                     </ul>
                     <div class="d-flex align-items-center">
-                    <a href="{{ url('/contact') }}" class="btn btn__primary btn__link mr-30">
+                    <a href="{{ route('contact.index') }}" class="btn btn__primary btn__link mr-30">
                         <i class="icon-arrow-right"></i> <span>Get Directions</span>
                     </a>
                     <ul class="social-icons list-unstyled mb-0">
