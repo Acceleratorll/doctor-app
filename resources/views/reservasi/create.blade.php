@@ -2,7 +2,7 @@
 
 @section('header')
 <h1 class="m-0">
-    Tambah Pasien
+    Tambah Reservasi
 </h1>
 @endsection
 
@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label for="patient_id">Pasien</label>
                         <input type="text" class="form-control" value="{{ $patient->name }}" readonly>
-                        <input type="hidden" name="patient_id" value="{{ $patient->id }}">
+                        <input type="hidden" name="patient_id" value="{{ $patient->patients->id }}">
                     </div>
 
                     <div class="form-group">
@@ -36,7 +36,7 @@
                             <option value="0" selected>- Pilih Dokter -</option>
 
                             @foreach ($employees as $employee)
-                            <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                            <option value="{{ $employee->id }}">{{ $employee->user->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -47,6 +47,18 @@
                             <option value="0">- Pilih Jadwal -</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label for="noantrian">No Antrian</label>
+                        <input type="text" class="form-control" id="noantrian" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="noantrian">Reservasi Code</label>
+                        <input type="text" class="form-control" id="reservation_code" name="reservation_code"
+                            value="{{ $reservation_code }}" readonly>
+                    </div>
+
                 </div>
             </div>
 
@@ -84,11 +96,41 @@
             fetchSchedule().catch(error => {
                 alert('Server error!');
             });
+            document.getElementById('noantrian').value = '';
+
         }else{
             scheduleSelect.innerHTML = "";
             scheduleSelect.innerHTML = `<option value="0">- Pilih Jadwal -</option>`;
+            document.getElementById('noantrian').value = '';
+
+        }
+    });
+
+    scheduleSelect.addEventListener('change', async function(e){
+        const scheduleId = +this.value;
+
+        if(scheduleId){
+            const fetchQueue = async () => {
+                const response = await fetch(`${location.origin}/reservation/queue?scheduleid=${scheduleId}`);
+                
+                if(!response.ok){
+                    throw new Error('Error fetch queue');
+                }
+
+                const data = await response.json();
+                document.getElementById('noantrian').value = data.queue;
+                
+            }
+            fetchQueue().catch(error => {
+                alert('Server Error!');
+            })
+        }else{
+            document.getElementById('noantrian').value = '';
+
         }
     })
+
+
     var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
         for (i = 0; i < dropdown.length; i++) {

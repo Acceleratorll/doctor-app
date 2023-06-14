@@ -22,6 +22,15 @@ Route::get('/dashboard', function () {
     return view('welcome');
 });
 
+
+Route::get('/reservation/check_queue', [ReservationController::class, 'check_queue']);
+Route::get('reservation/view', [ReservationController::class, 'reservation_view']);
+Route::get('reservation/create', [ReservationController::class, 'create']);
+Route::post('reservation', [ReservationController::class, 'store']);
+Route::get('schedule/{employee_id}', [ScheduleManageController::class, 'get_schedule_by_employee_id']);
+Route::get('reservation/queue', [ReservationController::class, 'queue']);
+
+
 Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::resources([
         '/jadwal' => ScheduleManageController::class,
@@ -29,13 +38,8 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/pasien' => PatientManageController::class,
         '/pegawai' => EmployeeManageController::class,
     ], ['as' => 'admin']);
-});
-
-
-Route::middleware(['auth', 'patient'])->group(function () {
-    Route::get('schedule/{employee_id}', [ScheduleManageController::class, 'get_schedule_by_employee_id']);
-    Route::post('reservation/finish/{reservation}', [ReservationController::class, 'finish']);
-    Route::get('reservation/view', [ReservationController::class, 'reservation_view']);
+    Route::get('/schedule/{employee_id}', [ScheduleManageController::class, 'get_schedule_by_employee_id'], ['as' => 'admin']);
+    Route::post('/reservation/finish/{reservation}', [ReservationController::class, 'finish'], ['as' => 'admin']);
 });
 
 require __DIR__ . '/auth.php';

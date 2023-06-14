@@ -9,7 +9,9 @@ use App\Models\Reservation;
 use App\Models\Schedule;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ReservationController extends Controller
 {
@@ -26,7 +28,8 @@ class ReservationController extends Controller
 
     public function reservation_view()
     {
-        $reservations = Reservation::with(['patient', 'schedule.employee'])->where('patient_id', Auth::user()->id)->get();
+
+        $reservations = Reservation::with(['patient', 'schedule.employee'])->where('patient_id', Auth::user()->patients->id)->get();
         return view('reservasi.index', [
             'reservations' => $reservations
         ]);
@@ -40,9 +43,10 @@ class ReservationController extends Controller
     public function create()
     {
         return view('reservasi.create', [
-            'employees' => Employee::all(),
+            'employees' => Employee::with('user:id,name')->get(),
             'patient'   => Auth::user(),
             'schedules' => Schedule::all(),
+            'reservation_code' => Str::random(15)
         ]);
     }
 
@@ -61,12 +65,12 @@ class ReservationController extends Controller
                 return $check;
             }
             // Menambahkan antrian sesuai pada jadwal yang diminta
-            $schedule = Reservation::where('schedule_id', $request->schedule_id);
-            if ($schedule->count() > 0) {
-                $request["reservation_code"] = $schedule->latest()->first()->reservation_code + 1;
-            } else {
-                $request["reservation_code"] = 1;
-            }
+            // $schedule = Reservation::where('schedule_id', $request->schedule_id);
+            // if ($schedule->count() > 0) {
+            //     $request["reservation_code"] = $schedule->latest()->first()->reservation_code + 1;
+            // } else {
+            //     $request["reservation_code"] = 1;
+            // }
 
 
             Reservation::create($request->all());
@@ -192,7 +196,7 @@ class ReservationController extends Controller
 
     public function check_queue(Request $request)
     {
-        $patient_id = Auth::user()->id;
+        $patient_id = Auth::user()->patients->id;
 
         //Check if patient has reservation
         $reservation = Reservation::where('patient_id', $patient_id)->where('status', 0)->first();
@@ -226,5 +230,16 @@ class ReservationController extends Controller
             'total'     => count($reservations),
             'new_notification'       => 1
         ], 200);
+    }
+
+    public function queue(Request $request)
+    {
+        $scheduleId = $request->scheduleid;
+
+        $reservation = Reservation::where('schedule_id', $scheduleId)->count();
+
+        return response()->json([
+            'queue' => $reservation + 1
+        ], Response::HTTP_OK);
     }
 }

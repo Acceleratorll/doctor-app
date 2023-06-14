@@ -31,21 +31,37 @@
                         <table class="table table-bordered" id="table">
                             @if($reservations->count() < 1) Tidak ada Data Pasien @else <thead>
                                 <tr>
+                                    <th scope="col" class="text-center">Reservasi Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Doktor</th>
                                     <th scope="col" class="text-center">Jadwal</th>
                                     <th scope="col" class="text-center">Status</th>
+                                    <th scope="col" class="text-center">No Urut</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($reservations as $reservation)
                                     <tr>
-                                        <td>{{ $reservation->patient->name }}</td>
-                                        <td>{{ $reservation->schedule->employee->name }}</td>
-                                        <td>{{ $reservation->schedule->schedule_date . ' / ' .
+                                        <td class="text-center">{{ $reservation->reservation_code }}</td>
+                                        <td class="text-center">{{ $reservation->patient->user->name }}</td>
+                                        <td class="text-center">{{ $reservation->schedule->employee->user->name }}</td>
+                                        <td class="text-center">{{ $reservation->schedule->schedule_date . ' / ' .
                                             $reservation->schedule->schedule_time }}</td>
-                                        <td>{{ $reservation->status }}</td>
+                                          <td class="text-center">
+                                            @if($reservation->status == 0)
+                                            Menunggu
+                                            @endif
+
+                                            @if($reservation->status == 1)
+                                            Diproses
+                                            @endif
+
+                                            @if($reservation->status == 2)
+                                            Reservasi Selesai
+                                            @endif
+                                        </td>
+                                        <td>{{ $reservation->getQueueAttribute() }}</td>
 
                                         <td class="project-actions text-center">
 
@@ -67,34 +83,7 @@
 </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script>
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
-        for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-            } else {
-            dropdownContent.style.display = "block";
-            }
-        });
-        }
-    $(document).ready( function () {
-        $('#table').DataTable();
-    } );
-    $(document).ready(
-        function(){
-            $('#sidebarcollapse').on('click',function(){
-                $('#sidebar').toggleClass('active');
-            });
-        }
-    )
-</script>
+
 </body>
 
 </html>
