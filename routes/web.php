@@ -25,6 +25,10 @@ Route::get('/dashboard', function () {
     return view('web.home');
 })->name('dashboard');
 
+Route::get('/janji_temu', function () {
+    return view('web.janji_temu');
+})->name('janji_temu');
+
 Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::resources([
         '/jadwal' => ScheduleManageController::class,
