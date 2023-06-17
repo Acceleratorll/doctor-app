@@ -253,7 +253,7 @@
 <div class="about-layout4 pb-0 ">
     <div class="row ">
         {{-- Sidebar --}}
-        <div class="col-md-2 bg-dark">
+        {{-- <div class="col-md-2 bg-dark">
             <div class="mt-4 py-5 px-4 text-center">
                 <img src="https://i.ibb.co/3yYMBtB/profil.png" alt="">
                 <h5 class="text-white py-2">dr. Alexander Bell</h5>
@@ -267,7 +267,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div> --}}
         {{-- End of Sidebar --}}
         {{-- sebelah sidebar --}}
         <div class="col-md-2">
@@ -281,12 +281,12 @@
                     <li>
                         <h6>Pilih Lokasi</h6>
                     </li>
-                    <li>
+                    {{-- <li>
                         <h6>Data Pasien</h6>
                     </li>
                     <li>
                         <h6>Konfirmasi</h6>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
@@ -337,7 +337,7 @@
                     <h5>Pilih Waktu</h5>
                     <div class="" id="accordion">
                         <div class="accordion-item opened">
-                            <div class="accordion__header" data-toggle="collapse" data-target="#collapse3">
+                            <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
                                 <a class="accordion__title" href="#">Pagi</a>
                             </div><!-- /.accordion-item-header -->
                             <div id="collapse3" class="collapse show" data-parent="#accordion">
