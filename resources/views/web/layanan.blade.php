@@ -71,7 +71,7 @@
                     <h2 class="slide__title" style="color: #213360;">Dr. Alexander Bell</h2>
                     <p class="slide__desc" style="color: #213360;">"Kesehatan Utama, Layanan Terbaik"</p>
                     <div class="d-flex flex-wrap justify-content-center align-items-center">
-                        <a href="#" class="btn btn__white btn__rounded mr-30">
+                        <a href="/reservasi/create" class="btn btn__white btn__rounded mr-30">
                         <span>Buat Janji Temu Doctors</span>
                         <i class="icon-arrow-right"></i>
                         </a>

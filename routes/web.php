@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
     return view('web.home');
 })->name('dashboard');
 
-Route::get('/janji_temu', function () {
+Route::get('/reservasi/create', function () {
     return view('web.janji_temu');
 })->name('janji_temu');
 
@@ -47,6 +47,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/jadwal' => JadwalController::class,
         '/contact' => ContactController::class,
         '/profile' => ProfileController::class,
+        // '/reservasi' => ReservationController::class,
     ]);
 });
 
