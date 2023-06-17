@@ -12,7 +12,7 @@
            <form action="/admin/jadwal/{{ $schedule->id }}" method="POST">
             @csrf
             @method('PUT')
-            <div class="form-row">
+            {{-- <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Nama Dokter">Nama Dokter</label>
@@ -20,7 +20,7 @@
                         <input type="number" class="form-control" value="{{ auth()->user()->id }}" name="employee_id" hidden>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">

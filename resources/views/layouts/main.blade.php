@@ -183,6 +183,29 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-retweet"></i>
                                 <p>
+                                    Tempat Praktik
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/admin/tempat/create" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Tambah Tempat</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/tempat" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Master Tempat</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-retweet"></i>
+                                <p>
                                     Jadwal
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
@@ -212,13 +235,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('/tambahreservasi') }}" class="nav-link">
+                                    <a href="{{ route('admin.reservation.create') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Reservasi</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('/masterreservasi') }}" class="nav-link">
+                                    <a href="{{ route('admin.reservation.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Resevasi</p>
                                     </a>

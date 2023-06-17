@@ -20,13 +20,29 @@
         <div id="rcorners1">
             <form action="/admin/jadwal" method="post">
                 @csrf
-            <div class="form-row">
+            {{-- <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Nama Dokter">Nama Dokter</label>
                         <input type="text" placeholder="Masukkan Nama Dokter" value="{{ $doctor->name }}" class="form-control" name="nama_dokter" id="namadokter" readonly>
                         <input type="hidden" name="employee_id" value="{{ $doctor->id }}">
                     </div>
+                </div>
+            </div> --}}
+            <div class="form-row">
+                <div class="col">
+                    <label for="tempat">Tempat</label>
+                    <select name="place_id" id="tempat">
+                        @if($places<1)
+                        <option>Tidak ada Tempat</option>
+                        @elseif($places == 1)
+                        <option value="{{ $places->id }}">{{ $places->name }}</option>
+                        @else
+                        @foreach($places as $place)
+                        <option value="{{ $place->id }}">{{ $place->name }}</option>
+                        @endforeach
+                        @endif
+                    </select>
                 </div>
             </div>
             <div class="form-row">

@@ -18,19 +18,24 @@
             </ul>
         </div>
         @endif
-        <form action="/reservation" method="post">
+        <form action="{{ route('admin.reservation.store') }}" method="post">
             @csrf
-
             <div class="form-row">
                 <div class="col">
-
+                    <div class="form-group">
+                        <label for="code">Reservasi Code</label>
+                        <input type="number" class="form-control" name="reservation_code" id="code" value="{{ $code }}" readonly>
+                    </div>
                     <div class="form-group">
                         <label for="patient_id">Pasien</label>
-                        <input type="text" class="form-control" value="{{ $patient->name }}" readonly>
-                        <input type="hidden" name="patient_id" value="{{ $patient->id }}">
+                        <select class="form-control" name="patient_id" id="namapasien" required>
+                                @foreach($patients as $patient)
+                                <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
+                                @endforeach
+                            </select>
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="employee">Dokter</label>
                         <select name="employee" id="employee" class="form-control">
                             <option value="0" selected>- Pilih Dokter -</option>
@@ -39,12 +44,26 @@
                             <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <label for="schedule">Jadwal</label>
-                        <select name="schedule_id" id="schedule_id" class="form-control">
-                            <option value="0">- Pilih Jadwal -</option>
+                        <select name="schedule_id" id="schedule" class="form-control">
+                            @if($schedules->count() < 1)
+                            <option value="">Tidak Ada Jadwal</option>
+                            @else
+                            @foreach($schedules as $schedule)
+                            <option value="{{ $schedule->id }}">{{\Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
+                            $schedule->schedule_time}}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="0">Belum Periksa</option>
+                            <option value="1">Sudah Periksa</option>
                         </select>
                     </div>
                 </div>
@@ -62,6 +81,8 @@
 </div>
 
 <script>
+    $("#namapasien").select2();
+    $("#schedule").select2();
     const employee = document.getElementById('employee');
     const scheduleSelect = document.getElementById('schedule_id');
     employee.addEventListener('change', async function(e){

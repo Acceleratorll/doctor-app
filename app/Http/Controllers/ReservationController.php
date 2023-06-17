@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Patient;
 use App\Models\Reservation;
 use App\Models\Schedule;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,16 +22,18 @@ class ReservationController extends Controller
     public function index()
     {
         $reservations = Reservation::with(['patient', 'schedule'])->get();
-        return response()->json($reservations);
+        // $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->get();
+        // $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->get();
+        return view('reservasi.index', compact(['reservations']));
     }
 
-    public function reservation_view()
-    {
-        $reservations = Reservation::with(['patient', 'schedule.employee'])->where('patient_id', Auth::user()->id)->get();
-        return view('reservasi.index', [
-            'reservations' => $reservations
-        ]);
-    }
+    // public function reservation_view()
+    // {
+    //     $reservations = Reservation::with(['patient', 'schedule.employee'])->where('patient_id', Auth::user()->id)->get();
+    //     return view('reservasi.index', [
+    //         'reservations' => $reservations
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -39,10 +42,13 @@ class ReservationController extends Controller
      */
     public function create()
     {
+        $today = Carbon::today()->toDateString();
+        // $code = uniqid();
+        $integerCode = hexdec(substr(uniqid(), 6, 6));
         return view('reservasi.create', [
-            'employees' => Employee::all(),
-            'patient'   => Auth::user(),
-            'schedules' => Schedule::all(),
+            'code' => $integerCode,
+            'patients' => Patient::all(),
+            'schedules' => Schedule::where('schedule_date', '>=', $today)->get(),
         ]);
     }
 
@@ -54,30 +60,8 @@ class ReservationController extends Controller
      */
     public function store(ReservationRequest $request)
     {
-
-        try {
-            $check = $this->checkData($request->patient_id, $request->schedule_id);
-            if ($check) {
-                return $check;
-            }
-            // Menambahkan antrian sesuai pada jadwal yang diminta
-            $schedule = Reservation::where('schedule_id', $request->schedule_id);
-            if ($schedule->count() > 0) {
-                $request["reservation_code"] = $schedule->latest()->first()->reservation_code + 1;
-            } else {
-                $request["reservation_code"] = 1;
-            }
-
-
-            Reservation::create($request->all());
-            if ($request->wantsJson()) {
-                return response()->json("Reservation created succesfully");
-            }
-
-            return redirect('reservation/view');
-        } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
+        Reservation::create($request->all());
+        return redirect()->route('admin.reservation.index');
     }
 
     /**
@@ -98,14 +82,14 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reservation $reservation)
+    public function edit($id)
     {
-        $reservation = $reservation->load('patient:id,name', 'schedule.employee');
-
+        $today = Carbon::today()->toDateString();
+        $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id);
         return view('reservasi.edit', [
             'reservation'   => $reservation,
-            'schedules'     => Schedule::where('employee_id', $reservation->schedule->employee_id)->get(),
-            'employees'     => Employee::all(),
+            'patients' => Patient::all(),
+            'schedules' => Schedule::where('schedule_date', '>=', $today)->get(),
         ]);
     }
 
@@ -116,32 +100,10 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(ReservationRequest $request, Reservation $reservation)
+    public function update($id, ReservationRequest $request)
     {
-        try {
-            $check = $this->checkData($request->patient_id, $request->schedule_id);
-            if ($check) {
-                return $check;
-            }
-
-            // check apakah jadwalnya berubah
-            if ($request->schedule_id != $reservation->schedule_id) {
-                $schedule = Reservation::where('schedule_id', $request->schedule_id);
-                if ($schedule->count() > 0) {
-                    $request["reservation_code"] = $schedule->latest()->first()->reservation_code + 1;
-                } else {
-                    $request["reservation_code"] = 1;
-                }
-            }
-            $reservation->update($request->all());
-            if ($request->wantsJson()) {
-                return response()->json("Reservation has been updated");
-            }
-
-            return redirect('reservation/view');
-        } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
+        Reservation::with(['patient', 'schedule'])->findOrFail($id)->update($request->all());
+        return redirect()->route('admin.reservation.index');
     }
 
     public function finish(Reservation $reservation)
