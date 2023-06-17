@@ -18,6 +18,7 @@ class CreateReservationsTable extends Migration
             $table->foreignId('patient_id')->constrained();
             $table->foreignId('schedule_id')->constrained();
             $table->string('reservation_code');
+            $table->integer('nomor_urut');
             $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

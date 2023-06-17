@@ -6,6 +6,7 @@ use App\Http\Controllers\Pasien\ContactController;
 use App\Http\Controllers\Pasien\JadwalController;
 use App\Http\Controllers\Pasien\ProfileController;
 use App\Http\Controllers\PatientManageController;
+use App\Http\Controllers\PlaceManageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
 use Illuminate\Support\Facades\Route;
@@ -31,19 +32,22 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/medis' => MedicalRecordManageController::class,
         '/pasien' => PatientManageController::class,
         '/pegawai' => EmployeeManageController::class,
+        '/tempat' => PlaceManageController::class,
+        '/reservation' => ReservationController::class,
     ], ['as' => 'admin']);
 });
 
 
 Route::middleware(['auth', 'patient'])->group(function () {
-    Route::get('schedule/{employee_id}', [ScheduleManageController::class, 'get_schedule_by_employee_id']);
-    Route::post('reservation/finish/{reservation}', [ReservationController::class, 'finish']);
-    Route::get('reservation/view', [ReservationController::class, 'reservation_view']);
     Route::resources([
         '/jadwal' => JadwalController::class,
         '/contact' => ContactController::class,
         '/profile' => ProfileController::class,
     ]);
+});
+
+Route::fallback(function () {
+    return redirect()->route('dashboard');
 });
 
 require __DIR__ . '/auth.php';

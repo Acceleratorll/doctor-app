@@ -26,6 +26,8 @@ class ReservationRequest extends FormRequest
         return [
             'patient_id' => 'required',
             'schedule_id' => 'required',
+            'reservation_code' => 'required',
+            'status' => '',
         ];
     }
 }
