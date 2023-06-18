@@ -17,7 +17,7 @@ class CreateMedicalRecordsTable extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             // $table->foreignId('employee_id')->constrained();
-            $table->string('keterangan');
+            $table->string('desc');
             $table->softDeletes()->nullable();
             $table->timestamps();
         });

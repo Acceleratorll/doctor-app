@@ -38,8 +38,7 @@
                                             <th scope="col" class="text-center">Nama Pasien</th>
                                             <th scope="col" class="text-center">Tanggal Lahir</th>
                                             <th scope="col" class="text-center">Gender</th>
-                                            <th scope="col" class="text-center">Diagnosa</th>
-                                            <th scope="col" class="text-center">Hasil Tes</th>
+                                            <th scope="col" class="text-center">Keterangan</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
@@ -57,8 +56,7 @@
                                             <td>{{ $medical_record->patient->user->birth_date }}</td>
                                             <td>{{ $medical_record->patient->user->gender }}</td>
                                             @endif
-                                            <td>{{ $medical_record->diagnosis }}</td>
-                                            <td>{{ $medical_record->test_result }}</td>
+                                            <td>{{ $medical_record->desc }}</td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST">
                                                     @csrf

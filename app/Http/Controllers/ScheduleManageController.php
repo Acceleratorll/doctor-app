@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ScheduleRequest;
 use App\Models\Employee;
+use App\Models\Place;
 use App\Models\Schedule;
 use App\Models\User;
 use Carbon\Carbon;
@@ -14,18 +15,16 @@ class ScheduleManageController extends Controller
 {
     public function index()
     {
-        if (!auth()->user()) {
-            return redirect('login');
-        }
         $today = Carbon::today()->toDateString();
-        $schedules = Schedule::with('employee')->where('schedule_date', '>=', $today)->get();
-        return view('jadwal.index', compact('schedules'));
+        $schedules = Schedule::with('place')->where('schedule_date', '>=', $today)->get();
+        return view('jadwal.index', compact(['schedules']));
     }
 
     public function create()
     {
         $doctor = User::where('role_id', 1)->first();
-        return view('jadwal.create', compact('doctor'));
+        $places = Place::all();
+        return view('jadwal.create', compact(['doctor', 'places']));
     }
 
     public function store(ScheduleRequest $request)
@@ -41,7 +40,7 @@ class ScheduleManageController extends Controller
 
     public function edit($id)
     {
-        $schedule = Schedule::with('employee')->findOrFail($id);
+        $schedule = Schedule::with('place')->findOrFail($id);
         return view('jadwal.edit', compact('schedule'));
     }
 

@@ -32,36 +32,11 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="form-row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="Tanggal Lahir">Tanggal Lahir</label>
-                            <input type="date" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="birth_date" id="tanggallahir" required>
-                        </div>
-                    </div>
-                </div> --}}
-                {{-- <div class="form-group">
-                    <label for="Gender">Gender</label>
-                    <select class="form-control">
-                        <option value="" disabled selected hidden>Pilih Gender</option>
-                        <option>Pria</option>
-                        <option>Wanita</option>
-                    </select>
-                </div> --}}
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="Hasil Diagnosa">Hasil Diagnosa</label>
-                            <input type="text" placeholder="Masukkan Hasil Diagnosa" class="form-control" name="diagnosis" id="hasildiagnosa" required>
-                            <input type="hidden" name="employee_id" value="1">
-                            {{-- <input type="hidden" name="employee_id" value="{{ auth()->user()->id }}"> --}}
-                        </div>
-                    </div>
-                </div><div class="form-row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="Hasil Tes">Hasil Tes</label>
-                            <textarea type="text" placeholder="Masukkan Hasil Tes" class="form-control" name="test_result" id="hasiltes" required></textarea>
+                            <label for="Hasil Tes">Keterangan</label>
+                            <textarea type="text" placeholder="Masukkan Keterangan" class="form-control" name="desc" id="hasiltes" required></textarea>
                         </div>
                     </div>
                 </div>

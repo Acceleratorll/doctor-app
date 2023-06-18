@@ -189,4 +189,12 @@ class ReservationController extends Controller
             'new_notification'       => 1
         ], 200);
     }
+
+    public function getAntrian($id)
+    {
+        $reservation = Reservation::where('schedule_id', $id)->first();
+        $antrian = $reservation ? $reservation->nomor_urut + 1 : 1;
+        dd($antrian);
+        return response()->json(['queue_number' => $antrian]);
+    }
 }

@@ -28,6 +28,7 @@ class ReservationRequest extends FormRequest
             'schedule_id' => 'required',
             'reservation_code' => 'required',
             'status' => '',
+            'nomor_urut' => 'required',
         ];
     }
 }

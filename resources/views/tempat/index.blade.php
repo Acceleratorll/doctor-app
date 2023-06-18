@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Daftar Jadwal                 
+        Daftar Tempat Praktik                 
     </h1>
 @endsection
 
@@ -23,38 +23,34 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/admin/jadwal/create') }}'">
+                                    <button type="button" class="btn btn-primary" onclick="location.href='{{ url('/admin/tempat/create') }}'">
                                         <span>+ Add Items</span>
                                     </button>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="table">
-                                        @if($schedules != null)
+                                        @if($places != null)
                                         <thead>
                                         <tr>
-                                            {{-- <th scope="col" class="text-center">ID Dokter</th>
-                                            <th scope="col" class="text-center">Nama Dokter</th> --}}
-                                            <th scope="col" class="text-center">Tanggal</th>
-                                            <th scope="col" class="text-center">Jam</th>
+                                            <th scope="col" class="text-center">Nama Tempat</th>
+                                            <th scope="col" class="text-center">Alamat</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($schedules as $schedule)
+                                            @foreach($places as $place)
                                         <tr>
-                                            {{-- <td>{{ $schedule->employee->id }}</td>
-                                            <td>{{ $schedule->employee->user->name }}</td> --}}
-                                            <td>{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') }}</td>
-                                            <td>{{ $schedule->schedule_time }}</td>
+                                            <td>{{ $place->name }}</td>
+                                            <td>{{ $place->address }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST">
+                                                <form action="{{ route('admin.tempat.destroy', $place->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this place?')">
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/jadwal/{{ $schedule->id }}/edit'">
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/tempat/{{ $place->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>
@@ -63,7 +59,7 @@
                                         </tr>
                                             @endforeach
                                         @else
-                                        <strong>Tidak ada Jadwal</strong>
+                                        <strong>Tidak ada Data Tempat</strong>
                                         @endif
                                         </tbody>
                                     </table>

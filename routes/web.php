@@ -40,6 +40,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/reservation' => ReservationController::class,
     ], ['as' => 'admin']);
 });
+Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
 
 
 Route::middleware(['auth', 'patient'])->group(function () {

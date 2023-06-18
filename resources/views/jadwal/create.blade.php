@@ -31,18 +31,18 @@
             </div> --}}
             <div class="form-row">
                 <div class="col">
-                    <label for="tempat">Tempat</label>
-                    <select name="place_id" id="tempat">
-                        @if($places<1)
-                        <option>Tidak ada Tempat</option>
-                        @elseif($places == 1)
-                        <option value="{{ $places->id }}">{{ $places->name }}</option>
-                        @else
-                        @foreach($places as $place)
-                        <option value="{{ $place->id }}">{{ $place->name }}</option>
-                        @endforeach
-                        @endif
-                    </select>
+                    <div class="form-group">
+                        <label for="tempat">Tempat</label>
+                        <select name="place_id" id="tempat" class="form-control">
+                            @if($places->count() < 1)
+                            <option>Tidak ada Tempat</option>
+                            @else
+                            @foreach($places as $place)
+                            <option value="{{ $place->id }}">{{ $place->name }}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="form-row">
@@ -70,6 +70,7 @@
     </div>
     
     <script>
+        $("#tempat").select2();
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
 

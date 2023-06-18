@@ -17,8 +17,7 @@ class CreatePlacesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
-            $table->time('open');
-            $table->time('close');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

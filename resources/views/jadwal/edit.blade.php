@@ -12,15 +12,17 @@
            <form action="/admin/jadwal/{{ $schedule->id }}" method="POST">
             @csrf
             @method('PUT')
-            {{-- <div class="form-row">
+            <div class="form-row">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="Nama Dokter">Nama Dokter</label>
-                        <input type="text" placeholder="Masukkan Nama Dokter" class="form-control" value="{{ $schedule->employee->user->name }}" name="namadokter" id="namadokter" readonly>
-                        <input type="number" class="form-control" value="{{ auth()->user()->id }}" name="employee_id" hidden>
-                    </div>
+                    <label for="tempat">Tempat</label>
+                    <select name="place_id" id="tempat">
+                        <option value="{{ $schedule->place_id }}">{{ $schedule->place->name }}</option>
+                        @foreach($places as $place)
+                        <option value="{{ $place->id }}">{{ $place->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-            </div> --}}
+            </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
