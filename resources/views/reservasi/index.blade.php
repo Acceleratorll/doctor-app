@@ -27,6 +27,60 @@
                             <span>+ Add Items</span>
                         </button>
                     </div>
+                    <h4 class="m-0">
+                        Sudah Melakukan Pemeriksaan                 
+                    </h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="table">
+                            @if($reservations->count() < 1) Tidak ada Data Pasien @else <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">Reservation Code</th>
+                                    <th scope="col" class="text-center">Nama Pasien</th>
+                                    <th scope="col" class="text-center">Jadwal</th>
+                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col" class="text-center">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @if($reservations->count() < 1)
+                                    <h1>Tidak ada Data</h1>
+                                    @else
+                                    @foreach($reservations as $reservation)
+                                    <tr>
+                                        <td>{{ $reservation->reservation_code }}</td>
+                                        <td>{{ $reservation->patient->user->name }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
+                                            $reservation->schedule->schedule_time }}</td>
+                                            @if($reservation->status == 0)
+                                        <td>Belum Periksa</td>
+                                        @else
+                                        <td>Sudah Periksa</td>
+                                        @endif
+                                        <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <td class="project-actions text-center">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </button>
+                                            <a href="/admin/reservation/{{ $reservation->id }}/edit"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="fa fa-edit"></i>
+                                                Edit
+                                            </a>
+                                        </td>
+                                        </form>
+                                        @endforeach
+                                        @endif
+                                </tbody>
+                                @endif
+                        </table>
+                    </div>
+                    <div><br><br><br></div>
+                    <h4 class="m-0">
+                        Belum Melakukan Pemeriksaan                 
+                    </h4>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="table">
                             @if($reservations->count() < 1) Tidak ada Data Pasien @else <thead>
