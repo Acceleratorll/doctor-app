@@ -26,9 +26,6 @@
                     <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
-                    <a href="{{ route('profile.index') }}" class="nav__item-link">Profile Doctors</a>
-                </li><!-- /.nav-item -->
-                <li class="nav__item">
                     <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
                 </li><!-- /.nav-item -->
                 </ul><!-- /.navbar-nav -->

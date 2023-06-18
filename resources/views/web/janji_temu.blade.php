@@ -214,14 +214,11 @@
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav__item">
-                        <a href="{{ route('dashboard') }}" class="nav__item-link active">Home</a>
+                        <a href="{{ route('dashboard') }}" class="nav__item-link">Home</a>
                     </li>
                     <!-- /.nav-item -->
                     <li class="nav__item">
                         <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
-                    </li><!-- /.nav-item -->
-                    <li class="nav__item">
-                        <a href="{{ route('profile.index') }}" class="nav__item-link">Profile Doctors</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
                         <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
