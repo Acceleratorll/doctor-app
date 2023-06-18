@@ -191,12 +191,12 @@
                     <i class="icon-heart2"></i>
                 </div><!-- /.contact__icon -->
                 <div class="contact__content">
-                    <h2 class="contact__title">Jam Buka</h2>
+                    <h2 class="contact__title">Jadwal Buka</h2>
                     <ul class="time__list list-unstyled mb-0">
-                    <li><span>Poli Cisalak</span></li>
-                    <li><span>Senin-Jumat</span><span>9.00 - 13:00</span></li>
-                    <li><span>Poli Umum</span></li>
-                    <li><span>Senin-Sabtu</span><span>13.00 - 18:00 pm</span></li>
+                    <li><span>RSUD Cisalak</span></li>
+                    <li><span style="margin-right: 20px">Senin-Jumat</span><span>8.00-11.00</span></li>
+                    <li><span>Klinik Umum</span></li>
+                    <li><span style="margin-right: 20px">Senin-Sabtu</span><span>13.00-16.00</span></li>
                     </ul>
                 </div><!-- /.contact__content -->
                 </div><!-- /.contact-box -->

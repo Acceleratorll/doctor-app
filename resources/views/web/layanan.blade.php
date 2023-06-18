@@ -103,9 +103,11 @@
                 <div class="col-sm-12 col-md-4">
                     <div class="contact-box d-flex">
                     <div class="contact__content">
-                        <h6 class="heading__title">RSUD Cisalak</h6>
-                        <h1 class="contact__title">Senin - Jumat</h1>
-                        <h1 class="contact__title">08.00 - 13.00</h1>
+                        <h6 class="heading__title">Jadwal RSUD Cisalak</h6>
+                        <a href="list_RSUD" class="btn btn__white btn__rounded mr-30">
+                            <span>Telusuri Jadwal</span>
+                            <i class="icon-arrow-right"></i>
+                        </a>
                     </div><!-- /.contact__content -->
                     </div><!-- /.contact-box -->
                 </div><!-- /.col-md-4 -->
@@ -127,9 +129,11 @@
                 <div class="col-sm-12 col-md-4">
                     <div class="contact-box d-flex">
                     <div class="contact__content">
-                        <h6 class="heading__title">Poli Umum</h6>
-                        <h1 class="contact__title">Senin - Sabtu</h1>
-                        <h1 class="contact__title">13.00 - 18.00</h1>
+                        <h6 class="heading__title">Jadwal Klinik Umum</h6>
+                        <a href="list_Klinik" class="btn btn__white btn__rounded mr-30">
+                            <span>Telusuri Jadwal</span>
+                            <i class="icon-arrow-right"></i>
+                        </a>
                     </div><!-- /.contact__content -->
                     </div><!-- /.contact-box -->
                 </div><!-- /.col-md-4 -->
