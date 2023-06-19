@@ -194,7 +194,6 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::where('schedule_id', $id)->first();
         $antrian = $reservation ? $reservation->nomor_urut + 1 : 1;
-        dd($antrian);
         return response()->json(['queue_number' => $antrian]);
     }
 }

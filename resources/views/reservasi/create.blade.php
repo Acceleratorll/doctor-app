@@ -77,20 +77,20 @@
     $("#namapasien").select2();
     $("#schedule").select2();
 
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('schedule').addEventListener('change', function () {
-            var selectedScheduleId = this.value;
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     document.getElementById('schedule').addEventListener('change', function () {
+    //         var selectedScheduleId = this.value;
 
-            axios.get('/antrian/' + selectedScheduleId)
-                .then(function (response) {
-                    var queueNumber = response.data.queue_number;
-                    document.getElementById('queue_number').value = queueNumber;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        });
-    });
+    //         axios.get('/antrian/' + selectedScheduleId)
+    //             .then(function (response) {
+    //                 var queueNumber = response.data.queue_number;
+    //                 document.getElementById('queue_number').value = queueNumber;
+    //             })
+    //             .catch(function (error) {
+    //                 console.log(error);
+    //             });
+    //     });
+    // });
 
     var dd = document.getElementById('schedule');
     if(dd){

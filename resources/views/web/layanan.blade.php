@@ -120,7 +120,7 @@
                         <h2 class="contact__title">Kasus Darurat</h2>
                         <p class="contact__desc">Jangan ragu untuk menghubungi staf resepsi kami yang ramah dengan pertanyaan umum atau
                         medis.</p>
-                        <a href="tel:+62812168168" class="phone__number">
+                        <a href="https://wa.me/62812168168" class="phone__number">
                         <i class="icon-phone"></i> <span>+62812168168</span>
                         </a>
                     </div><!-- /.contact__content -->

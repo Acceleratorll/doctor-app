@@ -62,7 +62,7 @@
                     <ul class="contact-list list-unstyled">
                     <li>Jika Anda memiliki pertanyaan atau butuh bantuan, jangan ragu untuk menghubungi tim kami.</li>
                     <li>
-                        <a href="tel:+62812168168" class="phone__number">
+                        <a href="https://wa.me/62812168168" class="phone__number">
                         <i class="icon-phone"></i> <span>+62 812 168 168</span>
                         </a>
                     </li>

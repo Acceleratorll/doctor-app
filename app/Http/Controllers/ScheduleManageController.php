@@ -16,8 +16,18 @@ class ScheduleManageController extends Controller
     public function index()
     {
         $today = Carbon::today()->toDateString();
-        $schedules = Schedule::with('place')->where('schedule_date', '>=', $today)->get();
-        return view('jadwal.index', compact(['schedules']));
+        $places = Place::all();
+
+        $schedules = [];
+
+        foreach ($places as $place) {
+            $schedules[$place->id] = Schedule::with('place')
+                ->where('place_id', $place->id)
+                ->where('schedule_date', '>=', $today)
+                ->get();
+        }
+
+        return view('jadwal.index', compact(['schedules', 'places']));
     }
 
     public function create()
