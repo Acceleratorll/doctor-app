@@ -24,7 +24,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        //
+        return view('web.janji_temu');
     }
 
     /**
