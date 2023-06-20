@@ -43,8 +43,8 @@
                             </button>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="table">
-                                
+                            {{-- <input type="text" value="table{{ $placeId }}" id="table{{ $placeId }}" hidden> --}}
+                            <table class="table table-bordered" id="table{{ $placeId }}">
                                 <thead>
                                     <tr>
                                         {{-- <th scope="col" class="text-center">ID Dokter</th>
@@ -106,9 +106,19 @@
             }
         });
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        let table1 = new DataTable('#table1');
+        let table2 = new DataTable('#table2');
+    });
+
     $(document).ready( function () {
-        $('#table').DataTable();
-    } );
+        $('#table1').DataTable();
+        $('#table2').DataTable();
+        $('#table3').DataTable();
+        $('#table4').DataTable();
+    });
+    
     $(document).ready(
         function(){
             $('#sidebarcollapse').on('click',function(){

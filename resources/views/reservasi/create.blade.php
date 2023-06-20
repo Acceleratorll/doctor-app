@@ -36,12 +36,12 @@
                     </div>
                     <div class="form-group">
                         <label for="schedule">Jadwal</label>
-                        <select name="schedule_id" id="schedule" class="form-control">
+                        <select name="schedule_id" id="jadwal" class="form-control">
                             @if($schedules->count() < 1)
                             <option value="">Tidak Ada Jadwal</option>
                             @else
-                            @foreach($schedules as $schedule)
                             <option value="" selected>--- Pilih Jadwal ---</option>
+                            @foreach($schedules as $schedule)
                             <option value="{{ $schedule->id }}">{{\Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
                             $schedule->schedule_time}}</option>
                             @endforeach
@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-group">
                         <label for="queue_number">Nomor Antrian</label>
-                        <input type="text" id="queue_number" class="form-control" readonly>
+                        <input type="text" name="nomor_urut" id="queue_number" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
@@ -77,40 +77,33 @@
     $("#namapasien").select2();
     $("#schedule").select2();
 
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     document.getElementById('schedule').addEventListener('change', function () {
-    //         var selectedScheduleId = this.value;
+// $(document).ready(function() {
+//         $('#jadwal').on('change', function() {
+//             console.log($(this).val());
+//     });
+// });
 
-    //         axios.get('/antrian/' + selectedScheduleId)
-    //             .then(function (response) {
-    //                 var queueNumber = response.data.queue_number;
-    //                 document.getElementById('queue_number').value = queueNumber;
-    //             })
-    //             .catch(function (error) {
-    //                 console.log(error);
-    //             });
-    //     });
-    // });
-
-    var dd = document.getElementById('schedule');
-    if(dd){
-
-        dd.addEventListener('change', function () {
-            var selectedScheduleId = this.value;
+$(document).ready(function() {
+        $('#jadwal').on('change', function() {
+            var selectedScheduleId = $(this).val();
+            if(selectedScheduleId){
             $.ajax({
-                type:'get',
-                url: base_url + "/antrian/" + selectedScheduleId,
+                type:'GET',
+                data : {"_token":"{{ csrf_token() }}"},
+                url: '/antrian/' + selectedScheduleId,
+                dataType: "json",
             success:function(data) {
                 console.log("success");
-                document.getElementById('queue_number').value = data.queue_number;
+                document.getElementById('queue_number').value = data;
             },
             error: function(data){
                 console.log("error");
                 console.log(data);
             }
         });
+    }
     });
-}
+});
     
 
     const employee = document.getElementById('employee');

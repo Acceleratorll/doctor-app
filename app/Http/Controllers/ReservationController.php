@@ -190,10 +190,13 @@ class ReservationController extends Controller
         ], 200);
     }
 
-    public function getAntrian($id)
+    public function getAntrian(Request $request)
     {
-        $reservation = Reservation::where('schedule_id', $id)->first();
-        $antrian = $reservation ? $reservation->nomor_urut + 1 : 1;
-        return response()->json(['queue_number' => $antrian]);
+        $reservation = Reservation::where('schedule_id', $request->id)->orderBy('nomor_urut','desc')->first();
+        $antrian = 1;
+        if ($reservation != null) {
+            $antrian = $reservation->nomor_urut + 1;
+        }
+        return response()->json($antrian);
     }
 }

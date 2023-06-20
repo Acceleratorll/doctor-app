@@ -82,7 +82,7 @@
                         Belum Melakukan Pemeriksaan                 
                     </h4>
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="table">
+                        <table class="table table-bordered" id="myTable">
                             @if($reservations->count() < 1) Tidak ada Data Pasien @else <thead>
                                 <tr>
                                     <th scope="col" class="text-center">Reservation Code</th>
@@ -140,6 +140,10 @@
 <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script>
     var dropdown = document.getElementsByClassName("dropdown-btn");
+    $(document).ready( function () {
+        $('#table').DataTable();
+        $('#myTable').DataTable();
+    } );
         var i;
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
@@ -152,9 +156,6 @@
             }
         });
         }
-    $(document).ready( function () {
-        $('#table').DataTable();
-    } );
     $(document).ready(
         function(){
             $('#sidebarcollapse').on('click',function(){
