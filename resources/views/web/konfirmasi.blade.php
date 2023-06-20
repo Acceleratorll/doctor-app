@@ -273,12 +273,12 @@
         {{-- sebelah sidebar --}}
         <div class="col-md-2">
             <div class="px-5 py-5">
-                <ul class="package__list list-items list-items-layout2 list-unstyled">
+                <ul class=" list-items list-items-layout3 list-unstyled">
                     <li>
                         <h6>Alur Jadwal</h6>
                     </li>
                 </ul>
-                <ul class=" list-items list-items-layout3 list-unstyled">
+                <ul class=" package__list list-items list-items-layout2 list-unstyled">
                     {{-- <li>
                         <h6>Pilih Lokasi</h6>
                     </li>
@@ -292,165 +292,63 @@
             </div>
         </div>
         <div class="col-md-6 px-5 py-5">
-            <h5>
-                Pilih tanggal dan waktu kunjungan
-            </h5>
-            <div id="mycard" class="dates" >
-                <div class="row">
-                    <div class="col-md-3">
-                        <a href="#">
-                            <div class="card date">
-                                <div class="card-body active-card1">
-                                    <small class="card-title">Hari Ini</small><br>
-                                    <small class="card-subtitle text-muted">{{date('m-d');}}</small>
-                                    </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="#">
-                            <div class="card date">
-                                <div class="card-body">
-                                    <small class="card-title">Besok</small><br>
-                                    <small class="card-subtitle text-muted">{{date('m').'-'.date('d')+1;}}</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="#">
-                            <div class="card date">
-                                <div class="card-body">
-                                    <small class="card-title">{{date('l', strtotime(date('Y-m').'-'.date('d')+3));}}</small><br>
-                                    <small class="card-subtitle text-muted">{{date('m').'-'.date('d')+2;}}</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="#">
-                            <div class="card date">
-                                <div class="card-body">
-                                    <small class="card-title">{{date('l', strtotime(date('m').'-'.date('d')+4));}}</small><br>
-                                    <small class="card-subtitle text-muted">{{date('m').'-'.date('m')+3;}}</small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        
-            {{-- Waktu --}}
-            <div class="row">
-                <div class="py-5 mt-5">
-                    <h5>Pilih Waktu</h5>
-                    <div class="" id="accordion">
-                        <div class="accordion-item">
-                            <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
-                                <a class="accordion__title" href="#">Waktu</a>
-                            </div><!-- /.accordion-item-header -->
-                            <div id="collapse1" class="collapse show" data-parent="#accordion">
-                                <div class="accordion__body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card active-card">
-                                                    <div class="card-body">
-                                                        <p class="card-title">08.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card ">
-                                                    <div class="card-body">
-                                                        <p class="card-title">09.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card ">
-                                                    <div class="card-body">
-                                                        <p class="card-title">10.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card ">
-                                                    <div class="card-body">
-                                                        <p class="card-title">09.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion__body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card ">
-                                                    <div class="card-body">
-                                                        <p class="card-title">09.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card ">
-                                                    <div class="card-body">
-                                                        <p class="card-title">09.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card ">
-                                                    <div class="card-body">
-                                                        <p class="card-title">09.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a href="#">
-                                                <div class="card ">
-                                                    <div class="card-body">
-                                                        <p class="card-title">09.00</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /.accordion-item-body -->
-                            </div>
-                        </div><!-- /.accordion-item -->
-                    </div><!-- /.col-lg-8 -->
-                    <a href="#" class="btn btn-primary mt-3 text-end">
-                        <span>Lanjutkan</span><i class="icon-arrow-right"></i>
-                    </a>
-                </div><!-- /.row -->
-            </div><!-- /.container -->
-
-            <div class="row">
-                <div class="py-5 mt-5">
-                    <h5>Janji Temu Saya</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2 px-5 py-5">
-            <h5>Pilih Tanggal</h5>
-            <div class="form-group form-group-date">
-                <i class="icon-calendar form-group-icon"></i>
-                <input type="date" class="form-control" id="contact-date" name="contact-date" required>
+            <h3>Konfirmasi Data</h3>
+            <h6>Harap untuk Periksa dan Verifikasi Informasi berikut : </h6>
+            <table style="width:70%; color:black; font-family: Quicksand, sans-serif;">
+                <tr>
+                    <td>Nama</td>
+                    <td>: Anna</td>
+                </tr>
+                <tr>
+                    <td>Tanggal Lahir</td>
+                    <td>: 16 Maret 2000</td>
+                </tr>
+                <tr>
+                    <td>Nomor Hp</td>
+                    <td>: 0811111111111</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>: anna@gmail</td>
+                </tr>
+                <tr>
+                    <td>Jenis Kelamin</td>
+                    <td>: Perempuan</td>
+                </tr>
+                <tr>
+                    <td>Tipe Kartu Identitas</td>
+                    <td>: KTP</td>
+                </tr>
+                <tr>
+                    <td>Nomor Kartu Identitas</td>
+                    <td>: 36756484684270002</td>
+                </tr>
+                <tr>
+                    <td>Kartu Identitas</td>
+                    <td>: KTP.jpg</td>
+                </tr>
+                <tr>
+                    <td>Nama Dokter</td>
+                    <td>: Dr. Alexander Bell</td>
+                </tr>
+                <tr>
+                    <td>Tanggal</td>
+                    <td>: 30 Juni 2023</td>
+                </tr>
+                <tr>
+                    <td>Penjamin</td>
+                    <td>: Pribadi</td>
+                </tr>
+            </table>
+            <br>
+            <input type="checkbox" id="konfirmasi" style="margin-right:12px"><label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
+            <div>
+                <a href="#" class="btn mt-3 text-end">
+                    <i class="icon-arrow-left"></i><span>Kembali</span>
+                </a>
+                <a href="#" class="btn btn-primary mt-3 text-end">
+                    <span>Konfirmasi</span>
+                </a>
             </div>
         </div>
     </div>
