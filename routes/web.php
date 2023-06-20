@@ -5,6 +5,7 @@ use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\Pasien\ContactController;
 use App\Http\Controllers\Pasien\JadwalController;
 use App\Http\Controllers\Pasien\ProfileController;
+use App\Http\Controllers\Pasien\ReservationController as PasienReservationController;
 use App\Http\Controllers\PatientManageController;
 use App\Http\Controllers\PlaceManageController;
 use App\Http\Controllers\ReservationController;
@@ -48,8 +49,10 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/jadwal' => JadwalController::class,
         '/contact' => ContactController::class,
         '/profile' => ProfileController::class,
-        // '/reservasi' => ReservationController::class,
+        '/reservasi' => PasienReservationController::class,
     ]);
+    Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
+    Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
 });
 
 Route::fallback(function () {

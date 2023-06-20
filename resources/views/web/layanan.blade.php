@@ -104,7 +104,7 @@
                     <div class="contact-box d-flex">
                     <div class="contact__content">
                         <h6 class="heading__title">Jadwal RSUD Cisalak</h6>
-                        <a href="list_RSUD" class="btn btn__white btn__rounded mr-30">
+                        <a href="/jadwal-rs" class="btn btn__white btn__rounded mr-30">
                             <span>Telusuri Jadwal</span>
                             <i class="icon-arrow-right"></i>
                         </a>
@@ -130,7 +130,7 @@
                     <div class="contact-box d-flex">
                     <div class="contact__content">
                         <h6 class="heading__title">Jadwal Klinik Umum</h6>
-                        <a href="list_Klinik" class="btn btn__white btn__rounded mr-30">
+                        <a href="/jadwal-Klinik" class="btn btn__white btn__rounded mr-30">
                             <span>Telusuri Jadwal</span>
                             <i class="icon-arrow-right"></i>
                         </a>

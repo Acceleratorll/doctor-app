@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
-use App\Models\Schedule;
 use Illuminate\Http\Request;
 
-class JadwalController extends Controller
+class ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,19 +14,7 @@ class JadwalController extends Controller
      */
     public function index()
     {
-        return view('web.layanan');
-    }
-
-    public function indexRs()
-    {
-        $schedules = Schedule::where('place_id', 1)->get();
-        return view('web.list_rsud', compact('schedules'));
-    }
-
-    public function indexKlinik()
-    {
-        $schedules = Schedule::where('place_id', 1)->get();
-        return view('web.list_klinik', compact('schedules'));
+        //
     }
 
     /**
@@ -37,7 +24,7 @@ class JadwalController extends Controller
      */
     public function create()
     {
-        return view('web.layanan');
+        //
     }
 
     /**
