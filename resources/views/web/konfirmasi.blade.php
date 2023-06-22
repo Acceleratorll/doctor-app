@@ -296,60 +296,61 @@
             <h6>Harap untuk Periksa dan Verifikasi Informasi berikut : </h6>
             <table style="width:70%; color:black; font-family: Quicksand, sans-serif;">
                 <tr>
+                    <td>Reservasi Code</td>
+                    <td>: {{ $code }}</td>
+                </tr>
+                <tr>
+                    <td>Nomor Antrian</td>
+                    <td>: {{ $antrian }}</td>
+                </tr>
+                <tr>
                     <td>Nama</td>
-                    <td>: Anna</td>
+                    <td>: {{ auth()->user()->name }}</td>
                 </tr>
                 <tr>
                     <td>Tanggal Lahir</td>
-                    <td>: 16 Maret 2000</td>
+                    <td>: {{ auth()->user()->birth_date }}</td>
                 </tr>
                 <tr>
                     <td>Nomor Hp</td>
-                    <td>: 0811111111111</td>
+                    <td>: {{ auth()->user()->phone }}</td>
                 </tr>
                 <tr>
                     <td>Email</td>
-                    <td>: anna@gmail</td>
+                    <td>: {{ auth()->user()->email }}</td>
                 </tr>
                 <tr>
                     <td>Jenis Kelamin</td>
-                    <td>: Perempuan</td>
-                </tr>
-                <tr>
-                    <td>Tipe Kartu Identitas</td>
-                    <td>: KTP</td>
-                </tr>
-                <tr>
-                    <td>Nomor Kartu Identitas</td>
-                    <td>: 36756484684270002</td>
-                </tr>
-                <tr>
-                    <td>Kartu Identitas</td>
-                    <td>: KTP.jpg</td>
+                    <td>: {{ auth()->user()->gender }}</td>
                 </tr>
                 <tr>
                     <td>Nama Dokter</td>
-                    <td>: Dr. Alexander Bell</td>
+                    <td>: {{ $doctor['name'] }}</td>
                 </tr>
                 <tr>
-                    <td>Tanggal</td>
-                    <td>: 30 Juni 2023</td>
+                    <td>Tanggal Periksa</td>
+                    <td>: {{ $request['schedule_date'] }}</td>
                 </tr>
                 <tr>
-                    <td>Penjamin</td>
-                    <td>: Pribadi</td>
+                    <td>Jam Periksa</td>
+                    <td>: {{ $request['schedule_time'] }}</td>
                 </tr>
             </table>
+            <form action="{{ route('reservasi.store') }}" method="post">
+                @csrf
+            <input type="number" value="{{ $antrian }}" name="nomor_urut" hidden>
+            <input type="number" value="{{ $code }}" name="reservation_code" hidden>
+            <input type="date" value="{{ $request['schedule_date'] }}" name="schedule_date" hidden>
+            <input type="time" value="{{ $request['schedule_time'] }}" name="schedule_time" hidden>
             <br>
-            <input type="checkbox" id="konfirmasi" style="margin-right:12px"><label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
+            <input type="checkbox" id="konfirmasi" style="margin-right:12px" required><label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
             <div>
-                <a href="#" class="btn mt-3 text-end">
+                <a href="javascript:history.back()" class="btn mt-3 text-end">
                     <i class="icon-arrow-left"></i><span>Kembali</span>
                 </a>
-                <a href="#" class="btn btn-primary mt-3 text-end">
-                    <span>Konfirmasi</span>
-                </a>
+                <button type="submit" class="btn btn-primary mt-3 text-end">Konfirmasi</button>
             </div>
+        </form>
         </div>
     </div>
 </div>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reservation;
 use App\Models\Schedule;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +44,7 @@ class ReservationController extends Controller
             $html .= '<div class="row" id="schedule_time">
             <div class="col-md-3">
                                             <a href="#">
-                                                <input class="form-check-input" type="radio" name="schedule_times" id="schedule_time{{ $schedule->id }}" value="' . $time['schedule_time'] . '">
+                                                <input class="form-check-input" type="radio" name="schedule_time" id="schedule_time{{ $schedule->id }}" value="' . $time['schedule_time'] . '">
                                                 <label for="">
                                                     <div class="card active-card">
                                                         <div class="card-body">
@@ -59,13 +61,26 @@ class ReservationController extends Controller
 
     public function confirm(Request $request)
     {
-        dd($request);
-        return view('');
+        $reservation = Reservation::where('schedule_id', $request->id)->orderBy('nomor_urut', 'desc')->first();
+        $code = hexdec(substr(uniqid(), 6, 6));
+        $antrian = 1;
+        if ($reservation != null) {
+            $antrian = $reservation->nomor_urut + 1;
+        }
+        $doctor = User::where('role_id', 1)->first();
+        return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code']));
     }
 
     public function store(Request $request)
     {
-        
+        $schedule = Schedule::whereDate('schedule_date', $request['schedule_date'])->where('schedule_time', $request['schedule_time'])->first();
+        Reservation::create([
+            'patient_id' => auth()->user()->patient->id,
+            'schedule_id' => $schedule->id,
+            'reservation_code' => $request['reservation_code'],
+            'nomor_urut' => $request['nomor_urut'],
+        ]);
+        return redirect()->route('jadwal.index');
     }
 
     public function show($id)

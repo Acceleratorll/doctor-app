@@ -53,9 +53,9 @@ class User extends Authenticatable
         return $this->role === $role;
     }
 
-    public function patients()
+    public function patient()
     {
-        return $this->hasMany(Patient::class);
+        return $this->hasOne(Patient::class);
     }
 
     public function employees()
