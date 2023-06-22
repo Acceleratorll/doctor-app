@@ -15,7 +15,7 @@ class ScheduleManageController extends Controller
 {
     public function index()
     {
-        $today = Carbon::today()->toDateString();
+        $today = Carbon::today()->timezone('Asia/Jakarta')->toDateString();
         $places = Place::all();
 
         $schedules = [];

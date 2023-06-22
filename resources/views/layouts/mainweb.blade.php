@@ -9,6 +9,7 @@
     <link href="{{ asset('assets/images/favicon/favicon.png') }}" rel="icon">
     <title>Dr. Alexander Bell</title>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
@@ -88,6 +89,6 @@
     <script src=" {{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <script src=" {{ asset('assets/js/plugins.js') }}"></script>
     <script src=" {{ asset('assets/js/main.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </body>
-
 </html>

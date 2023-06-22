@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
+use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -24,60 +27,62 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        return view('web.janji_temu');
+        $today = Carbon::today()->toDateString();
+        $schedules = Schedule::where('schedule_date', '>=', $today)->orderBy('schedule_date', 'asc')->select(DB::raw('distinct(schedule_date)'))->get();
+        return view('web.janji_temu', compact('schedules'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function getTime(Request $request)
+    {
+        $times = Schedule::whereDate('schedule_date', $request['date'])->get();
+
+        $html = '<div class="row" id="schedule_time"></div>';
+
+        foreach ($times as $time) {
+            $html .= '<div class="row" id="schedule_time">
+            <div class="col-md-3">
+                                            <a href="#">
+                                                <input class="form-check-input" type="radio" name="schedule_times" id="schedule_time{{ $schedule->id }}" value="' . $time['schedule_time'] . '">
+                                                <label for="">
+                                                    <div class="card active-card">
+                                                        <div class="card-body">
+                                                            <p class="card-title">' . $time['schedule_time'] . '</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </a>
+                                        </div>
+                                        </div>';
+        }
+        return response()->json($html);
+    }
+
+    public function confirm(Request $request)
+    {
+        dd($request);
+        return view('');
+    }
+
     public function store(Request $request)
     {
-        //
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

@@ -51,6 +51,8 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/profile' => ProfileController::class,
         '/reservasi' => PasienReservationController::class,
     ]);
+    Route::get('/confirm', [PasienReservationController::class, 'confirm']);
+    Route::get('/getTime/{date}', [PasienReservationController::class, 'getTime']);
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
     Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
 });
