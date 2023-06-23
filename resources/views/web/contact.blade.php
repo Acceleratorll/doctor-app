@@ -102,16 +102,16 @@
                     <div>
                     <ul class="contact__list list-unstyled mb-30">
                         <li>
-                        <i class="icon-phone"></i><a href="tel:+5565454117">Emergency Tlpn: (+62) 812168168</a>
+                        <i class="icon-phone"></i><a href="tel:+5565454117">Emergency Tlpn: {{ $doctor->phone }}</a>
                         </li>
                         <li>
-                        <i class="icon-location"></i><a href="#">Location: JL. Surabaya Nomor 34 Kota Surabaya, Jawa Timur, Indonesia</a>
+                        <i class="icon-location"></i><a href="#">Location: {{ $doctor->address }}</a>
                         </li>
                         <li>
                         <i class="icon-clock"></i><a href="#">Senin - Sabtu: 8:00 - 18:00</a>
                         </li>
                     </ul>
-                    <a href="{{ route('contact.index') }}" class="btn btn__white btn__rounded btn__outlined">Contact Us</a>
+                    <a href="https://wa.me/.{{ $doctor->phone }}" class="btn btn__white btn__rounded btn__outlined">Contact Us</a>
                     </div>
                 </div>
                 </div>

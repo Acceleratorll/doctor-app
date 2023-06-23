@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
+@php
+use App\Models\User;
+$doctor = User::with('employee')->where('role_id', 1)->first();
+@endphp
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="description" content="doctor-web">
     <link href="{{ asset('assets/images/favicon/favicon.png') }}" rel="icon">
-    <title>Dr. Alexander Bell</title>
+    <title>{{ $doctor->name }}</title>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet"
@@ -45,7 +48,7 @@
                 <div class="footer-widget-nav">
                     <h6 class="footer-widget__title">Kantor Pusat</h6>
                     <nav>
-                    <p class="color-gray" style="text-align: justify;">JL. Surabaya Nomor 34 Kota Surabaya, Jawa Timur Indonesia</p>
+                    <p class="color-gray" style="text-align: justify;">{{ $doctor->address }}</p>
                     </nav>
                 </div><!-- /.footer-widget__content -->
                 </div><!-- /.col-lg-2 -->
@@ -63,8 +66,8 @@
                     <ul class="contact-list list-unstyled">
                     <li>Jika Anda memiliki pertanyaan atau butuh bantuan, jangan ragu untuk menghubungi tim kami.</li>
                     <li>
-                        <a href="https://wa.me/62812168168" class="phone__number">
-                        <i class="icon-phone"></i> <span>+62 812 168 168</span>
+                        <a href="https://wa.me/.{{ $doctor->phone }}" class="phone__number">
+                        <i class="icon-phone"></i> <span>{{ $doctor->phone }}</span>
                         </a>
                     </li>
                     </ul>

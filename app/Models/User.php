@@ -58,8 +58,8 @@ class User extends Authenticatable
         return $this->hasOne(Patient::class);
     }
 
-    public function employees()
+    public function employee()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasOne(Employee::class);
     }
 }

@@ -68,7 +68,7 @@
                 <div class="row align-items-center">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8 offset-xl-2">
                     <div class="slide__content">
-                    <h2 class="slide__title" style="color: #213360;">Dr. Alexander Bell</h2>
+                    <h2 class="slide__title" style="color: #213360;">{{ $doctor->name }}</h2>
                     <p class="slide__desc" style="color: #213360;">"Kesehatan Utama, Layanan Terbaik"</p>
                     <div class="d-flex flex-wrap justify-content-center align-items-center">
                         <a href="/reservasi/create" class="btn btn__white btn__rounded mr-30">
@@ -123,8 +123,8 @@
                         <h2 class="contact__title">Kasus Darurat</h2>
                         <p class="contact__desc">Jangan ragu untuk menghubungi staf resepsi kami yang ramah dengan pertanyaan umum atau
                         medis.</p>
-                        <a href="https://wa.me/62812168168" class="phone__number">
-                        <i class="icon-phone"></i> <span>+62812168168</span>
+                        <a href="https://wa.me/{{ $doctor->phone }}" class="phone__number">
+                        <i class="icon-phone"></i> <span>{{ $doctor->phone }}</span>
                         </a>
                     </div><!-- /.contact__content -->
                     </div><!-- /.contact-box -->
@@ -133,7 +133,7 @@
                     <div class="contact-box d-flex">
                     <div class="contact__content">
                         <h6 class="heading__title">Jadwal Klinik Umum</h6>
-                        <a href="/jadwal-Klinik" class="btn btn__white btn__rounded mr-30">
+                        <a href="/jadwal-klinik" class="btn btn__white btn__rounded mr-30">
                             <span>Telusuri Jadwal</span>
                             <i class="icon-arrow-right"></i>
                         </a>
@@ -185,9 +185,15 @@
                 <div class="col-sm-12 col-md-12 col-lg-7">
                 <div class="slider-with-navs">
                     <!-- Testimonial #1 -->
+                    @php
+                    $name = $doctor->name;
+                    $words = explode(' ', $name);
+                    $firstWord = $words[0];
+                    $secondWord = $words[1];
+                    @endphp
                     <div class="testimonial-item">
                     <h3 class="heading__title">Layanan BPJS</h3>
-                    <h6 class="contact__desc" style="text-align: justify;">Klinik Pratama DR ALEX memberikan pelayanan kesehatan bagi peserta BPJS. Pelayanan kesehatan tersebut meliputi pelayanan
+                    <h6 class="contact__desc" style="text-align: justify;">Klinik Pratama {{ $firstWord .' '. $secondWord }} memberikan pelayanan kesehatan bagi peserta BPJS. Pelayanan kesehatan tersebut meliputi pelayanan
                     dokter umum dan laboratorium sederhana. Keunggulan pelayanan BPJS di klinik kami adalah:
                     </h6>
                     <h6 class="contact__desc">1. Jam pelayanan panjang. <br>

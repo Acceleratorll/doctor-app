@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -14,7 +15,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view('web.contact');
+        $doctor = User::with('employee')->where('role_id', 1)->first();
+        return view('web.contact', compact('doctor'));
     }
 
     /**

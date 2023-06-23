@@ -6,6 +6,12 @@
         Header
     =========================== -->
     <header class="header header-layout1">
+        @php
+        $name = $doctor->name;
+        $words = explode(' ', $name);
+        $firstWord = $words[0];
+        $secondWord = $words[1];
+        @endphp
     <!-- /.header-top -->
         <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
@@ -167,8 +173,8 @@
                 <div class="contact__content">
                     <h2 class="contact__title">Kasus Darurat</h2>
                     <p class="contact__desc">Jangan ragu untuk menghubungi staf resepsi kami yang ramah dengan pertanyaan umum atau medis.</p>
-                    <a href="https://wa.me/62812168168" class="phone__number">
-                    <i class="icon-phone"></i> <span>+62 812 168 168</span>
+                    <a href="https://wa.me/.{{ $doctor->phone }}" class="phone__number">
+                    <i class="icon-phone"></i> <span>{{ $doctor->phone }}</span>
                     </a>
                 </div><!-- /.contact__content -->
                 </div><!-- /.contact-box -->
@@ -196,9 +202,14 @@
                 <div class="contact__content">
                     <h2 class="contact__title">Jadwal Buka</h2>
                     <ul class="time__list list-unstyled mb-0">
-                    <li><span>RSUD Cisalak</span></li>
+                        @php
+                        use App\Models\Place;
+                        $rs = Place::findOrFail(1);
+                        $klinik = Place::findOrFail(2);
+                        @endphp
+                    <li><span>{{ $rs->name }}</span></li>
                     <li><span style="margin-right: 20px">Senin-Jumat</span><span>8.00-11.00</span></li>
-                    <li><span>Klinik Umum</span></li>
+                    <li><span>{{ $klinik->name }}</span></li>
                     <li><span style="margin-right: 20px">Senin-Sabtu</span><span>13.00-16.00</span></li>
                     </ul>
                 </div><!-- /.contact__content -->
@@ -230,7 +241,7 @@
                     </div><!-- /.product-action -->
                 </div><!-- /.product-img -->
                 <div class="product__info">
-                    <h4 class="product__title"><a href="{{ url('/tescovid') }}">Paket Tes Covid 19</a></h4>
+                    <h4 class="product__title"><a href="{{ route('test-covid') }}">Paket Tes Covid 19</a></h4>
                 </div><!-- /.product-content -->
                 </div><!-- /.product-item -->
             </div><!-- /.col-lg-3 -->
@@ -243,7 +254,7 @@
                     </div><!-- /.product-action -->
                 </div><!-- /.product-img -->
                 <div class="product__info">
-                    <h4 class="product__title"><a href="{{ route('jadwal.index') }}">Dr. Alex At Home</a></h4>
+                    <h4 class="product__title"><a href="/jadwal-klinik">{{ $firstWord.' '.$secondWord }} At Home</a></h4>
                 </div><!-- /.product-content -->
                 </div><!-- /.product-item -->
             </div><!-- /.col-lg-3 -->
@@ -256,7 +267,7 @@
                     </div><!-- /.product-action -->
                 </div><!-- /.product-img -->
                 <div class="product__info">
-                    <h4 class="product__title"><a href="{{ url('/konsultasi') }}">Konsultasi Online</a></h4>
+                    <h4 class="product__title"><a href="{{ route('konsultasi') }}">Konsultasi Online</a></h4>
                 </div><!-- /.product-content -->
                 </div><!-- /.product-item -->
             </div><!-- /.col-lg-3 -->

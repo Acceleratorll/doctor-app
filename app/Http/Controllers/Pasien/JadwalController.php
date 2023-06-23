@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
+use App\Models\Place;
 use App\Models\Schedule;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JadwalController extends Controller
 {
@@ -15,19 +19,38 @@ class JadwalController extends Controller
      */
     public function index()
     {
-        return view('web.layanan');
+        $doctor = User::with('employee')->where('role_id', 1)->first();
+        return view('web.layanan', compact('doctor'));
     }
 
     public function indexRs()
     {
-        $schedules = Schedule::where('place_id', 1)->get();
-        return view('web.list_rsud', compact('schedules'));
+        $today = Carbon::today()->toDateString();
+        $place = Place::findOrFail(1);
+        $schedules = Schedule::where('place_id', 1)
+            ->where('schedule_date', '>=', $today)
+            ->orderBy('schedule_date', 'asc')
+            ->orderBy('schedule_time', 'asc')
+            ->get();
+
+        // Group the schedules by date
+        $schedules = $schedules->groupBy('schedule_date');
+        return view('web.list_rsud', compact(['schedules', 'place']));
     }
 
     public function indexKlinik()
     {
-        $schedules = Schedule::where('place_id', 1)->get();
-        return view('web.list_klinik', compact('schedules'));
+        $place = Place::findOrFail(2);
+        $today = Carbon::today()->toDateString();
+        $schedules = Schedule::where('place_id', 2)
+            ->where('schedule_date', '>=', $today)
+            ->orderBy('schedule_date', 'asc')
+            ->orderBy('schedule_time', 'asc')
+            ->get();
+
+        // Group the schedules by date
+        $schedules = $schedules->groupBy('schedule_date');
+        return view('web.list_klinik', compact(['schedules', 'place']));
     }
 
     /**

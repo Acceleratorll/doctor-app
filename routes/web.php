@@ -10,6 +10,7 @@ use App\Http\Controllers\PatientManageController;
 use App\Http\Controllers\PlaceManageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,12 +25,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/dashboard', function () {
-    return view('web.home');
+    $doctor = User::with('employee')->where('role_id', 1)->first();
+    return view('web.home', compact('doctor'));
 })->name('dashboard');
 
-Route::get('/reservasi/create', function () {
-    return view('web.janji_temu');
-})->name('janji_temu');
+Route::get('/test-covid', function () {
+    return view('web.tescovid');
+})->name('test-covid');
+
+Route::get('/konsultasi', function () {
+    return view('web.konsultasi');
+})->name('konsultasi');
 
 Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::resources([
