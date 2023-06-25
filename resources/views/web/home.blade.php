@@ -112,50 +112,6 @@
                 </div><!-- /.row -->
             </div><!-- /.container -->
             </div><!-- /.slide-item -->
-            <div class="slide-item align-v-h">
-            <div class="bg-img"><img src="{{ asset('assets/images/sliders/11.png') }}" alt="slide img"></div>
-            <div class="container">
-                <div class="row align-items-center">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-7">
-                    <div class="slide__content">
-                    <h2 class="slide__title" style="color: #f9f9f9">Semua Aspek Medis</h2>
-                    <p class="slide__desc" style="color: #f9f9f9">Kesehatan dan kesejahteraan pasien kami dan tim perawatan kesehatan mereka akan selalu menjadi prioritas kami, jadi kami
-                    mengikuti praktik terbaik untuk kebersihan.</p>
-                    <ul class="features-list list-unstyled mb-0 d-flex flex-wrap">
-                        <!-- feature item #1 -->
-                        <li class="feature-item">
-                        <div class="feature__icon">
-                            <i class="icon-heart"></i>
-                        </div>
-                        <h2 class="feature__title" style="color: #f9f9f9">Examination</h2>
-                        </li><!-- /.feature-item-->
-                        <!-- feature item #2 -->
-                        <li class="feature-item">
-                        <div class="feature__icon">
-                            <i class="icon-medicine"></i>
-                        </div>
-                        <h2 class="feature__title" style="color: #f9f9f9">Prescription</h2>
-                        </li><!-- /.feature-item-->
-                        <!-- feature item #3 -->
-                        <li class="feature-item">
-                        <div class="feature__icon">
-                            <i class="icon-heart2"></i>
-                        </div>
-                        <h2 class="feature__title" style="color: #f9f9f9">Cardiogram</h2>
-                        </li><!-- /.feature-item-->
-                        <!-- feature item #4 -->
-                        <li class="feature-item">
-                        <div class="feature__icon">
-                            <i class="icon-blood-test"></i>
-                        </div>
-                        <h2 class="feature__title" style="color: #f9f9f9">Blood Pressure</h2>
-                        </li><!-- /.feature-item-->
-                    </ul><!-- /.features-list -->
-                    </div><!-- /.slide-content -->
-                </div><!-- /.col-xl-7 -->
-                </div><!-- /.row -->
-            </div><!-- /.container -->
-            </div><!-- /.slide-item -->
         </div><!-- /.carousel -->
         </section><!-- /.slider -->
 
