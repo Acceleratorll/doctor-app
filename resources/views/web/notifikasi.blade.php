@@ -67,6 +67,25 @@
                         </div><!-- /.heading -->
                     </div><!-- /.col-lg-6 -->
                 </div><!-- /.row -->
+                @if(session('notification'))
+                @php
+                $notification = session('notification');
+                @endphp
+                @if($notification['praktik'])
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="service-item">
+                        <div class="service__content">
+                            <h5 class="service__title">Saat Ini Dokter Sedang Melakukan Praktek di {{ $praktikNow->place->name }}
+                                <a href="/notifikasi-remove/1" class="btn btn__secondary btn__rounded" style="float: right;">
+                                    <span>Oke</span></i>
+                                </a>
+                            </h5>
+                            <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
+                        </div><!-- /.service__content -->
+                    </div><!-- /.service-item -->
+                </div>
+                @endif
+                @if ($notification['currentNumber'])
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="service-item">
                         <div class="service__content">
@@ -74,8 +93,14 @@
                                 <a href="#antrian" class="btn btn__secondary btn__rounded" data-toggle="collapse" aria-expanded="false" style="float: right;">
                                     <span>Lihat Antrian</span></i>
                                 </a>
+                                <br><br>
+                                @if($notification['myNumber'] < $notification['currentNumber'])
+                                <a href="/notifikasi-remove/2" class="btn btn__secondary btn__rounded" style="float: right;">
+                                    <span>Oke</span></i>
+                                </a>
+                                @endif
                             </h5>
-                            <h1 class="heading__subtitle" style="margin-top: -25px;">17 May 2023 14:42:59</h1>
+                            <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
                             <div class="collapse multi-collapse" id="antrian">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-8 col-lg-6">
@@ -86,7 +111,7 @@
                                             </div><!-- /.service__icon -->
                                             <div class="service__content">
                                                 <h5 class="service__title">Antrian Saai Ini</h5>
-                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">001</h1>
+                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $notification['currentNumber'] }}</h1>
                                             </div><!-- /.service__content -->
                                         </div><!-- /.service-item -->
                                     </div><!-- /.col-lg-4 -->
@@ -98,8 +123,8 @@
                                                 <i class="icon-heart"></i>
                                             </div><!-- /.service__icon -->
                                             <div class="service__content">
-                                                <h5 class="service__title">Antrian Selanjutnya</h5>
-                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">002</h1>
+                                                <h5 class="service__title">Antrian Anda</h5>
+                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $notification['myNumber'] }}</h1>
                                             </div><!-- /.service__content -->
                                         </div><!-- /.service-item -->
                                     </div><!-- /.col-lg-4 -->
@@ -109,18 +134,10 @@
                         
                     </div><!-- /.service-item -->
                 </div><!-- /.col-lg-4 -->
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="service-item">
-                        <div class="service__content">
-                            <h5 class="service__title">Saat Ini Dokter Sedang Melakukan Praktek
-                                <a href="#" class="btn btn__secondary btn__rounded" style="float: right;">
-                                    <span>Oke</span></i>
-                                </a>
-                            </h5>
-                            <h1 class="heading__subtitle" style="margin-top: -25px;">17 May 2023 14:42:59</h1>
-                        </div><!-- /.service__content -->
-                    </div><!-- /.service-item -->
-                </div><!-- /.col-lg-4 -->
+                <!-- /.col-lg-4 -->
+
+                @endif<!-- /.col-lg-4 -->
+                @endif<!-- /.col-lg-4 -->
             </div><!-- /.container -->
         </section><!-- /.shop -->
 

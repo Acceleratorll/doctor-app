@@ -48,7 +48,7 @@ class ReservationController extends Controller
         return view('reservasi.create', [
             'code' => $integerCode,
             'patients' => Patient::all(),
-            'schedules' => Schedule::where('schedule_date', '>=', $today)->get(),
+            'schedules' => Schedule::where('place_id', 2)->where('schedule_date', '>=', $today)->get(),
         ]);
     }
 
@@ -192,7 +192,7 @@ class ReservationController extends Controller
 
     public function getAntrian(Request $request)
     {
-        $reservation = Reservation::where('schedule_id', $request->id)->orderBy('nomor_urut','desc')->first();
+        $reservation = Reservation::where('schedule_id', $request->id)->orderBy('nomor_urut', 'desc')->first();
         $antrian = 1;
         if ($reservation != null) {
             $antrian = $reservation->nomor_urut + 1;
