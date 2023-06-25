@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\MedicalRecordManageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Pasien\ContactController;
 use App\Http\Controllers\Pasien\JadwalController;
 use App\Http\Controllers\Pasien\ProfileController;
@@ -61,6 +62,8 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/getTime/{date}', [PasienReservationController::class, 'getTime']);
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
     Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
+    Route::get('/notifikasi', [NotificationController::class, 'index']);
+    Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
 
 Route::fallback(function () {
