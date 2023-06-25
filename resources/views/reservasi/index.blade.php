@@ -57,19 +57,38 @@
                                         <td>Sudah Periksa</td>
                                         @endif
                                         <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <td class="project-actions text-center">
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
-                                                        <i class="fas fa-trash"></i>
-                                                        Delete
-                                                    </button>
-                                            <a href="/admin/reservation/{{ $reservation->id }}/edit"
-                                                class="btn btn-sm btn-warning">
-                                                <i class="fa fa-edit"></i>
-                                                Edit
-                                            </a>
-                                        </td>
+                                            @csrf
+                                            @method('DELETE')
+                                            <td class="project-actions text-center">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
+                                                    <i class="fas fa-trash"></i>
+                                                    Delete
+                                                </button>
+                                                <a href="/admin/reservation/{{ $reservation->id }}/edit"
+                                                    class="btn btn-sm btn-warning">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit
+                                                </a>
+                                                <a href="#hasil1" class="btn btn-primary btn-sm" data-toggle="collapse" aria-expanded="false">
+                                                    <i class="fa fa-edit">
+                                                    </i>
+                                                    <span>Isi Hasil</span>
+                                                </a>
+                                                <div class="collapse multi-collapse" id="hasil1">
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="Isi Hasil">Isi Hasil</label>
+                                                                <textarea class="form-control" name="isihasil1" id="isihasil1" placeholder="Masukkan Hasil"></textarea>
+                                                                <div class="text-center" style = "margin-top: 10px; margin-bottom: -20px">
+                                                                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
+                                                                    <button type="reset" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </form>
                                         @endforeach
                                         @endif
@@ -108,19 +127,38 @@
                                         <td>Sudah Periksa</td>
                                         @endif
                                         <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <td class="project-actions text-center">
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
-                                                        <i class="fas fa-trash"></i>
-                                                        Delete
-                                                    </button>
-                                            <a href="/admin/reservation/{{ $reservation->id }}/edit"
-                                                class="btn btn-sm btn-warning">
-                                                <i class="fa fa-edit"></i>
-                                                Edit
-                                            </a>
-                                        </td>
+                                            @csrf
+                                            @method('DELETE')
+                                            <td class="project-actions text-center">
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
+                                                    <i class="fas fa-trash"></i>
+                                                    Delete
+                                                </button>
+                                                <a href="/admin/reservation/{{ $reservation->id }}/edit"
+                                                    class="btn btn-sm btn-warning">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit
+                                                </a>
+                                                <a href="#hasil2" class="btn btn-primary btn-sm" data-toggle="collapse" aria-expanded="false">
+                                                    <i class="fa fa-edit">
+                                                    </i>
+                                                    <span>Isi Hasil</span>
+                                                </a>
+                                                <div class="collapse multi-collapse" id="hasil2">
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label for="Isi Hasil">Isi Hasil</label>
+                                                                <textarea class="form-control" name="isihasil2" id="isihasil2" placeholder="Masukkan Hasil"></textarea>
+                                                                <div class="text-center" style = "margin-top: 10px; margin-bottom: -20px">
+                                                                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
+                                                                    <button type="reset" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </form>
                                         @endforeach
                                         @endif
