@@ -228,7 +228,7 @@
                         <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item notif">
-                        <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>12</span></a>
+                        <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
                     </li><!-- /.nav-item -->
                 </ul><!-- /.navbar-nav -->
                 <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>

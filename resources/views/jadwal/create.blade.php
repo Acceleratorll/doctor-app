@@ -20,15 +20,6 @@
         <div id="rcorners1">
             <form action="/admin/jadwal" method="post">
                 @csrf
-            {{-- <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="Nama Dokter">Nama Dokter</label>
-                        <input type="text" placeholder="Masukkan Nama Dokter" value="{{ $doctor->name }}" class="form-control" name="nama_dokter" id="namadokter" readonly>
-                        <input type="hidden" name="employee_id" value="{{ $doctor->id }}">
-                    </div>
-                </div>
-            </div> --}}
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
@@ -56,8 +47,15 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="Jam">Jam</label>
-                        <input type="time" placeholder="Masukkan Jam" class="form-control" name="schedule_time" id="jam" required>
+                        <label for="Jam">Jam Mulai</label>
+                        <input type="time" placeholder="Masukkan Jam Mulai" class="form-control" name="schedule_time" id="jam" required>
+                    </div>
+                </div>
+            </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="Jam">Jam Berakhir</label>
+                        <input type="time" placeholder="Masukkan Jam Berakhir" class="form-control" name="schedule_time_end" id="jam" required>
                     </div>
                 </div>
             </div>

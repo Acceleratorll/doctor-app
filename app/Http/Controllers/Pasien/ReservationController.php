@@ -30,13 +30,13 @@ class ReservationController extends Controller
     public function create()
     {
         $today = Carbon::today()->toDateString();
-        $schedules = Schedule::where('schedule_date', '>=', $today)->orderBy('schedule_date', 'asc')->select(DB::raw('distinct(schedule_date)'))->get();
+        $schedules = Schedule::where('place_id', 2)->where('schedule_date', '>=', $today)->orderBy('schedule_date', 'asc')->select(DB::raw('distinct(schedule_date)'))->get();
         return view('web.janji_temu', compact('schedules'));
     }
 
     public function getTime(Request $request)
     {
-        $times = Schedule::whereDate('schedule_date', $request['date'])->get();
+        $times = Schedule::where('place_id', 2)->whereDate('schedule_date', $request['date'])->get();
 
         $html = '<div class="row" id="schedule_time"></div>';
 
@@ -48,7 +48,7 @@ class ReservationController extends Controller
                                                 <label for="">
                                                     <div class="card active-card">
                                                         <div class="card-body">
-                                                            <p class="card-title">' . $time['schedule_time'] . '</p>
+                                                            <p class="card-title">' . $time['schedule_time'] . ' Hingga ' . $time['schedule_time_end'] . '</p>
                                                         </div>
                                                     </div>
                                                 </label>

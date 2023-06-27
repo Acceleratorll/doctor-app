@@ -27,6 +27,7 @@ class ScheduleRequest extends FormRequest
             'place_id' => 'required',
             'schedule_date' => 'required|date|after_or_equal:today',
             'schedule_time' => 'required',
+            'schedule_time_end' => 'required',
         ];
     }
 }

@@ -13,7 +13,8 @@ class Schedule extends Model
     protected $fillable = [
         'place_id',
         'schedule_date',
-        'schedule_time'
+        'schedule_time',
+        'schedule_time_end',
     ];
 
     public function reservations()

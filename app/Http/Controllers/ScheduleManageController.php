@@ -51,7 +51,8 @@ class ScheduleManageController extends Controller
     public function edit($id)
     {
         $schedule = Schedule::with('place')->findOrFail($id);
-        return view('jadwal.edit', compact('schedule'));
+        $places = Place::all();
+        return view('jadwal.edit', compact(['schedule', 'places']));
     }
 
     public function update(ScheduleRequest $request, $id)

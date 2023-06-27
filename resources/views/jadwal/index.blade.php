@@ -50,7 +50,8 @@
                                         {{-- <th scope="col" class="text-center">ID Dokter</th>
                                         <th scope="col" class="text-center">Nama Dokter</th> --}}
                                         <th scope="col" class="text-center">Tanggal</th>
-                                        <th scope="col" class="text-center">Jam</th>
+                                        <th scope="col" class="text-center">Jam Mulai</th>
+                                        <th scope="col" class="text-center">Jam Berakhir</th>
                                         <th scope="col" class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -59,6 +60,7 @@
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') }}</td>
                                         <td>{{ $schedule->schedule_time }}</td>
+                                        <td>{{ $schedule->schedule_time_end }}</td>
                                         <td class="project-actions text-center">
                                             <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST">
                                                 @csrf

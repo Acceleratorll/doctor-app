@@ -4,6 +4,7 @@ use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Pasien\ContactController;
+use App\Http\Controllers\Pasien\DashboardController;
 use App\Http\Controllers\Pasien\JadwalController;
 use App\Http\Controllers\Pasien\ProfileController;
 use App\Http\Controllers\Pasien\ReservationController as PasienReservationController;
@@ -25,10 +26,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', function () {
-    $doctor = User::with('employee')->where('role_id', 1)->first();
-    return view('web.home', compact('doctor'));
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/test-covid', function () {
     return view('web.tescovid');

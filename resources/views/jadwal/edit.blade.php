@@ -15,7 +15,7 @@
             <div class="form-row">
                 <div class="col">
                     <label for="tempat">Tempat</label>
-                    <select name="place_id" id="tempat">
+                    <select name="place_id" id="tempat" class="form-control">
                         <option value="{{ $schedule->place_id }}">{{ $schedule->place->name }}</option>
                         @foreach($places as $place)
                         <option value="{{ $place->id }}">{{ $place->name }}</option>
@@ -35,7 +35,15 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Jam">Jam</label>
-                        <input type="time" placeholder="Masukkan Jam" class="form-control" value="{{ $schedule->schedule_time }}" name="schedule_time" id="jam" required>
+                        <input type="time" placeholder="Masukkan Jam Mulai" class="form-control" value="{{ $schedule->schedule_time }}" name="schedule_time" id="jam" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="Jam">Jam Berakhir</label>
+                        <input type="time" placeholder="Masukkan Jam Berakhir" class="form-control" value="{{ $schedule->schedule_time_end }}" name="schedule_time_end" id="jam" required>
                     </div>
                 </div>
             </div>
