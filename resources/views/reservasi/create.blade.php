@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <label for="schedule">Jadwal</label>
-                        <select name="schedule_id" id="jadwal" class="form-control">
+                        <select name="schedule_id" id="jadwal" class="form-control" required>
                             @if($schedules->count() < 1)
                             <option value="">Tidak Ada Jadwal</option>
                             @else
@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control">
+                        <select name="status" id="status" class="form-control" required>
                             <option value="0">Belum Periksa</option>
                             <option value="1">Sudah Periksa</option>
                         </select>

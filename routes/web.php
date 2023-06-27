@@ -47,6 +47,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/tempat' => PlaceManageController::class,
         '/reservation' => ReservationController::class,
     ], ['as' => 'admin']);
+    Route::post('/storeMed', [ReservationController::class, 'storeMed'], ['as' => 'admin']);
 });
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
 

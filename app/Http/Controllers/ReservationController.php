@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationRequest;
 use App\Models\Employee;
+use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Reservation;
 use App\Models\Schedule;
@@ -21,10 +22,9 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::with(['patient', 'schedule'])->get();
-        // $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->get();
-        // $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->get();
-        return view('reservasi.index', compact(['reservations']));
+        $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->get();
+        $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->get();
+        return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
     }
 
     // public function reservation_view()
@@ -198,5 +198,15 @@ class ReservationController extends Controller
             $antrian = $reservation->nomor_urut + 1;
         }
         return response()->json($antrian);
+    }
+
+    public function storeMed(Request $request)
+    {
+        Reservation::findOrFail($request['reservation_id'])->update(['status' => 1]);
+        MedicalRecord::where('patient_id', $request['patient_id'])->create([
+            'patient_id' => $request['patient_id'],
+            'desc' => $request['desc']
+        ]);
+        return redirect()->route('admin.reservation.index');
     }
 }
