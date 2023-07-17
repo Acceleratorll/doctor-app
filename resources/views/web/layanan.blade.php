@@ -26,24 +26,38 @@
                     <a href="{{ route('jadwal.index') }}" class="nav__item-link active">Layanan</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
+                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman</a>
+                </li><!-- /.nav-item -->
+                <li class="nav__item">
                     <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item notif">
                     <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
                 </li><!-- /.nav-item -->
+                @if(auth()->user())
+                <li class="nav__item dropdown">
+                                <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="{{ asset('assets/images/gallery/1.jpg') }}" alt="Profile Picture" class="nav-profile__image">
+                                    {{ Auth::user()->name }}
+                                </a>
+                                    
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                                    <a class="dropdown-item" href="">My Profile</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
                 </ul><!-- /.navbar-nav -->
                 <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>
             </div><!-- /.navbar-collapse -->
-            @if(auth()->user())
-            <div class="d-none d-xl-flex align-items-center position-relative ml-30">
-                <form action="{{ route('logout') }}" method="post">
-                    @csrf
-                    <button type="submit" class="btn btn__primary btn__rounded ml-30">
-                        <i class="icon-calendar"></i>
-                        Logout
-                    </button>
-                </form>
-            </div>
+            
             @else
             <div class="d-none d-xl-flex align-items-center position-relative ml-30">
                 <a href="{{ route('login') }}" class="btn btn__primary btn__rounded ml-30">

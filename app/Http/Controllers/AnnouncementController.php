@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Pasien;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\AnnouncementRequest;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class AnnouncementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('web.pasien.index');
+        $announcements = Announcement::all();
+        return view('pengumuman.index', compact('announcements'));
     }
 
     /**
@@ -24,7 +26,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('pengumuman.create');
     }
 
     /**
@@ -33,9 +35,11 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnnouncementRequest $request)
     {
-        //
+        $input = $request->validated();
+        Announcement::create($input);
+        return redirect()->route('admin.pengumuman.index');
     }
 
     /**
@@ -57,7 +61,8 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        $announcement = Announcement::findOrFail($id);
+        return view('pengumuman.edit', compact('announcement'));
     }
 
     /**
@@ -67,9 +72,12 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AnnouncementRequest $request, $id)
     {
-        //
+        $announcement = Announcement::findOrFail($id);
+        $input = $request->validated();
+        $announcement->update($input);
+        return redirect()->route('admin.pengumuman.index');
     }
 
     /**
@@ -80,6 +88,7 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Announcement::findOrFail($id)->delete();
+        return back();
     }
 }

@@ -209,6 +209,29 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-retweet"></i>
                                 <p>
+                                    Pengumuman
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/admin/pengumuman/create" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Tambah Pengumuman</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/pengumuman" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Master Pengumuman</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-retweet"></i>
+                                <p>
                                     Jadwal
                                     <i class="right fas fa-angle-left"></i>
                                 </p>

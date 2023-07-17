@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class AnnouncementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('web.pasien.index');
+        $announcements = Announcement::all();
+        return view('web.pengumuman.index', compact('announcements'));
     }
 
     /**

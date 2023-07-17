@@ -104,6 +104,13 @@ img {
   outline: none;
 }
 
+.nav-profile__image {
+        max-width: 40px; /* Adjust the maximum width as needed */
+        max-height: 40px; /* Adjust the maximum height as needed */
+        width: auto;
+        height: auto;
+}
+
 button {
   padding: 0;
   border: none;

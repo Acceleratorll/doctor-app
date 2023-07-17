@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Pasien\AnnouncementController as PasienAnnouncementController;
 use App\Http\Controllers\Pasien\ContactController;
 use App\Http\Controllers\Pasien\DashboardController;
 use App\Http\Controllers\Pasien\JadwalController;
@@ -12,7 +14,6 @@ use App\Http\Controllers\PatientManageController;
 use App\Http\Controllers\PlaceManageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +45,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/pegawai' => EmployeeManageController::class,
         '/tempat' => PlaceManageController::class,
         '/reservation' => ReservationController::class,
+        '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
     Route::post('/storeMed', [ReservationController::class, 'storeMed'], ['as' => 'admin']);
 });
@@ -56,6 +58,8 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/contact' => ContactController::class,
         '/profile' => ProfileController::class,
         '/reservasi' => PasienReservationController::class,
+        '/profile' => ProfileController::class,
+        '/pengumuman' => PasienAnnouncementController::class,
     ]);
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
     Route::get('/getTime/{date}', [PasienReservationController::class, 'getTime']);
