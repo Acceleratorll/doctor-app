@@ -23,7 +23,7 @@
                     <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
-                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman</a>
+                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link active">Pengumuman</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
                     <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
@@ -40,7 +40,7 @@
                                 </a>
                                     
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                                    <a class="dropdown-item" href="">My Profile</a>
+                                    <a class="dropdown-item" href="/profile">My Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Logout

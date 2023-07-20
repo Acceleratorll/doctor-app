@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PatientRequest;
+use App\Models\MedicalRecord;
+use App\Models\Patient;
+use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -14,7 +19,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('web.pasien.index');
+        $id = auth()->user()->id;
+        $records = MedicalRecord::where('patient_id', $id)->latest()->get();
+        $reservation = Reservation::where('patient_id', $id)->where('status', 0)->first();
+        return view('web.pasien.index', compact(['records', 'reservation']));
     }
 
     /**
@@ -57,7 +65,7 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('web.pasien.edit');
     }
 
     /**
@@ -67,9 +75,29 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PatientRequest $request, $id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        $input = $request->validated();
+        $user = User::findOrFail($patient->user_id);
+        $user->update([
+            'role_id' => $input['role_id'],
+            'name' => $input['name'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'birth_date' => $input['birth_date'],
+            'gender' => $input['gender'],
+            'email' => $input['email'],
+            'username' => $input['username'],
+            'password' => bcrypt($input['password']),
+        ]);
+
+        $patient->update([
+            'user_id' => $user->id,
+            'height' => $input['height'],
+            'weight' => $input['weight'],
+        ]);
+        return redirect()->route('profile.index');
     }
 
     /**
