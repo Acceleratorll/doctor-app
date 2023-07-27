@@ -12,7 +12,8 @@ class Place extends Model
 
     protected $fillable = [
         'name',
-        'address'
+        'address',
+        'image',
     ];
 
     public function schedules()

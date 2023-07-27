@@ -8,6 +8,7 @@ use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -19,9 +20,16 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->id;
+        $id = auth()->user()->patient->id;
+        $today = Carbon::today()->toString();
         $records = MedicalRecord::where('patient_id', $id)->latest()->get();
-        $reservation = Reservation::where('patient_id', $id)->where('status', 0)->first();
+        $reservation = Reservation::with('schedule')
+            ->where('patient_id', $id)
+            ->whereHas('schedule', function ($query) use ($today) {
+                $query->where('schedule_date', '>=', $today);
+            })
+            ->where('status', 0)
+            ->first();
         return view('web.pasien.index', compact(['records', 'reservation']));
     }
 
@@ -88,8 +96,6 @@ class ProfileController extends Controller
             'birth_date' => $input['birth_date'],
             'gender' => $input['gender'],
             'email' => $input['email'],
-            'username' => $input['username'],
-            'password' => bcrypt($input['password']),
         ]);
 
         $patient->update([

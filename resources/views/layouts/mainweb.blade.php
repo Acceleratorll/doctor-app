@@ -66,7 +66,7 @@ $doctor = User::with('employee')->where('role_id', 1)->first();
                     <ul class="contact-list list-unstyled">
                     <li>Jika Anda memiliki pertanyaan atau butuh bantuan, jangan ragu untuk menghubungi tim kami.</li>
                     <li>
-                        <a href="https://wa.me/.{{ $doctor->phone }}" class="phone__number">
+                        <a href="https://wa.me/{{ $doctor->phone }}" class="phone__number">
                         <i class="icon-phone"></i> <span>{{ $doctor->phone }}</span>
                         </a>
                     </li>

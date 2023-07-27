@@ -48,6 +48,8 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
     Route::post('/storeMed', [ReservationController::class, 'storeMed'], ['as' => 'admin']);
+    Route::get('/list-cancel', [ReservationController::class, 'cancel'], ['as' => 'admin']);
+    Route::put('/restore/{id}', [ReservationController::class, 'restore'], ['as' => 'admin']);
 });
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
 
@@ -62,6 +64,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/pengumuman' => PasienAnnouncementController::class,
     ]);
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
+    Route::get('/cancel/{id}', [PasienReservationController::class, 'cancel']);
     Route::get('/getTime/{date}', [PasienReservationController::class, 'getTime']);
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
     Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
@@ -69,8 +72,8 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
 
-Route::fallback(function () {
-    return redirect()->route('dashboard');
-});
+// Route::fallback(function () {
+//     return redirect()->route('dashboard');
+// });
 
 require __DIR__ . '/auth.php';

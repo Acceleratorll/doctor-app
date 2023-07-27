@@ -83,6 +83,12 @@ class ReservationController extends Controller
         return redirect()->route('jadwal.index');
     }
 
+    public function cancel($id)
+    {
+        Reservation::findOrFail($id)->delete();
+        return redirect()->route('profile.index');
+    }
+
     public function show($id)
     {
         //

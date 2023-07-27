@@ -143,7 +143,7 @@
                 <div class="contact__content">
                     <h2 class="contact__title">Kasus Darurat</h2>
                     <p class="contact__desc">Jangan ragu untuk menghubungi staf resepsi kami yang ramah dengan pertanyaan umum atau medis.</p>
-                    <a href="https://wa.me/.{{ $doctor->phone }}" class="phone__number">
+                    <a href="https://wa.me/{{ $doctor->phone }}" class="phone__number">
                     <i class="icon-phone"></i> <span>{{ $doctor->phone }}</span>
                     </a>
                 </div><!-- /.contact__content -->

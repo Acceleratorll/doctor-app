@@ -95,7 +95,7 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <form action="/profile/{{ auth()->user()->id }}" method="POST">
+                        <form action="/profile/{{ auth()->user()->patient->id }}" method="POST">
                             @csrf
                             @method('PUT')
                         <div class="row mb-3">
@@ -103,7 +103,7 @@
                                 <h6 class="mb-0">Nama</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->name }}">
+                                <input type="text" class="form-control" value="{{ auth()->user()->name }}" name="name">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -111,7 +111,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->email }}">
+                                <input type="email" class="form-control" value="{{ auth()->user()->email }}" name="email">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -119,7 +119,8 @@
                                 <h6 class="mb-0">Nomor Hp</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->phone }}">
+                                <input type="text" class="form-control" value="{{ auth()->user()->phone }}" name="phone">
+                                <input type="text" class="form-control" value="3" name="role_id" hidden>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -127,7 +128,7 @@
                                 <h6 class="mb-0">Tinggi Badan</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->patient->height }}">
+                                <input type="text" class="form-control" value="{{ auth()->user()->patient->height }}" name="height">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -135,7 +136,7 @@
                                 <h6 class="mb-0">Berat Badan</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->patient->weight }}">
+                                <input type="text" class="form-control" value="{{ auth()->user()->patient->weight }}" name="weight">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -143,7 +144,7 @@
                                 <h6 class="mb-0">Tanggal Lahir</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->birth_date }}">
+                                <input type="text" class="form-control" value="{{ auth()->user()->birth_date }}" name="birth_date">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -151,7 +152,7 @@
                                 <h6 class="mb-0">Gender</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->gender }}">
+                                <input type="text" class="form-control" value="{{ auth()->user()->gender }}" name="gender">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -159,7 +160,7 @@
                                 <h6 class="mb-0">Alamat</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->address }}">
+                                <input type="text" class="form-control" value="{{ auth()->user()->address }}" name="address">
                             </div>
                         </div>
                         <div class="row">

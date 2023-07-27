@@ -267,6 +267,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="/admin/list-cancel" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Wait to Approve</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ route('admin.reservation.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Resevasi</p>

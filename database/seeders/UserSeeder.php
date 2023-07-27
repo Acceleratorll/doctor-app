@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Dr. Suhardji Sp. D. R.mN',
                 'role_id' => 1,
-                'phone' => '+628097637221',
+                'phone' => '6259106919966',
                 'birth_date' => '1984-2-26',
                 'email' => 'superadmin@mail.com',
                 'gender' => 'Pria',

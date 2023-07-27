@@ -125,7 +125,7 @@
                         <i class="icon-clock"></i><a href="#">Senin - Sabtu: 8:00 - 18:00</a>
                         </li>
                     </ul>
-                    <a href="https://wa.me/.{{ $doctor->phone }}" class="btn btn__white btn__rounded btn__outlined">Contact Us</a>
+                    <a href="https://wa.me/{{ $doctor->phone }}" class="btn btn__white btn__rounded btn__outlined">Contact Us</a>
                     </div>
                 </div>
                 </div>

@@ -27,19 +27,6 @@ class ReservationController extends Controller
         return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
     }
 
-    // public function reservation_view()
-    // {
-    //     $reservations = Reservation::with(['patient', 'schedule.employee'])->where('patient_id', Auth::user()->id)->get();
-    //     return view('reservasi.index', [
-    //         'reservations' => $reservations
-    //     ]);
-    // }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $today = Carbon::today()->toDateString();
@@ -118,9 +105,22 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy($reservation)
+    public function destroy($id)
     {
-        return response()->json('Not Found', 400);
+        $reservation = Reservation::withTrashed()->findOrFail($id)->forceDelete();
+        return back();
+    }
+
+    public function cancel()
+    {
+        $cancels = Reservation::onlyTrashed()->orderByDesc('deleted_at')->get();
+        return view('reservasi.cancel', compact('cancels'));
+    }
+
+    public function restore($id)
+    {
+        Reservation::onlyTrashed()->where('id', $id)->restore();
+        return redirect('admin/list-cancel');
     }
 
     private function checkData($patient, $schedule)

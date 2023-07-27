@@ -196,7 +196,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info " target="__blank" href="/profile/{{ auth()->user()->id }}/edit">Edit</a>
+                      <a class="btn btn-info " target="__blank" href="/profile/{{ auth()->user()->patient->id }}/edit">Edit</a>
                     </div>
                   </div>
                 </div>
@@ -207,7 +207,7 @@
                   <div class="card h-100">
                     <div class="card-body">
                       <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">List</i>Rekam Medis</h6>
-                      @if(empty($records))
+                      @if($records->count() > 0)
                       @foreach($records as $record)
                           <small>Periksa pada tanggal {{ date('d F Y', strtotime($record->updated_at)) }}</small><br>
                           <strong>{{ $record->desc }}</strong><br><br>
@@ -224,7 +224,8 @@
                             <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">List</i>Reservasi</h6>
                             @if($reservation != null)
                             <p>Nomor Urut</p><h5>{{ $reservation->nomor_urut }}</h5>
-                            <small>Tanggal {{ date('d F Y', strtotime($reservation->schedule->schedule_date)) }}</small>
+                            <small>Tanggal {{ date('d F Y', strtotime($reservation->schedule->schedule_date)) }}</small><br><br>
+                            <a href="cancel/{{ $reservation->id }}" class="btn btn-danger">Batalkan Pesanan</a>
                             @else
                             <strong>Anda belum melakukan reservasi</strong><br><br>
                             @endif

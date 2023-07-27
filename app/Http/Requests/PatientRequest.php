@@ -25,7 +25,7 @@ class PatientRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'role_id' => 'required',
+            'role_id' => '',
             'phone' => 'required',
             'email' => 'required',
             'address' => 'required',
@@ -33,8 +33,8 @@ class PatientRequest extends FormRequest
             'gender' => 'required',
             'height' => '',
             'weight' => '',
-            'username' => 'required',
-            'password' => 'required',
+            'username' => '',
+            'password' => '',
         ];
     }
 }
