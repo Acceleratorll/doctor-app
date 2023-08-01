@@ -32,7 +32,7 @@
                                         @if($medical_records->count() < 1)
                                         Tidak ada Data Rekam Medis
                                         @else
-                                        <thead>
+                                        <thead class="thead-dark">
                                         <tr>
                                             <th scope="col" class="text-center">ID Pasien</th>
                                             <th scope="col" class="text-center">Nama Pasien</th>
@@ -58,7 +58,7 @@
                                             @endif
                                             <td>{{ $medical_record->desc }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST">
+                                                <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">

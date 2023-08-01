@@ -45,7 +45,7 @@
                         <div class="table-responsive">
                             {{-- <input type="text" value="table{{ $placeId }}" id="table{{ $placeId }}" hidden> --}}
                             <table class="table table-bordered" id="table{{ $placeId }}">
-                                <thead>
+                                <thead class="thead-dark">
                                     <tr>
                                         {{-- <th scope="col" class="text-center">ID Dokter</th>
                                         <th scope="col" class="text-center">Nama Dokter</th> --}}
@@ -62,7 +62,7 @@
                                         <td>{{ $schedule->schedule_time }}</td>
                                         <td>{{ $schedule->schedule_time_end }}</td>
                                         <td class="project-actions text-center">
-                                            <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST">
+                                            <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">

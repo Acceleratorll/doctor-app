@@ -237,7 +237,7 @@
                 <li class="nav__item dropdown">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{ asset('assets/images/gallery/1.jpg') }}" alt="Profile Picture" class="nav-profile__image">
+                                    <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Profile Picture" class="nav-profile__image">
                                     {{ Auth::user()->name }}
                                 </a>
                                     
@@ -353,7 +353,7 @@
                     <td>: {{ $request['schedule_time'] }}</td>
                 </tr>
             </table>
-            <form action="{{ route('reservasi.store') }}" method="post">
+            <form action="{{ route('reservasi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
             <input type="number" value="{{ $antrian }}" name="nomor_urut" hidden>
             <input type="number" value="{{ $code }}" name="reservation_code" hidden>

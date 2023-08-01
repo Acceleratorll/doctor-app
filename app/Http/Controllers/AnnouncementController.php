@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AnnouncementRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
 {
@@ -38,7 +39,21 @@ class AnnouncementController extends Controller
     public function store(AnnouncementRequest $request)
     {
         $input = $request->validated();
-        Announcement::create($input);
+
+        $announcement = Announcement::create($input);
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if ($announcement->image && Storage::exists($announcement->image)) {
+                Storage::delete($announcement->image);
+            }
+
+            $imagePath = $request->file('image')->store('announcement_images', 'public');
+
+            $announcement->update([
+                'image' => $imagePath
+            ]);
+        }
+
         return redirect()->route('admin.pengumuman.index');
     }
 
@@ -77,6 +92,19 @@ class AnnouncementController extends Controller
         $announcement = Announcement::findOrFail($id);
         $input = $request->validated();
         $announcement->update($input);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if ($announcement->image && Storage::exists($announcement->image)) {
+                Storage::delete($announcement->image);
+            }
+
+            $imagePath = $request->file('image')->store('announcement_images', 'public');
+
+            $announcement->update([
+                'image' => $imagePath
+            ]);
+        }
+
+
         return redirect()->route('admin.pengumuman.index');
     }
 

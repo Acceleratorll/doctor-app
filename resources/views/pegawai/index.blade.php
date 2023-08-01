@@ -28,51 +28,52 @@
                                     </button>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col" class="text-center">ID Pegawai</th>
-                                            <th scope="col" class="text-center">Nama Pegawai</th>
-                                            <th scope="col" class="text-center">Tanggal Lahir</th>
-                                            <th scope="col" class="text-center">Gender</th>
-                                            <th scope="col" class="text-center">Email</th>
-                                            <th scope="col" class="text-center">Nomor HP</th>
-                                            <th scope="col" class="text-center">Kualifikasi</th>
-                                            <th scope="col" class="text-center">Role</th>
-                                            <th scope="col" class="text-center">Username</th>
-                                            <th scope="col" class="text-center">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($employees as $employee)
-                                        <tr>
-                                            <td>{{ $employee->id }}</td>
-                                            <td>{{ $employee->user->name }}</td>
-                                            <td>{{ $employee->user->birth_date }}</td>
-                                            <td>{{ $employee->user->gender }}</td>
-                                            <td>{{ $employee->user->email }}</td>
-                                            <td>{{ $employee->user->phone }}</td>
-                                            <td>{{ $employee->qualification }}</td>
-                                            <td>{{ $employee->user->role_id }}</td>
-                                            <td>{{ $employee->user->username }}</td>
-                                            <td class="project-actions text-center">
-                                                <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?')">
-                                                        <i class="fas fa-trash"></i>
-                                                        Delete
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/pegawai/{{ $employee->id }}/edit'">
-                                                        <i class="fa fa-edit"></i>
-                                                        Edit
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+    <table class="table table-bordered" id="table">
+        <caption>List of Employees</caption>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="text-center">ID Pegawai</th>
+                <th scope="col" class="text-center">Nama Pegawai</th>
+                <th scope="col" class="text-center">Tanggal Lahir</th>
+                <th scope="col" class="text-center">Gender</th>
+                <th scope="col" class="text-center">Email</th>
+                <th scope="col" class="text-center">Nomor HP</th>
+                <th scope="col" class="text-center">Kualifikasi</th>
+                <th scope="col" class="text-center">Username</th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($employees as $employee)
+            <tr onclick="window.location.href='/admin/pegawai/{{ $employee->id }}';" style="cursor: pointer;">
+                <td>{{ $employee->id }}</td>
+                <td>{{ $employee->user->name }}</td>
+                <td>{{ $employee->user->birth_date }}</td>
+                <td>{{ $employee->user->gender }}</td>
+                <td><a href="mailto:{{ $employee->user->email }}">{{ $employee->user->email }}</a></td>
+                <td>{{ $employee->user->phone }}</td>
+                <td>{{ $employee->qualification }}</td>
+                <td>{{ $employee->user->username }}</td>
+                <td class="project-actions text-center">
+                    <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?')">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                        <a href="/admin/pegawai/{{ $employee->id }}/edit" class="btn btn-sm btn-warning">
+                            <i class="fa fa-edit"></i>
+                            Edit
+                        </a>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
                             </div>
                         </div>
                     </div>

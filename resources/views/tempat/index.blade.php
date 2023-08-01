@@ -33,6 +33,7 @@
                                         <thead>
                                         <tr>
                                             <th scope="col" class="text-center">Nama Tempat</th>
+                                            <th scope="col" class="text-center">Foto Tempat</th>
                                             <th scope="col" class="text-center">Alamat</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
@@ -41,9 +42,10 @@
                                             @foreach($places as $place)
                                         <tr>
                                             <td>{{ $place->name }}</td>
+                                            <td><img src="{{ asset('storage/'.$place->image) }}" alt="Foto Pasien" width="100px"></td>
                                             <td>{{ $place->address }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('admin.tempat.destroy', $place->id) }}" method="POST">
+                                                <form action="{{ route('admin.tempat.destroy', $place->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this place?')">

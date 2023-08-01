@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Pasien 1',
                 'role_id' => 3,
-                'phone' => '+628097637221',
+                'phone' => '628097637221',
                 'birth_date' => '1984-2-26',
                 'email' => 'pasien@mail.com',
                 'gender' => 'Pria',

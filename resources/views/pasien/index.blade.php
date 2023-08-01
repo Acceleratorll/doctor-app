@@ -28,54 +28,57 @@
                                     </button>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="table">
-                                        @if($patients->count() < 1)
-                                        Tidak ada Data Pasien
-                                        @else
-                                        <thead>
-                                        <tr>
-                                            <th scope="col" class="text-center">ID Pasien</th>
-                                            <th scope="col" class="text-center">Nama Pasien</th>
-                                            <th scope="col" class="text-center">Tanggal Lahir</th>
-                                            <th scope="col" class="text-center">Gender</th>
-                                            <th scope="col" class="text-center">Alamat</th>
-                                            <th scope="col" class="text-center">Height</th>
-                                            <th scope="col" class="text-center">Weight</th>
-                                            <th scope="col" class="text-center">Nomor HP</th>
-                                            <th scope="col" class="text-center">Username</th>
-                                            <th scope="col" class="text-center">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($patients as $patient)
-                                        <tr>
-                                            <td>{{ $patient->id }}</td>
-                                            <td>{{ $patient->user->name }}</td>
-                                            <td>{{ $patient->user->birth_date }}</td>
-                                            <td>{{ $patient->user->gender }}</td>
-                                            <td>{{ $patient->user->address }}</td>
-                                            <td>{{ $patient->height }}</td>
-                                            <td>{{ $patient->weight }}</td>
-                                            <td>{{ $patient->user->phone }}</td>
-                                            <td>{{ $patient->user->username }}</td>
-                                            <td class="project-actions text-center">
-                                                <form action="{{ route('admin.pasien.destroy', $patient->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?')">
-                                                        <i class="fas fa-trash"></i>
-                                                        Delete
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/pasien/{{ $patient->id }}/edit'">
-                                                        <i class="fa fa-edit"></i>
-                                                        Edit
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            @endforeach
-                                        </tbody>
-                                        @endif
-                                    </table>
+                                    <table class="table table-bordered table-hover">
+        @if($patients->count() < 1)
+        <p class="text-center">Tidak ada Data Pasien</p>
+        @else
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="text-center">ID Pasien</th>
+                <th scope="col" class="text-center">Foto Pasien</th>
+                <th scope="col" class="text-center">Nama Pasien</th>
+                <th scope="col" class="text-center">Tanggal Lahir</th>
+                <th scope="col" class="text-center">Gender</th>
+                <th scope="col" class="text-center">Alamat</th>
+                <th scope="col" class="text-center">Height</th>
+                <th scope="col" class="text-center">Weight</th>
+                <th scope="col" class="text-center">Nomor HP</th>
+                <th scope="col" class="text-center">Username</th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($patients as $patient)
+            <tr>
+                <td>{{ $patient->id }}</td>
+                <td><img src="{{ asset('storage/'.$patient->user->image) }}" alt="Foto Pasien" width="100px"></td>
+                <td>{{ $patient->user->name }}</td>
+                <td>{{ $patient->user->birth_date }}</td>
+                <td>{{ $patient->user->gender }}</td>
+                <td>{{ $patient->user->address }}</td>
+                <td>{{ $patient->height }}</td>
+                <td>{{ $patient->weight }}</td>
+                <td>{{ $patient->user->phone }}</td>
+                <td>{{ $patient->user->username }}</td>
+                <td class="project-actions text-center">
+                    <form action="{{ route('admin.pasien.destroy', $patient->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?')">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                        <a href="/admin/pasien/{{ $patient->id }}/edit" class="btn btn-sm btn-warning">
+                            <i class="fa fa-edit"></i>
+                            Edit
+                        </a>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+        @endif
+    </table>
                                 </div>
                             </div>
                         </div>

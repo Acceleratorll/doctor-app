@@ -32,6 +32,7 @@
                     </h4>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="table">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
@@ -42,7 +43,7 @@
                                 </thead>
                                 <tbody>
                                     @if($reservations_no->count() < 1)
-                                    <h1>Tidak ada Data</h1>
+                                    <td><strong>Tidak ada Data</strong></td>
                                     @else
                                     @foreach($reservations_no as $reservation)
                                     <tr>
@@ -56,7 +57,7 @@
                                         <td>Sudah Periksa</td>
                                         @endif
                                         <td class="project-actions text-center">
-                                                <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
+                                                <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
@@ -78,7 +79,7 @@
                                                     <div class="form-row">
                                                         <div class="col">
                                                             <div class="form-group">
-                                                                <form action="/admin/storeMed" method="post">
+                                                                <form action="/admin/storeMed" method="POST" enctype="multipart/form-data">
                                                                     @csrf
                                                                 <label for="Isi Hasil">Isi Hasil</label>
                                                                 <textarea class="form-control" name="desc" id="isihasil1" placeholder="Masukkan Hasil"></textarea>
@@ -105,6 +106,7 @@
                     </h4>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="myTable">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
@@ -115,7 +117,7 @@
                                 </thead>
                                 <tbody>
                                     @if($reservations_yes->count() < 1)
-                                    <h1>Tidak ada Data</h1>
+                                    <td><strong>Tidak ada Data</strong></td>
                                     @else
                                     @foreach($reservations_yes as $reservation)
                                     <tr>
@@ -129,7 +131,7 @@
                                         <td>Sudah Periksa</td>
                                         @endif
                                         <td class="project-actions text-center">
-                                                <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
+                                                <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">

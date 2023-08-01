@@ -35,7 +35,7 @@
                 <li class="nav__item dropdown active">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{ asset('assets/images/gallery/1.jpg') }}" alt="Profile Picture" class="nav-profile__image">
+                                    <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Profile Picture" class="nav-profile__image">
                                     {{ Auth::user()->name }}
                                 </a>
                                     
@@ -78,26 +78,32 @@
           </nav>
           <!-- /Breadcrumb -->
     
-          <div class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                    <div class="mt-3">
-                      <h4>{{ auth()->user()->name }}</h4>
+          <form action="/profile/{{ auth()->user()->patient->id }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                      <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Foto Profil" class="rounded-circle" width="150">
+                      <div class="mt-3">
+                        <h4>{{ auth()->user()->name }}</h4>
+                        <div class="input-wrapper">
+                            <input type="file" class="inputfile" id="fileInput" name="image" hidden />
+                            <label for="fileInput">
+                                <i class="fas fa-pen"></i> Ganti Foto
+                            </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="/profile/{{ auth()->user()->patient->id }}" method="POST">
-                            @csrf
-                            @method('PUT')
+              
+              <div class="col-lg-8">
+                  <div class="card">
+                      <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Nama</h6>
@@ -170,10 +176,10 @@
                                 <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                             </div>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
+        </form>
         </div>
     </div>
 </div>

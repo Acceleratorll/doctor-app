@@ -303,7 +303,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <form action="{{ route('logout') }}" method="post">
+                        <form action="{{ route('logout') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <li class="nav-item">
                                 <a href="" class="nav-link">

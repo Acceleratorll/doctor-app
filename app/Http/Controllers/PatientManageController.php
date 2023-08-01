@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PatientManageController extends Controller
 {
@@ -36,6 +37,18 @@ class PatientManageController extends Controller
             'username' => $input['username'],
             'password' => bcrypt($input['password']),
         ]);
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if ($user->image && Storage::exists($user->image)) {
+                Storage::delete($user->image);
+            }
+
+            $imagePath = $request->file('image')->store('patient_images', 'public');
+            $user->update([
+                'image' => $imagePath
+            ]);
+        }
+
         Patient::create([
             'user_id' => $user->id,
             'height' => $input['height'],
@@ -59,6 +72,18 @@ class PatientManageController extends Controller
         $patient = Patient::findOrFail($id);
         $input = $request->validated();
         $user = User::findOrFail($patient->user_id);
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if ($patient->user->image && Storage::exists($patient->user->image)) {
+                Storage::delete($patient->user->image);
+            }
+
+            $imagePath = $request->file('image')->store('patient_images', 'public');
+            $patient->user->update([
+                'image' => $imagePath
+            ]);
+        }
+
         $user->update([
             'role_id' => $input['role_id'],
             'name' => $input['name'],

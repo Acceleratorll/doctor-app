@@ -18,7 +18,7 @@
             </ul>
         </div>
         @endif
-        <form action="{{ route('admin.reservation.store') }}" method="post">
+        <form action="{{ route('admin.reservation.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
                 <div class="col">

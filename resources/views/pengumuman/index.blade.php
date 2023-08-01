@@ -30,9 +30,10 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="table">
                                         @if($announcements != null)
-                                        <thead>
+                                        <thead class="thead-dark">
                                         <tr>
                                             <th scope="col" class="text-center">Title</th>
+                                            <th scope="col" class="text-center">Image</th>
                                             <th scope="col" class="text-center">Content</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
@@ -41,9 +42,10 @@
                                             @foreach($announcements as $announcement)
                                         <tr>
                                             <td>{{ $announcement->title }}</td>
+                                            <td><img src="{{ asset('storage/'.$announcement->image) }}" alt="Foto Pasien" width="100px"></td>
                                             <td>{{ $announcement->content }}</td>
                                             <td class="project-actions text-center">
-                                                <form action="{{ route('admin.pengumuman.destroy', $announcement->id) }}" method="POST">
+                                                <form action="{{ route('admin.pengumuman.destroy', $announcement->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this announcement?')">

@@ -51,7 +51,7 @@
                     </div><!-- /.navbar-collapse -->
                     @if(auth()->user())
                     <div class="d-none d-xl-flex align-items-center position-relative ml-30">
-                        <form action="{{ route('logout') }}" method="post">
+                        <form action="{{ route('logout') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <button type="submit" class="btn btn__primary btn__rounded ml-30">
                                 <i class="icon-calendar"></i>

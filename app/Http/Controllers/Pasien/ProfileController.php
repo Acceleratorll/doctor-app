@@ -10,6 +10,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -88,6 +89,17 @@ class ProfileController extends Controller
         $patient = Patient::findOrFail($id);
         $input = $request->validated();
         $user = User::findOrFail($patient->user_id);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if ($patient->user->image && Storage::exists($patient->user->image)) {
+                Storage::delete($patient->user->image);
+            }
+
+            $imagePath = $request->file('image')->store('patient_images', 'public');
+            $patient->user->update([
+                'image' => $imagePath
+            ]);
+        }
+
         $user->update([
             'role_id' => $input['role_id'],
             'name' => $input['name'],

@@ -9,7 +9,7 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-           <form action="/admin/jadwal/{{ $schedule->id }}" method="POST">
+           <form action="/admin/jadwal/{{ $schedule->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-row">

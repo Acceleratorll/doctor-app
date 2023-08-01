@@ -35,7 +35,7 @@
                 <li class="nav__item dropdown">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{ asset('assets/images/gallery/1.jpg') }}" alt="Profile Picture" class="nav-profile__image">
+                                    <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Profile Picture" class="nav-profile__image">
                                     {{ Auth::user()->name }}
                                 </a>
                                     
@@ -67,25 +67,31 @@
 </header><!-- /.Header -->
 
 <section class="announcement">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    <div class="announcement-content">
-                        <h2 class="announcement-title">Important Announcement</h2>
-                        @if($announcements != null)
-                        @foreach($announcements as $announcement)
-                        <p class="announcement-title"><b>{{ $announcement->title }}</b></p>
-                        <p class="announcement-description">
-                            {{ $announcement->content }} <br>
-                            <span class="announcement-date">Posted on: {{ $announcement->created_at->format('F d, Y') }}</span>
-                        </p>
-                        @endforeach
-                        @else
-                        <p class="announcement-description">Belum Ada Pengumuman. Stay Tune ya..</p>
-                        @endif
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="announcement-content">
+                    <h2 class="announcement-title">Important Announcements</h2>
+                    @forelse($announcements as $announcement)
+                    <div class="announcement-item">
+                        <div class="announcement-image">
+                                <img src="{{ asset('storage/' . $announcement->image) }}" alt="Announcement Image">
+                        </div>
+                        <div class="announcement-details">
+                            <p class="announcement-title"><b>{{ $announcement->title }}</b></p>
+                            <p class="announcement-description">
+                                {{ $announcement->content }} <br>
+                                <span class="announcement-date">Posted on: {{ $announcement->created_at->format('F d, Y') }}</span>
+                            </p>
+                        </div>
                     </div>
+                    @empty
+                    <p class="announcement-description">Belum Ada Pengumuman. Stay Tuned ya..</p>
+                    @endforelse
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 @endsection

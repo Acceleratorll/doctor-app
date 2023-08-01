@@ -18,8 +18,16 @@
             </div>
             @endif
         <div id="rcorners1">
-            <form action="/admin/pengumuman" method="post">
+            <form action="/admin/pengumuman" method="POST" enctype="multipart/form-data">
                 @csrf
+                <div class="form-row">
+        <div class="col">
+            <div class="form-group">
+                <label for="fotopengumuman">Foto Pengumuman</label>&nbsp;
+                <input type="file" placeholder="Masukkan Foto Pengumuman" class="form-control" name="image" id="fotopasien">
+            </div>
+        </div>
+    </div>
                 <div class="form-row">
                 <div class="col">
                     <div class="form-group">

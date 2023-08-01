@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Tambah Pasien                  
+        Edit Data Pasien                  
     </h1>
 @endsection
 
@@ -18,9 +18,19 @@
                 </ul>
             </div>
             @endif
-            <form action="/admin/pasien/{{ $patient->id }}" method="post">
+            <form action="/admin/pasien/{{ $patient->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+            <div class="form-row">
+        <div class="col">
+            <div class="form-group">
+                <label for="fotopasien">Foto Pasien</label>&nbsp;
+                <img src="{{ asset('storage/'.$patient->user->image) }}" alt="Photo Pasien" width="100">
+                <br>
+                <input type="file" placeholder="Masukkan Foto Pasien" class="form-control" name="image" id="fotopasien">
+            </div>
+        </div>
+    </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">

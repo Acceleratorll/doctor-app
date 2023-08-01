@@ -25,6 +25,7 @@ class AnnouncementRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'content' => 'required',
         ];
     }

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PlaceRequest;
 use App\Models\Place;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PlaceManageController extends Controller
 {
     public function index()
     {
         $places = Place::latest()->get();
-        return view('tempat.index', compact('places'));  
+        return view('tempat.index', compact('places'));
     }
 
     public function create()
@@ -22,7 +23,14 @@ class PlaceManageController extends Controller
     public function store(PlaceRequest $request)
     {
         $input = $request->validated();
-        Place::create($input);
+
+        $place = Place::create($input);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('place_images', 'public');
+            $place->update([
+                'image' => $imagePath
+            ]);
+        }
         return redirect()->route('admin.tempat.index');
     }
 
@@ -42,7 +50,19 @@ class PlaceManageController extends Controller
     {
         $place = Place::findOrFail($id);
         $input = $request->validated();
+
         $place->update($input);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if ($place->image && Storage::exists($place->image)) {
+                Storage::delete($place->image);
+            }
+
+            $imagePath = $request->file('image')->store('place_images', 'public');
+            $place->update([
+                'image' => $imagePath
+            ]);
+        }
+
         return redirect()->route('admin.tempat.index');
     }
 

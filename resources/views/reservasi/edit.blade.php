@@ -18,7 +18,7 @@
             </ul>
         </div>
         @endif
-        <form action="/admin/reservation/{{ $reservation->id }}" method="post">
+        <form action="/admin/reservation/{{ $reservation->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-row">

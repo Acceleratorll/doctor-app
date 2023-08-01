@@ -18,9 +18,19 @@
             </div>
             @endif
         <div id="rcorners1">
-            <form action="/admin/tempat/{{ $place->id }}" method="post">
+            <form action="/admin/tempat/{{ $place->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+            <div class="form-row">
+        <div class="col">
+            <div class="form-group">
+                <label for="fotopasien">Foto Tempat</label>&nbsp;
+                <img src="{{ asset('storage/'.$place->image) }}" alt="Photo Tempat Praktik" width="100">
+                <br>
+                <input type="file" placeholder="Masukkan Foto Tempat Praktik" class="form-control" name="image" id="fototempat">
+            </div>
+        </div>
+    </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">

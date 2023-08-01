@@ -2,7 +2,7 @@
 
 @section('header')
 <h1 class="m-0">
-    Master Reservasi
+    Pembatalan Reservasi
 </h1>
 @endsection
 
@@ -13,11 +13,9 @@
             <div class="row" style="height: 10px"></div>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="m-0">
-                        Pembatalan Reservasi                 
-                    </h4>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="table">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
@@ -43,7 +41,7 @@
                                         <td>Sudah Periksa</td>
                                         @endif
                                         <td class="project-actions text-center">
-                                                <form action="{{ route('admin.reservation.destroy', $cancel->id) }}" method="POST">
+                                                <form action="{{ route('admin.reservation.destroy', $cancel->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
@@ -51,7 +49,7 @@
                                                     Approve
                                                 </button>
                                         </form>
-                                                <form action="/admin/restore/{{ $cancel->id }}" method="POST">
+                                                <form action="/admin/restore/{{ $cancel->id }}" method="POST" enctype="multipart/form-data">
                                                     @method('PUT')
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm btn-warning">

@@ -18,8 +18,16 @@
                 </ul>
             </div>
             @endif
-            <form action="/admin/pasien" method="post">
+            <form action="/admin/pasien" method="POST" enctype="multipart/form-data">
                 @csrf
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="Foto Pasien">Foto Pasien</label>
+                        <input type="file" placeholder="Masukkan Foto Pasien" class="form-control" name="image" id="fotopasien">
+                    </div>
+                </div>
+            </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">

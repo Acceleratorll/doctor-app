@@ -33,6 +33,7 @@ class PatientRequest extends FormRequest
             'gender' => 'required',
             'height' => '',
             'weight' => '',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'username' => '',
             'password' => '',
         ];

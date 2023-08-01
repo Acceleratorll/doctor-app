@@ -72,8 +72,8 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
 
-// Route::fallback(function () {
-//     return redirect()->route('dashboard');
-// });
+Route::fallback(function () {
+    return redirect()->route('dashboard');
+});
 
 require __DIR__ . '/auth.php';
