@@ -27,8 +27,9 @@ class ReservationRequest extends FormRequest
             'patient_id' => 'required',
             'schedule_id' => 'required',
             'reservation_code' => 'required',
+            'bukti_pembayaran' => 'required',
             'status' => '',
-            'nomor_urut' => 'required',
+            'nomor_urut' => '',
         ];
     }
 }

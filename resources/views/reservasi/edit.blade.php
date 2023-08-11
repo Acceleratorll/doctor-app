@@ -28,24 +28,18 @@
                         <input type="number" class="form-control" name="reservation_code" value="{{ $reservation->reservation_code }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="patient_id">Pasien</label><select class="form-control" name="patient_id" id="namapasien" required>
-                                @foreach($patients as $patient)
-                                <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
-                                @endforeach
-                            </select>
-                    </div>
-
-                    {{-- <div class="form-group">
-                        <label for="employee">Dokter</label>
-                        <select name="employee" id="employee" class="form-control">
-                            <option value="0" selected>- Pilih Dokter -</option>
-
-                            @foreach ($employees as $employee)
-                            <option value="{{ $employee->id }}" {{ $employee->id == $reservation->schedule->employee_id
-                                ? 'selected' : '' }}>{{ $employee->name }}</option>
+                        <label for="patient_id">Pasien</label>
+                        <select class="form-control" name="patient_id" id="namapasien" required>
+                            @foreach($patients as $patient)
+                            <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
                             @endforeach
                         </select>
-                    </div> --}}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="code">Nomor Antrian</label>
+                        <input type="number" class="form-control" name="reservation_code" value="{{ $reservation->nomor_urut }}" readonly>
+                    </div>
 
                     <div class="form-group">
                         <label for="schedule">Jadwal</label>
@@ -74,10 +68,8 @@
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal"
                     data-target="#modalconfirm">Simpan</button>
-                <a href="javascript:history.go(-1)" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal
-                </a>
+                <a href="javascript:history.go(-1)" class="btn btn-warning" >Batal</a>
             </div>
-
         </form>
     </div>
 </div>

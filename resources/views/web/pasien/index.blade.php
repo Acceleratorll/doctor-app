@@ -7,8 +7,8 @@
         <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <img src="assets/images/logo/2.png" class="logo-light" alt="logo">
-                <img src="assets/images/logo/1.png" class="logo-dark" alt="logo">
+                <img src="{{ asset('assets/images/logo/2.png') }}" class="logo-light" alt="logo">
+                <img src="{{ asset('assets/images/logo/1.png') }}" class="logo-dark" alt="logo">
             </a>
             <button class="navbar-toggler" type="button">
                 <span class="menu-lines"><span></span></span>
@@ -64,7 +64,7 @@
             @endif
             </div><!-- /.container -->
     </nav><!-- /.navabr -->
-</header><!-- /.Header -->
+</header>
 <div class="container">
     <div class="main-body">
     
@@ -167,18 +167,23 @@
                   </div>
                   <hr>
                   <div class="row">
-                    <div class="col-sm-12">
-                      <a class="btn btn-info " target="__blank" href="/profile/{{ auth()->user()->patient->id }}/edit">Edit</a>
+                    <div class="col-sm-6">
+                      <a class="btn btn-info" target="__blank" href="/profile/{{ auth()->user()->patient->id }}/edit">Edit</a>
                     </div>
+                      @if(auth()->user()->access_code == null)
+                    <div class="col-sm-6">
+                      <a class="btn btn-danger" target="__blank" href="{{ route('code.create') }}">Set PIN</a>
+                    </div>
+                    @endif
                   </div>
                 </div>
               </div>
-
               <div class="row gutters-sm">
                 <div class="col-sm-6 mb-3">
                   <div class="card h-100">
                     <div class="card-body">
                       <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">List</i>Rekam Medis</h6>
+                      @if(auth()->user()->access_code != null)
                       @if($records->count() > 0)
                       @foreach($records as $record)
                           <small>Periksa pada tanggal {{ date('d F Y', strtotime($record->updated_at)) }}</small><br>
@@ -187,20 +192,28 @@
                       @else
                       <strong>Tidak ada Data Rekam Medis</strong><br><br>
                       @endif
+                      @else
+                      <strong>Penting ! <br>Dimohon untuk membuat PIN terlebih dahulu</strong><br><br>
+                      <a class="btn btn-danger" target="__blank" href="{{ route('code.create') }}">Set PIN Here !</a>
+                      @endif
                     </div>
                 </div>
                 </div>
-                <div class="col-sm-6 mb-3">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">List</i>Reservasi</h6>
-                            @if($reservation != null)
-                            <p>Nomor Urut</p><h5>{{ $reservation->nomor_urut }}</h5>
-                            <small>Tanggal {{ date('d F Y', strtotime($reservation->schedule->schedule_date)) }}</small><br><br>
-                            <a href="cancel/{{ $reservation->id }}" class="btn btn-danger">Batalkan Pesanan</a>
-                            @else
-                            <strong>Anda belum melakukan reservasi</strong><br><br>
-                            @endif
+                <div class="col-sm-6 mb-3 mx-auto">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex flex-column align-items-center">
+                      <h6><i class="material-icons text-info mr-2">List</i>Reservasi</h6>
+                      @if($reservation != null)
+                      <p>Nomor Urut</p><h5>{{ $reservation->nomor_urut }}</h5>
+                      <small>Tanggal <b>{{ date('d F Y', strtotime($reservation->schedule->schedule_date)) }}</b></small><br>
+                      <small>Jam Periksa Dimulai <b>{{ date('H:i', strtotime($reservation->schedule->schedule_time)) }}</b></small><br><br>
+                      <p class="text-center"><b>Status :</b> <strong>Menunggu Konfirmasi</strong></p><br>
+                      <a href="cancel/{{ $reservation->id }}" class="btn btn-danger">Batalkan Pesanan</a>
+                      @else
+                      <strong>Anda belum melakukan reservasi</strong><br><br>
+                      @endif
+                      </div>
                     </div>
                   </div>
                 </div>

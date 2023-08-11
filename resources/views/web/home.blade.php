@@ -155,8 +155,8 @@
                     <i class="icon-health-report"></i>
                 </div><!-- /.contact__icon -->
                 <div class="contact__content">
-                    <h2 class="contact__title">Jadwal Docter</h2>
-                    <p class="contact__desc">Dokter selalu tersedia enam hari seminggu, lihat jadwal kami.</p>
+                    <h2 class="contact__title">Jadwal Dokter</h2>
+                    <p class="contact__desc">Catatan mengenai jadwal Dokter , lihat jadwal kami.</p>
                     <br><br>
                     <a href="{{ route('jadwal.index') }}" class="btn btn__white btn__outlined btn__rounded">
                     <span>Lihat Jadwal</span><i class="icon-arrow-right"></i>
@@ -170,7 +170,7 @@
                     <i class="icon-heart2"></i>
                 </div><!-- /.contact__icon -->
                 <div class="contact__content">
-                    <h2 class="contact__title">Jadwal Buka</h2>
+                    <h2 class="contact__title">Jadwal Terdekat</h2>
                     <ul class="time__list list-unstyled mb-0">
                         @php
                         use App\Models\Place;

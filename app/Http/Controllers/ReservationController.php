@@ -22,8 +22,8 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->get();
-        $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->get();
+        $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->where('approve', 1)->get();
+        $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->where('approve', 1)->get();
         return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
     }
 
@@ -89,7 +89,13 @@ class ReservationController extends Controller
      */
     public function update($id, ReservationRequest $request)
     {
-        Reservation::with(['patient', 'schedule'])->findOrFail($id)->update($request->all());
+        $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id)->first();
+        if ($reservation->status == 1 && $request['status'] == 0) {
+            $medic = MedicalRecord::where('patient_id', $reservation->patient_id)->latest()->first();
+            $medic->delete();
+        }
+
+        $reservation->update($request->all());
         return redirect()->route('admin.reservation.index');
     }
 
@@ -107,7 +113,7 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        $reservation = Reservation::withTrashed()->findOrFail($id)->forceDelete();
+        Reservation::withTrashed()->findOrFail($id)->forceDelete();
         return back();
     }
 
@@ -115,6 +121,18 @@ class ReservationController extends Controller
     {
         $cancels = Reservation::onlyTrashed()->orderByDesc('deleted_at')->get();
         return view('reservasi.cancel', compact('cancels'));
+    }
+
+    public function wait()
+    {
+        $waits = Reservation::where('approve', 0)->latest()->get();
+        return view('reservasi.wait', compact('waits'));
+    }
+
+    public function approve($id)
+    {
+        Reservation::findOrFail($id)->update(['approve' => 1]);
+        return redirect('/waiting-list');
     }
 
     public function restore($id)

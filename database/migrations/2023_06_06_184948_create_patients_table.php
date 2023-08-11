@@ -18,6 +18,7 @@ class CreatePatientsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->float('height')->nullable();
             $table->float('weight')->nullable();
+            $table->integer('access_code')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

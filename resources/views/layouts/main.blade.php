@@ -261,6 +261,12 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a href="/admin/waiting-list" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Wait to Approve</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ route('admin.reservation.create') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Reservasi</p>
@@ -269,7 +275,7 @@
                                 <li class="nav-item">
                                     <a href="/admin/list-cancel" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Wait to Approve</p>
+                                        <p>Cancel Reservation</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">

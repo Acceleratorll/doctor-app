@@ -1,13 +1,20 @@
 @extends('layouts.mainweb')
 
 @section('content')
-        
-        <!-- =========================
-            Header
-        =========================== -->
-    <header class="header header-layout1">
-        <!-- /.header-top -->
-        <nav class="navbar navbar-expand-lg sticky-navbar">
+
+<style>
+    .image-preview {
+        margin-bottom: 20px;
+    }
+
+    .image-preview img {
+        max-height: 320px; /* Adjust the value as needed */
+    }
+</style>
+
+<header class="header header-layout1">
+    <!-- /.header-top -->
+    <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
                 <img src="{{ asset('assets/images/logo/2.png') }}" class="logo-light" alt="logo">
@@ -23,7 +30,7 @@
                 </li>
                 <!-- /.nav-item -->
                 <li class="nav__item">
-                    <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
+                    <a href="{{ route('jadwal.index') }}" class="nav__item-link active">Layanan</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
                     <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman</a>
@@ -68,47 +75,71 @@
             @endif
             </div><!-- /.container -->
         </nav><!-- /.navabr -->
-    </header><!-- /.Header -->
 
-        <!-- ========================
-        Services Layout 1
-        =========================== -->
-    <section class="services-layout1 pt-130">
-        <div class="bg-img"><img src="assets/images/backgrounds/2.jpg" alt="background"></div>
-        <div class="container">
-            <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
-                <div class="heading text-center mb-60">
-                <h3 class="heading__title">List Jadwal {{ $place->name }}</h3>
-                <h2 class="heading__subtitle" style="margin-top: -10px;">Kunjungi kami di {{ $place->address }}</h2>
-                </div><!-- /.heading -->
-            </div><!-- /.col-lg-6 -->
-            </div><!-- /.row -->
-            <div class="row">
-            <!-- service item #1 -->
-            @foreach($schedules as $date => $schedules)
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <div class="service-item">
-                <div class="service__icon">
-                    <i ></i>
-                    <i class="icon-head"></i>
-                </div><!-- /.service__icon -->
-                <div class="service__content">
-                    <h5 class="service__title">{{ \Carbon\Carbon::parse($date)->format('l, d-m-Y') }}</h5>
-                @foreach($schedules as $schedule)
-                    <h5 class="service__title">{{ \Carbon\Carbon::parse($schedule->schedule_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($schedule->schedule_time_end)->format('H:i') }}</h5>
-                @endforeach
+</header>
+<div class="about-layout4 pb-0 ">
+    <div class="row ">
+        <div class="col-md-2">
+            <div class="px-5 py-5">
+                <ul class=" list-items list-items-layout3 list-unstyled">
+                    <li>
+                        <h6>Alur Jadwal</h6>
+                    </li>
+                    <li>
+                        <h6>Konfirmasi Data</h6>
+                    </li>
+                </ul>
+                <ul class="package__list list-items list-items-layout2 list-unstyled">
+                    <li>
+                        <h6>Bukti Pembayaran</h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+            <div class="col-md-6">
+            <div class="form-container">
+                <form action="{{ route('reservasi.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="schedule_date" value="{{ $request->schedule_date }}">
+                    <input type="hidden" name="schedule_time" value="{{ $request->schedule_time }}">
+                    <input type="hidden" name="nomor_urut" value="{{ $request->nomor_urut }}">
+                    <input type="hidden" name="reservation_code" value="{{ $request->reservation_code }}">
+
+                    <div class="image-preview">
+                        <img id="preview-image" src="" alt="Bukti Pembayaran">
+                    </div>
                     <br>
-                </div><!-- /.service__content -->
-                </div><!-- /.service-item -->
-            </div><!-- /.col-lg-4 -->
-            @endforeach<!-- /.col-lg-4 -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section><!-- /.Services Layout 1 -->
+                    <!-- File Input -->
+                    <div class="file-input">
+                        <label for="bukti_pembayaran">Upload Bukti Pembayaran</label>
+                        <input type="file" class="form-control" name="bukti_pembayaran" id="bukti_pembayaran" accept=".jpg, .jpeg, .png, .pdf" required>
+                        <small class="text-muted">Maximum file size: <b>*2MB</b></small>
+                    </div>
 
-@endsection
+                    <!-- Kembali Button -->
+                    <br>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-secondary" id="kembali-btn">Kembali</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
 
-@section('container')
-    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('bukti_pembayaran').addEventListener('change', function(e) {
+        var previewImage = document.getElementById('preview-image');
+        previewImage.src = URL.createObjectURL(e.target.files[0]);
+        previewImage.style.display = 'block';
+    });
+
+    // Kembali Button Functionality
+    document.getElementById('kembali-btn').addEventListener('click', function() {
+        window.history.back();
+    });
+</script>
+
 @endsection

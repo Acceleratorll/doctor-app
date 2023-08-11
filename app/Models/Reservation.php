@@ -14,8 +14,10 @@ class Reservation extends Model
         'patient_id',
         'schedule_id',
         'reservation_code',
-        'status',
+        'bukti_pembayaran',
         'nomor_urut',
+        'approve',
+        'status',
     ];
 
     public function patient()

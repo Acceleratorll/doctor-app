@@ -210,8 +210,8 @@
     <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <img src="assets/images/logo/2.png" class="logo-light" alt="logo">
-                <img src="assets/images/logo/1.png" class="logo-dark" alt="logo">
+                <img src="{{ asset('assets/images/logo/2.png') }}" class="logo-light" alt="logo">
+                <img src="{{ asset('assets/images/logo/1.png') }}" class="logo-dark" alt="logo">
             </a>
             <button class="navbar-toggler" type="button">
                 <span class="menu-lines"><span></span></span>
@@ -298,14 +298,11 @@
                     </li>
                 </ul>
                 <ul class=" list-items list-items-layout3 list-unstyled">
-                    {{-- <li>
-                        <h6>Pilih Lokasi</h6>
+                    <li>
+                        <h6>Konfirmasi Data</h6>
                     </li>
                     <li>
-                        <h6>Data Pasien</h6>
-                    </li> --}}
-                    <li>
-                        <h6>Konfirmasi</h6>
+                        <h6>Bukti Pembayaran</h6>
                     </li>
                 </ul>
             </div>
@@ -336,53 +333,41 @@
             </div>
             
         
-            {{-- Waktu --}}
             <div class="row">
-                <div class="py-5 mt-5">
-                    <h5>Pilih Waktu</h5>
-                    <div class="" id="accordion">
-                        <div class="accordion-item">
-                            <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
-                                <a class="accordion__title" href="#">Waktu</a>
-                            </div><!-- /.accordion-item-header -->
-                            <div id="collapse1" class="collapse show" data-parent="#accordion">
-                                <div class="accordion__body" id="schedule_time">
-                                    {{-- <div class="row"> --}}
-                                        {{-- <div class="col-md-3">
-                                            <a href="#">
-                                                <input class="form-check-input" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date}}">
-                                                <label for="">
-                                                    <div class="card active-card">
-                                                        <div class="card-body">
-                                                            <p class="card-title">08.00</p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </a>
-                                        </div> --}}
-                                    {{-- </div> --}}
-                                </div>
-                                <!-- /.accordion-item-body -->
+    <div class="py-5 mt-5">
+        <h5>Pilih Waktu</h5>
+        <div id="accordion">
+            <div class="accordion-item">
+                <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
+                    <a class="accordion__title" href="#">Waktu</a>
+                </div>
+                <div id="collapse1" class="collapse show" data-parent="#accordion">
+                    <div class="accordion__body" id="schedule_time">
+                        {{-- Example time slots --}}
+                        {{-- <div class="row">
+                            <div class="col-md-3">
+                                <a href="#">
+                                    <input class="form-check-input" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date }}">
+                                    <label for="schedule_date{{ $schedule->id }}">
+                                        <div class="card active-card">
+                                            <div class="card-body">
+                                                <p class="card-title">08.00</p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </a>
                             </div>
-                        </div><!-- /.accordion-item -->
-                    </div><!-- /.col-lg-8 -->
-                </div><!-- /.row -->
-            </div><!-- /.container -->
-            
-            <button class="btn btn-primary mt-3 text-end">Lanjutkan</button>
-            </form>
-            <div class="row">
-                <div class="py-5 mt-5">
-                    <h5>Janji Temu Saya</h5>
+                        </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2 px-5 py-5">
-            <h5>Pilih Tanggal</h5>
-            <div class="form-group form-group-date">
-                <i class="icon-calendar form-group-icon"></i>
-                <input type="date" class="form-control" id="contact-date" name="contact-date" required>
-            </div>
+    </div>
+</div>
+
+            
+            <button class="btn btn-primary mt-3 text-end">Lanjutkan</button>
+            </form>
         </div>
     </div>
 </div>

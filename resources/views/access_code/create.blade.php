@@ -1,11 +1,7 @@
 @extends('layouts.mainweb')
 
 @section('content')
-        
-        <!-- =========================
-            Header
-        =========================== -->
-    <header class="header header-layout1">
+<header class="header header-layout1">
         <!-- /.header-top -->
         <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
@@ -35,7 +31,7 @@
                     <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
                 </li><!-- /.nav-item -->
                 @if(auth()->user())
-                <li class="nav__item dropdown">
+                <li class="nav__item dropdown active">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Profile Picture" class="nav-profile__image">
@@ -56,8 +52,7 @@
                             </li>
                 </ul><!-- /.navbar-nav -->
                 <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>
-            </div><!-- /.navbar-collapse -->
-            
+            </div>
             @else
             <div class="d-none d-xl-flex align-items-center position-relative ml-30">
                 <a href="{{ route('login') }}" class="btn btn__primary btn__rounded ml-30">
@@ -67,48 +62,39 @@
             </div>
             @endif
             </div><!-- /.container -->
-        </nav><!-- /.navabr -->
-    </header><!-- /.Header -->
+    </nav><!-- /.navabr -->
+</header>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Set Up Pin</div>
 
-        <!-- ========================
-        Services Layout 1
-        =========================== -->
-    <section class="services-layout1 pt-130">
-        <div class="bg-img"><img src="assets/images/backgrounds/2.jpg" alt="background"></div>
-        <div class="container">
-            <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
-                <div class="heading text-center mb-60">
-                <h3 class="heading__title">List Jadwal {{ $place->name }}</h3>
-                <h2 class="heading__subtitle" style="margin-top: -10px;">Kunjungi kami di {{ $place->address }}</h2>
-                </div><!-- /.heading -->
-            </div><!-- /.col-lg-6 -->
-            </div><!-- /.row -->
-            <div class="row">
-            <!-- service item #1 -->
-            @foreach($schedules as $date => $schedules)
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <div class="service-item">
-                <div class="service__icon">
-                    <i ></i>
-                    <i class="icon-head"></i>
-                </div><!-- /.service__icon -->
-                <div class="service__content">
-                    <h5 class="service__title">{{ \Carbon\Carbon::parse($date)->format('l, d-m-Y') }}</h5>
-                @foreach($schedules as $schedule)
-                    <h5 class="service__title">{{ \Carbon\Carbon::parse($schedule->schedule_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($schedule->schedule_time_end)->format('H:i') }}</h5>
-                @endforeach
-                    <br>
-                </div><!-- /.service__content -->
-                </div><!-- /.service-item -->
-            </div><!-- /.col-lg-4 -->
-            @endforeach<!-- /.col-lg-4 -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section><!-- /.Services Layout 1 -->
+                <div class="card-body">
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
-@endsection
+                    <form method="POST" action="/code/update/{{ auth()->user()->patient_id }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="pin">Enter your 4-digit Pin:</label>
+                            <input type="password" class="form-control @error('pin') is-invalid @enderror" name="access_code" style="font-size: 24px; maxlength="4" pattern="[0-9]*" inputmode="numeric" required>
+                            @error('pin')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
-@section('container')
-    
+                        <button type="submit" class="btn btn-primary">Save Pin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

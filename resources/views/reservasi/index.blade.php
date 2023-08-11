@@ -36,6 +36,7 @@
                                 <tr>
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
+                                    <th scope="col" class="text-center">Nomor Urut</th>
                                     <th scope="col" class="text-center">Jadwal</th>
                                     <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Action</th>
@@ -49,6 +50,7 @@
                                     <tr>
                                         <td>{{ $reservation->reservation_code }}</td>
                                         <td>{{ $reservation->patient->user->name }}</td>
+                                        <td>{{ $reservation->nomor_urut }}</td>
                                         <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $reservation->schedule->schedule_time }}</td>
                                             @if($reservation->status == 0)
@@ -81,7 +83,8 @@
                                                             <div class="form-group">
                                                                 <form action="/admin/storeMed" method="POST" enctype="multipart/form-data">
                                                                     @csrf
-                                                                <label for="Isi Hasil">Isi Hasil</label>
+                                                                <br>
+                                                                <label for="Isi Hasil">Isi Hasil Pemeriksaan</label>
                                                                 <textarea class="form-control" name="desc" id="isihasil1" placeholder="Masukkan Hasil"></textarea>
                                                                 <input type="text" value="{{ auth()->user()->id }}" name="patient_id" hidden>
                                                                 <input type="text" value="{{ $reservation->id }}" name="reservation_id" hidden>
@@ -110,6 +113,7 @@
                                 <tr>
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
+                                    <th scope="col" class="text-center">Nomor Urut</th>
                                     <th scope="col" class="text-center">Jadwal</th>
                                     <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Action</th>
@@ -123,6 +127,7 @@
                                     <tr>
                                         <td>{{ $reservation->reservation_code }}</td>
                                         <td>{{ $reservation->patient->user->name }}</td>
+                                        <td><center>{{ $reservation->nomor_urut }}</center></td>
                                         <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $reservation->schedule->schedule_time }}</td>
                                             @if($reservation->status == 0)

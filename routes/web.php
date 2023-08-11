@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccessCodeController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\MedicalRecordManageController;
@@ -49,6 +50,8 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     ], ['as' => 'admin']);
     Route::post('/storeMed', [ReservationController::class, 'storeMed'], ['as' => 'admin']);
     Route::get('/list-cancel', [ReservationController::class, 'cancel'], ['as' => 'admin']);
+    Route::get('/waiting-list', [ReservationController::class, 'wait'], ['as' => 'admin']);
+    Route::put('/approve/{id}', [ReservationController::class, 'approve'], ['as' => 'admin']);
     Route::put('/restore/{id}', [ReservationController::class, 'restore'], ['as' => 'admin']);
 });
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
@@ -62,8 +65,10 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/reservasi' => PasienReservationController::class,
         '/profile' => ProfileController::class,
         '/pengumuman' => PasienAnnouncementController::class,
+        '/code' => AccessCodeController::class,
     ]);
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
+    Route::get('/bukti-pembayaran', [PasienReservationController::class, 'bukti']);
     Route::get('/cancel/{id}', [PasienReservationController::class, 'cancel']);
     Route::get('/getTime/{date}', [PasienReservationController::class, 'getTime']);
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);

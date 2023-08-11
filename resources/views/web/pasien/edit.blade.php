@@ -7,8 +7,8 @@
         <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <img src="assets/images/logo/2.png" class="logo-light" alt="logo">
-                <img src="assets/images/logo/1.png" class="logo-dark" alt="logo">
+                <img src="{{ asset('assets/images/logo/2.png') }}" class="logo-light" alt="logo">
+                <img src="{{ asset('assets/images/logo/1.png') }}" class="logo-dark" alt="logo">
             </a>
             <button class="navbar-toggler" type="button">
                 <span class="menu-lines"><span></span></span>

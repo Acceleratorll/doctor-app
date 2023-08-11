@@ -209,8 +209,8 @@
     <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <img src="assets/images/logo/2.png" class="logo-light" alt="logo">
-                <img src="assets/images/logo/1.png" class="logo-dark" alt="logo">
+                <img src="{{ asset('assets/images/logo/2.png') }}" class="logo-light" alt="logo">
+                <img src="{{ asset('assets/images/logo/1.png') }}" class="logo-dark" alt="logo">
             </a>
             <button class="navbar-toggler" type="button">
                 <span class="menu-lines"><span></span></span>
@@ -270,24 +270,6 @@
 </header>
 <div class="about-layout4 pb-0 ">
     <div class="row ">
-        {{-- Sidebar --}}
-        {{-- <div class="col-md-2 bg-dark">
-            <div class="mt-4 py-5 px-4 text-center">
-                <img src="https://i.ibb.co/3yYMBtB/profil.png" alt="">
-                <h5 class="text-white py-2">dr. Alexander Bell</h5>
-                <p class="text-white">Dokter Spesialis Umum</p>
-                <div class="about__Text mt-5">
-                    <p class="mb-30">
-                        <a href="" class="mt-5 text-white">Kondisi & Minat Klinis</a>
-                        <a href="" class="mt-5 text-white">Kondisi & Minat Klinis</a>
-                        <a href="" class="mt-5 text-white">Kondisi & Minat Klinis</a>
-                        <a href="" class="mt-5 text-white">Kondisi & Minat Klinis</a>
-                    </p>
-                </div>
-            </div>
-        </div> --}}
-        {{-- End of Sidebar --}}
-        {{-- sebelah sidebar --}}
         <div class="col-md-2">
             <div class="px-5 py-5">
                 <ul class=" list-items list-items-layout3 list-unstyled">
@@ -296,16 +278,16 @@
                     </li>
                 </ul>
                 <ul class=" package__list list-items list-items-layout2 list-unstyled">
-                    {{-- <li>
-                        <h6>Pilih Lokasi</h6>
-                    </li>
                     <li>
-                        <h6>Data Pasien</h6>
-                    </li> --}}
-                    <li>
-                        <h6>Konfirmasi</h6>
+                        <h6>Konfirmasi Data</h6>
                     </li> 
                 </ul>
+                <ul class=" list-items list-items-layout3 list-unstyled">
+                    <li>
+                        <h6>Bukti Pembayaran</h6>
+                    </li>
+                </ul>
+                
             </div>
         </div>
         <div class="col-md-6 px-5 py-5">
@@ -353,14 +335,15 @@
                     <td>: {{ $request['schedule_time'] }}</td>
                 </tr>
             </table>
-            <form action="{{ route('reservasi.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="/bukti-pembayaran" method="get" enctype="multipart/form-data">
                 @csrf
             <input type="number" value="{{ $antrian }}" name="nomor_urut" hidden>
             <input type="number" value="{{ $code }}" name="reservation_code" hidden>
             <input type="date" value="{{ $request['schedule_date'] }}" name="schedule_date" hidden>
             <input type="time" value="{{ $request['schedule_time'] }}" name="schedule_time" hidden>
             <br>
-            <input type="checkbox" id="konfirmasi" style="margin-right:12px" required><label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
+            <input type="checkbox" id="konfirmasi" style="margin-right:12px" required>
+            <label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
             <div>
                 <a href="javascript:history.back()" class="btn mt-3 text-end">
                     <i class="icon-arrow-left"></i><span>Kembali</span>

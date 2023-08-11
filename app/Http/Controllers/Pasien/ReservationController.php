@@ -7,8 +7,11 @@ use App\Models\Reservation;
 use App\Models\Schedule;
 use App\Models\User;
 use Carbon\Carbon;
+use Facade\FlareClient\View;
+use Illuminate\Contracts\View\View as ViewView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ReservationController extends Controller
 {
@@ -36,26 +39,29 @@ class ReservationController extends Controller
 
     public function getTime(Request $request)
     {
-        $times = Schedule::where('place_id', 2)->whereDate('schedule_date', $request['date'])->get();
+        $times = Schedule::where('place_id', 2)
+            ->whereDate('schedule_date', $request['date'])
+            ->get();
 
-        $html = '<div class="row" id="schedule_time"></div>';
+        $html = '<div class="row" id="schedule_time">';
 
         foreach ($times as $time) {
-            $html .= '<div class="row" id="schedule_time">
-            <div class="col-md-3">
-                                            <a href="#">
-                                                <input class="form-check-input" type="radio" name="schedule_time" id="schedule_time{{ $schedule->id }}" value="' . $time['schedule_time'] . '">
-                                                <label for="">
-                                                    <div class="card active-card">
-                                                        <div class="card-body">
-                                                            <p class="card-title">' . $time['schedule_time'] . ' Hingga ' . $time['schedule_time_end'] . '</p>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            </a>
-                                        </div>
-                                        </div>';
+            $html .= '<div class="col-md-3">
+                <a href="#">
+                    <input class="form-check-input" type="radio" name="schedule_time" id="schedule_time' . $time->id . '" value="' . $time->schedule_time . '">
+                    <label for="schedule_time' . $time->id . '">
+                        <div class="card active-card">
+                            <div class="card-body">
+                                <p class="card-title">' . $time->schedule_time . ' Hingga ' . $time->schedule_time_end . '</p>
+                            </div>
+                        </div>
+                    </label>
+                </a>
+            </div>&nbsp';
         }
+
+        $html .= '</div>';
+
         return response()->json($html);
     }
 
@@ -74,12 +80,20 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $schedule = Schedule::whereDate('schedule_date', $request['schedule_date'])->where('schedule_time', $request['schedule_time'])->first();
-        Reservation::create([
+        if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {
+
+            $imagePath = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+        }
+
+            Reservation::create([
             'patient_id' => auth()->user()->patient->id,
             'schedule_id' => $schedule->id,
             'reservation_code' => $request['reservation_code'],
+            'bukti_pembayaran' => $imagePath,
             'nomor_urut' => $request['nomor_urut'],
         ]);
+
+
         return redirect()->route('jadwal.index');
     }
 
@@ -87,6 +101,11 @@ class ReservationController extends Controller
     {
         Reservation::findOrFail($id)->delete();
         return redirect()->route('profile.index');
+    }
+
+    public function bukti(Request $request)
+    {
+        return view('web.bukti_pembayaran', compact(['request']));
     }
 
     public function show($id)
