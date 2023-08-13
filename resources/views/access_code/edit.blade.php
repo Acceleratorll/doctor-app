@@ -76,13 +76,36 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    @if (session('failed'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('failed') }}
+                        </div>
+                    @endif
 
-                    <form method="POST" action="/saveCode">
+                    <form method="POST" action="/code/update/{{ auth()->user()->patient_id }}">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="pin">Enter your 4-digit Pin:</label>
+                            @error('access_code')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            
+                            <label for="pin">Enter Your Pin: (4-Digit)</label>
                             <input type="password" class="form-control @error('pin') is-invalid @enderror" name="access_code" style="font-size: 24px; maxlength="4" pattern="[0-9]*" inputmode="numeric" required>
+                            @error('pin')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        
+                        <div class="form-group">
+                            @error('access_code_new')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            
+                            <label for="pin">Enter New Pin: (4-Digit)</label>
+                            <input type="password" class="form-control @error('pin') is-invalid @enderror" name="access_code_new" style="font-size: 24px; maxlength="4" pattern="[0-9]*" inputmode="numeric" required>
                             @error('pin')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

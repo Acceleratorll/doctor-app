@@ -31,7 +31,11 @@ class ProfileController extends Controller
             })
             ->where('status', 0)
             ->first();
-        return view('web.pasien.index', compact(['records', 'reservation']));
+
+        $data = session()->get('data');
+        session()->forget('data');
+
+        return view('web.pasien.index', compact(['records', 'reservation', 'data']));
     }
 
     /**
@@ -118,12 +122,28 @@ class ProfileController extends Controller
         return redirect()->route('profile.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function getMedical(Request $request)
+    {
+        if ($request->access_code != null) {
+            $user = auth()->user();
+            $access_code = $user->patient->access_code;
+
+            if ($request->access_code === $access_code) {
+                return $this->fetchMedicalRecords($user);
+            } else {
+                return response()->json(['error' => 'Invalid PIN'], 400);
+            }
+        }
+    }
+
+    private function fetchMedicalRecords($user)
+    {
+        $records = $user->patient->records;
+
+        $view = view('partial.medical', compact('records'))->render();
+        return response()->json(['success' => true, 'html' => $view]);
+    }
+
     public function destroy($id)
     {
         //

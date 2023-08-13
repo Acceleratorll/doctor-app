@@ -24,7 +24,18 @@ class AccessCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'access_code' => 'required|numeric|digits:4',
+            'access_code' => ['required', 'numeric', 'digits:4'],
+            'access_code_new' => ['numeric', 'digits:4'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'access_code.numeric' => 'Pin must be a numeric.',
+            'access_code.digits' => 'Pin Max 4 Digits.',
+            'access_code_new.numeric' => 'Pin must be a numeric.',
+            'access_code_new.digits' => 'Pin Max 4 Digits.',
         ];
     }
 }

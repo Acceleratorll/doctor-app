@@ -15,7 +15,7 @@ class AccessCodeController extends Controller
      */
     public function index()
     {
-        //
+        return view('access_code.index');
     }
 
     /**
@@ -34,8 +34,14 @@ class AccessCodeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AccessCodeRequest $request)
+    public function saveCode(Request $request)
     {
+        $request->validate([
+            'access_code' => 'required|numeric|digits:4',
+        ]);
+
+        $patient = Patient::findOrFail(auth()->user()->patient->id);
+        $patient->update(['access_code' => $request->access_code]);
         return redirect()->route('profile.index')->with('success', 'Pin set up successfully!');
     }
 
@@ -58,7 +64,18 @@ class AccessCodeController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('access_code.edit');
+    }
+
+    public function verifyCode(AccessCodeRequest $request)
+    {
+        $id = auth()->user()->patient->id;
+        $patient = Patient::findOrFail($id);
+        if ($patient->access_code == $request->access_code) {
+            session()->put('data', $patient->medical_records);
+            return redirect()->route('profile.index');
+        }
+        return redirect()->back()->withErrors(['access_code' => 'Incorrect Pin.']);
     }
 
     /**
@@ -71,7 +88,12 @@ class AccessCodeController extends Controller
     public function update(AccessCodeRequest $request, $id)
     {
         $id = auth()->user()->patient->id;
-        Patient::findOrFail($id)->update(['access_code' => $request['access_code']]);
+        $patient = Patient::findOrFail($id);
+        if ($patient->access_code != $request->access_code) {
+            return back()->with('failed', 'Pin Salah!');
+        }
+
+        $patient->update(['access_code' => $request->access_code_new]);
         return redirect()->route('profile.index')->with('success', 'Pin updated successfully!');
     }
 

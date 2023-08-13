@@ -50,8 +50,8 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     ], ['as' => 'admin']);
     Route::post('/storeMed', [ReservationController::class, 'storeMed'], ['as' => 'admin']);
     Route::get('/list-cancel', [ReservationController::class, 'cancel'], ['as' => 'admin']);
-    Route::get('/waiting-list', [ReservationController::class, 'wait'], ['as' => 'admin']);
-    Route::put('/approve/{id}', [ReservationController::class, 'approve'], ['as' => 'admin']);
+    Route::get('/waiting-list', [ReservationController::class, 'wait'])->name('admin.waiting-list');
+    Route::put('/approve/{id}', [ReservationController::class, 'approve'])->name('admin.approve');
     Route::put('/restore/{id}', [ReservationController::class, 'restore'], ['as' => 'admin']);
 });
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
@@ -67,6 +67,8 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/pengumuman' => PasienAnnouncementController::class,
         '/code' => AccessCodeController::class,
     ]);
+    Route::put('/saveCode', [AccessCodeController::class, 'saveCode']);
+    Route::get('/verifyCode', [AccessCodeController::class, 'verifyCode'])->name('verifyCode');
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
     Route::get('/bukti-pembayaran', [PasienReservationController::class, 'bukti']);
     Route::get('/cancel/{id}', [PasienReservationController::class, 'cancel']);
@@ -74,6 +76,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
     Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
     Route::get('/notifikasi', [NotificationController::class, 'index']);
+    Route::get('/get-medical-records', [MedicalRecordController::class, 'getMedicalRecords'])->name('get-medical-records');
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
 

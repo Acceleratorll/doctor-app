@@ -32,18 +32,17 @@
                                     @else
                                     @foreach($waits as $wait)
                                     <tr>
-                                        <td>{{ $wait->reservation_code }}</td>
+                                        <td class="text-center">{{ $wait->reservation_code }}</td>
                                         <td>{{ $wait->patient->user->name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($wait->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $wait->schedule->schedule_time }}</td>
-                                        <td>{{ $wait->nomor_urut }}</td>
-                                        <td>{{ asset('storage/'.$wait->bukti_pembayaran) }}</td>
+                                        <td class="text-center">{{ $wait->nomor_urut }}</td>
+                                        <td><img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}"></td>
                                         <td class="project-actions text-center">
-                                            <form action="/approve/{{ $wait->id }}" method="POST">
+                                            <form action="{{ route('admin.approve', ['id' => $wait->id]) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-trash"></i>
+                                                <button type="submit" class="btn btn-primary btn-sm">
                                                     Approve
                                                 </button>
                                             </form>

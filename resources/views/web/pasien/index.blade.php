@@ -170,9 +170,13 @@
                     <div class="col-sm-6">
                       <a class="btn btn-info" target="__blank" href="/profile/{{ auth()->user()->patient->id }}/edit">Edit</a>
                     </div>
-                      @if(auth()->user()->access_code == null)
+                      @if(auth()->user()->patient->access_code == null)
                     <div class="col-sm-6">
                       <a class="btn btn-danger" target="__blank" href="{{ route('code.create') }}">Set PIN</a>
+                    </div>
+                    @else
+                    <div class="col-sm-6">
+                      <a class="btn btn-primary" target="__blank" href="/code/{{ auth()->user()->patient->id }}/edit">Edit PIN</a>
                     </div>
                     @endif
                   </div>
@@ -183,12 +187,18 @@
                   <div class="card h-100">
                     <div class="card-body">
                       <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">List</i>Rekam Medis</h6>
-                      @if(auth()->user()->access_code != null)
+                      @if(auth()->user()->patient->access_code != null)
                       @if($records->count() > 0)
-                      @foreach($records as $record)
-                          <small>Periksa pada tanggal {{ date('d F Y', strtotime($record->updated_at)) }}</small><br>
-                          <strong>{{ $record->desc }}</strong><br><br>
-                      @endforeach
+                      <div id="medical-records-container">
+                        @if($data != null)
+                        @foreach($data as $dataItem)
+                        <small>Periksa pada tanggal {{ date('d F Y', strtotime($dataItem->updated_at)) }}</small><br>
+                        <strong>{{ $dataItem->desc }}</strong><br><br>
+                        @endforeach
+                        @else
+                        <a class="btn btn-info" target="__blank" href="{{ route('code.index') }}" name="btn-code">Lihat Hasil Periksa</a>
+                        @endif
+                      </div>
                       @else
                       <strong>Tidak ada Data Rekam Medis</strong><br><br>
                       @endif
@@ -224,3 +234,28 @@
         </div>
     </div>
 @endsection
+<script>
+// $(document).ready(function() {
+//     $('#code-submit').click(function(event) {
+//         event.preventDefault();
+        
+//         var access_code = $('#access_code').val();
+        
+//         $.ajax({
+//             url: '{{ route('get-medical-records') }}',
+//             type: 'GET',
+//             data: { access_code: access_code },
+//             success: function(response) {
+//                 if (response.success) {
+//                     $('#medical-records-container').html(response.html);
+//                 } else {
+//                     $('#error-message').text(response.error);
+//                 }
+//             },
+//             error: function(error) {
+//                 console.error(error);
+//             }
+//         });
+//     });
+// });
+</script>

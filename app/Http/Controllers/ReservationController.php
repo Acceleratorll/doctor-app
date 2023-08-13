@@ -132,7 +132,7 @@ class ReservationController extends Controller
     public function approve($id)
     {
         Reservation::findOrFail($id)->update(['approve' => 1]);
-        return redirect('/waiting-list');
+        return redirect()->route('admin.waiting-list');
     }
 
     public function restore($id)
