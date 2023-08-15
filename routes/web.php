@@ -3,6 +3,8 @@
 use App\Http\Controllers\AccessCodeController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EmployeeManageController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\ICDController;
 use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Pasien\AnnouncementController as PasienAnnouncementController;
@@ -48,6 +50,9 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/reservation' => ReservationController::class,
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
+    Route::get('/icd', [ICDController::class, 'index'])->name('icd.index');
+    Route::post('/icd/detail', [ICDController::class, 'detail'])->name('icd.detail');
+    Route::post('/icd/search', [ICDController::class, 'search'])->name('icd.search');
     Route::post('/storeMed', [ReservationController::class, 'storeMed'], ['as' => 'admin']);
     Route::get('/list-cancel', [ReservationController::class, 'cancel'], ['as' => 'admin']);
     Route::get('/waiting-list', [ReservationController::class, 'wait'])->name('admin.waiting-list');
@@ -56,6 +61,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
 });
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
 
+Route::get('/download/{id}', [FileController::class, 'download'])->name('files.download');
 
 Route::middleware(['auth', 'patient'])->group(function () {
     Route::resources([
@@ -76,12 +82,11 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
     Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
     Route::get('/notifikasi', [NotificationController::class, 'index']);
-    Route::get('/get-medical-records', [MedicalRecordController::class, 'getMedicalRecords'])->name('get-medical-records');
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
 
-Route::fallback(function () {
-    return redirect()->route('dashboard');
-});
+// Route::fallback(function () {
+//     return redirect()->route('dashboard');
+// });
 
 require __DIR__ . '/auth.php';

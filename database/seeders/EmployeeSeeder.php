@@ -18,6 +18,7 @@ class EmployeeSeeder extends Seeder
             [
                 'user_id' => 1,
                 'qualification' => 'Kulit dan Kelamin',
+                'icd_token' => '',
             ],
         ];
         DB::table('employees')->insert($employee);

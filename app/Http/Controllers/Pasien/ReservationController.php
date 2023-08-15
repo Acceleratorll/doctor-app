@@ -67,14 +67,18 @@ class ReservationController extends Controller
 
     public function confirm(Request $request)
     {
-        $reservation = Reservation::where('schedule_id', $request->id)->orderBy('nomor_urut', 'desc')->first();
-        $code = hexdec(substr(uniqid(), 6, 6));
-        $antrian = 1;
-        if ($reservation != null) {
-            $antrian = $reservation->nomor_urut + 1;
+        $reservation = Reservation::where('schedule_id', $request->id)->get();
+        if ($reservation->count() <= $reservation->schedule->qty) {
+            $code = hexdec(substr(uniqid(), 6, 6));
+            $antrian = 1;
+            if ($reservation != null) {
+                $antrian = $reservation->orderBy('nomor_urut', 'desc')->nomor_urut + 1;
+            }
+            $doctor = User::where('role_id', 1)->first();
+            return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code']));
+        } else {
+            return back()->with('error', 'Reservasi telah mencapai batas kuota');
         }
-        $doctor = User::where('role_id', 1)->first();
-        return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code']));
     }
 
     public function store(Request $request)
@@ -85,7 +89,7 @@ class ReservationController extends Controller
             $imagePath = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
         }
 
-            Reservation::create([
+        Reservation::create([
             'patient_id' => auth()->user()->patient->id,
             'schedule_id' => $schedule->id,
             'reservation_code' => $request['reservation_code'],

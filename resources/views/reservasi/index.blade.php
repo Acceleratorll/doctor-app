@@ -86,11 +86,12 @@
                                                                 <br>
                                                                 <label for="Isi Hasil">Isi Hasil Pemeriksaan</label>
                                                                 <textarea class="form-control" name="desc" id="isihasil1" placeholder="Masukkan Hasil"></textarea>
+                                                                <input type="file" id="file-input" name="files[]" multiple>
                                                                 <input type="text" value="{{ auth()->user()->id }}" name="patient_id" hidden>
                                                                 <input type="text" value="{{ $reservation->id }}" name="reservation_id" hidden>
                                                                 <div class="text-center" style = "margin-top: 10px; margin-bottom: -20px">
                                                                     <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
-                                                                    <button type="reset" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </button>
+                                                                    <button id="cancelButton{{ $reservation->id }}" type="reset" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </button>
                                                                 </div>
                                                                 </form>
                                                             </div>
@@ -190,6 +191,25 @@
             });
         }
     )
+
+    // Function to hide the collapsible element
+    function hideCollapsible(reservationId) {
+        $('#belumhasil' + reservationId).collapse('hide');
+    }
+
+    // Attach event listeners to the buttons
+    $(document).ready(function() {
+        $('[id^="saveButton"]').click(function() {
+            const reservationId = this.id.replace('saveButton', '');
+            hideCollapsible(reservationId);
+        });
+
+        $('[id^="cancelButton"]').click(function() {
+            const reservationId = this.id.replace('cancelButton', '');
+            hideCollapsible(reservationId);
+        });
+    });
+
 </script>
 </body>
 

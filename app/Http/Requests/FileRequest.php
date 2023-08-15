@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ScheduleRequest extends FormRequest
+class FileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class ScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'place_id' => 'required',
-            'schedule_date' => 'required|date',
-            'schedule_time' => 'required',
-            'schedule_time_end' => 'required',
-            'qty' => 'required',
+            'files.*' => 'mimes:pdf,jpg,png,jpeg|max:2048'
         ];
     }
 }

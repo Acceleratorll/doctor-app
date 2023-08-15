@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FileRequest;
+use App\Http\Requests\MedicalRecordRequest;
 use App\Http\Requests\ReservationRequest;
-use App\Models\Employee;
+use App\Models\File;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Reservation;
 use App\Models\Schedule;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ReservationController extends Controller
 {
@@ -47,7 +52,11 @@ class ReservationController extends Controller
      */
     public function store(ReservationRequest $request)
     {
-        Reservation::create($request->all());
+        $schedule = Schedule::findOrFail($request->schedule_id);
+        $jumlah = Reservation::count();
+        if ($jumlah <= $schedule->qty) {
+            Reservation::create($request->all());
+        }
         return redirect()->route('admin.reservation.index');
     }
 
@@ -93,6 +102,8 @@ class ReservationController extends Controller
         if ($reservation->status == 1 && $request['status'] == 0) {
             $medic = MedicalRecord::where('patient_id', $reservation->patient_id)->latest()->first();
             $medic->delete();
+
+            File::where('medical_record_id', $medic->id)->delete();
         }
 
         $reservation->update($request->all());
@@ -105,12 +116,7 @@ class ReservationController extends Controller
         $reservation->update();
         return response()->json("Reservation has been finished");
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         Reservation::withTrashed()->findOrFail($id)->forceDelete();
@@ -218,13 +224,42 @@ class ReservationController extends Controller
         return response()->json($antrian);
     }
 
-    public function storeMed(Request $request)
+    public function storeMed(MedicalRecordRequest $recordRequest, FileRequest $fileRequest)
     {
-        Reservation::findOrFail($request['reservation_id'])->update(['status' => 1]);
-        MedicalRecord::where('patient_id', $request['patient_id'])->create([
-            'patient_id' => $request['patient_id'],
-            'desc' => $request['desc']
-        ]);
-        return redirect()->route('admin.reservation.index');
+        $medicalData = $recordRequest->validated();
+        $reservation = Reservation::findOrFail($recordRequest['reservation_id']);
+
+        DB::beginTransaction();
+
+        try {
+            $reservation->update(['status' => 1]);
+            $record = MedicalRecord::create($medicalData);
+
+            foreach ($fileRequest->file('files') as $file) {
+                $filePath = $file->store('record_files/' . $reservation->patient_id . '/' . $record->id, 'public');
+
+                File::create([
+                    'medical_record_id' => $record->id,
+                    'title' => $this->sanitizeFilename($file->getClientOriginalName()),
+                    'type' => $file->getClientOriginalExtension(),
+                    'url' => $filePath,
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin.reservation.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error($e);
+
+            return redirect()->back()->with('error', 'An error occurred while saving data.');
+        }
+    }
+
+    private function sanitizeFilename($filename)
+    {
+        return preg_replace('/[^a-zA-Z0-9_.\-]/', '_', $filename);
     }
 }

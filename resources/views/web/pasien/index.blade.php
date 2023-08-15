@@ -194,6 +194,10 @@
                         @foreach($data as $dataItem)
                         <small>Periksa pada tanggal {{ date('d F Y', strtotime($dataItem->updated_at)) }}</small><br>
                         <strong>{{ $dataItem->desc }}</strong><br><br>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="location.href='/download/{{ $dataItem->id }}'">
+                          <i class="fa fa-edit"></i>
+                          Download
+                        </button>
                         @endforeach
                         @else
                         <a class="btn btn-info" target="__blank" href="{{ route('code.index') }}" name="btn-code">Lihat Hasil Periksa</a>
@@ -218,7 +222,11 @@
                       <p>Nomor Urut</p><h5>{{ $reservation->nomor_urut }}</h5>
                       <small>Tanggal <b>{{ date('d F Y', strtotime($reservation->schedule->schedule_date)) }}</b></small><br>
                       <small>Jam Periksa Dimulai <b>{{ date('H:i', strtotime($reservation->schedule->schedule_time)) }}</b></small><br><br>
+                      @if($reservation->approve == 0)
                       <p class="text-center"><b>Status :</b> <strong>Menunggu Konfirmasi</strong></p><br>
+                      @else
+                      <p class="text-center"><b>Status :</b> <strong>Sudah di Konfirmasi</strong></p><br>
+                      @endif
                       <a href="cancel/{{ $reservation->id }}" class="btn btn-danger">Batalkan Pesanan</a>
                       @else
                       <strong>Anda belum melakukan reservasi</strong><br><br>

@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'icd' => [
+        'client_id' => env('ICD_CLIENT_ID'),
+        'client_secret' => env('ICD_CLIENT_SECRET'),
+        'redirect' => 'your_callback_url',
+    ],
+
 ];

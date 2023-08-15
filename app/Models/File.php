@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class File extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'medical_record_id',
         'title',
-        'description',
-        'image',
+        'type',
+        'url',
     ];
 
     public function medical_record()

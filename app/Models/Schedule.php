@@ -15,6 +15,7 @@ class Schedule extends Model
         'schedule_date',
         'schedule_time',
         'schedule_time_end',
+        'qty',
     ];
 
     public function reservations()

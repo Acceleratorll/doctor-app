@@ -47,9 +47,8 @@
                             <table class="table table-bordered" id="table{{ $placeId }}">
                                 <thead class="thead-dark">
                                     <tr>
-                                        {{-- <th scope="col" class="text-center">ID Dokter</th>
-                                        <th scope="col" class="text-center">Nama Dokter</th> --}}
                                         <th scope="col" class="text-center">Tanggal</th>
+                                        <th scope="col" class="text-center">Kuota</th>
                                         <th scope="col" class="text-center">Jam Mulai</th>
                                         <th scope="col" class="text-center">Jam Berakhir</th>
                                         <th scope="col" class="text-center">Action</th>
@@ -59,6 +58,7 @@
                                     @foreach($placeSchedules as $schedule)
                                     <tr>
                                         <td>{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') }}</td>
+                                        <td>{{ $schedule->qty }}</td>
                                         <td>{{ $schedule->schedule_time }}</td>
                                         <td>{{ $schedule->schedule_time_end }}</td>
                                         <td class="project-actions text-center">

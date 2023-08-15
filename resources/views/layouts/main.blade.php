@@ -307,6 +307,12 @@
                                         <p>Master Rekam Medis</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('icd.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>ICD</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <form action="{{ route('logout') }}" method="POST" enctype="multipart/form-data">
