@@ -7,7 +7,8 @@
             <tr>
                 <th>Title</th>
                 <th>Chapter</th>
-                <th>Action</th> <!-- Empty header for the "More Details" button column -->
+                <th>ID</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -17,8 +18,10 @@
                     <td>{!! $entity['chapter'] !!}</td>
                     <td>{!! $entity['id'] !!}</td>
                     <td>
-                        <form action="post" action="{{ route('icd.detail',[urlencode($entity['id'])]) }}">
-                            <input type="text" name="id" value="{{ $entity['id'] }}" hidden>
+                        {{-- <form method="POST" action="{{ route('icd.detail',['url' => substr(strrchr($entity['id'], '/'), 1)]) }}"> --}}
+                        <form method="POST" action="{{ route('icd.detail')}}">
+                            @csrf
+                            <input type="text" name="id" value="{{ substr(strrchr($entity['id'], '/'), 1) }}" hidden>
                             <button type="submit" class="btn btn-primary">More Details</button>
                         </form>
                     </td>

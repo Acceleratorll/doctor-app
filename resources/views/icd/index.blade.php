@@ -2,20 +2,46 @@
 
 @section('container')
 <h1>ICD Search</h1>
-    @include('icd.search')
-
-    <form action="{{ route('icd.detail') }}" method="get">
-        <input type="text" name="id" value="http://id.who.int/icd/entity/661232217" hidden>
-        {{-- <a href="{{ route('icd.detail',[urlencode('http://id.who.int/icd/entity/661232217')]) }}">coba</a> --}}
-        <button type="submit">submit</button>
+    <form action="{{ route('icd.search') }}" method="POST">
+        @csrf
+        <input class="form-control" type="text" name="term" placeholder="Enter search term"> <br>
+        <button class="btn btn-primary" type="submit">Search</button>
     </form>
+
     <br>
 
     @if (isset($data))
-        @include('icd.result')
+    <h2>Search Results:</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Chapter</th>
+                <th>ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($data['destinationEntities'] as $entity)
+                <tr>
+                    <td>{!! $entity['title'] !!}</td>
+                    <td>{!! $entity['chapter'] !!}</td>
+                    <td>{!! $entity['id'] !!}</td>
+                    <td>
+                        {{-- <form method="POST" action="{{ route('icd.detail',['url' => substr(strrchr($entity['id'], '/'), 1)]) }}"> --}}
+                        <form method="POST" action="/admin/icd/show">
+                            @csrf
+                            <input type="text" name="id" value="{{ substr(strrchr($entity['id'], '/'), 1) }}" hidden>
+                            <button type="submit" class="btn btn-primary">More Details</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
     @endif
 
-    @if (isset($details))
+    {{-- @if (isset($details))
         @include('icd.detail')
-    @endif
+    @endif --}}
 @endsection

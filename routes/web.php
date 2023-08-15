@@ -51,7 +51,8 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
     Route::get('/icd', [ICDController::class, 'index'])->name('icd.index');
-    Route::post('/icd/detail', [ICDController::class, 'detail'])->name('icd.detail');
+    // Route::get('/icd/detail', [ICDController::class, 'detail'])->name('icd.detail');
+    Route::post('/icd/show', [ICDController::class, 'detail'])->name('icd.show');
     Route::post('/icd/search', [ICDController::class, 'search'])->name('icd.search');
     Route::post('/storeMed', [ReservationController::class, 'storeMed'], ['as' => 'admin']);
     Route::get('/list-cancel', [ReservationController::class, 'cancel'], ['as' => 'admin']);
