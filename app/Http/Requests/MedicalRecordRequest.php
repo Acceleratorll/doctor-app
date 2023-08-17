@@ -26,6 +26,7 @@ class MedicalRecordRequest extends FormRequest
 
         return [
             'patient_id' => 'required',
+            'icd_code' => '',
             'desc' => 'required',
         ];
     }

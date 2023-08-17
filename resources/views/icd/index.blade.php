@@ -29,7 +29,7 @@
                     <td>{!! $entity['id'] !!}</td>
                     <td>
                         {{-- <form method="POST" action="{{ route('icd.detail',['url' => substr(strrchr($entity['id'], '/'), 1)]) }}"> --}}
-                        <form method="POST" action="/admin/icd/show">
+                        <form method="POST" action="{{ route('icd.show') }}">
                             @csrf
                             <input type="text" name="id" value="{{ substr(strrchr($entity['id'], '/'), 1) }}" hidden>
                             <button type="submit" class="btn btn-primary">More Details</button>

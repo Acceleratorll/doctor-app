@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FileRequest;
 use App\Http\Requests\MedicalRecordRequest;
+use App\Models\File;
+use App\Models\Icd;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use Illuminate\Http\Request;
@@ -11,21 +14,39 @@ class MedicalRecordManageController extends Controller
 {
     public function index()
     {
-        $medical_records = MedicalRecord::with('patient')->latest()->get();
+        $medical_records = MedicalRecord::with(['patient', 'icd'])->latest()->get();
         return view('rekam_medis.index', compact('medical_records'));
     }
 
     public function create()
     {
         $patients = Patient::with('user')->get();
-        return view('rekam_medis.create', compact('patients'));
+        $icds = Icd::all();
+        return view('rekam_medis.create', compact(['patients', 'icds']));
     }
 
-    public function store(MedicalRecordRequest $request)
+    public function store(MedicalRecordRequest $request, FileRequest $fileRequest)
     {
         $input = $request->validated();
-        MedicalRecord::create($input);
+
+        $record = MedicalRecord::create($input);
+        foreach ($fileRequest->file('files') as $file) {
+            $filePath = $file->store('record_files/' . $request->patient_id . '/' . $record->id, 'public');
+
+            File::create([
+                'medical_record_id' => $record->id,
+                'title' => $this->sanitizeFilename($file->getClientOriginalName()),
+                'type' => $file->getClientOriginalExtension(),
+                'url' => $filePath,
+            ]);
+        }
+
         return redirect()->route('admin.medis.index');
+    }
+
+    private function sanitizeFilename($filename)
+    {
+        return preg_replace('/[^a-zA-Z0-9_.\-]/', '_', $filename);
     }
 
     public function show($id)

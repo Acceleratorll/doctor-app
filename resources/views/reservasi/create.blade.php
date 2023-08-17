@@ -18,6 +18,15 @@
             </ul>
         </div>
         @endif
+        @if($message = Session::get('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ $message }}
+                            </div>
+                        @elseif($message =  Session::get('error'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                        @endif
         <form action="{{ route('admin.reservation.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
@@ -47,6 +56,10 @@
                             @endforeach
                             @endif
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="queue_number">Bukti Pembayaran</label>
+                        <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         <label for="queue_number">Nomor Antrian</label>

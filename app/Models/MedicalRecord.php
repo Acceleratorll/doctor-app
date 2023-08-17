@@ -12,6 +12,7 @@ class MedicalRecord extends Model
 
     protected $fillable = [
         'patient_id',
+        'icd_code',
         'desc',
     ];
 
@@ -28,5 +29,10 @@ class MedicalRecord extends Model
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+
+    public function icd()
+    {
+        return $this->belongsTo(Icd::class);
     }
 }

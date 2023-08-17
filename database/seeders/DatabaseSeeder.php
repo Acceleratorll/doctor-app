@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PatientSeeder::class,
             AnnouncementSeeder::class,
             ScheduleSeeder::class,
+            ICDSeeder::class,
         ]);
     }
 }

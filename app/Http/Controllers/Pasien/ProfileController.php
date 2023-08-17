@@ -30,7 +30,8 @@ class ProfileController extends Controller
                 $query->where('schedule_date', '>=', $today);
             })
             ->where('status', 0)
-            ->first();
+            ->get();
+            // dd($reservation);
 
         $data = session()->get('data');
         session()->forget('data');

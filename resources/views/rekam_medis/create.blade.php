@@ -32,6 +32,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="icd_code">ICD</label>
+                    <select class="form-control select2" name="icd_code" id="icd_code">
+                        <option value="" selected></option>
+                        @foreach($icds as $icd)
+                        <option value="{{ $icd->code }}">{{ $icd->name_id }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="files">Files</label>
+                            <input class="form-control" type="file" name="files[]" id="files" multiple>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
@@ -50,9 +67,29 @@
     
     <script>
 		$("#namapasien").select2();
+		// $("#icd_code").select2();
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
         
+        $('#icd_code').select2({
+            ajax: {
+                url: '/getIcd',
+                type: 'GET',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                },
+                cache: true
+            },
+            placeholder: 'Select an ICD',
+            minimumInputLength: 1
+        }); 
 
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {

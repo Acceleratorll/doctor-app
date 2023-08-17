@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FileRequest;
 use App\Models\Reservation;
 use App\Models\Schedule;
 use App\Models\User;
@@ -67,38 +68,40 @@ class ReservationController extends Controller
 
     public function confirm(Request $request)
     {
-        $reservation = Reservation::where('schedule_id', $request->id)->get();
-        if ($reservation->count() <= $reservation->schedule->qty) {
-            $code = hexdec(substr(uniqid(), 6, 6));
-            $antrian = 1;
-            if ($reservation != null) {
-                $antrian = $reservation->orderBy('nomor_urut', 'desc')->nomor_urut + 1;
-            }
-            $doctor = User::where('role_id', 1)->first();
-            return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code']));
-        } else {
-            return back()->with('error', 'Reservasi telah mencapai batas kuota');
+        $schedule = Schedule::whereDate('schedule_date', $request->schedule_date)->where('schedule_time', $request->schedule_time)->first();
+        $reservation = Reservation::where('schedule_id', $schedule->id)->get();
+        $code = hexdec(substr(uniqid(), 6, 6));
+        $antrian = 1;
+        if ($reservation != null) {
+            $antrian = $reservation->max('nomor_urut') + 1;
         }
+        $doctor = User::where('role_id', 1)->first();
+        return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code']));
     }
 
     public function store(Request $request)
     {
         $schedule = Schedule::whereDate('schedule_date', $request['schedule_date'])->where('schedule_time', $request['schedule_time'])->first();
-        if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {
+        $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
 
-            $imagePath = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+        if ($jumlah < $schedule->qty) {
+            if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {
+
+                $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+            }
+
+            Reservation::create([
+                'patient_id' => auth()->user()->patient->id,
+                'schedule_id' => $schedule->id,
+                'reservation_code' => $request['reservation_code'],
+                'bukti_pembayaran' => $image,
+                'nomor_urut' => $request['nomor_urut'],
+            ]);
+
+            return redirect()->route('profile.index');
+        } else {
+            return back()->with('error', 'Reservasi telah mencapai batas kuota');
         }
-
-        Reservation::create([
-            'patient_id' => auth()->user()->patient->id,
-            'schedule_id' => $schedule->id,
-            'reservation_code' => $request['reservation_code'],
-            'bukti_pembayaran' => $imagePath,
-            'nomor_urut' => $request['nomor_urut'],
-        ]);
-
-
-        return redirect()->route('jadwal.index');
     }
 
     public function cancel($id)

@@ -37,7 +37,7 @@
                                         <td>{{ \Carbon\Carbon::parse($wait->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $wait->schedule->schedule_time }}</td>
                                         <td class="text-center">{{ $wait->nomor_urut }}</td>
-                                        <td><img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}"></td>
+                                        <td><img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" width="300px" height="300px"></td>
                                         <td class="project-actions text-center">
                                             <form action="{{ route('admin.approve', ['id' => $wait->id]) }}" method="POST">
                                                 @csrf

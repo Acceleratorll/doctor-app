@@ -218,16 +218,18 @@
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center">
                       <h6><i class="material-icons text-info mr-2">List</i>Reservasi</h6>
-                      @if($reservation != null)
-                      <p>Nomor Urut</p><h5>{{ $reservation->nomor_urut }}</h5>
-                      <small>Tanggal <b>{{ date('d F Y', strtotime($reservation->schedule->schedule_date)) }}</b></small><br>
-                      <small>Jam Periksa Dimulai <b>{{ date('H:i', strtotime($reservation->schedule->schedule_time)) }}</b></small><br><br>
-                      @if($reservation->approve == 0)
+                      @if($reservation->count() > 0)
+                      @foreach($reservation as $reservationItem)
+                      <p>Nomor Urut</p><h5>{{ $reservationItem->nomor_urut }}</h5>
+                      <small>Tanggal <b>{{ date('d F Y', strtotime($reservationItem->schedule->schedule_date)) }}</b></small><br>
+                      <small>Jam Periksa Dimulai <b>{{ date('H:i', strtotime($reservationItem->schedule->schedule_time)) }}</b></small><br><br>
+                      @if($reservationItem->approve == 0)
                       <p class="text-center"><b>Status :</b> <strong>Menunggu Konfirmasi</strong></p><br>
                       @else
                       <p class="text-center"><b>Status :</b> <strong>Sudah di Konfirmasi</strong></p><br>
                       @endif
-                      <a href="cancel/{{ $reservation->id }}" class="btn btn-danger">Batalkan Pesanan</a>
+                      <a href="cancel/{{ $reservationItem->id }}" class="btn btn-danger">Batalkan Pesanan</a><br>
+                      @endforeach
                       @else
                       <strong>Anda belum melakukan reservasi</strong><br><br>
                       @endif
@@ -242,28 +244,3 @@
         </div>
     </div>
 @endsection
-<script>
-// $(document).ready(function() {
-//     $('#code-submit').click(function(event) {
-//         event.preventDefault();
-        
-//         var access_code = $('#access_code').val();
-        
-//         $.ajax({
-//             url: '{{ route('get-medical-records') }}',
-//             type: 'GET',
-//             data: { access_code: access_code },
-//             success: function(response) {
-//                 if (response.success) {
-//                     $('#medical-records-container').html(response.html);
-//                 } else {
-//                     $('#error-message').text(response.error);
-//                 }
-//             },
-//             error: function(error) {
-//                 console.error(error);
-//             }
-//         });
-//     });
-// });
-</script>

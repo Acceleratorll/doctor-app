@@ -53,12 +53,30 @@ class ReservationController extends Controller
     public function store(ReservationRequest $request)
     {
         $schedule = Schedule::findOrFail($request->schedule_id);
-        $jumlah = Reservation::count();
-        if ($jumlah <= $schedule->qty) {
-            Reservation::create($request->all());
+        $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
+
+        if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {
+
+            $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
         }
-        return redirect()->route('admin.reservation.index');
+
+
+        if ($jumlah < $schedule->qty) {
+            Reservation::create([
+                'patient_id' => $request->patient_id,
+                'schedule_id' => $request->schedule_id,
+                'reservation_code' => $request->reservation_code,
+                'bukti_pembayaran' => $image,
+                'status' => $request->status,
+                'nomor_urut' => $request->nomor_urut,
+            ]);
+
+            return redirect()->route('admin.reservation.index');
+        } else {
+            return redirect()->back()->with('error', 'Maaf, kamu tidak dapat melakukan reservasi karena kamu sudah melewati batas reservasi');
+        }
     }
+
 
     /**
      * Display the specified resource.

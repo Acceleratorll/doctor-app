@@ -52,12 +52,22 @@
                     </div>
                 </div>
             </div>
+            <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Jam">Jam Berakhir</label>
                         <input type="time" placeholder="Masukkan Jam Berakhir" class="form-control" name="schedule_time_end" id="jam" required>
                     </div>
                 </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="Jam">Kuota</label>
+                        <input type="number" placeholder="Masukkan Banyak Kuota" class="form-control" name="qty" id="qty" required>
+                    </div>
+                </div>
+            </div>
             </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
