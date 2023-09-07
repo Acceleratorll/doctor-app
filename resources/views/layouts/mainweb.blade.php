@@ -16,6 +16,7 @@ $doctor = User::with('employee')->where('role_id', 1)->first();
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/libraries.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     </head>
@@ -92,6 +93,7 @@ $doctor = User::with('employee')->where('role_id', 1)->first();
     <script src=" {{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <script src=" {{ asset('assets/js/plugins.js') }}"></script>
     <script src=" {{ asset('assets/js/main.js') }}"></script>
+    <script src=" {{ asset('assets/js/app.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </body>
 </html>

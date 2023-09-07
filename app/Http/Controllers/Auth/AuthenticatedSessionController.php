@@ -33,13 +33,15 @@ class AuthenticatedSessionController extends Controller
             $now = Carbon::now()->format('H:i');
             $patient = Patient::where('user_id', auth()->user()->id)->first();
             $praktik = Schedule::with('place')->whereDate('schedule_date', $today)
-            ->where('schedule_time', '<=', $now)->first();
+                ->where('schedule_time', '<=', $now)->first();
             if ($praktik != null) {
                 $currentNumber = null;
                 $myNumber = null;
-                $schedule = Schedule::where('place_id', 2)->whereDate('schedule_date', $today)
-                ->where('schedule_time', '<=', $now)->where('schedule_time_end', '>=', $now)
-                ->first();
+                $schedule = Schedule::with(['place' => function ($query) {
+                    $query->where('reservationable', 1);
+                }])->whereDate('schedule_date', $today)
+                    ->where('schedule_time', '<=', $now)->where('schedule_time_end', '>=', $now)
+                    ->first();
                 if ($schedule) {
                     $myReservation = Reservation::where('schedule_id', $schedule->id)
                         ->where('patient_id', $patient->id)->first();

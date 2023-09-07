@@ -47,6 +47,14 @@
                     </div>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="qty">Kuota</label>
+                        <input type="number" placeholder="Masukkan Kuota Reservasi" class="form-control" value="{{ $schedule->qty }}" name="qty" id="qty" required>
+                    </div>
+                </div>
+            </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
                 <a href="javascript:history.go(-1)" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </a>

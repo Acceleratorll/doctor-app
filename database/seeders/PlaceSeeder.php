@@ -18,10 +18,12 @@ class PlaceSeeder extends Seeder
             [
                 'name' => 'RS Sudimulyo',
                 'address' => 'Jl. Jaksa Agung Suprapto No.2, Klojen, Kec. Klojen, Kota Malang, Jawa Timur 65112',
+                'reservationable' => '0'
             ],
             [
                 'name' => 'Klinik Melati Indah',
                 'address' => 'Jl. Jaksa Agung Suprapto No.23, Samaan, Kec. Klojen, Kota Malang, Jawa Timur 65112',
+                'reservationable' => '1'
             ],
         ];
         DB::table('places')->insert($places);

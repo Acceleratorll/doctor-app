@@ -8,15 +8,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 class ICDController extends Controller
 {
 
     public function index()
     {
-        $icds = Icd::paginate(10);
-        return view('icd.table', compact('icds'));
+        return view('icd.table');
+    }
+
+    public function tableIcds()
+    {
+        $icds = Icd::all();
+        return DataTables::of($icds)
+            ->addColumn('code', function ($icd) {
+                return $icd->code;
+            })
+            ->addColumn('name_id', function ($icd) {
+                return $icd->name_id;
+            })
+            ->addColumn('name_en', function ($icd) {
+                return $icd->name_en;
+            })
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function getIcd(Request $request)

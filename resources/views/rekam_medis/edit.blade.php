@@ -34,36 +34,40 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="form-row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="Tanggal Lahir">Tanggal Lahir</label>
-                            <input type="date" placeholder="Masukkan Tanggal Lahir" value="<?php echo date('Y-m-d'); ?>" class="form-control" name="birth_date" id="tanggallahir" required>
-                        </div>
-                    </div>
-                </div> --}}
-                {{-- <div class="form-group">
-                    <label for="Gender">Gender</label>
-                    <select class="form-control">
-                        <option value="" disabled selected hidden>Pilih Gender</option>
-                        <option>Pria</option>
-                        <option>Wanita</option>
+                <div class="form-group">
+                    <label for="icd_code">ICD</label>
+                    <select class="form-control select2" name="icd_code" id="icd_code">
+                        @if ($medical_record->icd != null)
+                        <option value="{{ $medical_record->icd_code }}" selected>{{ $medical_record->icd->name_id }}</option>
+                        @endif
                     </select>
-                </div> --}}
+                </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="Hasil Diagnosa">Hasil Diagnosa</label>
-                            <input type="text" value="{{ $medical_record->diagnosis }}" placeholder="Masukkan Hasil Diagnosa" class="form-control" name="diagnosis" id="hasildiagnosa" required>
-                            <input type="hidden" name="employee_id" value="1">
-                            {{-- <input type="hidden" name="employee_id" value="{{ auth()->user()->id }}"> --}}
+                            <label for="files">Files</label>
+                            <input class="form-control" type="file" name="files[]" id="files" multiple>
                         </div>
                     </div>
-                </div><div class="form-row">
+                </div>
+                @isset($currentFiles)
+                @foreach($files as $file)
+                <input type="hidden" name="current_files[]" value="{{ $file }}">
+                @endforeach
+                @endisset
+                <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="Hasil Tes">Hasil Tes</label>
-                            <textarea type="text" placeholder="Masukkan Hasil Tes" class="form-control" name="test_result" id="hasiltes" required>{{ $medical_record->test_result }}</textarea>
+                            <label for="action">Tindakan</label>
+                            <input class="form-control" type="text" name="action" id="action" value="{{ $medical_record->action }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="Hasil Tes">Keterangan</label>
+                            <textarea type="text" placeholder="Masukkan Hasil Tes" class="form-control" name="desc" id="hasiltes" >{{ $medical_record->desc }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -78,9 +82,27 @@
     <script>
 		$("#namapasien").select2();
         var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
         
-
+        $('#icd_code').select2({
+        ajax: {
+            url: '/getIcd',
+            type: 'GET',
+            dataType: 'json',
+            delay: 250,
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            },
+            cache: true
+        },
+        // placeholder: 'Select an ICD',
+        minimumInputLength: 1
+    });
+        var i;
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
             this.classList.toggle("active");
@@ -91,13 +113,12 @@
             dropdownContent.style.display = "block";
             }
         });
-        }
-        $(document).ready(
-            function(){
+        };
+        $(document).ready(function(){
+        console.log('Select2');
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');
                 });
-            }
-        )
+        });
     </script>
 @endsection

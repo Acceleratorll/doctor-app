@@ -28,17 +28,19 @@ class MedicalRecordManageController extends Controller
     public function store(MedicalRecordRequest $request, FileRequest $fileRequest)
     {
         $input = $request->validated();
-
         $record = MedicalRecord::create($input);
-        foreach ($fileRequest->file('files') as $file) {
-            $filePath = $file->store('record_files/' . $request->patient_id . '/' . $record->id, 'public');
 
-            File::create([
-                'medical_record_id' => $record->id,
-                'title' => $this->sanitizeFilename($file->getClientOriginalName()),
-                'type' => $file->getClientOriginalExtension(),
-                'url' => $filePath,
-            ]);
+        if ($fileRequest->hasFile('files')) {
+            foreach ($fileRequest->file('files') as $file) {
+                $filePath = $file->store('record_files/' . $request->patient_id . '/' . $record->id, 'public');
+
+                File::create([
+                    'medical_record_id' => $record->id,
+                    'title' => $this->sanitizeFilename($file->getClientOriginalName()),
+                    'type' => $file->getClientOriginalExtension(),
+                    'url' => $filePath,
+                ]);
+            }
         }
 
         return redirect()->route('admin.medis.index');
@@ -62,10 +64,22 @@ class MedicalRecordManageController extends Controller
         return view('rekam_medis.edit', compact(['medical_record', 'patients']));
     }
 
-    public function update(MedicalRecordRequest $request, $id)
+    public function update(MedicalRecordRequest $request, FileRequest $fileRequest, $id)
     {
         $medical_record = MedicalRecord::findOrFail($id);
         $input = $request->validated();
+        if ($fileRequest->hasFile('files')) {
+            foreach ($fileRequest->file('files') as $file) {
+                $filePath = $file->store('record_files/' . $request->patient_id . '/' . $id, 'public');
+
+                File::create([
+                    'medical_record_id' => $id,
+                    'title' => $this->sanitizeFilename($file->getClientOriginalName()),
+                    'type' => $file->getClientOriginalExtension(),
+                    'url' => $filePath,
+                ]);
+            }
+        }
         $medical_record->update($input);
         return redirect()->route('admin.medis.index');
     }

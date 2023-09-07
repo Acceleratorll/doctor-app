@@ -35,6 +35,7 @@
                                             <th scope="col" class="text-center">Nama Tempat</th>
                                             <th scope="col" class="text-center">Foto Tempat</th>
                                             <th scope="col" class="text-center">Alamat</th>
+                                            <th scope="col" class="text-center">Reservasi</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
@@ -44,6 +45,13 @@
                                             <td>{{ $place->name }}</td>
                                             <td><img src="{{ asset('storage/'.$place->image) }}" alt="Foto Pasien" width="100px"></td>
                                             <td>{{ $place->address }}</td>
+                                            <td>
+                                                @if($place->reservationable == 0)
+                                                    Tidak Bisa
+                                                @else
+                                                    Bisa
+                                                @endif
+                                            </td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.tempat.destroy', $place->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf

@@ -26,6 +26,7 @@ class PlaceRequest extends FormRequest
         return [
             'name' => 'required',
             'address' => 'required',
+            'reservationable' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }

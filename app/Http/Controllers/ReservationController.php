@@ -6,6 +6,7 @@ use App\Http\Requests\FileRequest;
 use App\Http\Requests\MedicalRecordRequest;
 use App\Http\Requests\ReservationRequest;
 use App\Models\File;
+use App\Models\Icd;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Reservation;
@@ -25,56 +26,77 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->where('approve', 1)->get();
-        $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->where('approve', 1)->get();
+        if ($request->bpjs != null) {
+            $reservations_no = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
+            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
+        } else {
+            $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
+            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
+        }
         return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
     }
 
     public function create()
     {
         $today = Carbon::today()->toDateString();
-        // $code = uniqid();
         $integerCode = hexdec(substr(uniqid(), 6, 6));
+        $schedules = Schedule::whereHas('place', function ($query) {
+            $query->where('reservationable', 1);
+        })->where('schedule_date', '>=', $today)->get();
+
         return view('reservasi.create', [
             'code' => $integerCode,
             'patients' => Patient::all(),
-            'schedules' => Schedule::where('place_id', 2)->where('schedule_date', '>=', $today)->get(),
+            'schedules' => $schedules,
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(ReservationRequest $request)
     {
         $schedule = Schedule::findOrFail($request->schedule_id);
         $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
 
-        if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {
-
-            $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
-        }
-
-
         if ($jumlah < $schedule->qty) {
-            Reservation::create([
-                'patient_id' => $request->patient_id,
-                'schedule_id' => $request->schedule_id,
-                'reservation_code' => $request->reservation_code,
-                'bukti_pembayaran' => $image,
-                'status' => $request->status,
-                'nomor_urut' => $request->nomor_urut,
-            ]);
+            if ($request->hasFile('bukti_pembayaran')) {
+                $reservation = Reservation::create([
+                    'patient_id' => $request->patient_id,
+                    'schedule_id' => $request->schedule_id,
+                    'reservation_code' => $request->reservation_code,
+                    'approve' => $request->approve,
+                    'status' => $request->status,
+                    'nomor_urut' => $request->nomor_urut,
+                ]);
+                $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                $reservation->update([
+                    'bukti_pembayaran' => $image,
+                ]);
 
-            return redirect()->route('admin.reservation.index');
-        } else {
-            return redirect()->back()->with('error', 'Maaf, kamu tidak dapat melakukan reservasi karena kamu sudah melewati batas reservasi');
+                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+            } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
+                $reservation = Reservation::create([
+                    'patient_id' => $request->patient_id,
+                    'schedule_id' => $request->schedule_id,
+                    'reservation_code' => $request->reservation_code,
+                    'approve' => $request->approve,
+                    'status' => $request->status,
+                    'nomor_urut' => $request->nomor_urut,
+                ]);
+                $ktp = $request->file('ktp')->store('ktp', 'public');
+                $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
+                $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                $reservation->update([
+                    'bpjs' => 1,
+                    'ktp' => $ktp,
+                    'surat_rujukan' => $surat_rujukan,
+                    'bpjs_card' => $bpjs_card,
+                ]);
+                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+            }
+            return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
         }
+        return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
     }
 
 
@@ -100,20 +122,17 @@ class ReservationController extends Controller
     {
         $today = Carbon::today()->toDateString();
         $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id);
+        $schedules = Schedule::whereHas('place', function ($query) {
+            $query->where('reservationable', 1);
+        })->where('schedule_date', '>=', $today)->get();
+
         return view('reservasi.edit', [
             'reservation'   => $reservation,
             'patients' => Patient::all(),
-            'schedules' => Schedule::where('schedule_date', '>=', $today)->get(),
+            'schedules' => $schedules,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
     public function update($id, ReservationRequest $request)
     {
         $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id)->first();
@@ -122,10 +141,71 @@ class ReservationController extends Controller
             $medic->delete();
 
             File::where('medical_record_id', $medic->id)->delete();
-        }
 
-        $reservation->update($request->all());
-        return redirect()->route('admin.reservation.index');
+            if ($request->hide_button == 1) {
+                if ($request->bpjs == 0 && $request->bukti_pembayaran != null) {
+                    $reservation->update($request->all());
+                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                    $reservation->update([
+                        'bukti_pembayaran' => $image,
+                        'bpjs' => $request->bpjs,
+                        'ktp' => '',
+                        'surat_rujukan' => '',
+                        'bpjs_card' => '',
+                    ]);
+
+                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
+                } elseif ($request->ktp != null && $request->bpjs_card != null && $request->surat_rujukan != null) {
+                    $reservation->update($request->all());
+                    $ktp = $request->file('ktp')->store('ktp', 'public');
+                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
+                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                    $reservation->update([
+                        'bukti_pembayaran' => '',
+                        'bpjs' => $request->bpjs,
+                        'ktp' => $ktp,
+                        'surat_rujukan' => $surat_rujukan,
+                        'bpjs_card' => $bpjs_card,
+                    ]);
+                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
+                }
+                return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
+            }
+
+            $reservation->update($request->all());
+            return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
+        } else {
+            if ($request->hide_button == 1) {
+                if ($request->bpjs == 0 && $request->bukti_pembayaran != null) {
+                    $reservation->update($request->all());
+                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                    $reservation->update([
+                        'bukti_pembayaran' => $image,
+                        'bpjs' => $request->bpjs,
+                        'ktp' => '',
+                        'surat_rujukan' => '',
+                        'bpjs_card' => '',
+                    ]);
+
+                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
+                } elseif ($request->ktp != null && $request->bpjs_card != null && $request->surat_rujukan != null) {
+                    $reservation->update($request->all());
+                    $ktp = $request->file('ktp')->store('ktp', 'public');
+                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
+                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                    $reservation->update([
+                        'bukti_pembayaran' => '',
+                        'bpjs' => $request->bpjs,
+                        'ktp' => $ktp,
+                        'surat_rujukan' => $surat_rujukan,
+                        'bpjs_card' => $bpjs_card,
+                    ]);
+                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
+                }
+                return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
+            }
+        }
+        return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
     }
 
     public function finish(Reservation $reservation)
@@ -242,6 +322,14 @@ class ReservationController extends Controller
         return response()->json($antrian);
     }
 
+    public function skip($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $last_no = Reservation::where('schedule_id', $reservation->schedule_id)->orderBy('nomor_urut', 'desc')->first();
+        $reservation->update(['nomor_urut' => $last_no->nomor_urut + 1]);
+        return redirect()->back()->with('success', 'Reservation skipped successfully');
+    }
+
     public function storeMed(MedicalRecordRequest $recordRequest, FileRequest $fileRequest)
     {
         $medicalData = $recordRequest->validated();
@@ -253,15 +341,18 @@ class ReservationController extends Controller
             $reservation->update(['status' => 1]);
             $record = MedicalRecord::create($medicalData);
 
-            foreach ($fileRequest->file('files') as $file) {
-                $filePath = $file->store('record_files/' . $reservation->patient_id . '/' . $record->id, 'public');
+            if ($fileRequest->hasFile('files')) {
 
-                File::create([
-                    'medical_record_id' => $record->id,
-                    'title' => $this->sanitizeFilename($file->getClientOriginalName()),
-                    'type' => $file->getClientOriginalExtension(),
-                    'url' => $filePath,
-                ]);
+                foreach ($fileRequest->file('files') as $file) {
+                    $filePath = $file->store('record_files/' . $reservation->patient_id . '/' . $record->id, 'public');
+
+                    File::create([
+                        'medical_record_id' => $record->id,
+                        'title' => $this->sanitizeFilename($file->getClientOriginalName()),
+                        'type' => $file->getClientOriginalExtension(),
+                        'url' => $filePath,
+                    ]);
+                }
             }
 
             DB::commit();

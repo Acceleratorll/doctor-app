@@ -13,6 +13,7 @@ class Place extends Model
     protected $fillable = [
         'name',
         'address',
+        'reservationable',
         'image',
     ];
 

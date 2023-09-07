@@ -14,6 +14,7 @@ class MedicalRecord extends Model
         'patient_id',
         'icd_code',
         'desc',
+        'action',
     ];
 
     public function employee()
@@ -33,6 +34,6 @@ class MedicalRecord extends Model
 
     public function icd()
     {
-        return $this->belongsTo(Icd::class);
+        return $this->belongsTo(Icd::class, 'icd_code', 'code');
     }
 }

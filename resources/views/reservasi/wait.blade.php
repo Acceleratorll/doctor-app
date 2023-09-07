@@ -21,7 +21,7 @@
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Jadwal</th>
                                     <th scope="col" class="text-center">Nomor Urut</th>
-                                    <th scope="col" class="text-center">Bukti Pembayaran</th>
+                                    <th scope="col" class="text-center">Image</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -37,7 +37,15 @@
                                         <td>{{ \Carbon\Carbon::parse($wait->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $wait->schedule->schedule_time }}</td>
                                         <td class="text-center">{{ $wait->nomor_urut }}</td>
-                                        <td><img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" width="300px" height="300px"></td>
+                                        <td>
+                                            @if($wait->bpjs == 0)
+                                            <img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" width="300px" height="300px">
+                                            @else
+                                            <img src="{{ asset('storage/'.$wait->ktp)}}" width="100px" height="100px">
+                                            <img src="{{ asset('storage/'.$wait->surat_rujukan)}}" width="100px" height="100px">
+                                            <img src="{{ asset('storage/'.$wait->bpjs_card)}}" width="100px" height="100px">
+                                            @endif
+                                        </td>
                                         <td class="project-actions text-center">
                                             <form action="{{ route('admin.approve', ['id' => $wait->id]) }}" method="POST">
                                                 @csrf
@@ -46,14 +54,14 @@
                                                     Approve
                                                 </button>
                                             </form>
-                                                {{-- <form action="/admin/restore/{{ $wait->id }}" method="POST" enctype="multipart/form-data">
+                                                <form action="/admin/restore/{{ $wait->id }}" method="POST" enctype="multipart/form-data">
                                                     @method('PUT')
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm btn-warning">
                                                         <i class="fa fa-edit"></i>
                                                         Tidak Approve
                                                     </button>
-                                                </form> --}}
+                                                </form>
                                             </td>
                                         @endforeach
                                         @endif

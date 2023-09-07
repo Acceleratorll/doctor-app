@@ -18,7 +18,11 @@ class CreateReservationsTable extends Migration
             $table->foreignId('patient_id')->constrained();
             $table->foreignId('schedule_id')->constrained();
             $table->string('reservation_code');
-            $table->string('bukti_pembayaran');
+            $table->boolean('bpjs')->default(0);
+            $table->string('bukti_pembayaran')->nullable();
+            $table->string('ktp')->nullable();
+            $table->string('surat_rujukan')->nullable();
+            $table->string('bpjs_card')->nullable();
             $table->integer('nomor_urut');
             $table->boolean('approve')->default(0);
             $table->boolean('status')->default(0);

@@ -19,17 +19,31 @@
                 {{ $message }}
             </div>
             @endif
-            <div class="row" style="height: 10px"></div>
             <div class="card">
                 <div class="card-body">
-                    <div class="button-action" style="margin-bottom: 20px">
-                        <button type="button" class="btn btn-primary" onclick="location.href='/admin/reservation/create'">
-                            <span>+ Add Items</span>
-                        </button>
-                    </div>
+                    <div class="row justify-between">
+                        <div class="col-md-2">
+                            <div class="button-action" style="margin-bottom: 20px">
+                                <button type="button" class="btn btn-primary" onclick="location.href='/admin/reservation/create'">
+                                    <span>+ Add Items</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <form action="{{ route('admin.reservation.index') }}" method="GET">
+                                <label for="bpjsFilter">Filter Pembayaran:</label><br>
+                                <select class="" id="bpjsFilter" name="bpjs">
+                                    <option value="">All</option>
+                                    <option value="0">Bayar</option>
+                                    <option value="1">BPJS</option>
+                                </select>&nbsp;
+                                <button type="submit" class="btn btn-primary">Apply Filter</button>
+                            </form>
+                        </div>
+                    </div><br>
                     <h4 class="m-0">
                         Belum Melakukan Pemeriksaan                 
-                    </h4>
+                    </h4><br>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="table">
                             <thead class="thead-dark">
@@ -62,11 +76,20 @@
                                                 <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
-                                                    <i class="fas fa-trash"></i>
-                                                    Delete
-                                                </button>
-                                        </form>
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
+                                                        <i class="fas fa-trash"></i>
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                
+                                                <form action="{{ route('admin.reservation.skip', $reservation->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to skip this reservation?')">
+                                                        Skip
+                                                    </button>
+                                                </form>
+                                            
                                                 <a href="/admin/reservation/{{ $reservation->id }}/edit"
                                                     class="btn btn-sm btn-warning">
                                                     <i class="fa fa-edit"></i>
@@ -85,7 +108,9 @@
                                                                     @csrf
                                                                 <br>
                                                                 <label for="Isi Hasil">Isi Hasil Pemeriksaan</label>
-                                                                <textarea class="form-control" name="desc" id="isihasil1" placeholder="Masukkan Hasil"></textarea>
+                                                                <textarea class="form-control" name="action" id="isihasil1" placeholder="Masukkan Tindakan"></textarea>
+                                                                <textarea class="form-control" name="desc" id="isihasil1" placeholder="Masukkan Keterangan"></textarea>
+                                                                <select class="form-control" data-role="select2" name="icd_code" id="icd_code{{ $reservation->id }}" width="200px"></select>
                                                                 <input type="file" id="file-input" name="files[]" multiple>
                                                                 <input type="text" value="{{ auth()->user()->id }}" name="patient_id" hidden>
                                                                 <input type="text" value="{{ $reservation->id }}" name="reservation_id" hidden>
@@ -107,7 +132,7 @@
                     <div><br><br><br></div>
                     <h4 class="m-0">
                         Sudah Melakukan Pemeriksaan                 
-                    </h4>
+                    </h4><br>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="myTable">
                             <thead class="thead-dark">
@@ -116,13 +141,14 @@
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Nomor Urut</th>
                                     <th scope="col" class="text-center">Jadwal</th>
+                                    {{-- <th scope="col" class="text-center">Tindakan</th> --}}
                                     <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     @if($reservations_yes->count() < 1)
-                                    <td><strong>Tidak ada Data</strong></td>
+                                </tbody>
                                     @else
                                     @foreach($reservations_yes as $reservation)
                                     <tr>
@@ -131,6 +157,7 @@
                                         <td><center>{{ $reservation->nomor_urut }}</center></td>
                                         <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $reservation->schedule->schedule_time }}</td>
+                                        {{-- <td>{{ $reservation->medical_record->action }}</td> --}}
                                             @if($reservation->status == 0)
                                         <td>Belum Periksa</td>
                                         @else
@@ -163,45 +190,62 @@
 </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script>
-    var dropdown = document.getElementsByClassName("dropdown-btn");
     $(document).ready( function () {
         $('#table').DataTable();
         $('#myTable').DataTable();
-    } );
-        var i;
-        for (i = 0; i < dropdown.length; i++) {
+        for (var i = 0; i <100; i++) {
+        $('#icd_code'+i).select2({
+            ajax: {
+                url: '/getIcd',
+                type: 'GET',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                },
+                cache: true
+            },
+            placeholder: 'Select an ICD',
+            minimumInputLength: 1
+        });
+    }
+    });
+    
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
             this.classList.toggle("active");
             var dropdownContent = this.nextElementSibling;
             if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
+                dropdownContent.style.display = "none";
             } else {
-            dropdownContent.style.display = "block";
+                dropdownContent.style.display = "block";
             }
         });
-        }
-    $(document).ready(
-        function(){
+    }
+
+    $(document).ready(function(){
             $('#sidebarcollapse').on('click',function(){
                 $('#sidebar').toggleClass('active');
             });
+        });
+        
+        function hideCollapsible(reservationId) {
+            $('#belumhasil' + reservationId).collapse('hide');
         }
-    )
-
-    // Function to hide the collapsible element
-    function hideCollapsible(reservationId) {
-        $('#belumhasil' + reservationId).collapse('hide');
-    }
-
-    // Attach event listeners to the buttons
-    $(document).ready(function() {
-        $('[id^="saveButton"]').click(function() {
-            const reservationId = this.id.replace('saveButton', '');
-            hideCollapsible(reservationId);
+        
+        $(document).ready(function() {
+            $('[id^="saveButton"]').click(function() {
+                const reservationId = this.id.replace('saveButton', '');
+                hideCollapsible(reservationId);
+                
         });
 
         $('[id^="cancelButton"]').click(function() {

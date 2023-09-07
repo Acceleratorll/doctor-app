@@ -50,7 +50,6 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/reservation' => ReservationController::class,
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
-    // Route::get('/icd/detail', [ICDController::class, 'detail'])->name('icd.detail');
     Route::get('/icd', [ICDController::class, 'index'])->name('icd.index');
     Route::post('/icd/search', [ICDController::class, 'search'])->name('icd.search');
     Route::post('/icd/show', [ICDController::class, 'detail'])->name('icd.show');
@@ -59,8 +58,11 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::get('/waiting-list', [ReservationController::class, 'wait'])->name('admin.waiting-list');
     Route::put('/approve/{id}', [ReservationController::class, 'approve'])->name('admin.approve');
     Route::put('/restore/{id}', [ReservationController::class, 'restore'], ['as' => 'admin']);
+    Route::put('/skip/{id}', [ReservationController::class, 'skip'])->name('admin.reservation.skip');
 });
+
 Route::get('/getIcd', [ICDController::class, 'getIcd'])->name('icd.get');
+Route::get('/tableIcds', [ICDController::class, 'tableIcds'])->name('icd.table');
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
 
 Route::get('/download/{id}', [FileController::class, 'download'])->name('files.download');
@@ -87,8 +89,8 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
 
-// Route::fallback(function () {
-//     return redirect()->route('dashboard');
-// });
+Route::fallback(function () {
+    return redirect()->route('dashboard');
+});
 
 require __DIR__ . '/auth.php';

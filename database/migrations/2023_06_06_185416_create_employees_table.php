@@ -17,7 +17,6 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('qualification');
-            $table->string('icd_token');
             $table->softDeletes();
             $table->timestamps();
         });

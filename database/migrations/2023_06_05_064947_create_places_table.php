@@ -18,6 +18,7 @@ class CreatePlacesTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('image')->default('default_images/default.png');
+            $table->boolean('reservationable');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -17,10 +17,11 @@ class CreateMedicalRecordsTable extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             $table->string('icd_code')->nullable();
-            $table->string('desc');
-            $table->softDeletes()->nullable();
+            $table->string('action');
+            $table->string('desc')->nullable();
+            $table->softDeletes();
             $table->timestamps();
-            
+
             $table->foreign('icd_code')->references('code')->on('icds');
         });
     }

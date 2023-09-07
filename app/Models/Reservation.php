@@ -16,6 +16,10 @@ class Reservation extends Model
         'reservation_code',
         'nomor_urut',
         'bukti_pembayaran',
+        'bpjs',
+        'ktp',
+        'surat_rujukan',
+        'bpjs_card',
         'approve',
         'status',
     ];

@@ -34,12 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label for="icd_code">ICD</label>
-                    <select class="form-control select2" name="icd_code" id="icd_code">
-                        <option value="" selected></option>
-                        @foreach($icds as $icd)
-                        <option value="{{ $icd->code }}">{{ $icd->name_id }}</option>
-                        @endforeach
-                    </select>
+                    <select class="form-control select2" name="icd_code" id="icd_code"></select>
                 </div>
                 <div class="form-row">
                     <div class="col">
@@ -52,8 +47,16 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
+                            <label for="action">Tindakan</label>
+                            <input class="form-control" type="text" name="action" id="action" placeholder="Masukkan Tindakan" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
                             <label for="Hasil Tes">Keterangan</label>
-                            <textarea type="text" placeholder="Masukkan Keterangan" class="form-control" name="desc" id="hasiltes" required></textarea>
+                            <textarea type="text" placeholder="Masukkan Keterangan" class="form-control" name="desc" id="hasiltes"></textarea>
                         </div>
                     </div>
                 </div>

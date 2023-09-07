@@ -44,6 +44,17 @@
                     </div>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="reservationable">Bisa Reservasi ?</label>
+                        <select name="reservationable" id="reservationable">
+                            <option value="1">Bisa</option>
+                            <option value="0">Tidak Bisa</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
                 <a href="javascript:history.go(-1)" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </a>

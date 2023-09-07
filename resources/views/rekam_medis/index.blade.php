@@ -35,12 +35,12 @@
                                         <thead class="thead-dark">
                                         <tr>
                                             <th scope="col" class="text-center">ID</th>
-                                            <th scope="col" class="text-center">ID Pasien</th>
                                             <th scope="col" class="text-center">Nama Pasien</th>
                                             <th scope="col" class="text-center">Tanggal Lahir</th>
                                             <th scope="col" class="text-center">Gender</th>
                                             <th scope="col" class="text-center">ICD</th>
                                             <th scope="col" class="text-center">Keterangan</th>
+                                            <th scope="col" class="text-center">Tindakan</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
@@ -51,7 +51,6 @@
                                              <td>User telah terhapus</td>
                                              @else
                                             <td>{{ $medical_record->id }}</td>
-                                            <td>{{ $medical_record->patient->id }}</td>
                                             <td>{{ $medical_record->patient->user->name }}</td>
                                             <td>{{ $medical_record->patient->user->birth_date }}</td>
                                             <td>{{ $medical_record->patient->user->gender }}</td>
@@ -59,6 +58,7 @@
                                                 {{ $medical_record->icd_code }}
                                             </td>
                                             <td>{{ $medical_record->desc }}</td>
+                                            <td>{{ $medical_record->action }}</td>
                                             @endif
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST" enctype="multipart/form-data">
@@ -72,10 +72,12 @@
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>
+                                                    @if($medical_record->files->count() >0)
                                                     <button type="button" class="btn btn-sm btn-primary" onclick="location.href='/download/{{ $medical_record->id }}'">
                                                         <i class="fa fa-edit"></i>
                                                         Download
                                                     </button>
+                                                    @endif
                                                 </form>
                                             </td>
                                             @endforeach

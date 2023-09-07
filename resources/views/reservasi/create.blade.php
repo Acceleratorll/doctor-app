@@ -57,13 +57,49 @@
                             @endif
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                {{-- <select class="form-control" name="bpjs" id="bpjsSelect">
+                                    <option value="1">Memakai BPJS</option>
+                                    <option value="0" selected>Tidak Memakai BPJS</option>
+                                </select> --}}
+                                <div class="form-check form-switch" id="bpjs-switch">
+                                    <input class="form-check-input" type="checkbox" id="bpjsCheckbox"">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Memakai BPJS</label>
+                                    <input type="number" id="bpjs" name="bpjs" value="0" hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="con-pembayaran">
                         <label for="queue_number">Bukti Pembayaran</label>
-                        <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control" readonly>
+                        <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control">
+                    </div>
+                    <div id="bpjsFieldsContainer" style="display: none;">
+                        <div class="form-group">
+                            <label for="ktp">KTP</label>
+                            <input type="file" name="ktp" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="bpjs_card">Kartu BPJS</label>
+                            <input type="file" name="bpjs_card" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="surat_rujukan">Surat Rujukan</label>
+                            <input type="file" name="surat_rujukan" class="form-control">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="queue_number">Nomor Antrian</label>
                         <input type="text" name="nomor_urut" id="queue_number" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="approve">Approve</label>
+                        <select name="approve" id="approve" class="form-control" required>
+                            <option value="0">Not Approved Yet</option>
+                            <option value="1">Approved</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
@@ -90,11 +126,38 @@
     $("#namapasien").select2();
     $("#schedule").select2();
 
-// $(document).ready(function() {
-//         $('#jadwal').on('change', function() {
-//             console.log($(this).val());
-//     });
-// });
+    const bpjsCheckbox = document.getElementById('bpjsCheckbox');
+    const bpjsFieldsContainer = document.getElementById('bpjsFieldsContainer');
+    const conPembayaran = document.getElementById('con-pembayaran');
+    const bpjs = document.getElementById('bpjs');
+    const surat_rujukan = document.getElementById('surat_rujukan');
+    const ktp = document.getElementById('ktp');
+    const bpjs_card = document.getElementById('bpjs_card');
+
+    
+    bpjsCheckbox.addEventListener('change', function () {
+        bpjsFieldsContainer.style.display = this.checked ? 'block' : 'none';
+        conPembayaran.style.display = this.checked ? 'none' : 'block';
+        conPembayaran.setAttribute = this.checked ? '' : 'required';
+        ktp.setAttribute = this.checked ? 'required' : '';
+        surat_rujukan.setAttribute = this.checked ? 'required' : '';
+        bpjs_card.setAttribute = this.checked ? 'required' : '';
+        bpjs.value = this.checked ? '1' : '0';
+    });
+    
+    // bpjs.addEventListener('change', function () {
+    //     if (bpjs.value === '1') {
+    //         ktp.setAttribute('required', 'required');
+    //         surat_rujukan.setAttribute('required', 'required');
+    //         bpjs_card.setAttribute('required', 'required');
+    //         conPembayaran.removeAttribute('required');
+    //     } else {
+    //         conPembayaran.setAttribute('required', 'required');
+    //         ktp.removeAttribute('required');
+    //         surat_rujukan.removeAttribute('required');
+    //         bpjs_card.removeAttribute('required');
+    //     }
+    // });
 
 $(document).ready(function() {
         $('#jadwal').on('change', function() {
