@@ -88,6 +88,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/notifikasi', [NotificationController::class, 'index']);
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
+Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])->name('show.queue');
 
 Route::fallback(function () {
     return redirect()->route('dashboard');

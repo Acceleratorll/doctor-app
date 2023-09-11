@@ -18,6 +18,11 @@ class ReservationController extends Controller
 {
     public function index()
     {
+        // 
+    }
+
+    public function showQueue()
+    {
         $today = date('Y-m-d');
         $current_time = date('H:i:s');
 
@@ -26,16 +31,18 @@ class ReservationController extends Controller
             ->where('schedule_time_end', '>=', $current_time)
             ->first();
 
+
         if (!$schedule) {
-            return view('web.no-antrian');
+            return view('web.lihat-antrian');
         }
 
         $current_queue = $schedule->reservations()->orderBy('nomor_urut', 'desc')->first();
         if ($current_queue) {
+            $current_queue = $current_queue->nomor_urut;
             return view('web.lihat-antrian', compact('schedule', 'current_queue'));
         } else {
-            $antrian = 0;
-            return view('web.lihat-antrian', compact('schedule', 'antrian'));
+            $current_queue = 0;
+            return view('web.lihat-antrian', compact('schedule', 'current_queue'));
         }
     }
 

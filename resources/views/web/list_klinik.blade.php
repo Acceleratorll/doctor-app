@@ -26,7 +26,7 @@
                     <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
-                    <a href="{{ route('reservasi.index') }}" class="nav__item-link">Lihat Antrian</a>
+                    <a href="{{ route('show.queue') }}" class="nav__item-link">Lihat Antrian</a>
                 </li>
                 <li class="nav__item">
                     <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman</a>
