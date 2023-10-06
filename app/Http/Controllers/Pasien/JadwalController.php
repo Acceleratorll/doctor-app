@@ -20,7 +20,23 @@ class JadwalController extends Controller
     public function index()
     {
         $doctor = User::with('employee')->where('role_id', 1)->first();
-        return view('web.layanan', compact('doctor'));
+        $places = Place::all();
+        return view('web.layanan', compact('doctor', 'places'));
+    }
+
+    public function schedulesByPlace($place_id)
+    {
+        $today = Carbon::today()->toDateString();
+        $place = Place::findOrFail($place_id);
+        $schedules = Schedule::where('place_id', $place_id)
+            ->where('schedule_date', '>=', $today)
+            ->orderBy('schedule_date', 'asc')
+            ->orderBy('schedule_time', 'asc')
+            ->get();
+
+        // Group the schedules by date
+        $schedules = $schedules->groupBy('schedule_date');
+        return view('web.list_rsud', compact(['schedules', 'place']));
     }
 
     public function indexRs()

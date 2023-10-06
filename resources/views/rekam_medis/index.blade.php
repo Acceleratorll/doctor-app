@@ -41,6 +41,7 @@
                                             <th scope="col" class="text-center">ICD</th>
                                             <th scope="col" class="text-center">Keterangan</th>
                                             <th scope="col" class="text-center">Tindakan</th>
+                                            <th scope="col" class="text-center">Pegawai</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
@@ -59,6 +60,7 @@
                                             </td>
                                             <td>{{ $medical_record->desc }}</td>
                                             <td>{{ $medical_record->action }}</td>
+                                            <td>{{ $medical_record->employee_id}}</td>
                                             @endif
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST" enctype="multipart/form-data">

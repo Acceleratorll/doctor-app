@@ -35,7 +35,6 @@
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th scope="col" class="text-center">ID Pasien</th>
-                                                <th scope="col" class="text-center">Foto Pasien</th>
                                                 <th scope="col" class="text-center">Nama Pasien</th>
                                                 <th scope="col" class="text-center">Tanggal Lahir</th>
                                                 <th scope="col" class="text-center">Gender</th>
@@ -51,7 +50,6 @@
                                             @foreach($patients as $patient)
                                             <tr>
                                                 <td>{{ $patient->id }}</td>
-                                                <td><img src="{{ asset('storage/'.$patient->user->image) }}" alt="Foto Pasien" width="100px"></td>
                                                 <td>{{ $patient->user->name }}</td>
                                                 <td>{{ $patient->user->birth_date }}</td>
                                                 <td>{{ $patient->user->gender }}</td>

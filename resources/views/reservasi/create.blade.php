@@ -2,7 +2,7 @@
 
 @section('header')
 <h1 class="m-0">
-    Tambah Pasien
+    Tambah Reservasi
 </h1>
 @endsection
 

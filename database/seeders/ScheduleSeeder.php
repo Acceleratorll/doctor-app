@@ -20,6 +20,7 @@ class ScheduleSeeder extends Seeder
 
         $schedules = [
             [
+                'employee_id' => 1,
                 'place_id' => 2,
                 'schedule_date' => $today->toDateString(),
                 'schedule_time' => $now->toTimeString(),
@@ -29,6 +30,7 @@ class ScheduleSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
+                'employee_id' => 1,
                 'place_id' => 2,
                 'schedule_date' => $today->toDateString(),
                 'schedule_time' => $now->addHours(4)->toTimeString(),
@@ -38,6 +40,7 @@ class ScheduleSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
+                'employee_id' => 1,
                 'place_id' => 1,
                 'qty' => 0,
                 'schedule_date' => $today->addDays(1)->toDateString(),

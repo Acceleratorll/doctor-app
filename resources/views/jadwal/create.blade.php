@@ -40,6 +40,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Tanggal">Tanggal</label>
+                        <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
                         <input type="date" placeholder="Masukkan Tanggal" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="schedule_date" id="linkmaps" required>
                     </div>
                 </div>

@@ -83,6 +83,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/bukti-pembayaran', [PasienReservationController::class, 'bukti']);
     Route::get('/cancel/{id}', [PasienReservationController::class, 'cancel']);
     Route::get('/getTime/{date}', [PasienReservationController::class, 'getTime']);
+    Route::get('/jadwal-place/{place_id}', [JadwalController::class, 'schedulesByPlace'])->name('schedules.by.place');
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
     Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
     Route::get('/notifikasi', [NotificationController::class, 'index']);

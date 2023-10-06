@@ -21,17 +21,10 @@
             <form action="/admin/pengumuman" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-row">
-        <div class="col">
-            <div class="form-group">
-                <label for="fotopengumuman">Foto Pengumuman</label>&nbsp;
-                <input type="file" placeholder="Masukkan Foto Pengumuman" class="form-control" name="image" id="fotopasien">
-            </div>
-        </div>
-    </div>
-                <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="name">Judul Pengumuman</label>
+                        <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
                         <input type="text" placeholder="Masukkan Judul Pengumuman" class="form-control" name="title" id="linkmaps" required>
                     </div>
                 </div>

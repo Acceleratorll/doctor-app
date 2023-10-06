@@ -20,14 +20,7 @@
         <div id="rcorners1">
             <form action="/admin/tempat" method="POST" enctype="multipart/form-data">
                 @csrf
-            <div class="form-row">
-        <div class="col">
-            <div class="form-group">
-                <label for="fotopasien">Foto Tempat</label>&nbsp;
-                <input type="file" placeholder="Masukkan Foto Tempat Praktik" class="form-control" name="image" id="fototempat">
-            </div>
-        </div>
-    </div>
+                <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">

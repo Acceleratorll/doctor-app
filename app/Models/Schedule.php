@@ -11,6 +11,7 @@ class Schedule extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'employee_id',
         'place_id',
         'schedule_date',
         'schedule_time',

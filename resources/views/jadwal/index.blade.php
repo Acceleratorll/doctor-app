@@ -51,6 +51,7 @@
                                         <th scope="col" class="text-center">Kuota</th>
                                         <th scope="col" class="text-center">Jam Mulai</th>
                                         <th scope="col" class="text-center">Jam Berakhir</th>
+                                        <th scope="col" class="text-center">Pegawai</th>
                                         <th scope="col" class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -61,6 +62,7 @@
                                         <td>{{ $schedule->qty }}</td>
                                         <td>{{ $schedule->schedule_time }}</td>
                                         <td>{{ $schedule->schedule_time_end }}</td>
+                                        <td>{{ $schedule->employee_id }}</td>
                                         <td class="project-actions text-center">
                                             <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf

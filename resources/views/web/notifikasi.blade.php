@@ -24,6 +24,9 @@
                             <li class="nav__item">
                                 <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
                             </li><!-- /.nav-item -->
+                            <li class="nav__item">
+                                <a href="{{ route('show.queue') }}" class="nav__item-link">Lihat Antrian</a>
+                            </li>
                 <li class="nav__item">
                     <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman</a>
                 </li><!-- /.nav-item -->
@@ -37,7 +40,6 @@
                 <li class="nav__item dropdown">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Profile Picture" class="nav-profile__image">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">

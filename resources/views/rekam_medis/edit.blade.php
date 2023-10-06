@@ -67,6 +67,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="Hasil Tes">Keterangan</label>
+                            <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
                             <textarea type="text" placeholder="Masukkan Hasil Tes" class="form-control" name="desc" id="hasiltes" >{{ $medical_record->desc }}</textarea>
                         </div>
                     </div>

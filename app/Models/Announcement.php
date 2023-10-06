@@ -13,6 +13,12 @@ class Announcement extends Model
     protected $fillable = [
         'title',
         'content',
-        'image',
+        'employee_id',
+        // 'image',
     ];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

@@ -25,6 +25,7 @@ class ScheduleRequest extends FormRequest
     {
         return [
             'place_id' => 'required',
+            'employee_id' => 'required',
             'schedule_date' => 'required|date',
             'schedule_time' => 'required',
             'schedule_time_end' => 'required',

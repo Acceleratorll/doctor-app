@@ -24,10 +24,11 @@ class PlaceRequest extends FormRequest
     public function rules()
     {
         return [
+            'employee_id' => 'required',
             'name' => 'required',
             'address' => 'required',
             'reservationable' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

@@ -26,6 +26,7 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
+                        <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
                         <label for="Tanggal">Tanggal</label>
                         <input type="date" placeholder="Masukkan Tanggal" class="form-control" value="{{ $schedule->schedule_date }}" name="schedule_date" id="linkmaps" required>
                     </div>

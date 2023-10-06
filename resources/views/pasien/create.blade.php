@@ -23,14 +23,6 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="Foto Pasien">Foto Pasien</label>
-                        <input type="file" placeholder="Masukkan Foto Pasien" class="form-control" name="image" id="fotopasien">
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
                         <label for="Nama Pasien">Nama Pasien</label>
                         <input type="text" placeholder="Masukkan Nama Pasien" class="form-control" name="name" id="namapasien" required>
                     </div>

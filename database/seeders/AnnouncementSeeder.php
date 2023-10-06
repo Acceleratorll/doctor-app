@@ -17,6 +17,7 @@ class AnnouncementSeeder extends Seeder
     {
         $announcements = [
             [
+                'employee_id' => 1,
                 'title' => 'Doctor-App released',
                 'content' => 'Doctor-App has been Released in 2023',
                 'created_at' => Carbon::now(),

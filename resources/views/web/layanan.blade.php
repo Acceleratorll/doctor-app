@@ -41,7 +41,6 @@
                 <li class="nav__item dropdown">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Profile Picture" class="nav-profile__image">
                                     {{ Auth::user()->name }}
                                 </a>
                                     
@@ -114,55 +113,42 @@
             </div><!-- /.col-lg-6 -->
             </div>
             <br><!-- /.row -->
-            <!-- ============================
-                                contact info
-                            ============================== -->
             <section class="contact-info py-0">
             <div class="container">
                 <div class="row row-no-gutter boxes-wrapper">
-                <div class="col-sm-12 col-md-4">
-                    <div class="contact-box d-flex">
-                    <div class="contact__content">
-                        <h6 class="heading__title">Jadwal RSUD Cisalak</h6>
-                        <a href="/jadwal-rs" class="btn btn__white btn__rounded mr-30">
-                            <span>Telusuri Jadwal</span>
-                            <i class="icon-arrow-right"></i>
-                        </a>
-                    </div><!-- /.contact__content -->
-                    </div><!-- /.contact-box -->
-                </div><!-- /.col-md-4 -->
-                <div class="col-sm-12 col-md-4">
-                    <div class="contact-box d-flex">
-                    <div class="contact__icon">
-                        <i class="icon-call3"></i>
-                    </div><!-- /.contact__icon -->
-                    <div class="contact__content">
-                        <h2 class="contact__title">Kasus Darurat</h2>
-                        <p class="contact__desc">Jangan ragu untuk menghubungi staf resepsi kami yang ramah dengan pertanyaan umum atau
-                        medis.</p>
-                        <a href="https://wa.me/{{ $doctor->phone }}" class="phone__number">
-                        <i class="icon-phone"></i> <span>{{ $doctor->phone }}</span>
-                        </a>
-                    </div><!-- /.contact__content -->
-                    </div><!-- /.contact-box -->
-                </div><!-- /.col-md-4 -->
-                <div class="col-sm-12 col-md-4">
-                    <div class="contact-box d-flex">
-                    <div class="contact__content">
-                        <h6 class="heading__title">Jadwal Klinik Umum</h6>
-                        <a href="/jadwal-klinik" class="btn btn__white btn__rounded mr-30">
-                            <span>Telusuri Jadwal</span>
-                            <i class="icon-arrow-right"></i>
-                        </a>
-                    </div><!-- /.contact__content -->
-                    </div><!-- /.contact-box -->
-                </div><!-- /.col-md-4 -->
-                </div><!-- /.row -->
-            </div><!-- /.container -->
+                    @foreach ($places as $place)
+                    <div class="col-sm-12 col-md-4">
+                        <div class="contact-box d-flex">
+                            <div class="contact__content">
+                                <h6 class="heading__title">Jadwal {{ $place->name }}</h6>
+                                <a href="{{ route('schedules.by.place', ['place_id' => $place->id]) }}" class="btn btn__white btn__rounded mr-30">
+                                    <span>Telusuri Jadwal</span>
+                                    <i class="icon-arrow-right"></i>
+                                </a>
+                            </div><!-- /.contact__content -->
+                        </div><!-- /.contact-box -->
+                    </div><!-- /.col-md-4 -->
+                    @endforeach
+                    <div class="col-sm-12 col-md-4">
+                        <div class="contact-box d-flex">
+                            <div class="contact__icon">
+                                <i class="icon-call3"></i>
+                            </div><!-- /.contact__icon -->
+                            <div class="contact__content">
+                                <h2 class="contact__title">Kasus Darurat</h2>
+                                <p class="contact__desc">Jangan ragu untuk menghubungi staf resepsi kami yang ramah dengan pertanyaan umum atau
+                                    medis.</p>
+                                    <a href="https://wa.me/{{ $doctor->phone }}" class="phone__number">
+                                        <i class="icon-phone"></i> <span>{{ $doctor->phone }}</span>
+                                    </a>
+                                </div><!-- /.contact__content -->
+                            </div><!-- /.contact-box -->
+                        </div><!-- /.col-md-4 -->
+                    </div><!-- /.row -->
+                </div><!-- /.container -->
             </section><!-- /.contact-info -->
         </div><!-- /.container -->
-        </section><!-- /.shop -->
-
+    </section><!-- /.shop -->
 
         <!-- ========================= 
             Testimonials layout 2

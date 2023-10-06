@@ -38,7 +38,7 @@
                 <th scope="col" class="text-center">Gender</th>
                 <th scope="col" class="text-center">Email</th>
                 <th scope="col" class="text-center">Nomor HP</th>
-                <th scope="col" class="text-center">Kualifikasi</th>
+                <th scope="col" class="text-center">Spesialisasi</th>
                 <th scope="col" class="text-center">Username</th>
                 <th scope="col" class="text-center">Action</th>
             </tr>

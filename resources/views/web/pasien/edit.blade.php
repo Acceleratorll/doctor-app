@@ -38,7 +38,6 @@
                 <li class="nav__item dropdown active">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Profile Picture" class="nav-profile__image">
                                     {{ Auth::user()->name }}
                                 </a>
                                     
@@ -89,15 +88,8 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                      <img src="{{ asset('storage/'.auth()->user()->image) }}" alt="Foto Profil" class="rounded-circle" width="150">
                       <div class="mt-3">
                         <h4>{{ auth()->user()->name }}</h4>
-                        <div class="input-wrapper">
-                            <input type="file" class="inputfile" id="fileInput" name="image" hidden />
-                            <label for="fileInput">
-                                <i class="fas fa-pen"></i> Ganti Foto
-                            </label>
-                        </div>
                       </div>
                     </div>
                   </div>

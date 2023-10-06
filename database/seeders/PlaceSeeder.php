@@ -16,13 +16,15 @@ class PlaceSeeder extends Seeder
     {
         $places = [
             [
+                'employee_id' => 1,
                 'name' => 'RS Sudimulyo',
                 'address' => 'Jl. Jaksa Agung Suprapto No.2, Klojen, Kec. Klojen, Kota Malang, Jawa Timur 65112',
                 'reservationable' => '0'
             ],
             [
-                'name' => 'Klinik Melati Indah',
-                'address' => 'Jl. Jaksa Agung Suprapto No.23, Samaan, Kec. Klojen, Kota Malang, Jawa Timur 65112',
+                'employee_id' => 1,
+                'name' => 'Klinik Surya Timur',
+                'address' => 'Jl. Sugeng No.23, Samaan, Kec. Klojen, Kota Malang, Jawa Timur 65112',
                 'reservationable' => '1'
             ],
         ];

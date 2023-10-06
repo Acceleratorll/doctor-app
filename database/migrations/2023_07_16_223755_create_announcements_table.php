@@ -15,9 +15,10 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('employee_id')->constrained();
             $table->string('title');
             $table->text('content');
-            $table->string('image')->default('default_images/default.png');
+            // $table->string('image')->default('default_images/default.png');
             $table->softDeletes();
             $table->timestamps();
         });

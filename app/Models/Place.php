@@ -11,14 +11,20 @@ class Place extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'employee_id',
         'name',
         'address',
         'reservationable',
-        'image',
+        // 'image',
     ];
 
     public function schedules()
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }

@@ -35,6 +35,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="name">Nama Tempat</label>
+                        <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
                         <input type="text" value="{{ $place->name }}" placeholder="Masukkan Nama Tempat Praktik" class="form-control" name="name" id="linkmaps" required>
                     </div>
                 </div>

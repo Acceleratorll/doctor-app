@@ -15,9 +15,10 @@ class CreatePlacesTable extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('employee_id')->constrained();
             $table->string('name');
             $table->string('address');
-            $table->string('image')->default('default_images/default.png');
+            // $table->string('image')->default('default_images/default.png');
             $table->boolean('reservationable');
             $table->softDeletes();
             $table->timestamps();

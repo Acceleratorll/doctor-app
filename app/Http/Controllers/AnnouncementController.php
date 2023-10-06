@@ -40,19 +40,7 @@ class AnnouncementController extends Controller
     {
         $input = $request->validated();
 
-        $announcement = Announcement::create($input);
-
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            if ($announcement->image && Storage::exists($announcement->image)) {
-                Storage::delete($announcement->image);
-            }
-
-            $imagePath = $request->file('image')->store('announcement_images', 'public');
-
-            $announcement->update([
-                'image' => $imagePath
-            ]);
-        }
+        Announcement::create($input);
 
         return redirect()->route('admin.pengumuman.index');
     }
@@ -92,19 +80,6 @@ class AnnouncementController extends Controller
         $announcement = Announcement::findOrFail($id);
         $input = $request->validated();
         $announcement->update($input);
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            if ($announcement->image && Storage::exists($announcement->image)) {
-                Storage::delete($announcement->image);
-            }
-
-            $imagePath = $request->file('image')->store('announcement_images', 'public');
-
-            $announcement->update([
-                'image' => $imagePath
-            ]);
-        }
-
-
         return redirect()->route('admin.pengumuman.index');
     }
 

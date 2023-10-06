@@ -22,16 +22,6 @@
                 @csrf
                 @method('PUT')
             <div class="form-row">
-        <div class="col">
-            <div class="form-group">
-                <label for="fotopasien">Foto Pasien</label>&nbsp;
-                <img src="{{ asset('storage/'.$patient->user->image) }}" alt="Photo Pasien" width="100">
-                <br>
-                <input type="file" placeholder="Masukkan Foto Pasien" class="form-control" name="image" id="fotopasien">
-            </div>
-        </div>
-    </div>
-            <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Nama Pasien">Nama Pasien</label>
