@@ -11,21 +11,19 @@ class MedicalRecord extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'patient_id',
-        'employee_id',
+        'reservation_id',
         'icd_code',
         'desc',
         'action',
+        'complaint',
+        'physical_exam',
+        'diagnosis',
+        'recommendation',
     ];
 
-    public function employee()
+    public function reservation()
     {
-        return $this->belongsTo(Employee::class);
-    }
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Reservation::class);
     }
 
     public function files()

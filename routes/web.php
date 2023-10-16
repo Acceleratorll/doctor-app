@@ -61,6 +61,8 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::put('/skip/{id}', [ReservationController::class, 'skip'])->name('admin.reservation.skip');
 });
 
+Route::get('/getEmployees', [EmployeeManageController::class, 'getEmployees'])->name('employees.get');
+Route::get('/getReservations/{patient}', [ReservationController::class, 'getReservationsByPatient'])->name('reservations.get.by.patient');
 Route::get('/getIcd', [ICDController::class, 'getIcd'])->name('icd.get');
 Route::get('/tableIcds', [ICDController::class, 'tableIcds'])->name('icd.table');
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
@@ -77,7 +79,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/pengumuman' => PasienAnnouncementController::class,
         '/code' => AccessCodeController::class,
     ]);
-    Route::put('/saveCode', [AccessCodeController::class, 'saveCode']);
+    Route::put('/saveCode', [AccessCodeController::class, 'saveCode'])->name('save.code');
     Route::get('/verifyCode', [AccessCodeController::class, 'verifyCode'])->name('verifyCode');
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
     Route::get('/bukti-pembayaran', [PasienReservationController::class, 'bukti']);

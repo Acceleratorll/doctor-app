@@ -18,7 +18,9 @@ $doctor = User::with('employee')->where('role_id', 1)->first();
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/libraries.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    @stack('css')
     </head>
 
     <body>
@@ -95,5 +97,8 @@ $doctor = User::with('employee')->where('role_id', 1)->first();
     <script src=" {{ asset('assets/js/main.js') }}"></script>
     <script src=" {{ asset('assets/js/app.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+    @stack('js')
 </body>
 </html>

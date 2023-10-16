@@ -137,7 +137,7 @@
         <section class="contact-info py-0">
         <div class="container">
             <div class="row row-no-gutter boxes-wrapper">
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-6">
                 <div class="contact-box d-flex">
                 <div class="contact__icon">
                     <i class="icon-call3"></i>
@@ -151,7 +151,7 @@
                 </div><!-- /.contact__content -->
                 </div><!-- /.contact-box -->
             </div><!-- /.col-md-4 -->
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-6">
                 <div class="contact-box d-flex">
                 <div class="contact__icon">
                     <i class="icon-health-report"></i>
@@ -166,7 +166,7 @@
                 </div><!-- /.contact__content -->
                 </div><!-- /.contact-box -->
             </div><!-- /.col-md-4 -->
-            <div class="col-sm-12 col-md-4">
+            {{-- <div class="col-sm-12 col-md-4">
                 <div class="contact-box d-flex">
                 <div class="contact__icon">
                     <i class="icon-heart2"></i>
@@ -186,7 +186,7 @@
                     </ul>
                 </div><!-- /.contact__content -->
                 </div><!-- /.contact-box -->
-            </div><!-- /.col-md-4 -->
+            </div><!-- /.col-md-4 --> --}}
             </div><!-- /.row -->
         </div><!-- /.container -->
         </section><!-- /.contact-info -->
@@ -264,7 +264,7 @@
             Blog Grid
             ========================= -->
         <section class="blog-grid" style="margin-top: -150px;">
-        <div class="container">
+        {{-- <div class="container">
             <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
                 <div class="heading text-center mb-40">
@@ -368,7 +368,7 @@
                 </a>
             </div><!-- /.col-lg-12 -->
             </div><!-- /.row -->
-        </div><!-- /.container -->
+        </div><!-- /.container --> --}}
     </section><!-- /.blog Grid -->
 
 @endsection

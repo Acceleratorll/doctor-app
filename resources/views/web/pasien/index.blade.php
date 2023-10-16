@@ -173,11 +173,11 @@
                     </div>
                       @if(auth()->user()->patient->access_code == null)
                     <div class="col-sm-6">
-                      <a class="btn btn-danger" target="__blank" href="{{ route('code.create') }}">Set PIN</a>
+                      <button class="btn btn-danger" onclick="setPin()">Set PIN</button>
                     </div>
                     @else
                     <div class="col-sm-6">
-                      <a class="btn btn-primary" target="__blank" href="/code/{{ auth()->user()->patient->id }}/edit">Edit PIN</a>
+                      <button class="btn btn-primary" onclick="editPin()">Edit PIN</button>
                     </div>
                     @endif
                   </div>
@@ -192,13 +192,24 @@
                       @if($records->count() > 0)
                       <div id="medical-records-container">
                         @if($data != null)
-                        @foreach($data as $dataItem)
-                        <small>Periksa pada tanggal {{ date('d F Y', strtotime($dataItem->updated_at)) }}</small><br>
-                        <strong>{{ $dataItem->desc }}</strong><br><br>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="location.href='/download/{{ $dataItem->id }}'">
-                          <i class="fa fa-edit"></i>
+                        @foreach($records as $record)
+                        <p>Periksa pada tanggal <strong>{{ date('d F Y', strtotime($record->medical_record->updated_at)) }}</strong></p>
+                        <small>Dokter : <strong>{{ $record->schedule->employee->user->name }} [{{ $record->schedule->employee->qualification }}]</strong></small><br>
+                        <small>Fisik : <strong>{{ $record->medical_record->physical_exam }}</strong></small><br>
+                        <small>Anjuran : <strong>{{ $record->medical_record->recommendation }}</strong></small><br>
+                        <small>Tindakan : <strong>{{ $record->medical_record->action }}</strong></small><br>
+                        <small>Keluhan : <strong>{{ $record->medical_record->complaint }}</strong></small><br>
+                        <small>Diagnosa : <strong>{{ $record->medical_record->diagnosis }}</strong></small><br>
+                        <strong>{{ $record->medical_record->desc ?? '' }}</strong><br>
+                        {{-- <a href="" id="details"><i class="fa fa-info"></i>More Details</a> --}}
+                        @if($record->files)
+                        <button type="button" class="btn btn-sm btn-success" onclick="location.href='/download/{{ $record->medical_record_id }}'">
+                          <i class="fa fa-download"></i>
                           Download
                         </button>
+                        @endif
+                        <br>
+                        <div class="divider"></div>
                         @endforeach
                         @else
                         <a class="btn btn-info" target="__blank" href="{{ route('code.index') }}" name="btn-code">Lihat Hasil Periksa</a>
@@ -209,7 +220,7 @@
                       @endif
                       @else
                       <strong>Penting ! <br>Dimohon untuk membuat PIN terlebih dahulu</strong><br><br>
-                      <a class="btn btn-danger" target="__blank" href="{{ route('code.create') }}">Set PIN Here !</a>
+                      {{-- <a class="btn btn-danger" target="__blank" href="{{ route('code.create') }}">Set PIN Here !</a> --}}
                       @endif
                     </div>
                 </div>
@@ -245,3 +256,143 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        function editPin() {
+            Swal.fire({
+              title: 'Edit PIN',
+              html: `
+              <div class="row">
+            <div class="col-md-4">
+                <label for="currentPin">Current PIN</label>
+            </div>
+            <div class="col-md-6">
+                <input type="password" id="currentPin" class="swal2-input" maxlength="4" style="text-security: disc;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="newPin">New PIN</label>
+            </div>
+            <div class="col-md-6">
+                <input type="password" id="newPin" class="swal2-input" maxlength="4" style="text-security: disc;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="confirmPin">Confirm PIN</label>
+            </div>
+            <div class="col-md-6">
+                <input type="password" id="confirmPin" class="swal2-input" maxlength="4" style="text-security: disc;">
+            </div>
+        </div>
+              `,
+              showCancelButton: true,
+              confirmButtonText: 'Submit',
+              cancelButtonText: 'Cancel',
+              preConfirm: () => {
+                  const currentPin = document.getElementById('currentPin').value;
+                  const newPin = document.getElementById('newPin').value;
+                  const confirmPin = document.getElementById('confirmPin').value;
+          
+                  // Add your validation logic here
+                  if (!/^\d+$/.test(currentPin) || !/^\d+$/.test(newPin) || !/^\d+$/.test(confirmPin)) {
+                      Swal.showValidationMessage('Please enter only numbers.');
+                      return false;
+                  }
+          
+                  if (newPin !== confirmPin) {
+                      Swal.showValidationMessage('New PINs do not match.');
+                      return false;
+                  }
+          
+                  return { currentPin, newPin, confirmPin };
+              },
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  const { currentPin, newPin, confirmPin } = result.value;
+                  $.ajax({
+                    url: '{{ route("code.update", ["code", ":code"]) }}'.replace(':code', newPin),
+                    type: 'POST',
+                    data: {
+                      access_code: currentPin,
+                      access_code_new: newPin,
+                      _method: 'PUT',
+                      _token: '{{ csrf_token() }}',
+                    },
+                    success: function(data) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'PIN Registered!',
+                        timer: 1700,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                      });
+                    },
+                    error: function(error){
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'PIN Salah!',
+                        timer: 1700,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                      });
+                    }
+                  });
+                }
+              });
+            }
+                
+        function setPin() {
+            Swal.fire({
+              title: 'Register PIN (Max: 4 Digit)',
+              input: 'password',
+              inputLabel: 'Set PIN',
+              inputPlaceholder: 'Enter your PIN',
+              inputAttributes: {
+                  maxlength: 4,
+                  autocapitalize: 'off',
+                  autocorrect: 'off',
+              },
+              showCancelButton: true,
+              confirmButtonText: 'Submit',
+              cancelButtonText: 'Cancel',
+              inputValidator: (value) => {
+                  if (!/^\d+$/.test(value)) {
+                      return 'Please enter only numbers.';
+                  }
+              },
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  const pin = result.value;
+                  registerPin(pin);
+              }
+          });
+        }
+              
+        function registerPin(pin)
+        {
+          $.ajax({
+            type: 'POST',
+            url: '{{ route("save.code") }}',
+            data: {
+              access_code: pin,
+              _token: '{{ csrf_token() }}',
+              _method: 'PUT',
+            },
+            success: function(data) {
+              Swal.fire({
+                icon: 'success',
+                title: 'PIN Registered!',
+                timer: 1700,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              });
+              location.reload();
+            }
+          });
+        }
+            
+      </script>
+      @endpush

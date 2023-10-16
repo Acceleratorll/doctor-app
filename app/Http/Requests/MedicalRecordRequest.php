@@ -25,11 +25,14 @@ class MedicalRecordRequest extends FormRequest
     {
 
         return [
-            'patient_id' => 'required',
-            'employee_id' => 'required',
+            'reservation_id' => 'required',
             'icd_code' => '',
             'desc' => '',
             'action' => '',
+            'complaint' => 'required',
+            'physical_exam' => 'required',
+            'diagnosis' => 'required',
+            'recommendation' => 'required',
         ];
     }
 }

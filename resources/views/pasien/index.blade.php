@@ -37,12 +37,12 @@
                                                 <th scope="col" class="text-center">ID Pasien</th>
                                                 <th scope="col" class="text-center">Nama Pasien</th>
                                                 <th scope="col" class="text-center">Tanggal Lahir</th>
+                                                <th scope="col" class="text-center">Usia</th>
                                                 <th scope="col" class="text-center">Gender</th>
                                                 <th scope="col" class="text-center">Alamat</th>
                                                 <th scope="col" class="text-center">Height</th>
                                                 <th scope="col" class="text-center">Weight</th>
                                                 <th scope="col" class="text-center">Nomor HP</th>
-                                                <th scope="col" class="text-center">Username</th>
                                                 <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -52,12 +52,12 @@
                                                 <td>{{ $patient->id }}</td>
                                                 <td>{{ $patient->user->name }}</td>
                                                 <td>{{ $patient->user->birth_date }}</td>
+                                                {{-- <td>{{ $usia }}</td> --}}
                                                 <td>{{ $patient->user->gender }}</td>
                                                 <td>{{ $patient->user->address }}</td>
                                                 <td>{{ $patient->height }}</td>
                                                 <td>{{ $patient->weight }}</td>
                                                 <td>{{ $patient->user->phone }}</td>
-                                                <td>{{ $patient->user->username }}</td>
                                                 <td class="project-actions text-center">
                                                     <form action="{{ route('admin.pasien.destroy', $patient->id) }}" method="POST" enctype="multipart/form-data">
                                                         @csrf

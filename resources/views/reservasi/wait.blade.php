@@ -82,7 +82,6 @@
     var dropdown = document.getElementsByClassName("dropdown-btn");
     $(document).ready( function () {
         $('#table').DataTable();
-        $('#myTable').DataTable();
     } );
         var i;
         for (i = 0; i < dropdown.length; i++) {

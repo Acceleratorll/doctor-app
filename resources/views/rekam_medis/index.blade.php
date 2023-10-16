@@ -7,7 +7,6 @@
 @endsection
 
 @section('container')
-            <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         @if($message = Session::get('success'))
@@ -35,33 +34,35 @@
                                         <thead class="thead-dark">
                                         <tr>
                                             <th scope="col" class="text-center">ID</th>
+                                            <th scope="col" class="text-center">Dokter</th>
                                             <th scope="col" class="text-center">Nama Pasien</th>
-                                            <th scope="col" class="text-center">Tanggal Lahir</th>
                                             <th scope="col" class="text-center">Gender</th>
+                                            <th scope="col" class="text-center">Tindakan</th>
+                                            <th scope="col" class="text-center">Keluhan</th>
+                                            <th scope="col" class="text-center">Pemeriksaan Fisik</th>
+                                            <th scope="col" class="text-center">Diagnosisi</th>
+                                            <th scope="col" class="text-center">Anjuran</th>
                                             <th scope="col" class="text-center">ICD</th>
                                             <th scope="col" class="text-center">Keterangan</th>
-                                            <th scope="col" class="text-center">Tindakan</th>
-                                            <th scope="col" class="text-center">Pegawai</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($medical_records as $medical_record)
                                         <tr>
-                                             @if ($medical_record->patient->id === 0)
-                                             <td>User telah terhapus</td>
-                                             @else
                                             <td>{{ $medical_record->id }}</td>
-                                            <td>{{ $medical_record->patient->user->name }}</td>
-                                            <td>{{ $medical_record->patient->user->birth_date }}</td>
-                                            <td>{{ $medical_record->patient->user->gender }}</td>
-                                            <td>
-                                                {{ $medical_record->icd_code }}
-                                            </td>
-                                            <td>{{ $medical_record->desc }}</td>
+                                            <td>{{ $medical_record->reservation->schedule->employee->user->name}}</td>
+                                            <td>{{ $medical_record->reservation->patient->user->name }}</td>
+                                            <td>{{ $medical_record->reservation->patient->user->gender }}</td>
                                             <td>{{ $medical_record->action }}</td>
-                                            <td>{{ $medical_record->employee_id}}</td>
-                                            @endif
+                                            <td>{{ $medical_record->complaint }}</td>
+                                            <td>{{ $medical_record->physical_exam }}</td>
+                                            <td>{{ $medical_record->diagnosis }}</td>
+                                            <td>{{ $medical_record->recommendation }}</td>
+                                            <td>
+                                                {{ $medical_record->icd_code ?? 'N/A' }}
+                                            </td>
+                                            <td>{{ $medical_record->desc ?? 'N/A' }}</td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
@@ -92,7 +93,6 @@
                     </div>
                 </div>
             </div>
-        </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

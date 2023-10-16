@@ -26,6 +26,7 @@
                             <label for="namapasien">Nama Pasien</label>
                             <select class="form-control" name="patient_id" id="namapasien" required>
                                 @foreach($patients as $patient)
+                                <option value="0" selected disabled>Pilih Pasien</option>
                                 <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
                                 @endforeach
                             </select>
@@ -33,14 +34,50 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="icd_code">ICD</label>
+                    <label for="reservation_id">Kode Reservasi</label>
+                    <select class="form-control select2" name="reservation_id" id="reservation_id" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="icd_code">ICD (Optional)</label>
                     <select class="form-control select2" name="icd_code" id="icd_code"></select>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="files">Files</label>
+                            <label for="files">Files (Optional)</label>
                             <input class="form-control" type="file" name="files[]" id="files" multiple>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="complaint">Keluhan</label>
+                            <input class="form-control" type="text" name="complaint" id="complaint" placeholder="Masukkan Keluhan" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="physical_exam">Pemeriksaan Fisik</label>
+                            <input class="form-control" type="text" name="physical_exam" id="physical_exam" placeholder="Masukkan Hasil Pemeriksaan Fisik" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="diagnosis">Diagnosa</label>
+                            <input class="form-control" type="text" name="diagnosis" id="diagnosis" placeholder="Masukkan Hasil Diagnosa" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="recommendation">Anjuran</label>
+                            <input class="form-control" type="text" name="recommendation" id="recommendation" placeholder="Masukkan Anjuran" required>
                         </div>
                     </div>
                 </div>
@@ -55,8 +92,7 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="Hasil Tes">Keterangan</label>
-                            <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
+                            <label for="Hasil Tes">Keterangan (Optional)</label>
                             <textarea type="text" placeholder="Masukkan Keterangan" class="form-control" name="desc" id="hasiltes"></textarea>
                         </div>
                     </div>
@@ -71,9 +107,33 @@
     
     <script>
 		$("#namapasien").select2();
-		// $("#icd_code").select2();
+		$("#reservation_id").select2();
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
+
+		$("#namapasien").change(function () {
+            var selectedUserId = $(this).val();
+            $.ajax({
+                url: '{{ route("reservations.get.by.patient", ["patient" => ":patient"]) }}'.replace(':patient', selectedUserId),
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $("#reservation_id").empty();
+                    console.log(data);
+                    $.each(data, function (index, reservation) {
+                        $("#reservation_id").append('<option value="' + reservation.id + '">' + reservation.text + '</option>');
+                    });
+
+                    // Trigger change event to refresh Select2
+                    $("#reservation_id").trigger('change');
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+            
+
         
         $('#icd_code').select2({
             ajax: {
@@ -93,7 +153,8 @@
             },
             placeholder: 'Select an ICD',
             minimumInputLength: 1
-        }); 
+        });
+
 
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {

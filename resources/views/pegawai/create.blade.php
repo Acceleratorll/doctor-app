@@ -71,7 +71,7 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="kualifikasi">Kualifikasi</label>
+                        <label for="kualifikasi">Spesialisasi</label>
                         <input type="text" placeholder="Masukkan Kualifikasi" class="form-control" name="qualification" id="kualifikasi" required>
                     </div>
                 </div>

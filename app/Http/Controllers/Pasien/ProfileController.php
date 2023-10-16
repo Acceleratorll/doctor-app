@@ -14,16 +14,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $id = auth()->user()->patient->id;
         $today = Carbon::today()->toString();
-        $records = MedicalRecord::where('patient_id', $id)->latest()->get();
+        // $patient = Patient::with('reservations')->where('id', $id)->first();
+        $records = Reservation::where('patient_id', $id)->get();
         $reservation = Reservation::with('schedule')
             ->where('patient_id', $id)
             ->whereHas('schedule', function ($query) use ($today) {
@@ -31,7 +27,6 @@ class ProfileController extends Controller
             })
             ->where('status', 0)
             ->get();
-            // dd($reservation);
 
         $data = session()->get('data');
         session()->forget('data');
@@ -39,56 +34,26 @@ class ProfileController extends Controller
         return view('web.pasien.index', compact(['records', 'reservation', 'data']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         return view('web.pasien.edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(PatientRequest $request, $id)
     {
         $patient = Patient::findOrFail($id);
@@ -139,8 +104,7 @@ class ProfileController extends Controller
 
     private function fetchMedicalRecords($user)
     {
-        $records = $user->patient->records;
-
+        $records = $user->patient->reservations;
         $view = view('partial.medical', compact('records'))->render();
         return response()->json(['success' => true, 'html' => $view]);
     }

@@ -37,6 +37,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.css"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
 
     <style>
         .select2 {
@@ -384,6 +385,8 @@
         $.widget.bridge('uibutton', $.ui.button)
 
     </script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+
     <!-- Bootstrap 4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <!-- ChartJS -->

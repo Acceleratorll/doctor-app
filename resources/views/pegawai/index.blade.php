@@ -39,7 +39,6 @@
                 <th scope="col" class="text-center">Email</th>
                 <th scope="col" class="text-center">Nomor HP</th>
                 <th scope="col" class="text-center">Spesialisasi</th>
-                <th scope="col" class="text-center">Username</th>
                 <th scope="col" class="text-center">Action</th>
             </tr>
         </thead>
@@ -53,7 +52,6 @@
                 <td><a href="mailto:{{ $employee->user->email }}">{{ $employee->user->email }}</a></td>
                 <td>{{ $employee->user->phone }}</td>
                 <td>{{ $employee->qualification }}</td>
-                <td>{{ $employee->user->username }}</td>
                 <td class="project-actions text-center">
                     <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf

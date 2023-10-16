@@ -17,11 +17,6 @@ class Patient extends Model
         'weight',
     ];
 
-    public function medical_records()
-    {
-        return $this->hasMany(MedicalRecord::class);
-    }
-
     public function reservations()
     {
         return $this->hasMany(Reservation::class);

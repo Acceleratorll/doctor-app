@@ -112,12 +112,6 @@ class ReservationController extends Controller
         return response()->json($reservation);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $today = Carbon::today()->toDateString();
@@ -370,5 +364,24 @@ class ReservationController extends Controller
     private function sanitizeFilename($filename)
     {
         return preg_replace('/[^a-zA-Z0-9_.\-]/', '_', $filename);
+    }
+
+    public function getReservationsByPatient(Request $request, $patient)
+    {
+        $searchTerm = $request->term;
+
+        $reservations = Reservation::where('patient_id', $patient)
+            ->where('reservation_code', 'LIKE', "%$searchTerm%")
+            ->select('id', 'reservation_code as text')
+            ->get();
+
+        $formattedReservations = $reservations->map(function ($reservation) {
+            return [
+                'id' => $reservation->id,
+                'text' => $reservation->text,
+            ];
+        });
+
+        return response()->json($formattedReservations);
     }
 }

@@ -6,19 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateMedicalRecordsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained()->onDelete('cascade');
-            $table->foreignId('employee_id')->constrained();
+            $table->foreignId('reservation_id')->constrained();
             $table->string('icd_code')->nullable();
             $table->string('action');
+            $table->string('complaint');
+            $table->string('physical_exam');
+            $table->string('diagnosis');
+            $table->string('recommendation');
             $table->string('desc')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -27,11 +25,6 @@ class CreateMedicalRecordsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('medical_records');
