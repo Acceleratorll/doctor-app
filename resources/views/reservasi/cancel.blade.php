@@ -78,7 +78,7 @@
     $(document).ready( function () {
         $('#table').DataTable();
         $('#myTable').DataTable();
-    } );
+
         var i;
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
@@ -91,13 +91,12 @@
             }
         });
         }
-    $(document).ready(
         function(){
             $('#sidebarcollapse').on('click',function(){
                 $('#sidebar').toggleClass('active');
             });
         }
-    )
+    });
 </script>
 </body>
 

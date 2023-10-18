@@ -141,7 +141,6 @@
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Nomor Urut</th>
                                     <th scope="col" class="text-center">Jadwal</th>
-                                    {{-- <th scope="col" class="text-center">Tindakan</th> --}}
                                     <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
@@ -157,7 +156,6 @@
                                         <td><center>{{ $reservation->nomor_urut }}</center></td>
                                         <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $reservation->schedule->schedule_time }}</td>
-                                        {{-- <td>{{ $reservation->medical_record->action }}</td> --}}
                                             @if($reservation->status == 0)
                                         <td>Belum Periksa</td>
                                         @else
@@ -195,65 +193,60 @@
         $('#table').DataTable();
         $('#myTable').DataTable();
         for (var i = 0; i <100; i++) {
-        $('#icd_code'+i).select2({
-            ajax: {
-                url: '/getIcd',
-                type: 'GET',
-                dataType: 'json',
-                delay: 250,
-                processResults: function(data) {
-                    return {
-                        results: data
-                    };
+            $('#icd_code'+i).select2({
+                ajax: {
+                    url: '/getIcd',
+                    type: 'GET',
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function(data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    },
+                    cache: true
                 },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                },
-                cache: true
-            },
-            placeholder: 'Select an ICD',
-            minimumInputLength: 1
-        });
-    }
-    });
-    
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        });
-    }
-
-    $(document).ready(function(){
-            $('#sidebarcollapse').on('click',function(){
-                $('#sidebar').toggleClass('active');
+                placeholder: 'Select an ICD',
+                minimumInputLength: 1
             });
+        }
+        
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+
+        $('#sidebarcollapse').on('click',function(){
+            $('#sidebar').toggleClass('active');
         });
         
         function hideCollapsible(reservationId) {
             $('#belumhasil' + reservationId).collapse('hide');
         }
         
-        $(document).ready(function() {
-            $('[id^="saveButton"]').click(function() {
-                const reservationId = this.id.replace('saveButton', '');
-                hideCollapsible(reservationId);
-                
+        $('[id^="saveButton"]').click(function() {
+            const reservationId = this.id.replace('saveButton', '');
+            hideCollapsible(reservationId);
         });
-
+            
         $('[id^="cancelButton"]').click(function() {
             const reservationId = this.id.replace('cancelButton', '');
             hideCollapsible(reservationId);
         });
     });
-
+        
 </script>
 </body>
 

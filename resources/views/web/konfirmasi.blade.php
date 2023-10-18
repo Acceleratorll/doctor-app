@@ -224,8 +224,13 @@
                 <li class="nav__item">
                     <a href="{{ route('jadwal.index') }}" class="nav__item-link active">Layanan</a>
                 </li><!-- /.nav-item -->
-                <li class="nav__item">
-                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman</a>
+                <li class="nav__item notif">
+                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
+                        @if(auth()->user())
+                        <span>
+                            {{ auth()->user()->patient->unreadNotifications->count() }}
+                        </span>
+                        @endif</a>
                 </li><!-- /.nav-item -->
                 <li class="nav__item">
                     <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>

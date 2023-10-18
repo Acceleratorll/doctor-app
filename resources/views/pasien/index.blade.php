@@ -51,8 +51,8 @@
                                             <tr>
                                                 <td>{{ $patient->id }}</td>
                                                 <td>{{ $patient->user->name }}</td>
-                                                <td>{{ $patient->user->birth_date }}</td>
-                                                {{-- <td>{{ $usia }}</td> --}}
+                                                <td>{{ $patient->user->birth_date->format('d M Y') }}</td>
+                                                <td>{{ $patient->user->birth_date->diff(now())->y }}</td>
                                                 <td>{{ $patient->user->gender }}</td>
                                                 <td>{{ $patient->user->address }}</td>
                                                 <td>{{ $patient->height }}</td>
@@ -105,14 +105,13 @@
             }
             $(document).ready( function () {
                 $('#table').DataTable();
-            } );
-            $(document).ready(
-                function(){
-                    $('#sidebarcollapse').on('click',function(){
-                        $('#sidebar').toggleClass('active');
-                    });
-                }
-                )   
+            });
+
+            function(){
+                $('#sidebarcollapse').on('click',function(){
+                    $('#sidebar').toggleClass('active');
+                });
+            }
             </script>
 </body>
 </html>
