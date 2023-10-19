@@ -18,8 +18,7 @@ class ProfileController extends Controller
     {
         $id = auth()->user()->patient->id;
         $today = Carbon::today()->toString();
-        // $patient = Patient::with('reservations')->where('id', $id)->first();
-        $records = Reservation::where('patient_id', $id)->get();
+        $records = Reservation::with('medical_record')->whereHas('medical_record')->where('patient_id', $id)->get();
         $reservation = Reservation::with('schedule')
             ->where('patient_id', $id)
             ->whereHas('schedule', function ($query) use ($today) {

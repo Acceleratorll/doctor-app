@@ -15,7 +15,7 @@ class Icd extends Model
         'name_id',
     ];
 
-    public function records()
+    public function medical_records()
     {
         return $this->hasMany(MedicalRecord::class);
     }

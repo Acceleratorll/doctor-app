@@ -60,7 +60,9 @@
                                             <td>{{ $medical_record->diagnosis }}</td>
                                             <td>{{ $medical_record->recommendation }}</td>
                                             <td>
-                                                {{ $medical_record->icd_code ?? 'N/A' }}
+                                                <button class="btn btn-outline-info icdDetailButton" data-icd-name="{{ $medical_record->icd->name_id ?? 'N/A' }}">
+                                                    {{ $medical_record->icd_code ?? 'N/A' }}
+                                                </button>
                                             </td>
                                             <td>{{ $medical_record->desc ?? 'N/A' }}</td>
                                             <td class="project-actions text-center">
@@ -93,6 +95,20 @@
                     </div>
                 </div>
             </div>
+            <div class="modal" id="icdModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ICD Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="icdName"></p>
+            </div>
+        </div>
+    </div>
+</div>
+            
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -100,6 +116,7 @@
 <script>
     var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
+
 
         for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
@@ -112,8 +129,20 @@
             }
         });
         }
+
     $(document).ready( function () {
         $('#table').DataTable();
+
+        $('.icdDetailButton').on('click', function () {
+        // Fetch the ICD name from the data attribute
+        var icdName = $(this).data('icd-name');
+
+        // Update modal content
+        $('#icdName').text(icdName);
+
+        // Show the modal
+        $('#icdModal').modal('show');
+    });
     } );
     $(document).ready(
         function(){
@@ -121,7 +150,7 @@
                 $('#sidebar').toggleClass('active');
             });
         }
-    )   
+    );
 </script>
 </body>
 </html>

@@ -205,6 +205,9 @@
                         <small>Tindakan : <strong>{{ $record->medical_record->action }}</strong></small><br>
                         <small>Keluhan : <strong>{{ $record->medical_record->complaint }}</strong></small><br>
                         <small>Diagnosa : <strong>{{ $record->medical_record->diagnosis }}</strong></small><br>
+                        @if($record->medical_record->icd)
+                        <small>ICD : <strong>{{ $record->medical_record->icd->name_id }}</strong></small><br>
+                        @endif
                         <strong>{{ $record->medical_record->desc ?? '' }}</strong><br>
                         {{-- <a href="" id="details"><i class="fa fa-info"></i>More Details</a> --}}
                         @if($record->files)
