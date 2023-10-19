@@ -21,11 +21,6 @@ use Illuminate\Support\Facades\Log;
 
 class ReservationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         if ($request->bpjs != null) {

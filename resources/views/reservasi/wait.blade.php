@@ -39,11 +39,11 @@
                                         <td class="text-center">{{ $wait->nomor_urut }}</td>
                                         <td>
                                             @if($wait->bpjs == 0)
-                                            <img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" width="300px" height="300px">
+                                            <img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" style="max-height: 150px; max-width: 150px;" data-zoom-image>
                                             @else
-                                            <img src="{{ asset('storage/'.$wait->ktp)}}" width="100px" height="100px">
-                                            <img src="{{ asset('storage/'.$wait->surat_rujukan)}}" width="100px" height="100px">
-                                            <img src="{{ asset('storage/'.$wait->bpjs_card)}}" width="100px" height="100px">
+                                            <img src="{{ asset('storage/'.$wait->ktp)}}" style="max-height: 150px; max-width: 150px;" data-zoom-image>
+                                            <img src="{{ asset('storage/'.$wait->surat_rujukan)}}" style="max-height: 150px; max-width: 150px;" data-zoom-image>
+                                            <img src="{{ asset('storage/'.$wait->bpjs_card)}}" style="max-height: 150px; max-width: 150px;" data-zoom-image>
                                             @endif
                                         </td>
                                         <td class="project-actions text-center">
@@ -54,8 +54,8 @@
                                                     Approve
                                                 </button>
                                             </form>
-                                                <form action="/admin/restore/{{ $wait->id }}" method="POST" enctype="multipart/form-data">
-                                                    @method('PUT')
+                                                <form action="/admin/reservation/{{ $wait->id }}" method="POST" enctype="multipart/form-data">
+                                                    @method('DELETE')
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm btn-warning">
                                                         <i class="fa fa-edit"></i>
