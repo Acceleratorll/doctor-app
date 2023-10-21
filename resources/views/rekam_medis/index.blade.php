@@ -42,6 +42,7 @@
                                             <th scope="col" class="text-center">Pemeriksaan Fisik</th>
                                             <th scope="col" class="text-center">Diagnosisi</th>
                                             <th scope="col" class="text-center">Anjuran</th>
+                                            <th scope="col" class="text-center">Resep</th>
                                             <th scope="col" class="text-center">ICD</th>
                                             <th scope="col" class="text-center">Keterangan</th>
                                             <th scope="col" class="text-center">Action</th>
@@ -59,6 +60,7 @@
                                             <td>{{ $medical_record->physical_exam }}</td>
                                             <td>{{ $medical_record->diagnosis }}</td>
                                             <td>{{ $medical_record->recommendation }}</td>
+                                            <td>{{ $medical_record->recipe }}</td>
                                             <td>
                                                 <button class="btn btn-outline-info icdDetailButton" data-icd-name="{{ $medical_record->icd->name_id ?? 'N/A' }}">
                                                     {{ $medical_record->icd_code ?? 'N/A' }}

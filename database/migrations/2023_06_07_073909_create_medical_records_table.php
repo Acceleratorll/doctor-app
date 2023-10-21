@@ -17,6 +17,7 @@ class CreateMedicalRecordsTable extends Migration
             $table->string('physical_exam');
             $table->string('diagnosis');
             $table->string('recommendation');
+            $table->string('recipe');
             $table->string('desc')->nullable();
             $table->softDeletes();
             $table->timestamps();

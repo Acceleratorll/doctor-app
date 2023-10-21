@@ -59,7 +59,7 @@ class MedicalRecordManageController extends Controller
 
     public function edit($id)
     {
-        $medical_record = MedicalRecord::with('reservation','icd')->find($id);
+        $medical_record = MedicalRecord::with('reservation', 'icd')->find($id);
         $patients = Patient::all();
         return view('rekam_medis.edit', compact(['medical_record', 'patients']));
     }

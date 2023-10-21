@@ -19,6 +19,7 @@ class MedicalRecord extends Model
         'physical_exam',
         'diagnosis',
         'recommendation',
+        'recipe',
     ];
 
     public function reservation()

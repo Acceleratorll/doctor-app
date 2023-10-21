@@ -84,6 +84,14 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
+                            <label for="recipe">Resep</label>
+                            <input class="form-control" type="text" name="recipe" id="recipe" placeholder="Masukkan Resep" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
                             <label for="action">Tindakan</label>
                             <input class="form-control" type="text" name="action" id="action" placeholder="Masukkan Tindakan" required>
                         </div>

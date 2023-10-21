@@ -23,16 +23,16 @@ class MedicalRecordRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'reservation_id' => 'required',
-            'icd_code' => '',
-            'desc' => '',
-            'action' => '',
+            'icd_code' => 'nullable',
+            'desc' => 'nullable',
+            'action' => 'required',
             'complaint' => 'required',
             'physical_exam' => 'required',
             'diagnosis' => 'required',
             'recommendation' => 'required',
+            'recipe' => 'required',
         ];
     }
 }
