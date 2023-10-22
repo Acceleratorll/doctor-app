@@ -67,7 +67,7 @@ class ReservationController extends Controller
                 $reservation->update([
                     'bukti_pembayaran' => $image,
                 ]);
-
+                dd('bp');
                 return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
             } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
                 $reservation = Reservation::create([

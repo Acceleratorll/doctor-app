@@ -133,7 +133,6 @@
     const surat_rujukan = document.getElementById('surat_rujukan');
     const ktp = document.getElementById('ktp');
     const bpjs_card = document.getElementById('bpjs_card');
-
     
     bpjsCheckbox.addEventListener('change', function () {
         bpjsFieldsContainer.style.display = this.checked ? 'block' : 'none';
@@ -143,7 +142,9 @@
         surat_rujukan.setAttribute = this.checked ? 'required' : '';
         bpjs_card.setAttribute = this.checked ? 'required' : '';
         bpjs.value = this.checked ? '1' : '0';
+        console.log(bpjs.value);
     });
+
     
     // bpjs.addEventListener('change', function () {
     //     if (bpjs.value === '1') {
