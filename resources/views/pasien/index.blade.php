@@ -28,7 +28,7 @@
                                     </button>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover" id="table">
+                                    <table class="table table-dark table-striped" id="table">
                                         @if($patients->count() < 1)
                                         <p class="text-center">Tidak ada Data Pasien</p>
                                         @else
@@ -70,6 +70,9 @@
                                                             <i class="fa fa-edit"></i>
                                                             Edit
                                                         </a>
+                                                        <a href="#" class="btn btn-info btn-sm show-reservations" data-patient-id="{{ $patient->id }}">
+                                                            <i class="fas fa-list"></i> Show Reservations
+                                                        </a>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -84,11 +87,76 @@
                 </div>
             </div>
         </div>
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="reservationsModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Patient Reservations</h5>
+                          <button type="button" class="close" style="z-index:999999;" data-bs-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          <ul id="reservations-list"></ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+            
         <script>
+            $(document).ready( function () {
+                var table = $('#table').DataTable();
+
+                $('#sidebarcollapse').on('click',function(){
+                    $('#sidebar').toggleClass('active');
+                });
+
+                $('.show-reservations').click(function (e) {
+                    e.preventDefault();
+                    var patientId = $(this).data('patient-id');
+                    var url = '{{ route("reservations.json.get.by.patient", ["patient" => ":patient"]) }}'.replace(':patient', patientId);
+
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function (data) {
+                            var incomingProducts = data.incoming_products;
+                            var modal = $('#reservationsModal');
+                            var modalList = modal.find('#reservations-list');
+                            modalList.empty();
+                            
+                            $.each(data, function(index, reservation) {
+                                console.log(reservation.schedule.employee.user.name);
+                                modalList.append('<li>' + reservation.schedule.schedule_date + ' <p>Code : <strong>' + reservation.reservation_code +
+                                    ('</strong><br>Dokter : ' + reservation.schedule.employee.user.name ?? 'N/A') +'</p></li>');
+                            });
+                            
+                            $('#reservationsModal').modal('show');
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+
             var dropdown = document.getElementsByClassName("dropdown-btn");
             var i;
             
@@ -103,15 +171,7 @@
                     }
                 });
             }
-            $(document).ready( function () {
-                $('#table').DataTable();
-            });
 
-            function(){
-                $('#sidebarcollapse').on('click',function(){
-                    $('#sidebar').toggleClass('active');
-                });
-            }
             </script>
 </body>
 </html>
