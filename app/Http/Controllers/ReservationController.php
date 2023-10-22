@@ -379,12 +379,4 @@ class ReservationController extends Controller
 
         return response()->json($formattedReservations);
     }
-
-    public function getJsonReservationsByPatient($patient)
-    {
-        $reservations = Reservation::with(['schedule.employee.user', 'patient', 'medical_record'])
-            ->where('patient_id', $patient)->orderBy('updated_at', 'desc')->limit(3)->get();
-
-        return response()->json($reservations);
-    }
 }

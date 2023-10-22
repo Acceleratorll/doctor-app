@@ -63,7 +63,6 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
 
 Route::get('/getEmployees', [EmployeeManageController::class, 'getEmployees'])->name('employees.get');
 Route::get('/getReservations/{patient}', [ReservationController::class, 'getReservationsByPatient'])->name('reservations.get.by.patient');
-Route::get('/getJsonReservations/{patient}', [ReservationController::class, 'getJsonReservationsByPatient'])->name('reservations.json.get.by.patient');
 Route::get('/getIcd', [ICDController::class, 'getIcd'])->name('icd.get');
 Route::get('/tableIcds', [ICDController::class, 'tableIcds'])->name('icd.table');
 Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
