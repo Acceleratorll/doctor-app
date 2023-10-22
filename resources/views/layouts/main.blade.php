@@ -62,7 +62,14 @@
                 <a href="" class="nav-link">Home</a>
             </li>
             </ul>
-
+            <ul class="navbar-nav">
+                <a href="" class="nav-link">
+                    <li class="nav-item">
+                        <p>Welcome back, {{ auth()->user()->name }}</p>
+                    </li>
+                </a>
+            </ul>
+                
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -81,7 +88,7 @@
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <a href="#" class="brand-link" style="text-align:center">
+            <a href="#" class="brand-link" style="text-align:center;">
                 KLINIK
             </a>
 
