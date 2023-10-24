@@ -28,7 +28,7 @@
                                     </button>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="table">
+                                    <table class="table-dark table-striped" id="table">
                                         @if($places != null)
                                         <thead>
                                         <tr>

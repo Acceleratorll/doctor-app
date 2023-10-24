@@ -27,7 +27,7 @@
                                     </button>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="table">
+                                    <table class="table-dark table-striped" id="table">
                                         @if($medical_records->count() < 1)
                                         Tidak ada Data Rekam Medis
                                         @else

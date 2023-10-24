@@ -15,7 +15,6 @@ class Place extends Model
         'name',
         'address',
         'reservationable',
-        // 'image',
     ];
 
     public function schedules()

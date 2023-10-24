@@ -44,7 +44,7 @@
                         </div>
                         <div class="table-responsive">
                             {{-- <input type="text" value="table{{ $placeId }}" id="table{{ $placeId }}" hidden> --}}
-                            <table class="table table-bordered" id="table{{ $placeId }}">
+                            <table class="table-dark table-striped" id="table{{ $placeId }}">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col" class="text-center">Tanggal</th>

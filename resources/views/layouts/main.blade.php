@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
     <!-- Google Font: Source Sans Pro -->
 
+    @yield('css')
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -58,14 +59,14 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-dark">
             <!-- Left navbar links -->
-            <ul class="navbar-nav">
+            {{-- <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="" class="nav-link">Home</a>
             </li>
-            </ul>
+            </ul> --}}
             <ul class="navbar-nav">
                 <a href="" class="nav-link">
                     <li class="nav-item">
@@ -113,6 +114,15 @@
                                 </p>
                             </a>
                         </li> --}}
+                        <li class="nav-item">
+                            <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    Dashboard
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
@@ -407,5 +417,5 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     
 </body>
-
+@yield('js')
 </html>

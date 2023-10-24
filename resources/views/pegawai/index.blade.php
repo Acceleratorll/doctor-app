@@ -28,7 +28,7 @@
                                     </button>
                                 </div>
                                 <div class="table-responsive">
-    <table class="table table-bordered" id="table">
+    <table class="table-dark table-striped" id="table">
         <caption>List of Employees</caption>
         <thead class="thead-dark">
             <tr>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccessCodeController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeManageController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ICDController;
@@ -9,7 +10,7 @@ use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Pasien\AnnouncementController as PasienAnnouncementController;
 use App\Http\Controllers\Pasien\ContactController;
-use App\Http\Controllers\Pasien\DashboardController;
+use App\Http\Controllers\Pasien\DashboardController as PasienDashboardController;
 use App\Http\Controllers\Pasien\JadwalController;
 use App\Http\Controllers\Pasien\ProfileController;
 use App\Http\Controllers\Pasien\ReservationController as PasienReservationController;
@@ -30,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [PasienDashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/test-covid', function () {
     return view('web.tescovid');
@@ -50,6 +51,15 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/reservation' => ReservationController::class,
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
+    Route::get('/schedules/day', [DashboardController::class, 'getScheduleDay'])->name('admin.schedules.day');
+    Route::get('/schedules/week', [DashboardController::class, 'getScheduleWeek'])->name('admin.schedules.week');
+    Route::get('/schedules/month', [DashboardController::class, 'getScheduleMonth'])->name('admin.schedules.month');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard.index');
+    Route::get('/tableSchedules', [DashboardController::class, 'tableSchedules'])->name('admin.table.schedules');
+    Route::get('/tableDoctor', [DashboardController::class, 'tableDoctors'])->name('admin.table.doctors');
+    Route::get('/tableDoctor/day', [DashboardController::class, 'tableDoctorsDay'])->name('admin.table.doctors.day');
+    Route::get('/tableDoctor/week', [DashboardController::class, 'tableDoctorsWeek'])->name('admin.table.doctors.week');
+    Route::get('/tableDoctor/month', [DashboardController::class, 'tableDoctorsMonth'])->name('admin.table.doctors.month');
     Route::get('/icd', [ICDController::class, 'index'])->name('icd.index');
     Route::post('/icd/search', [ICDController::class, 'search'])->name('icd.search');
     Route::post('/icd/show', [ICDController::class, 'detail'])->name('icd.show');
