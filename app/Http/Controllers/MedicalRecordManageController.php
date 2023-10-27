@@ -43,6 +43,8 @@ class MedicalRecordManageController extends Controller
             }
         }
 
+        $record->reservation->update(['status' => 1]);
+
         return redirect()->route('admin.medis.index');
     }
 

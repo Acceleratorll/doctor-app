@@ -24,12 +24,41 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         if ($request->bpjs != null) {
-            $reservations_no = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
-            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
+            $reservations_no = Reservation::with(['patient', 'schedule'])
+                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
+                ->where('bpjs', $request->bpjs)
+                ->where('status', 0)
+                ->where('approve', 1)
+                ->orderBy('schedules.schedule_date', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+
+            $reservations_yes = Reservation::with(['patient', 'schedule'])
+                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
+                ->where('bpjs', $request->bpjs)
+                ->where('status', 1)
+                ->where('approve', 1)
+                ->orderBy('schedules.schedule_date', 'desc')
+                ->orderBy('nomor_urut', 'desc')
+                ->get();
         } else {
-            $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
-            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
+            $reservations_no = Reservation::with(['patient', 'schedule'])
+                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
+                ->where('status', 0)
+                ->where('approve', 1)
+                ->orderBy('schedules.schedule_date', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+
+            $reservations_yes = Reservation::with(['patient', 'schedule'])
+                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
+                ->where('status', 1)
+                ->where('approve', 1)
+                ->orderBy('schedules.schedule_date', 'desc')
+                ->orderBy('nomor_urut', 'desc')
+                ->get();
         }
+
         return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
     }
 
@@ -67,7 +96,6 @@ class ReservationController extends Controller
                 $reservation->update([
                     'bukti_pembayaran' => $image,
                 ]);
-                dd('bp');
                 return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
             } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
                 $reservation = Reservation::create([

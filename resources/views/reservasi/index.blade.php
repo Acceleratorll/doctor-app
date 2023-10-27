@@ -49,6 +49,7 @@
                         <table class="table-dark table-striped" id="table">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th scope="col" class="text-center">ID</th>
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Nomor Urut</th>
@@ -63,6 +64,7 @@
                                     @else
                                     @foreach($reservations_no as $reservation)
                                     <tr>
+                                        <td>{{ $reservation->id }}</td>
                                         <td>{{ $reservation->reservation_code }}</td>
                                         <td>{{ $reservation->patient->user->name }}</td>
                                         <td>{{ $reservation->nomor_urut }}</td>
@@ -78,11 +80,14 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
-                                                    <i class="fas fa-trash"></i>
                                                     Delete
                                                 </button>
                                             </form>
                                             
+                                            <button class="btn btn-primary btn-sm isiHasil" id="isiHasil" data-id="{{ $reservation->id }}" data-toggle="modal" data-target="#medicalRecordModal">
+                                                <span>Hasil</span>
+                                            </button>
+
                                             <form action="{{ route('admin.reservation.skip', $reservation->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
@@ -93,37 +98,8 @@
                                         
                                             <a href="/admin/reservation/{{ $reservation->id }}/edit"
                                                 class="btn btn-sm btn-warning">
-                                                <i class="fa fa-edit"></i>
                                                 Edit
                                             </a>
-                                            <a href="#belumhasil{{ $reservation->id }}" class="btn btn-primary btn-sm" data-toggle="collapse" aria-expanded="false">
-                                                <i class="fa fa-edit">
-                                                </i>
-                                                <span>Isi Hasil</span>
-                                            </a>
-                                            <div class="collapse multi-collapse" id="belumhasil{{ $reservation->id }}">
-                                                <div class="form-row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <form action="/admin/storeMed" method="POST" enctype="multipart/form-data">
-                                                                @csrf
-                                                            <br>
-                                                            <label for="Isi Hasil">Isi Hasil Pemeriksaan</label>
-                                                            <textarea class="form-control" name="action" id="isihasil1" placeholder="Masukkan Tindakan"></textarea>
-                                                            <textarea class="form-control" name="desc" id="isihasil1" placeholder="Masukkan Keterangan"></textarea>
-                                                            <select class="form-control" data-role="select2" name="icd_code" id="icd_code{{ $reservation->id }}" width="200px"></select>
-                                                            <input type="file" id="file-input" name="files[]" multiple>
-                                                            <input type="text" value="{{ auth()->user()->id }}" name="patient_id" hidden>
-                                                            <input type="text" value="{{ $reservation->id }}" name="reservation_id" hidden>
-                                                            <div class="text-center" style = "margin-top: 10px; margin-bottom: -20px">
-                                                                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
-                                                                <button id="cancelButton{{ $reservation->id }}" type="reset" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </button>
-                                                            </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </td>
                                     @endforeach
                                     @endif
@@ -187,31 +163,117 @@
     </div>
 </div>
 </div>
+<div class="modal fade" id="medicalRecordModal" style="overflow:hidden;" role="dialog" aria-labelledby="medicalRecordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="medicalRecordModalLabel">Add Medical Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ route('admin.medis.store') }}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="reservation_id" id="reservation_id">
+                    <div class="form-group">
+                        <select class="form-control select2" name="icd_code" id="icd_code"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="action" placeholder="Masukkan Tindakan" class="form-control" id="action"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="complaint" placeholder="Masukkan Keluhan Pasien" class="form-control" id="complaint"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="physical_exam" placeholder="Masukkan Hasil Pemeriksaan Fisik" class="form-control" id="physical_exam"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="diagnosis" placeholder="Masukkan Hasil Diagnosa" class="form-control" id="diagnosis"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="recommendation" placeholder="Masukkan Anjuran" class="form-control" id="recommendation"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="recipe" placeholder="Masukkan Resep" class="form-control" id="recipe"/>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="desc" placeholder="Masukkan Deskripsi(Optional)" class="form-control" id="desc"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="file" name="files[]" id="files" multiple>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </form>
+        </div>
+    </div>
+</div>
+@endsection
 
+@section('css')
+<style>
+    #action::placeholder,
+    #complaint::placeholder,
+    #physical_exam::placeholder,
+    #diagnosis::placeholder,
+    #recommendation::placeholder,
+    #recipe::placeholder,
+    #desc::placeholder {
+        color: white;
+    }
+
+    .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+</style>
+@endsection
+
+@section('js')
 <script>
     $(document).ready( function () {
-        $('#table').DataTable();
-        $('#myTable').DataTable();
-        for (var i = 0; i <100; i++) {
-            $('#icd_code'+i).select2({
-                ajax: {
-                    url: '/getIcd',
-                    type: 'GET',
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function(data) {
-                        return {
-                            results: data
-                        };
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                    },
-                    cache: true,
+        $('#icd_code').select2({
+            dropdownParent: $('#medicalRecordModal'),
+            ajax: {
+                url: '/getIcd',
+                type: 'GET',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
                 },
-                placeholder: 'Select an ICD',
-                minimumInputLength: 1
-            });
+                error: function(xhr, status, error) {
+                    console.log(error);
+                },
+                cache: true
+            },
+            placeholder: 'Select an ICD(Optional)',
+            minimumInputLength: 1
+        });
+            
+
+        document.querySelectorAll('.isiHasil').forEach(function(element) {
+    element.addEventListener('click', function() {
+        var reservationId = $(this).data('id');
+        $('#reservation_id').val(reservationId);
+        console.log("Success");
+        console.log(reservationId);
+    });
+});
+        
+        $('#table').DataTable({
+            "order": []
+        });
+        $('#myTable').DataTable({
+            "order": []
+        });
+        for (var i = 0; i <100; i++) {
         }
         
         var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -248,7 +310,4 @@
     });
         
 </script>
-</body>
-
-</html>
 @endsection
