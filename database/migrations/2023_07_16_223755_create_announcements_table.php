@@ -18,7 +18,7 @@ class CreateAnnouncementsTable extends Migration
             $table->foreignId('employee_id')->constrained();
             $table->string('title');
             $table->text('content');
-            // $table->string('image')->default('default_images/default.png');
+            $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -26,7 +26,7 @@ class AnnouncementRequest extends FormRequest
         return [
             'employee_id' => 'required',
             'title' => 'required',
-            // 'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'content' => 'required',
         ];
     }

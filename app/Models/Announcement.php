@@ -14,7 +14,7 @@ class Announcement extends Model
         'title',
         'content',
         'employee_id',
-        // 'image',
+        'image',
     ];
 
     public function employee()
