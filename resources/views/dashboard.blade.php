@@ -10,7 +10,7 @@
      <main>
         <section class="filters">
             <h2>Jadwal Dokter</h2>
-            <label for="date-filter">Filter:</label>
+            <label for="date-filter">Date Filter:</label>
             <select id="date-filter">
                 <option value="" selected disabled>Pilih Filter</option>
                 <option value="day">Hari</option>
