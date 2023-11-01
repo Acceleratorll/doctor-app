@@ -10,15 +10,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        @if($message = Session::get('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ $message }}
-                            </div>
-                        @elseif($message =  Session::get('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                        @endif
+                        
                         <div class="row" style="height: 10px"></div>
                         <div class="card">
                             <div class="card-body">
@@ -91,7 +83,24 @@
             }
         });
         }
+
+        function showSweetAlert(type, message) {
+            Swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000 // Change this value to adjust the display time
+            });
+        }
+            
+    
     $(document).ready( function () {
+        @if ($message = Session::get('success'))
+        showSweetAlert('success', '{{ $message }}');
+        @elseif ($message = Session::get('error'))
+        showSweetAlert('error', '{{ $message }}');
+        @endif
+
         $('#table').DataTable();
     } );
     $(document).ready(

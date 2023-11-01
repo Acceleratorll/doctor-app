@@ -57,7 +57,7 @@ class EmployeeManageController extends Controller
             'user_id' => $user->id,
             'qualification' => $input['qualification'],
         ]);
-        return redirect()->route('admin.pegawai.index');
+        return redirect()->route('admin.pegawai.index')->with('success', 'Pegawai berhasil ditambahkan !');
     }
 
     public function show($id)
@@ -92,12 +92,12 @@ class EmployeeManageController extends Controller
             'user_id' => $user->id,
             'qualification' => $input['qualification'],
         ]);
-        return redirect()->route('admin.pegawai.index');
+        return redirect()->route('admin.pegawai.index')->with('success', 'Pegawai berhasil diupdate !');
     }
 
     public function destroy($id)
     {
         Employee::findOrFail($id)->delete();
-        return back();
+        return back()->with('success', 'Pegawai berhasil dihapus !');
     }
 }

@@ -25,15 +25,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                @if($message = Session::get('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ $message }}
-                </div>
-                @elseif($message =  Session::get('error'))
-                <div class="alert alert-danger" role="alert">
-                    {{ $message }}
-                </div>
-                @endif
+                
                 <div class="row" style="height: 10px"></div>
                 <div class="card">
                     <div class="card-body">
@@ -116,11 +108,30 @@
         let table2 = new DataTable('#table2');
     });
 
+    function showSweetAlert(type, message) {
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    
     $(document).ready( function () {
+        @if ($message = Session::get('success'))
+        showSweetAlert('success', '{{ $message }}');
+        @elseif ($message = Session::get('error'))
+        showSweetAlert('error', '{{ $message }}');
+        @endif
+
         $('#table1').DataTable();
         $('#table2').DataTable();
         $('#table3').DataTable();
         $('#table4').DataTable();
+        $('#table5').DataTable();
+        $('#table6').DataTable();
+        $('#table7').DataTable();
     });
     
     $(document).ready(

@@ -10,15 +10,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            @if($message = Session::get('success'))
-            <div class="alert alert-success" role="alert">
-                {{ $message }}
-            </div>
-            @elseif($message = Session::get('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ $message }}
-            </div>
-            @endif
             <div class="card">
                 <div class="card-body">
                     <div class="row justify-between">
@@ -235,6 +226,14 @@
 
 @section('js')
 <script>
+    function showSweetAlert(type, message) {
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 2000 // Change this value to adjust the display time
+        });
+    }
     $(document).ready( function () {
         $('#icd_code').select2({
             dropdownParent: $('#medicalRecordModal'),
@@ -256,8 +255,13 @@
             placeholder: 'Select an ICD(Optional)',
             minimumInputLength: 1
         });
-            
-
+        
+        @if ($message = Session::get('success'))
+        showSweetAlert('success', '{{ $message }}');
+        @elseif ($message = Session::get('error'))
+        showSweetAlert('error', '{{ $message }}');
+        @endif
+        
         document.querySelectorAll('.isiHasil').forEach(function(element) {
             element.addEventListener('click', function() {
                 var reservationId = $(this).data('id');

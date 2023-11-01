@@ -32,7 +32,7 @@ class AnnouncementController extends Controller
             $patient->notify(new NotificationsAnnouncement($announcement->content, $announcement->title, $announcement->created_at));
         }
 
-        return redirect()->route('admin.pengumuman.index');
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil ditambahkan !');
     }
 
     public function show($id)
@@ -51,12 +51,12 @@ class AnnouncementController extends Controller
         $announcement = Announcement::findOrFail($id);
         $input = $request->validated();
         $announcement->update($input);
-        return redirect()->route('admin.pengumuman.index');
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diupdate !');
     }
 
     public function destroy($id)
     {
         Announcement::findOrFail($id)->delete();
-        return back();
+        return back()->with('success', 'Pengumuman berhasil dihapus !');
     }
 }

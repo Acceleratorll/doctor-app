@@ -45,7 +45,7 @@ class MedicalRecordManageController extends Controller
 
         $record->reservation->update(['status' => 1]);
 
-        return redirect()->route('admin.medis.index');
+        return redirect()->route('admin.medis.index')->with('success', 'Rekam Medis berhasil Ditambahkan !');
     }
 
     private function sanitizeFilename($filename)
@@ -83,12 +83,12 @@ class MedicalRecordManageController extends Controller
             }
         }
         $medical_record->update($input);
-        return redirect()->route('admin.medis.index');
+        return redirect()->route('admin.medis.index')->with('success', 'Rekam medis berhasil diupdate !');
     }
 
     public function destroy($id)
     {
         MedicalRecord::findOrFail($id)->delete();
-        return back();
+        return back()->with('success', 'Rekam medis berhasil dihapus !');
     }
 }

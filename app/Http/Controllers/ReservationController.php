@@ -201,7 +201,7 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         Reservation::withTrashed()->findOrFail($id)->forceDelete();
-        return back();
+        return back()->with('success', 'Reservation has been deleted');
     }
 
     public function cancel()

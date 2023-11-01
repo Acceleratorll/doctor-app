@@ -64,7 +64,6 @@
 @section('js')
 <script>
     $(document).ready(function() {
-
         var columns = [
             { data: 'doctor', name: 'doctor' },
             { data: 'qualification', name: 'qualification' },

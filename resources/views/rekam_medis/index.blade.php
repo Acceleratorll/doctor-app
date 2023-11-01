@@ -9,15 +9,7 @@
 @section('container')
                 <div class="row">
                     <div class="col-md-12">
-                        @if($message = Session::get('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ $message }}
-                            </div>
-                        @elseif($message =  Session::get('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                        @endif
+                        
                         <div class="row" style="height: 10px"></div>
                         <div class="card">
                             <div class="card-body">
@@ -119,20 +111,36 @@
     var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
 
+        function showSweetAlert(type, message) {
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 2000 // Change this value to adjust the display time
+        });
+    }
 
-        for (i = 0; i < dropdown.length; i++) {
+    
+    
+    for (i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
             this.classList.toggle("active");
             var dropdownContent = this.nextElementSibling;
             if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
+                dropdownContent.style.display = "none";
             } else {
-            dropdownContent.style.display = "block";
+                dropdownContent.style.display = "block";
             }
         });
-        }
-
+    }
+    
     $(document).ready( function () {
+        @if ($message = Session::get('success'))
+        showSweetAlert('success', '{{ $message }}');
+        @elseif ($message = Session::get('error'))
+        showSweetAlert('error', '{{ $message }}');
+        @endif
+
         $('#table').DataTable();
 
         $('.icdDetailButton').on('click', function () {

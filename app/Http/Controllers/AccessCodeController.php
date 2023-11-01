@@ -45,7 +45,7 @@ class AccessCodeController extends Controller
         $patient = Patient::findOrFail($id);
         if ($patient->access_code == $request->access_code) {
             session()->put('data', $patient->reservations);
-            return redirect()->route('profile.index');
+            return redirect()->route('profile.index')->with('success', 'Access code match !');
         }
         return redirect()->back()->withErrors(['access_code' => 'Incorrect Pin.']);
     }

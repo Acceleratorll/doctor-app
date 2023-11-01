@@ -92,7 +92,24 @@
 
 <script>
     var dropdown = document.getElementsByClassName("dropdown-btn");
+
+    function showSweetAlert(type, message) {
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 2000 // Change this value to adjust the display time
+        });
+    }
+
+    
     $(document).ready( function () {
+        @if ($message = Session::get('success'))
+        showSweetAlert('success', '{{ $message }}');
+        @elseif ($message = Session::get('error'))
+        showSweetAlert('error', '{{ $message }}');
+        @endif
+        
         $('#table').DataTable();
         var i;
         for (i = 0; i < dropdown.length; i++) {
