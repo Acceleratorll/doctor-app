@@ -97,15 +97,14 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Password">Password</label>
-                        <input type="text" placeholder="Masukkan Password" class="form-control" name="password" id="password" required>
+                        <input type="password" placeholder="Masukkan Password" class="form-control" name="password" id="password" required>
                     </div>
                 </div>
             </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
-                <a href="javascript:history.go(-1)" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </a>
+                <a href="history.go(-1)" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </a>
             </div>
-            
             </form>
         </div>
     </div>

@@ -172,7 +172,7 @@
                         <div class="row">
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9 text-secondary">
-                                <a href="javascript:history.go(-1)" class="btn btn-danger px-4" >Cancel</a>
+                                <a href="window.history.go(-1); return false;" class="btn btn-danger px-4" >Cancel</a>
                                 <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                             </div>
                         </div>

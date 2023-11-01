@@ -24,40 +24,13 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         if ($request->bpjs != null) {
-            $reservations_no = Reservation::with(['patient', 'schedule'])
-                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
-                ->where('bpjs', $request->bpjs)
-                ->where('status', 0)
-                ->where('approve', 1)
-                ->orderBy('schedules.schedule_date', 'asc')
-                ->orderBy('nomor_urut', 'asc')
-                ->get();
-
-            $reservations_yes = Reservation::with(['patient', 'schedule'])
-                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
-                ->where('bpjs', $request->bpjs)
-                ->where('status', 1)
-                ->where('approve', 1)
-                ->orderBy('schedules.schedule_date', 'desc')
-                ->orderBy('nomor_urut', 'desc')
-                ->get();
+            $reservations_no = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
+            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
         } else {
-            $reservations_no = Reservation::with(['patient', 'schedule'])
-                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
-                ->where('status', 0)
-                ->where('approve', 1)
-                ->orderBy('schedules.schedule_date', 'asc')
-                ->orderBy('nomor_urut', 'asc')
-                ->get();
-
-            $reservations_yes = Reservation::with(['patient', 'schedule'])
-                ->join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
-                ->where('status', 1)
-                ->where('approve', 1)
-                ->orderBy('schedules.schedule_date', 'desc')
-                ->orderBy('nomor_urut', 'desc')
-                ->get();
+            $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
+            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
         }
+        return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
 
         return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
     }
@@ -122,13 +95,6 @@ class ReservationController extends Controller
         return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Reservation  $reservation
-     * @return \Illuminate\Http\Response
-     */
     public function show($reservation)
     {
         $reservation = Reservation::with(['patient', 'schedule'])->where('id', $reservation)->first();

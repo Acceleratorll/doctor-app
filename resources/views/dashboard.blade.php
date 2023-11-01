@@ -9,13 +9,13 @@
 @section('container')
      <main>
         <section class="filters">
-            <h2>Doctor Schedules</h2>
-            <label for="date-filter">Date Filter:</label>
+            <h2>Jadwal Dokter</h2>
+            <label for="date-filter">Filter:</label>
             <select id="date-filter">
                 <option value="" selected disabled>Pilih Filter</option>
-                <option value="day">Day</option>
-                <option value="week">Week</option>
-                <option value="month">Month</option>
+                <option value="day">Hari</option>
+                <option value="week">Minggu</option>
+                <option value="month">Bulan</option>
             </select>
         </section>
         <section class="schedule">
@@ -35,13 +35,13 @@
             </table>
         </section><br>
         <section class="practice-frequency">
-            <h2>Practice Frequency</h2>
-            <label for="practice-frequency-filter">Practice Frequency Filter:</label>
+            <h2>Frekuensi Praktik</h2>
+            <label for="practice-frequency-filter">Frekuensi Praktik Filter:</label>
             <select id="practice-frequency-filter">
                 <option value="">Pilih Filter</option>
-                <option value="day">Day</option>
-                <option value="week">Week</option>
-                <option value="month">Month</option>
+                <option value="day">Hari</option>
+                <option value="week">Minggu</option>
+                <option value="month">Bulan</option>
             </select>
         </section>
         <section class="patient-count">

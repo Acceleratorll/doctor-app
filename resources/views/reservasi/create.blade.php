@@ -19,14 +19,14 @@
         </div>
         @endif
         @if($message = Session::get('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ $message }}
-                            </div>
-                        @elseif($message =  Session::get('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                        @endif
+        <div class="alert alert-success" role="alert">
+            {{ $message }}
+        </div>
+        @elseif($message =  Session::get('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+        @endif
         <form action="{{ route('admin.reservation.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
@@ -38,10 +38,10 @@
                     <div class="form-group">
                         <label for="patient_id">Pasien</label>
                         <select class="form-control" name="patient_id" id="namapasien" required>
-                                @foreach($patients as $patient)
-                                <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
-                                @endforeach
-                            </select>
+                            @foreach($patients as $patient)
+                            <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="schedule">Jadwal</label>
@@ -114,7 +114,7 @@
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal"
                     data-target="#modalconfirm">Simpan</button>
-                <a href="javascript:history.go(-1)" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal
+                <a href="window.history.go(-1); return false;" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal
                 </a>
             </div>
 

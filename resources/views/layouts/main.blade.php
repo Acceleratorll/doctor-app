@@ -51,6 +51,19 @@
         .select2 {
             width: 100%!important;
         }
+        ::placeholder {
+    color: white;
+}
+
+/* Additional specificity if needed */
+.form-control::placeholder {
+    color: white;
+}
+
+    .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
     </style>
     
 </head>

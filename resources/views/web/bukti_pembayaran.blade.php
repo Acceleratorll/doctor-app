@@ -265,7 +265,7 @@
     });
 
     document.getElementById('kembali-btn').addEventListener('click', function() {
-        window.history.back();
+        window.window.history.go(-1); return false;;
     });
 </script>
 

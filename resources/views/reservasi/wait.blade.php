@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table-dark table-striped" id="table">
+                        <table class="table table-dark table-striped" id="table">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center">Reservation Code</th>
@@ -90,10 +90,6 @@
 </div>
 </div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script>
     var dropdown = document.getElementsByClassName("dropdown-btn");
     $(document).ready( function () {
@@ -110,11 +106,9 @@
                 }
             });
         }
-        function(){
             $('#sidebarcollapse').on('click',function(){
                 $('#sidebar').toggleClass('active');
             });
-        }
     });
 </script>
 </body>

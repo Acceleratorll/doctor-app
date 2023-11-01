@@ -175,7 +175,7 @@
             <div class="modal-body">
                 <form method="post" action="{{ route('admin.medis.store') }}" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="reservation_id" id="reservation_id">
+                    <input type="number" name="reservation_id" id="reservation_id" hidden>
                     <div class="form-group">
                         <select class="form-control select2" name="icd_code" id="icd_code"></select>
                     </div>
@@ -259,14 +259,14 @@
             
 
         document.querySelectorAll('.isiHasil').forEach(function(element) {
-    element.addEventListener('click', function() {
-        var reservationId = $(this).data('id');
-        $('#reservation_id').val(reservationId);
-        console.log("Success");
-        console.log(reservationId);
-    });
-});
-        
+            element.addEventListener('click', function() {
+                var reservationId = $(this).data('id');
+                $('#reservation_id').val(reservationId);
+                console.log(reservationId);
+                console.log("Success");
+            });
+        });
+            
         $('#table').DataTable({
             "order": []
         });

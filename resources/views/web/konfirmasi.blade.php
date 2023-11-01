@@ -349,7 +349,7 @@
             <input type="checkbox" id="konfirmasi" style="margin-right:12px" required>
             <label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
             <div>
-                <a href="javascript:history.back()" class="btn mt-3 text-end">
+                <a href="javascript:window.history.go(-1); return false;" class="btn mt-3 text-end">
                     <i class="icon-arrow-left"></i><span>Kembali</span>
                 </a>
                 <button type="submit" class="btn btn-primary mt-3 text-end">Konfirmasi</button>
