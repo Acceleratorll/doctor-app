@@ -24,13 +24,36 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         if ($request->bpjs != null) {
-            $reservations_no = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
-            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('bpjs', $request->bpjs)->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
+            $reservations_no = Reservation::with(['patient', 'schedule'])
+                ->where('bpjs', $request->bpjs)
+                ->where('status', 0)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+
+            $reservations_yes = Reservation::with(['patient', 'schedule'])
+                ->where('bpjs', $request->bpjs)
+                ->where('status', 1)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
         } else {
-            $reservations_no = Reservation::with(['patient', 'schedule'])->where('status', 0)->where('approve', 1)->orderBy('updated_at', 'asc')->get();
-            $reservations_yes = Reservation::with(['patient', 'schedule'])->where('status', 1)->where('approve', 1)->orderBy('updated_at', 'desc')->get();
+            $reservations_no = Reservation::with(['patient', 'schedule'])
+                ->where('status', 0)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+
+            $reservations_yes = Reservation::with(['patient', 'schedule'])
+                ->where('status', 1)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
         }
-        return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
 
         return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
     }
@@ -201,7 +224,7 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         Reservation::withTrashed()->findOrFail($id)->forceDelete();
-        return back()->with('success', 'Reservation has been deleted');
+        return back();
     }
 
     public function cancel()
