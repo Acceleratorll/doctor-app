@@ -9,7 +9,7 @@
 @section('container')
      <main>
         <section class="filters">
-            <h2>Doctor Schedules</h2>
+            <h2>Jadwal Dokter</h2>
             <label for="date-filter">Date Filter:</label>
             <select id="date-filter">
                 <option value="" selected disabled>Pilih Filter</option>
