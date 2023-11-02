@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
+use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class PatientManageController extends Controller
 {
@@ -16,7 +18,6 @@ class PatientManageController extends Controller
         $patients = Patient::with('user')->latest()->get();
         return view('pasien.index', compact('patients'));
     }
-
 
     public function create()
     {
@@ -87,5 +88,29 @@ class PatientManageController extends Controller
     {
         Patient::findOrFail($id)->delete();
         return back();
+    }
+
+    public function tableReservations($patient)
+    {
+        $datas = Reservation::with('employee', 'patient', 'data')->where('patient_id', $patient)->get();
+        return DataTables::of($datas)
+            ->addColumn('id', function ($data) {
+                return $data->id;
+            })
+            ->addColumn('code', function ($data) {
+                return $data->reservation_code;
+            })
+            ->addColumn('diagnosis', function ($data) {
+                return $data->medical_record->diagnosis;
+            })
+            ->make(true);
+    }
+
+    public function getReservations($id)
+    {
+
+        $reservations = Reservation::with(['schedule.place', 'schedule.employee.user', 'patient.user'])->where('patient_id', $id)->get();
+
+        return response()->json($reservations);
     }
 }

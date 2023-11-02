@@ -65,6 +65,9 @@
                                                         <a href="#" class="btn btn-info btn-sm show-reservations" data-patient-id="{{ $patient->id }}">
                                                             <i class="fas fa-list"></i> Show Reservations
                                                         </a>
+                                                        <button class="btn btn-info btn-sm hide-reservations" style="display: none">
+                                                            <i class="fas fa-times"></i> Hide Reservations
+                                                        </button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -79,39 +82,25 @@
                 </div>
             </div>
         </div>
-        <div class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Modal title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+        <div class="detail-container container" style="display: none;">
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-dark table-striped text-center" id="details-table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" class="text-center">ID</th>
+                                    <th scope="col" class="text-center">Nama</th>
+                                    <th scope="col" class="text-center">Dokter</th>
+                                    <th scope="col" class="text-center">Tempat</th>
+                                    <th scope="col" class="text-center">Tanggal</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="modal fade" id="reservationsModal" tabindex="-1" role="dialog">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Patient Reservations</h5>
-                          <button type="button" class="close" style="z-index:999999;" data-bs-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body">
-                          <ul id="reservations-list"></ul>
-                      </div>
-                  </div>
-              </div>
-          </div>
-            
+        </div>
         <script>
 
             function showSweetAlert(type, message) {
@@ -119,69 +108,110 @@
                     icon: type,
                     title: message,
                     showConfirmButton: false,
-                    timer: 2000 // Change this value to adjust the display time
+                    timer: 2000
                 });
             }
+            
+            $(document).ready( function () {
+                @if ($message = Session::get('success'))
+                showSweetAlert('success', '{{ $message }}');
+                @elseif ($message = Session::get('error'))
+                showSweetAlert('error', '{{ $message }}');
+                @endif
                 
-    
-    $(document).ready( function () {
-        @if ($message = Session::get('success'))
-        showSweetAlert('success', '{{ $message }}');
-        @elseif ($message = Session::get('error'))
-        showSweetAlert('error', '{{ $message }}');
-        @endif
-
-        var table = $('#table').DataTable();
-
+                var table = $('#table').DataTable();
+                var detailTable = $('#details-table').DataTable({
+                    searchable: true,
+                    processing: true,
+                    serverSide: true,
+                    paging: true,
+                    pageLength: 5,
+                });
+                
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');
                 });
-
+                
                 $('.show-reservations').click(function (e) {
                     e.preventDefault();
                     var patientId = $(this).data('patient-id');
-                    var url = '{{ route("reservations.json.get.by.patient", ["patient" => ":patient"]) }}'.replace(':patient', patientId);
-
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        success: function (data) {
-                            var incomingProducts = data.incoming_products;
-                            var modal = $('#reservationsModal');
-                            var modalList = modal.find('#reservations-list');
-                            modalList.empty();
-                            
-                            $.each(data, function(index, reservation) {
-                                console.log(reservation.schedule.employee.user.name);
-                                modalList.append('<li>' + reservation.schedule.schedule_date + ' <p>Code : <strong>' + reservation.reservation_code +
-                                    ('</strong><br>Dokter : ' + reservation.schedule.employee.user.name ?? 'N/A') +'</p></li>');
-                            });
-                            
-                            $('#reservationsModal').modal('show');
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
+                    var detailContainer = $('.detail-container');
+                    var showButton = $('.show-reservations');
+                    var hideButton = $('.hide-reservations');
+                    
+                     $.ajax({
+                         url: '{{ route("admin.patient.reservations", ":id") }}'.replace(':id', patientId),
+                         type: 'GET',
+                         success: function (data) {
+                             detailTable.clear().draw();
+                 
+                             data.forEach(function (reservation) {
+                                 detailTable.row.add([
+                                     reservation.id,
+                                     reservation.patient.user.name,
+                                     reservation.schedule.employee.user.name,
+                                     reservation.schedule.place.name,
+                                     reservation.schedule.schedule_date,
+                                 ]).draw(false);
+                             });
+                 
+                             // Show the detail container, hide the "Show Reservations" button, and show the "Hide Reservations" button
+                             detailContainer.show();
+                             showButton.hide();
+                             hideButton.show();
+                         },
+                         error: function (error) {
+                             console.log(error);
+                         }
+                     });
+                         
+                    detailContainer.show();
+                    showButton.hide();
+                    hideButton.show();
                 });
+        
+                $('.hide-reservations').click(function (e) {
+                    e.preventDefault();
+                    var detailContainer = $('.detail-container');
+                    var showButton = $('.show-reservations');
+                    var hideButton = $('.hide-reservations');
+                    $('#details-table').DataTable().clear().draw();
+        
+                    detailContainer.hide();
+                    showButton.show();
+                    hideButton.hide();
+                });
+                    
             });
+                    
 
-            var dropdown = document.getElementsByClassName("dropdown-btn");
-            var i;
-            
-            for (i = 0; i < dropdown.length; i++) {
-                dropdown[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var dropdownContent = this.nextElementSibling;
-                    if (dropdownContent.style.display === "block") {
-                        dropdownContent.style.display = "none";
-                    } else {
-                        dropdownContent.style.display = "block";
-                    }
-                });
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
             }
+        });
+    }
 
-            </script>
-</body>
-</html>
+    </script>
+@endsection
+
+@section('css')
+<style>
+    .modal-fullscreen {
+        min-width: 100%;
+        margin: 0;
+    }
+
+    .modal-fullscreen .modal-content {
+        min-height: 100vh;
+    }
+</style>
 @endsection

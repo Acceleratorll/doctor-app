@@ -32,7 +32,7 @@
                                             <th scope="col" class="text-center">Tindakan</th>
                                             <th scope="col" class="text-center">Keluhan</th>
                                             <th scope="col" class="text-center">Pemeriksaan Fisik</th>
-                                            <th scope="col" class="text-center">Diagnosisi</th>
+                                            <th scope="col" class="text-center">Diagnosis</th>
                                             <th scope="col" class="text-center">Anjuran</th>
                                             <th scope="col" class="text-center">Resep</th>
                                             <th scope="col" class="text-center">ICD</th>

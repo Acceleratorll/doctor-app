@@ -51,6 +51,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/reservation' => ReservationController::class,
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
+    Route::get('/patient-reservations/{id}', [PatientManageController::class, 'getReservations'])->name('admin.patient.reservations');
     Route::get('/schedules/day', [DashboardController::class, 'getScheduleDay'])->name('admin.schedules.day');
     Route::get('/schedules/week', [DashboardController::class, 'getScheduleWeek'])->name('admin.schedules.week');
     Route::get('/schedules/month', [DashboardController::class, 'getScheduleMonth'])->name('admin.schedules.month');
@@ -60,6 +61,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::get('/tableDoctor/day', [DashboardController::class, 'tableDoctorsDay'])->name('admin.table.doctors.day');
     Route::get('/tableDoctor/week', [DashboardController::class, 'tableDoctorsWeek'])->name('admin.table.doctors.week');
     Route::get('/tableDoctor/month', [DashboardController::class, 'tableDoctorsMonth'])->name('admin.table.doctors.month');
+    Route::get('/tableReservations/{patient}', [PatientManageController::class, 'tableReservations'])->name('admin.table.reservations');
     Route::get('/icd', [ICDController::class, 'index'])->name('icd.index');
     Route::post('/icd/search', [ICDController::class, 'search'])->name('icd.search');
     Route::post('/icd/show', [ICDController::class, 'detail'])->name('icd.show');
