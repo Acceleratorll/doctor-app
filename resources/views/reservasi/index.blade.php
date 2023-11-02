@@ -41,7 +41,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center">ID</th>
-                                    <th scope="col" class="text-center">Reservation Code</th>
+                                    <th scope="col" class="text-center">Kode Reservasi</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Nomor Urut</th>
                                     <th scope="col" class="text-center">Jadwal</th>
@@ -104,7 +104,7 @@
                     <table class="table-dark table-striped" id="myTable">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col" class="text-center">Reservation Code</th>
+                                <th scope="col" class="text-center">Kode Reservasi</th>
                                 <th scope="col" class="text-center">Nama Pasien</th>
                                 <th scope="col" class="text-center">Nomor Urut</th>
                                 <th scope="col" class="text-center">Jadwal</th>

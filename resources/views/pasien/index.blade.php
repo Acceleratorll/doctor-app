@@ -120,13 +120,7 @@
                 @endif
                 
                 var table = $('#table').DataTable();
-                var detailTable = $('#details-table').DataTable({
-                    searchable: true,
-                    processing: true,
-                    serverSide: true,
-                    paging: true,
-                    pageLength: 5,
-                });
+                var detailTable = $('#details-table').DataTable();
                 
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');

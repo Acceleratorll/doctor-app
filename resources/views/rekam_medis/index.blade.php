@@ -81,6 +81,22 @@
                                             </td>
                                             @endforeach
                                         </tbody>
+                                        <tfoot class="tfoot-dark">
+                                            <tr>
+                                                <th scope="col" class="text-center">ID</th>
+                                                <th scope="col" class="text-center">Dokter</th>
+                                                <th scope="col" class="text-center">Nama Pasien</th>
+                                                <th scope="col" class="text-center">Gender</th>
+                                                <th scope="col" class="text-center">Tindakan</th>
+                                                <th scope="col" class="text-center">Keluhan</th>
+                                                <th scope="col" class="text-center">Pemeriksaan Fisik</th>
+                                                <th scope="col" class="text-center">Diagnosis</th>
+                                                <th scope="col" class="text-center">Anjuran</th>
+                                                <th scope="col" class="text-center">Resep</th>
+                                                <th scope="col" class="text-center">ICD</th>
+                                                <th scope="col" class="text-center">Keterangan</th>
+                                            </tr>
+                                        </tfoot>
                                         @endif
                                     </table>
                                 </div>
@@ -141,8 +157,26 @@
         showSweetAlert('error', '{{ $message }}');
         @endif
 
-        $('#table').DataTable();
+        $('#table tfoot th').each( function (i) {
+            var title = $('#table thead th').eq( $(this).index() ).text();
+            $(this).html( '<input type="text" class="tfoot" placeholder="'+title+'" data-index="'+i+'" />' );
+        } );
+            
+        var table = $('#table').DataTable({
+            scrollY:        "300px",
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         false,
+            fixedColumns:   true
+        });
 
+        $( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+            table
+                .column( $(this).data('index') )
+                .search( this.value )
+                .draw();
+        } );
+            
         $('.icdDetailButton').on('click', function () {
         // Fetch the ICD name from the data attribute
         var icdName = $(this).data('icd-name');
@@ -164,4 +198,9 @@
 </script>
 </body>
 </html>
+@endsection
+
+@section('css')    
+<style>
+</style>
 @endsection

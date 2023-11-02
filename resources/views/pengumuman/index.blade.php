@@ -24,8 +24,8 @@
                                         @if($announcements != null)
                                         <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col" class="text-center">Title</th>
-                                            <th scope="col" class="text-center">Content</th>
+                                            <th scope="col" class="text-center">Judul</th>
+                                            <th scope="col" class="text-center">Konten</th>
                                             <th scope="col" class="text-center">Pegawai</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>

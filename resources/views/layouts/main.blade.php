@@ -51,10 +51,14 @@
         .select2 {
             width: 100%!important;
         }
-        ::placeholder {
-    color: white;
-}
+        .tfoot::placeholder {
+            color: black !important;
+        }
 
+        ::placeholder {
+            color: white;
+        }
+            
 /* Additional specificity if needed */
 .form-control::placeholder {
     color: white;
