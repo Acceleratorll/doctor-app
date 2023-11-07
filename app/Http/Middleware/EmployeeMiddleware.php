@@ -16,7 +16,7 @@ class EmployeeMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->role_id == 2) {
+        if (auth()->user()->role_id === 2) {
             return $next($request);
         }
 

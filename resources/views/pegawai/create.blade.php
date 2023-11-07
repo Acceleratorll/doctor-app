@@ -68,15 +68,15 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
+            {{-- <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="kualifikasi">Spesialisasi</label>
                         <input type="text" placeholder="Masukkan Kualifikasi" class="form-control" name="qualification" id="kualifikasi" required>
                     </div>
                 </div>
-            </div>
-            <div class="form-row">
+            </div> --}}
+            {{-- <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Role">Role</label>
@@ -84,11 +84,12 @@
                         <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role" value="2" hidden>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Username">Username</label>
+                        <input type="hidden" placeholder="Masukkan Role" class="form-control" name="role_id" id="role_id" value="2" hidden>
                         <input type="text" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
                     </div>
                 </div>

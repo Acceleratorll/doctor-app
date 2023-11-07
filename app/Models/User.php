@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->hasOne(Patient::class);
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
     public function employee()
     {
         return $this->hasOne(Employee::class);

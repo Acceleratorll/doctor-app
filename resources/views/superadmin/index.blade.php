@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Master Pegawai                 
+        Master Dokter                 
     </h1>
 @endsection
 
@@ -14,18 +14,14 @@
                         <div class="row" style="height: 10px"></div>
                         <div class="card">
                             <div class="card-body">
-                                <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='/admin/pegawai/create'">
-                                        <span>+ Add Items</span>
-                                    </button>
-                                </div>
                                 <div class="table-responsive">
     <table class="table-dark table-striped text-center" id="table">
-        <caption>List of Employees</caption>
+        <caption>List of Superadmins</caption>
         <thead class="thead-dark">
             <tr>
-                <th scope="col" class="text-center">ID Pegawai</th>
-                <th scope="col" class="text-center">Nama Pegawai</th>
+                <th scope="col" class="text-center">ID Dokter</th>
+                <th scope="col" class="text-center">Nama Dokter</th>
+                <th scope="col" class="text-center">Spesialisasi</th>
                 <th scope="col" class="text-center">Tanggal Lahir</th>
                 <th scope="col" class="text-center">Gender</th>
                 <th scope="col" class="text-center">Address</th>
@@ -36,29 +32,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($employees as $employee)
-            <tr onclick="window.location.href='/admin/pegawai/{{ $employee->id }}';" style="cursor: pointer;">
-                <td>{{ $employee->id }}</td>
-                <td>{{ $employee->name }}</td>
-                <td>{{ $employee->birth_date->format('Y-m-d') }}</td>
-                <td>{{ $employee->gender }}</td>
-                <td>{{ $employee->address }}</td>
-                <td>{{ $employee->username }}</td>
-                <td><a href="mailto:{{ $employee->email }}">{{ $employee->email }}</a></td>
-                <td>{{ $employee->phone }}</td>
+            @foreach($superadmins as $superadmin)
+            <tr onclick="window.location.href='/admin/dokter/{{ $superadmin->id }}';" style="cursor: pointer;">
+                <td>{{ $superadmin->id }}</td>
+                <td>{{ $superadmin->name }}</td>
+                <td>{{ $superadmin->employee->qualification }}</td>
+                <td>{{ $superadmin->birth_date->format('Y-m-d') }}</td>
+                <td>{{ $superadmin->gender }}</td>
+                <td>{{ $superadmin->address }}</td>
+                <td>{{ $superadmin->username }}</td>
+                <td><a href="mailto:{{ $superadmin->email }}">{{ $superadmin->email }}</a></td>
+                <td>{{ $superadmin->phone }}</td>
                 <td class="project-actions text-center">
-                    <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?')">
-                            <i class="fas fa-trash"></i>
-                            Delete
-                        </button>
-                        <a href="/admin/pegawai/{{ $employee->id }}/edit" class="btn btn-sm btn-warning">
-                            <i class="fa fa-edit"></i>
-                            Edit
-                        </a>
-                    </form>
+                    <a href="/admin/dokter/{{ $superadmin->id }}/edit" class="btn btn-sm btn-warning">
+                        <i class="fa fa-edit"></i>
+                        Edit
+                    </a>
                 </td>
             </tr>
             @endforeach

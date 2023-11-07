@@ -26,7 +26,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if (auth()->user()->role_id == '1') {
+        if (auth()->user()->role_id == '1' || auth()->user()->role_id == '1') {
             return redirect()->intended(RouteServiceProvider::HOME);
         } elseif (Auth::user()->role_id == '3') {
             $today = Carbon::today()->timezone('Asia/Jakarta')->toDateString();

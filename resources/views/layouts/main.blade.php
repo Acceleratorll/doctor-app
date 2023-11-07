@@ -135,13 +135,22 @@
                         </li> --}}
                         <li class="nav-item">
                             <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
-                                <i class="nav-icon fa fa-users"></i>
+                                <i class="nav-icon fa fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
-                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                         </li>
+                        @if(auth()->user()->role_id === 1)
+                        <li class="nav-item">
+                            <a href="{{ route('admin.dokter.index') }}" class="nav-link">
+                                <i class="nav-icon fa fa-users"></i>
+                                <p>
+                                    Dokter
+                                </p>
+                            </a>
+                        </li>
+                        @endif
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>

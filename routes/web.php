@@ -18,6 +18,7 @@ use App\Http\Controllers\PatientManageController;
 use App\Http\Controllers\PlaceManageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
+use App\Http\Controllers\SuperadminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,12 +42,13 @@ Route::get('/konsultasi', function () {
     return view('web.konsultasi');
 })->name('konsultasi');
 
-Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
+Route::middleware(['auth','admin'])->prefix('/admin')->group(function () {
     Route::resources([
+        '/dokter' => SuperadminController::class,
+        '/pegawai' => EmployeeManageController::class,
+        '/pasien' => PatientManageController::class,
         '/jadwal' => ScheduleManageController::class,
         '/medis' => MedicalRecordManageController::class,
-        '/pasien' => PatientManageController::class,
-        '/pegawai' => EmployeeManageController::class,
         '/tempat' => PlaceManageController::class,
         '/reservation' => ReservationController::class,
         '/pengumuman' => AnnouncementController::class,

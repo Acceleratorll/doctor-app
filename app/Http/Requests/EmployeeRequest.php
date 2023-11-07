@@ -31,7 +31,7 @@ class EmployeeRequest extends FormRequest
             'gender' => 'required',
             'email' => 'required',
             'phone' => 'required',
-            'qualification' => 'required',
+            'qualification' => 'nullable',
             'username' => 'required',
             'password' => 'required',
         ];

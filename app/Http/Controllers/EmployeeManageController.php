@@ -12,7 +12,7 @@ class EmployeeManageController extends Controller
 {
     public function index()
     {
-        $employees = Employee::with('user')->get();
+        $employees = User::with('role')->where('role_id', 2)->get();
         return view('pegawai.index', compact('employees'));
     }
 
@@ -20,9 +20,8 @@ class EmployeeManageController extends Controller
     {
         $searchTerm = $request->term;
 
-        $employees = Employee::with('user')->whereHas('user', function ($query) use ($searchTerm) {
-            $query->where('name', 'LIKE', "%$searchTerm%");
-        })->get();
+        $employees = User::with('role')->where('name', 'LIKE', "%$searchTerm%")
+            ->get();
 
         $formattedEmployees = $employees->map(function ($employee) {
             return [
@@ -53,10 +52,12 @@ class EmployeeManageController extends Controller
             'username' => $input['username'],
             'password' => bcrypt($input['password']),
         ]);
+
         Employee::create([
             'user_id' => $user->id,
-            'qualification' => $input['qualification'],
+            'qualification' => "",
         ]);
+
         return redirect()->route('admin.pegawai.index')->with('success', 'Pegawai berhasil ditambahkan !');
     }
 
@@ -67,16 +68,15 @@ class EmployeeManageController extends Controller
 
     public function edit($id)
     {
-        $employee = Employee::with('user')->findOrFail($id);
+        $employee = User::with('role')->findOrFail($id);
         return view('pegawai.edit', compact('employee'));
     }
 
     public function update(EmployeeRequest $request, $id)
     {
-        $patient = Employee::findOrFail($id);
+        $employee = User::findOrFail($id);
         $input = $request->validated();
-        $user = User::findOrFail($patient->user_id);
-        $user->update([
+        $employee->update([
             'role_id' => $input['role_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
@@ -87,17 +87,12 @@ class EmployeeManageController extends Controller
             'username' => $input['username'],
             'password' => bcrypt($input['password']),
         ]);
-
-        $patient->update([
-            'user_id' => $user->id,
-            'qualification' => $input['qualification'],
-        ]);
         return redirect()->route('admin.pegawai.index')->with('success', 'Pegawai berhasil diupdate !');
     }
 
     public function destroy($id)
     {
-        Employee::findOrFail($id)->delete();
+        User::findOrFail($id)->delete();
         return back()->with('success', 'Pegawai berhasil dihapus !');
     }
 }
