@@ -30,6 +30,7 @@ class ScheduleRequest extends FormRequest
             'schedule_time' => 'required',
             'schedule_time_end' => 'required',
             'qty' => 'required',
+            'frequency' => 'required',
         ];
     }
 }

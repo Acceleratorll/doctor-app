@@ -62,10 +62,20 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="col">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="Jam">Kuota</label>
                         <input type="number" placeholder="Masukkan Banyak Kuota" class="form-control" name="qty" id="qty" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Jam">Di Ulang (30 Hari atau 1 Bulan)</label>
+                        <select class="form-control" name="frequency" id="frequency">
+                            <option value="-1" selected>Sekali</option>
+                            <option value="daily">Setiap Hari</option>
+                            <option value="weekly">Setiap Minggu</option>
+                        </select>
                     </div>
                 </div>
             </div>

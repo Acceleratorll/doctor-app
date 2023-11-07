@@ -40,7 +40,43 @@ class ScheduleManageController extends Controller
     public function store(ScheduleRequest $request)
     {
         $input = $request->validated();
-        Schedule::create($input);
+
+        // Get the selected frequency from the form (e.g., 'daily' or 'weekly')
+        $frequency = $request->input('frequency');
+
+        // Calculate the end date based on the frequency
+        $startDate = Carbon::parse($input['schedule_date']);
+        if ($frequency !== -1) {
+            $endDate = $frequency === 'daily' ? $startDate->copy()->addDays(30) : $startDate->copy()->addWeeks(4);
+
+            while ($startDate <= $endDate) {
+                Schedule::create([
+                    'employee_id' => $input['employee_id'],
+                    'place_id' => $input['place_id'],
+                    'schedule_date' => $startDate,
+                    'schedule_time' => $input['schedule_time'],
+                    'schedule_time_end' => $input['schedule_time_end'],
+                    'qty' => $input['qty'],
+                ]);
+
+                // Increment the date based on the selected frequency
+                if ($frequency === 'daily') {
+                    $startDate->addDay();
+                } else if ($frequency === 'weekly') {
+                    $startDate->addWeek();
+                }
+            }
+        } else {
+            Schedule::create([
+                'employee_id' => $input['employee_id'],
+                'place_id' => $input['place_id'],
+                'schedule_date' => $startDate,
+                'schedule_time' => $input['schedule_time'],
+                'schedule_time_end' => $input['schedule_time_end'],
+                'qty' => $input['qty'],
+            ]);
+        }
+
         return redirect()->route('admin.jadwal.index');
     }
 
