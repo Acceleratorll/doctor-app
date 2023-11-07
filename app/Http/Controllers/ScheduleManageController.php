@@ -24,7 +24,7 @@ class ScheduleManageController extends Controller
             $schedules[$place->id] = Schedule::with('place')
                 ->where('place_id', $place->id)
                 ->orderBy('schedule_date', 'desc')
-                ->get();
+                ->paginate(10);
         }
 
         return view('jadwal.index', compact(['schedules', 'places']));
@@ -44,10 +44,14 @@ class ScheduleManageController extends Controller
         // Get the selected frequency from the form (e.g., 'daily' or 'weekly')
         $frequency = $request->input('frequency');
 
-        // Calculate the end date based on the frequency
+        // Get the duration and identifier values
+        $duration = $request->input('duration');
+        $identifier = $request->input('identifier');
+
+        // Calculate the end date based on the frequency and duration
         $startDate = Carbon::parse($input['schedule_date']);
         if ($frequency !== -1) {
-            $endDate = $frequency === 'daily' ? $startDate->copy()->addDays(30) : $startDate->copy()->addWeeks(4);
+            $endDate = $this->calculateEndDate($startDate, $frequency, $duration, $identifier);
 
             while ($startDate <= $endDate) {
                 Schedule::create([
@@ -62,8 +66,10 @@ class ScheduleManageController extends Controller
                 // Increment the date based on the selected frequency
                 if ($frequency === 'daily') {
                     $startDate->addDay();
-                } else if ($frequency === 'weekly') {
+                } elseif ($frequency === 'weekly') {
                     $startDate->addWeek();
+                } elseif ($frequency === 'monthly') {
+                    $startDate->addMonth();
                 }
             }
         } else {
@@ -78,6 +84,22 @@ class ScheduleManageController extends Controller
         }
 
         return redirect()->route('admin.jadwal.index');
+    }
+
+    private function calculateEndDate($startDate, $frequency, $duration, $identifier)
+    {
+        $endDate = $startDate->copy();
+        if ($identifier === 'week') {
+            $endDate->addWeeks($duration);
+        } elseif ($identifier === 'day') {
+            $endDate->addDays($duration);
+        } elseif ($identifier === 'month') {
+            $endDate->addMonths($duration);
+        } elseif ($identifier === 'year') {
+            $endDate->addYears($duration);
+        }
+
+        return $endDate;
     }
 
     public function show($id)

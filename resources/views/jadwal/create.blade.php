@@ -68,13 +68,32 @@
                         <input type="number" placeholder="Masukkan Banyak Kuota" class="form-control" name="qty" id="qty" required>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
-                        <label for="Jam">Di Ulang (30 Hari atau 1 Bulan)</label>
+                        <label for="Jam">Di Ulang</label>
                         <select class="form-control" name="frequency" id="frequency">
-                            <option value="-1" selected>Sekali</option>
+                            <option value="-1" selected>Tidak Berulang</option>
                             <option value="daily">Setiap Hari</option>
                             <option value="weekly">Setiap Minggu</option>
+                            <option value="monthly">Setiap Bulan</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="Jam">Selama ?</label>
+                        <input type="number" placeholder="Input Durasi" class="form-control" name="duration" id="duration"/>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label for="identifier">Satuan</label>
+                        <select class="form-control" name="identifier" id="identifier" placeholder="Pilih Satuan">
+                            <option value="" selected>Satuan</option>
+                            <option value="day">Hari</option>
+                            <option value="week">Minggu</option>
+                            <option value="month">Bulan</option>
+                            <option value="year">Tahun</option>
                         </select>
                     </div>
                 </div>
