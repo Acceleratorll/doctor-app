@@ -50,9 +50,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @if($reservations_no->count() < 1)
+                                    {{-- @if($reservations_no->count() < 1)
                                     <td><strong>Tidak ada Data</strong></td>
-                                    @else
+                                    @else --}}
                                     @foreach($reservations_no as $reservation)
                                     <tr>
                                         <td>{{ $reservation->id }}</td>
@@ -93,7 +93,7 @@
                                             </a>
                                         </td>
                                     @endforeach
-                                    @endif
+                                    {{-- @endif --}}
                                 </tbody>
                         </table>
                 </div><br><br><br>

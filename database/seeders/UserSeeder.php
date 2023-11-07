@@ -27,6 +27,17 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345'),
             ],
             [
+                'name' => 'Pegawai 1',
+                'role_id' => 2,
+                'phone' => '628897637221',
+                'birth_date' => '1990-2-26',
+                'email' => 'pegawai@mail.com',
+                'gender' => 'Pria',
+                'address' => 'Jl. Address Pegawai',
+                'username' => 'pegawai',
+                'password' => bcrypt('12345'),
+            ],
+            [
                 'name' => 'Pasien 1',
                 'role_id' => 3,
                 'phone' => '628097637221',

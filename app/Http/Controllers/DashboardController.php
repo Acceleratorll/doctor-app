@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Reservation;
 use App\Models\Schedule;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -153,92 +155,113 @@ class DashboardController extends Controller
 
     public function tableDoctors()
     {
-        $employees = Employee::with('schedules.reservations.patient', 'user')->orderBy('created_at', 'desc')->get();
-        return DataTables::of($employees)
-            ->addColumn('doctor', function ($employee) {
-                return $employee->user->name;
+        $schedules = Schedule::withCount('reservations')
+            ->whereHas('reservations', function ($q) {
+                $q->where('status', 1);
             })
-            ->addColumn('qualification', function ($employee) {
-                return $employee->qualification;
+            ->get();
+
+        return DataTables::of($schedules)
+            ->addColumn('filter', function ($schedule) {
+                return Carbon::parse($schedule->schedule_date)->format('d M')
+                    . ' Jam ' .
+                    Carbon::parse($schedule->schedule_time)->format('H:i')
+                    . ' - ' .
+                    Carbon::parse($schedule->schedule_time_end)->format('H:i');
             })
-            ->addColumn('total', function ($employee) {
-                return $employee->schedules->sum(function ($schedule) {
-                    return $schedule->reservations->where('approve', 1)->count();
-                });
+            ->addColumn('total', function ($schedule) {
+                return $schedule->reservations_count;
             })
             ->make(true);
     }
 
     public function tableDoctorsDay()
     {
-        $day = now()->day;
-        $employees = Employee::with('schedules.reservations.patient', 'user')
-            ->whereHas('schedules', function ($query) use ($day) {
-                $query->whereDay('schedule_date', $day);
+        $schedules = Schedule::with('reservations')
+            ->whereHas('reservations', function ($q) {
+                $q->where('status', 1);
             })
-            ->orderBy('created_at', 'desc')
             ->get();
 
-        return DataTables::of($employees)
-            ->addColumn('doctor', function ($employee) {
-                return $employee->user->name;
-            })
-            ->addColumn('qualification', function ($employee) {
-                return $employee->qualification;
-            })
-            ->addColumn('total', function ($employee) {
-                return $employee->schedules->sum(function ($schedule) {
-                    return $schedule->reservations->where('approve', 1)->count();
-                });
-            })
-            ->make(true);
+        // Group schedules by schedule date
+        $groupedSchedules = $schedules->groupBy(function ($schedule) {
+            return $schedule->schedule_date;
+        });
+
+        // Calculate total reservations for each day
+        $data = $groupedSchedules->map(function ($daySchedules) {
+            return [
+                'filter' => $daySchedules->first()->schedule_date,
+                'total' => $daySchedules->sum(function ($schedule) {
+                    return $schedule->reservations->count();
+                }),
+            ];
+        });
+
+        return DataTables::of($data)->make(true);
     }
 
     public function tableDoctorsWeek()
     {
-        $employees = Employee::with('schedules.reservations.patient', 'user')
-            ->whereHas('schedules', function ($query) {
-                $query->whereDate('schedule_date', '>=', now()->startOfWeek())
-                    ->whereDate('schedule_date', '<=', now()->endOfWeek());
+        $schedules = Schedule::with('reservations')
+            ->whereHas('reservations', function ($q) {
+                $q->where('status', 1);
             })
-            ->orderBy('created_at', 'desc')
             ->get();
 
-        return DataTables::of($employees)
-            ->addColumn('doctor', function ($employee) {
-                return $employee->user->name;
-            })
-            ->addColumn('qualification', function ($employee) {
-                return $employee->qualification;
-            })
-            ->addColumn('total', function ($employee) {
-                return $employee->schedules->sum(function ($schedule) {
-                    return $schedule->reservations->where('approve', 1)->count();
-                });
-            })
-            ->make(true);
+        // Group schedules by week using the week number
+        $groupedSchedules = $schedules->groupBy(function ($schedule) {
+            return Carbon::parse($schedule->schedule_date)->format('W');
+        });
+
+        // Calculate total reservations for each week
+        $data = $groupedSchedules->map(function ($weekSchedules, $weekNumber) {
+            return [
+                'filter' => 'Week ' . $weekNumber,
+                'total' => $weekSchedules->sum(function ($schedule) {
+                    return $schedule->reservations->count();
+                }),
+            ];
+        });
+
+        return DataTables::of($data)->make(true);
     }
+
+
     public function tableDoctorsMonth()
     {
-        $month = now()->month;
-        $employees = Employee::with('schedules.reservations.patient', 'user')
-            ->whereHas('schedules', function ($query) use ($month) {
-                $query->whereMonth('schedule_date', $month);
+        $schedules = Schedule::with('reservations')
+            ->whereHas('reservations', function ($q) {
+                $q->where('status', 1);
             })
-            ->orderBy('created_at', 'desc')
             ->get();
 
-        return DataTables::of($employees)
-            ->addColumn('doctor', function ($employee) {
-                return $employee->user->name;
-            })
-            ->addColumn('qualification', function ($employee) {
-                return $employee->qualification;
-            })
-            ->addColumn('total', function ($employee) {
-                return $employee->schedules->sum(function ($schedule) {
-                    return $schedule->reservations->where('approve', 1)->count();
-                });
+        // Group schedules by month using the month and year
+        $groupedSchedules = $schedules->groupBy(function ($schedule) {
+            return Carbon::parse($schedule->schedule_date)->format('Y-m');
+        });
+
+        // Calculate total reservations for each month
+        $data = $groupedSchedules->map(function ($monthSchedules, $monthYear) {
+            return [
+                'filter' => date('F Y', strtotime($monthYear)),
+                'total' => $monthSchedules->sum(function ($schedule) {
+                    return $schedule->reservations->count();
+                }),
+            ];
+        });
+
+        return DataTables::of($data)->make(true);
+    }
+
+    public function tableDoctorsAll()
+    {
+        $totalReservations = Reservation::where('status', 1)->count();
+
+        return DataTables::of([$totalReservations])
+            ->addColumn('filter', 'All of Time')
+            ->addColumn('total', function () use ($totalReservations) {
+                return $totalReservations;
             })
             ->make(true);
     }

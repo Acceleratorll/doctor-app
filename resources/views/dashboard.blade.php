@@ -42,14 +42,14 @@
                 <option value="day">Hari</option>
                 <option value="week">Minggu</option>
                 <option value="month">Bulan</option>
+                <option value="all">Total Semua</option>
             </select>
         </section>
         <section class="patient-count">
             <table id="table-total" class="table table-dark table-striped">
                 <thead>
                     <tr>
-                        <th>Dokter</th>
-                        <th>Spesialisasi</th>
+                        <th>Filter</th>
                         <th>Total Pasien</th>
                     </tr>
                 </thead>
@@ -76,8 +76,7 @@
         ];
 
         var columns2 = [
-            { data: 'doctor', name: 'doctor' },
-            { data: 'qualification', name: 'qualification' },
+            { data: 'filter', name: 'filter' },
             { data: 'total', name: 'total' },
         ];
 
@@ -147,6 +146,9 @@
             } else if(selectedValue === 'month'){
                 console.log(selectedValue);
                 table.ajax.url("{{ route('admin.table.doctors.month') }}").load();
+            }else if(selectedValue === 'all'){
+                console.log(selectedValue);
+                table.ajax.url("{{ route('admin.schedules.all') }}").load();
             }
         });
     }

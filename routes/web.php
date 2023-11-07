@@ -55,6 +55,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::get('/schedules/day', [DashboardController::class, 'getScheduleDay'])->name('admin.schedules.day');
     Route::get('/schedules/week', [DashboardController::class, 'getScheduleWeek'])->name('admin.schedules.week');
     Route::get('/schedules/month', [DashboardController::class, 'getScheduleMonth'])->name('admin.schedules.month');
+    Route::get('/schedules/all', [DashboardController::class, 'tableDoctorsAll'])->name('admin.schedules.all');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard.index');
     Route::get('/tableSchedules', [DashboardController::class, 'tableSchedules'])->name('admin.table.schedules');
     Route::get('/tableDoctor', [DashboardController::class, 'tableDoctors'])->name('admin.table.doctors');
