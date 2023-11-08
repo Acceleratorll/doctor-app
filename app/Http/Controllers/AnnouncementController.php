@@ -25,7 +25,11 @@ class AnnouncementController extends Controller
     public function store(AnnouncementRequest $request)
     {
         $input = $request->validated();
-
+        $image = $request->file('image');
+        if ($image) {
+            $image = $image->store('announcement', 'public');
+            $input['image'] = $image;
+        }
         $announcement = Announcement::create($input);
         $patients = Patient::all();
         foreach ($patients as $patient) {
@@ -33,11 +37,6 @@ class AnnouncementController extends Controller
         }
 
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil ditambahkan !');
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
@@ -50,13 +49,27 @@ class AnnouncementController extends Controller
     {
         $announcement = Announcement::findOrFail($id);
         $input = $request->validated();
+        $image = $request->file('image');
+        if ($image) {
+            $image = $image->store('announcement', 'public');
+            $input['image'] = $image;
+        }
         $announcement->update($input);
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diupdate !');
     }
 
     public function destroy($id)
     {
-        Announcement::findOrFail($id)->delete();
+        $announcement = Announcement::findOrFail($id);
+
+        // Check if the announcement has an associated image
+        if ($announcement->image) {
+            // Delete the image from storage
+            Storage::disk('public')->delete($announcement->image);
+        }
+
+        // Delete the announcement
+        $announcement->delete();
         return back()->with('success', 'Pengumuman berhasil dihapus !');
     }
 }

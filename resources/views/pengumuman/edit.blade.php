@@ -38,6 +38,14 @@
                     </div>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="image">Gambar Pengumuman</label>
+                        <input type="file" placeholder="Masukkan gambar Pengumuman" class="form-control" name="image" id="image"/>
+                    </div>
+                </div>
+            </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
                 <a href="window.history.go(-1); return false;" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </a>

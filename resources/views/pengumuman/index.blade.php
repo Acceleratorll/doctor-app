@@ -26,6 +26,7 @@
                                         <tr>
                                             <th scope="col" class="text-center">Judul</th>
                                             <th scope="col" class="text-center">Konten</th>
+                                            <th scope="col" class="text-center">Image</th>
                                             <th scope="col" class="text-center">Pegawai</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
@@ -35,6 +36,9 @@
                                         <tr>
                                             <td>{{ $announcement->title }}</td>
                                             <td>{{ $announcement->content }}</td>
+                                            <td>
+                                                <img src="{{ asset('storage/'.$announcement->image)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
+                                            </td>
                                             <td>{{ $announcement->employee_id }}</td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.pengumuman.destroy', $announcement->id) }}" method="POST" enctype="multipart/form-data">
@@ -51,6 +55,10 @@
                                                 </form>
                                             </td>
                                         </tr>
+                                        <div class="idMyModal modal">
+                                              <span class="close">&times;</span>
+                                              <img class="modal-content">
+                                            </div>
                                             @endforeach
                                         @else
                                         <strong>Tidak ada Data Pengumuman</strong>
