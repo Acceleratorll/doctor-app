@@ -124,7 +124,7 @@ class ScheduleManageController extends Controller
     public function destroy($id)
     {
         Schedule::findOrFail($id)->delete();
-        return back();
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal deleted successfully');
     }
 
     public function get_schedule_by_employee_id($employee_id)

@@ -56,10 +56,8 @@
                                         <td>{{ $schedule->schedule_time_end }}</td>
                                         <td>{{ $schedule->employee_id }}</td>
                                         <td class="project-actions text-center">
-                                            <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
+                                            
+                                                <button type="submit" id="delete" data-id="{{ $schedule->id }}" class="delete btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     Delete
                                                 </button>
@@ -67,7 +65,10 @@
                                                     <i class="fa fa-edit"></i>
                                                     Edit
                                                 </button>
-                                            </form>
+                                                <form action="{{ route('admin.jadwal.destroy', $schedule->id) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -125,13 +126,42 @@
         showSweetAlert('error', '{{ $message }}');
         @endif
 
-        $('#table1').DataTable();
-        $('#table2').DataTable();
-        $('#table3').DataTable();
-        $('#table4').DataTable();
-        $('#table5').DataTable();
-        $('#table6').DataTable();
-        $('#table7').DataTable();
+        var table1 = $('#table1').DataTable();
+        var table2 = $('#table2').DataTable();
+        var table3 = $('#table3').DataTable();
+        var table4 = $('#table4').DataTable();
+        var table5 = $('#table5').DataTable();
+        var table6 = $('#table6').DataTable();
+        var table7 = $('#table7').DataTable();
+
+        $('.delete').on('click', function(){
+            var deleteButton = $(this);
+            var defaultId = deleteButton.data('id');
+    
+            Swal.fire({
+                title: 'Delete Schedule',
+                text: 'Are you sure you want to delete this schedule?',
+                type: 'warning',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                console.log(result);
+                if (result.value == true) {
+                    console.log('confirmed');
+                    $.ajax({
+                        type: 'POST',
+                        url: `{{ route("admin.jadwal.destroy", ["jadwal" => ":scheduleId"]) }}`.replace(':scheduleId', defaultId),
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'DELETE'
+                        },
+                    });
+                    location.reload();
+                }
+            });
+        });
     });
     
     $(document).ready(

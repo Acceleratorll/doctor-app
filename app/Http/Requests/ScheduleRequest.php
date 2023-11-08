@@ -20,15 +20,14 @@ class ScheduleRequest extends FormRequest
             'schedule_time' => 'required',
             'schedule_time_end' => 'required',
             'qty' => 'required',
-            'frequency' => 'required',
-            'duration' => 'nullable',
-            'identifier' => 'nullable',
         ];
 
         $frequency = $this->input('frequency');
-        if ($frequency !== -1) {
-            $rules['duration'] = 'required|integer|min:1';
-            $rules['identifier'] = 'required|in:week,month,year';
+        if($frequency){
+            if ($frequency !== -1 || $frequency !== null) {
+                $rules['duration'] = 'required|integer|min:1';
+                $rules['identifier'] = 'required|in:week,month,year';
+            }
         }
 
         return $rules;

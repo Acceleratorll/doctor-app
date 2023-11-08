@@ -19,6 +19,10 @@ class EmployeeSeeder extends Seeder
                 'user_id' => 1,
                 'qualification' => 'Kulit dan Kelamin',
             ],
+            [
+                'user_id' => 2,
+                'qualification' => '',
+            ],
         ];
         DB::table('employees')->insert($employee);
     }
