@@ -26,10 +26,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($waits->count() < 1)
-                                    <tr>
-                                        <td><strong>Tidak ada Data</strong></td>
-                                    @else
                                     @foreach($waits as $wait)
                                     <tr>
                                         <td class="text-center">{{ $wait->reservation_code }}</td>
@@ -79,7 +75,6 @@
                                               <img class="modal-content">
                                             </div>
                                         @endforeach
-                                        @endif
                                 </tbody>
                         </table>
                     </div>

@@ -122,7 +122,9 @@
                 </div>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
-                    <a href="window.history.go(-1); return false;" class="btn btn-warning" data-toggle="modal" data-target="#modalconfirm"> Batal </a>
+                    <form>
+                    <input type="button" value="Batal" class="btn btn-danger" onclick="history.back()">
+                   </form>
                 </div>
             </form>
         </div>
