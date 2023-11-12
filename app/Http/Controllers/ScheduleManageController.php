@@ -25,7 +25,7 @@ class ScheduleManageController extends Controller
             ->where('schedule_date', '>=', $today)
                 ->where('place_id', $place->id)
                 ->orderBy('schedule_date', 'desc')
-                ->paginate(10);
+                ->paginate(5);
         }
 
         return view('jadwal.index', compact(['schedules', 'places']));

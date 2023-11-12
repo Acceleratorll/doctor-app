@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Tambah Pegawai                  
+        Edit Pegawai                  
     </h1>
 @endsection
 
