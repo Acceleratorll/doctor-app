@@ -39,7 +39,7 @@
                                             <td>
                                                 <img src="{{ asset('storage/'.$announcement->image)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
                                             </td>
-                                            <td>{{ $announcement->employee_id }}</td>
+                                            <td>{{ $announcement->employee->user->name }}</td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.pengumuman.destroy', $announcement->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf

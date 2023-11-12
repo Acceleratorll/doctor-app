@@ -26,7 +26,6 @@
                                             <th scope="col" class="text-center">Nama Tempat</th>
                                             <th scope="col" class="text-center">Alamat</th>
                                             <th scope="col" class="text-center">Reservasi</th>
-                                            <th scope="col" class="text-center">Pegawai</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
@@ -42,7 +41,6 @@
                                                 Bisa
                                                 @endif
                                             </td>
-                                            <td>{{ $place->employee_id }}</td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.tempat.destroy', $place->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf

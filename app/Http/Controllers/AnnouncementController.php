@@ -62,13 +62,10 @@ class AnnouncementController extends Controller
     {
         $announcement = Announcement::findOrFail($id);
 
-        // Check if the announcement has an associated image
         if ($announcement->image) {
-            // Delete the image from storage
             Storage::disk('public')->delete($announcement->image);
         }
 
-        // Delete the announcement
         $announcement->delete();
         return back()->with('success', 'Pengumuman berhasil dihapus !');
     }

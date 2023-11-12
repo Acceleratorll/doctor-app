@@ -22,6 +22,7 @@ class ScheduleManageController extends Controller
 
         foreach ($places as $place) {
             $schedules[$place->id] = Schedule::with('place')
+            ->where('schedule_date', '>=', $today)
                 ->where('place_id', $place->id)
                 ->orderBy('schedule_date', 'desc')
                 ->paginate(10);
