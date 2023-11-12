@@ -76,6 +76,9 @@
                     <h2 class="announcement-title">Important Announcements</h2>
                     @forelse(auth()->user()->patient->unreadNotifications as $announcement)
                     <div class="announcement-item">
+                        <div class="announcement-image">
+                                <img src="{{ asset('storage/' . $announcement->image) }}">
+                        </div>
                         <div class="announcement-details">
                             <p class="announcement-title"><b>{{ $announcement->data['title'] }}</b></p>
                             <p class="announcement-description">
@@ -97,6 +100,9 @@
                     <h2 class="announcement-title">History Announcements</h2>
                     @forelse($announcements as $announcement)
                     <div class="announcement-item">
+                        <div class="announcement-image">
+                                <img src="{{ asset('storage/' . $announcement->image) }}">
+                        </div>
                         <div class="announcement-details">
                             <p class="announcement-title"><b>{{ $announcement->title }}</b></p>
                             <p class="announcement-description">
