@@ -330,6 +330,35 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fa fa-briefcase"></i>
+                                <p>
+                                    Laporan
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/admin/pegawai" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Dokter</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/laporan" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Resep</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/jadwal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Jadwal</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <form action="{{ route('logout') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <li class="nav-item">
