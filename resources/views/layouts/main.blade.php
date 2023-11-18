@@ -330,6 +330,41 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-folder"></i>
+                                <p>
+                                    Laporan
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.report.visitors') }}" class="nav-link">
+                                        <i class="nav-icon fa-solid fa-chart-bar"></i>
+                                        <p>Laporan Kunjungan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.report.doctors') }}" class="nav-link">
+                                        <i class="nav-icon fa-regular fa-file-lines"></i>
+                                        <p>Laporan Dokter</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.report.opens') }}" class="nav-link">
+                                        <i class="nav-icon fa-solid fa-file-invoice"></i>
+                                        <p>Laporan Praktek</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.report.recipes') }}" class="nav-link">
+                                        <i class="nav-icon fa-solid fa-file-contract"></i>
+                                        <p>Laporan Resep</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <form action="{{ route('logout') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <li class="nav-item">

@@ -16,6 +16,7 @@ use App\Http\Controllers\Pasien\ProfileController;
 use App\Http\Controllers\Pasien\ReservationController as PasienReservationController;
 use App\Http\Controllers\PatientManageController;
 use App\Http\Controllers\PlaceManageController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
 use App\Http\Controllers\SuperadminController;
@@ -42,7 +43,7 @@ Route::get('/konsultasi', function () {
     return view('web.konsultasi');
 })->name('konsultasi');
 
-Route::middleware(['auth','admin'])->prefix('/admin')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::resources([
         '/dokter' => SuperadminController::class,
         '/pegawai' => EmployeeManageController::class,
@@ -53,6 +54,20 @@ Route::middleware(['auth','admin'])->prefix('/admin')->group(function () {
         '/reservation' => ReservationController::class,
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
+
+    Route::prefix('/report')->controller(ReportController::class)->group(function () {
+        Route::get('/visitors', 'visitors')->name('admin.report.visitors');
+        Route::get('/opens', 'opens')->name('admin.report.opens');
+        Route::get('/doctors', 'doctors')->name('admin.report.doctors');
+        Route::get('/recipes', 'recipes')->name('admin.report.recipes');
+        Route::prefix('/table')->group(function () {
+            Route::get('/visitors', 'getVisitors')->name('admin.report.table.visitors');
+            Route::get('/doctors', 'getDoctors')->name('admin.report.table.doctors');
+            Route::get('/opens', 'getOpens')->name('admin.report.table.opens');
+            Route::get('/recipes', 'getRecipes')->name('admin.report.table.recipes');
+        });
+    });
+
     Route::get('/patient-reservations/{id}', [PatientManageController::class, 'getReservations'])->name('admin.patient.reservations');
     Route::get('/schedules/day', [DashboardController::class, 'getScheduleDay'])->name('admin.schedules.day');
     Route::get('/schedules/week', [DashboardController::class, 'getScheduleWeek'])->name('admin.schedules.week');
