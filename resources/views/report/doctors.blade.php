@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Laporan Praktek
+        Laporan Dokter
     </h1>
 @endsection
 

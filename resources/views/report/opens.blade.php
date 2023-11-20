@@ -32,7 +32,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nama</th>
-                        <th>Total Buka</th>
+                        <th>Total Jadwal</th>
                         <th>Total Pasien</th>
                     </tr>
                 </tfoot>

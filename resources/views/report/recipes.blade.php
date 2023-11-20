@@ -24,7 +24,7 @@
                     <tr>
                         <th>No</th>
                         <th>Pasien</th>
-                        <th>Dokter</th>
+                        {{-- <th>Dokter</th> --}}
                         <th>Tanggal</th>
                         <th>Resep</th>
                     </tr>
@@ -33,7 +33,7 @@
                     <tr>
                         <th>No</th>
                         <th>Pasien</th>
-                        <th>Dokter</th>
+                        {{-- <th>Dokter</th> --}}
                         <th>Tanggal</th>
                         <th>Resep</th>
                     </tr>
@@ -52,7 +52,7 @@
         var columns = [
             { data: 'id', name: 'id' },
             { data: 'patientName', name: 'patientName' },
-            { data: 'doctorName', name: 'doctorName' },
+            // { data: 'doctorName', name: 'doctorName' },
             { data: 'date', name: 'date' },
             { data: 'recipe', name: 'recipe' },
         ];
