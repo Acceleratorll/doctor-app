@@ -88,7 +88,7 @@ class MedicalRecordManageController extends Controller
 
     public function destroy($id)
     {
-        MedicalRecord::findOrFail($id)->delete();
+        MedicalRecord::findOrFail($id)->forceDelete();
         return back()->with('success', 'Rekam medis berhasil dihapus !');
     }
 }

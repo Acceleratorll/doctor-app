@@ -124,7 +124,7 @@ class ScheduleManageController extends Controller
 
     public function destroy($id)
     {
-        Schedule::findOrFail($id)->delete();
+        Schedule::findOrFail($id)->forceDelete();
         return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal deleted successfully');
     }
 

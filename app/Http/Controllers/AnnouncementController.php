@@ -66,7 +66,7 @@ class AnnouncementController extends Controller
             Storage::disk('public')->delete($announcement->image);
         }
 
-        $announcement->delete();
+        $announcement->forceforceDelete();
         return back()->with('success', 'Pengumuman berhasil dihapus !');
     }
 }

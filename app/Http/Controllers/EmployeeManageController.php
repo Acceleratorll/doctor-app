@@ -92,7 +92,7 @@ class EmployeeManageController extends Controller
 
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
+        User::findOrFail($id)->forceDelete();
         return back()->with('success', 'Pegawai berhasil dihapus !');
     }
 }

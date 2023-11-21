@@ -52,7 +52,7 @@ class PlaceManageController extends Controller
 
     public function destroy($id)
     {
-        Place::findOrFail($id)->delete();
+        Place::findOrFail($id)->forceDelete();
         return back();
     }
 }

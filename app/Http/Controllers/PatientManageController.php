@@ -86,7 +86,7 @@ class PatientManageController extends Controller
 
     public function destroy($id)
     {
-        Patient::findOrFail($id)->delete();
+        Patient::findOrFail($id)->forceDelete();
         return back();
     }
 

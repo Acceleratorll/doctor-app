@@ -146,7 +146,7 @@ class ReservationController extends Controller
             $medic = MedicalRecord::where('patient_id', $reservation->patient_id)->latest()->first();
             $medic->delete();
 
-            File::where('medical_record_id', $medic->id)->delete();
+            File::where('medical_record_id', $medic->id)->forceDelete();
 
             if ($request->hide_button == 1) {
                 if ($request->bpjs == 0 && $request->bukti_pembayaran != null) {
