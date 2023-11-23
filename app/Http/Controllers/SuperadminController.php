@@ -24,7 +24,17 @@ class SuperadminController extends Controller
     {
         $superadmin = User::findOrFail($id);
         $input = $request->validated();
-        $superadmin->update($input);
+        $superadmin->update([
+            'role_id' => $input['role_id'],
+            'name' => $input['name'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'birth_date' => $input['birth_date'],
+            'gender' => $input['gender'],
+            'email' => $input['email'],
+            'username' => $input['username'],
+            'password' => bcrypt($input['password']),
+        ]);
         $superadmin->employee->update($input);
         return redirect()->route('admin.dokter.index')->with('success', 'Superadmin successfully updated');
     }
