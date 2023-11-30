@@ -345,12 +345,12 @@
                                         <p>Laporan Kunjungan</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a href="{{ route('admin.report.doctors') }}" class="nav-link">
                                         <i class="nav-icon fa-regular fa-file-lines"></i>
                                         <p>Laporan Dokter</p>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="nav-item">
                                     <a href="{{ route('admin.report.opens') }}" class="nav-link">
                                         <i class="nav-icon fa-solid fa-file-invoice"></i>

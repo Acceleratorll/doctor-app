@@ -179,14 +179,17 @@ class ReportController extends Controller
         $data = $data->orderBy('updated_at', 'desc')->get();
 
         return DataTables::of($data)
-            ->addColumn('id', function ($item) {
-                return $item->id;
+            ->addColumn('patient_id', function ($item) {
+                return $item->patient_id;
             })
             ->addColumn('name', function ($item) {
                 return $item->patient->user->name;
             })
             ->addColumn('date', function ($item) {
                 return Carbon::parse($item->updated_at)->format('l, Y-m-d');
+            })
+            ->addColumn('schedule_date', function ($item) {
+                return Carbon::parse($item->schedule_date)->format('l, Y-m-d');
             })
             ->make(true);
     }

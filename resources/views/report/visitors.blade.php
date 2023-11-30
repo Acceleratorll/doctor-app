@@ -22,14 +22,18 @@
             <table id="table" class="table table-dark table-striped text-center">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Pasien</th>
-                        <th>Tanggal</th>
+                        <th>Tanggal Kunjungan</th>
+                        <th>Jadwal Kunjungan</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>ID</th>
                         <th>Pasien</th>
-                        <th>Tanggal</th>
+                        <th>Tanggal Kunjungan</th>
+                        <th>Jadwal Kunjungan</th>
                     </tr>
                 </tfoot>
             </table>
@@ -44,8 +48,10 @@
 <script>
     $(document).ready(function() {
         var columns = [
+            { data: 'patient_id', name: 'patient_id' },
             { data: 'name', name: 'name' },
             { data: 'date', name: 'date' },
+            { data: 'schedule_date', name: 'schedule_date' },
         ];
 
         $('#table tfoot th').each( function (i) {
