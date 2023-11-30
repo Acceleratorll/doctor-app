@@ -26,7 +26,7 @@ class ScheduleRequest extends FormRequest
         if($frequency){
             if ($frequency !== -1 || $frequency !== null) {
                 $rules['duration'] = 'required|integer|min:1';
-                $rules['identifier'] = 'required|in:week,month,year';
+                $rules['identifier'] = 'required|in:day,week,month,year';
             }
         }
 

@@ -88,13 +88,7 @@
                 <div class="col-md-1">
                     <div class="form-group">
                         <label for="identifier">Satuan</label>
-                        <select class="form-control" name="identifier" id="identifier" placeholder="Pilih Satuan">
-                            <option value="" selected>Satuan</option>
-                            <option value="day">Hari</option>
-                            <option value="week">Minggu</option>
-                            <option value="month">Bulan</option>
-                            <option value="year">Tahun</option>
-                        </select>
+                        <input class="form-control" name="identifier" id="identifier" placeholder="satuan" readonly/>
                     </div>
                 </div>
             </div>
@@ -110,27 +104,32 @@
     </div>
     
     <script>
-        $("#tempat").select2();
-        var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
+        $(document).ready(function() {
+            $("#tempat").select2();
+            
+            $('#frequency').on('change', function () {
+                var selectedFrequency = $(this).val();
+                console.log(selectedFrequency);
+    
+                switch (selectedFrequency) {
+                    case 'daily':
+                        $('#identifier').val('day');
+                        break;
+                    case 'weekly':
+                        $('#identifier').val('week');
+                        break;
+                    case 'monthly':
+                        $('#identifier').val('month');
+                        break;
+                    default:
+                        // If none of the specific frequencies are selected, reset the identifier dropdown
+                        $('#identifier').val('');
+                }
+            });    
 
-        for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-            } else {
-            dropdownContent.style.display = "block";
-            }
+            $('#sidebarcollapse').on('click',function(){
+                $('#sidebar').toggleClass('active');
+            });
         });
-        }
-        $(document).ready(
-            function(){
-                $('#sidebarcollapse').on('click',function(){
-                    $('#sidebar').toggleClass('active');
-                });
-            }
-        )
     </script>
 @endsection

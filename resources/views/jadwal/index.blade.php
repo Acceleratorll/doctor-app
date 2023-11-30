@@ -102,11 +102,6 @@
         });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-        let table1 = new DataTable('#table1');
-        let table2 = new DataTable('#table2');
-    });
-
     function showSweetAlert(type, message) {
         Swal.fire({
             icon: type,
@@ -124,13 +119,43 @@
         showSweetAlert('error', '{{ $message }}');
         @endif
 
-        var table1 = $('#table1').DataTable();
-        var table2 = $('#table2').DataTable();
-        var table3 = $('#table3').DataTable();
-        var table4 = $('#table4').DataTable();
-        var table5 = $('#table5').DataTable();
-        var table6 = $('#table6').DataTable();
-        var table7 = $('#table7').DataTable();
+        const columns = [
+            { data: 'formatted_date', name: 'formatted_date' },
+            { data: 'qty', name: 'qty' },
+            { data: 'schedule_time', name: 'schedule_time' },
+            { data: 'schedule_time_end', name: 'schedule_time_end' },
+            { data: 'action', name: 'action', orderable: false },
+        ];
+            
+        var table1 = $('#table1').DataTable({
+            pageLength: 5,
+            paging: true
+        });
+
+        var table2 = $('#table2').DataTable({
+            pageLength: 5,
+            paging: true
+        });
+        var table3 = $('#table3').DataTable({
+            pageLength: 5,
+            paging: true
+        });
+        var table4 = $('#table4').DataTable({
+            pageLength: 5,
+            paging: true
+        });
+        var table5 = $('#table5').DataTable({
+            pageLength: 5,
+            paging: true
+        });
+        var table6 = $('#table6').DataTable({
+            pageLength: 5,
+            paging: true
+        });
+        var table7 = $('#table7').DataTable({
+            pageLength: 5,
+            paging: true
+        });
 
         $('.delete').on('click', function(){
             var deleteButton = $(this);

@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class ScheduleManageController extends Controller
 {
@@ -22,13 +23,30 @@ class ScheduleManageController extends Controller
 
         foreach ($places as $place) {
             $schedules[$place->id] = Schedule::with('place')
-            ->where('schedule_date', '>=', $today)
+                ->where('schedule_date', '>=', $today)
                 ->where('place_id', $place->id)
                 ->orderBy('schedule_date', 'desc')
-                ->paginate(5);
+                ->get();
         }
 
         return view('jadwal.index', compact(['schedules', 'places']));
+    }
+
+    public function table($query)
+    {
+        return DataTables::of($query)
+            ->addColumn('formatted_date', function ($data) {
+                $data->Carbon::parse($data->schedule_date)->format('l, d F Y');
+            });
+    }
+
+    public function findByPlace($place_id)
+    {
+        return Schedule::with('place')
+            ->where('schedule_date', '>=', today()->timezone('Asia/Jakarta')->toDateString())
+            ->where('place_id', $place_id)
+            ->orderBy('schedule_date', 'desc')
+            ->get();
     }
 
     public function create()
