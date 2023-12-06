@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="con-pembayaran">
-                        <label for="queue_number">Bukti Pembayaran</label>
+                        <label for="bukti_pembayaran">Bukti Pembayaran</label>
                         <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="form-control">
                     </div>
                     <div id="bpjsFieldsContainer" style="display: none;">
@@ -90,10 +90,10 @@
                             <input type="file" name="surat_rujukan" class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="queue_number">Nomor Antrian</label>
                         <input type="text" name="nomor_urut" id="queue_number" class="form-control" readonly>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label for="approve">Approve</label>
                         <select name="approve" id="approve" class="form-control" required>
@@ -160,27 +160,27 @@
     //     }
     // });
 
-$(document).ready(function() {
-        $('#jadwal').on('change', function() {
-            var selectedScheduleId = $(this).val();
-            if(selectedScheduleId){
-            $.ajax({
-                type:'GET',
-                data : {"_token":"{{ csrf_token() }}"},
-                url: '/antrian/' + selectedScheduleId,
-                dataType: "json",
-            success:function(data) {
-                console.log("success");
-                document.getElementById('queue_number').value = data;
-            },
-            error: function(data){
-                console.log("error");
-                console.log(data);
-            }
+    $(document).ready(function() {
+            $('#jadwal').on('change', function() {
+                var selectedScheduleId = $(this).val();
+                if(selectedScheduleId){
+                $.ajax({
+                    type:'GET',
+                    data : {"_token":"{{ csrf_token() }}"},
+                    url: '/antrian/' + selectedScheduleId,
+                    dataType: "json",
+                success:function(data) {
+                    console.log("success");
+                    document.getElementById('queue_number').value = data;
+                },
+                error: function(data){
+                    console.log("error");
+                    console.log(data);
+                }
+            });
+        }
         });
-    }
     });
-});
     
 
     const employee = document.getElementById('employee');

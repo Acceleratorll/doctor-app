@@ -38,7 +38,7 @@
                     <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
                         @if(auth()->user())
                         <span>
-                            {{ auth()->user()->patient->unreadNotifications->count() }}
+                            {{-- {{ auth()->user()->patient->unreadNotifications->count() }} --}}
                         </span>
                         @endif</a>
                 </li><!-- /.nav-item -->

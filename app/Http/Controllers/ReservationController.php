@@ -73,49 +73,143 @@ class ReservationController extends Controller
         ]);
     }
 
+    // public function store(ReservationRequest $request)
+    // {
+    //     $schedule = Schedule::findOrFail($request->schedule_id);
+    //     $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
+
+    //     if ($jumlah < $schedule->qty) {
+    //         if ($request->hasFile('bukti_pembayaran')) {
+    //             $reservation = Reservation::create([
+    //                 'patient_id' => $request->patient_id,
+    //                 'schedule_id' => $request->schedule_id,
+    //                 'reservation_code' => $request->reservation_code,
+    //                 'approve' => $request->approve,
+    //                 'status' => $request->status,
+    //                 'nomor_urut' => $request->nomor_urut,
+    //             ]);
+    //             $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+    //             $reservation->update([
+    //                 'bukti_pembayaran' => $image,
+    //             ]);
+    //             return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+    //         } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
+    //             $reservation = Reservation::create([
+    //                 'patient_id' => $request->patient_id,
+    //                 'schedule_id' => $request->schedule_id,
+    //                 'reservation_code' => $request->reservation_code,
+    //                 'approve' => $request->approve,
+    //                 'status' => $request->status,
+    //                 'nomor_urut' => $request->nomor_urut,
+    //             ]);
+    //             $ktp = $request->file('ktp')->store('ktp', 'public');
+    //             $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
+    //             $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+    //             $reservation->update([
+    //                 'bpjs' => 1,
+    //                 'ktp' => $ktp,
+    //                 'surat_rujukan' => $surat_rujukan,
+    //                 'bpjs_card' => $bpjs_card,
+    //             ]);
+    //             return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+    //         }
+    //         return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
+    //     }
+    //     return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
+    // }
+
     public function store(ReservationRequest $request)
     {
         $schedule = Schedule::findOrFail($request->schedule_id);
-        $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
+        $jumlah = Reservation::where('schedule_id', $schedule->id)->where('approve', 1)->get()->count();
+        $approve = $request->approve;
 
-        if ($jumlah < $schedule->qty) {
-            if ($request->hasFile('bukti_pembayaran')) {
-                $reservation = Reservation::create([
-                    'patient_id' => $request->patient_id,
-                    'schedule_id' => $request->schedule_id,
-                    'reservation_code' => $request->reservation_code,
-                    'approve' => $request->approve,
-                    'status' => $request->status,
-                    'nomor_urut' => $request->nomor_urut,
-                ]);
-                $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
-                $reservation->update([
-                    'bukti_pembayaran' => $image,
-                ]);
-                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
-            } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
-                $reservation = Reservation::create([
-                    'patient_id' => $request->patient_id,
-                    'schedule_id' => $request->schedule_id,
-                    'reservation_code' => $request->reservation_code,
-                    'approve' => $request->approve,
-                    'status' => $request->status,
-                    'nomor_urut' => $request->nomor_urut,
-                ]);
-                $ktp = $request->file('ktp')->store('ktp', 'public');
-                $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
-                $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
-                $reservation->update([
-                    'bpjs' => 1,
-                    'ktp' => $ktp,
-                    'surat_rujukan' => $surat_rujukan,
-                    'bpjs_card' => $bpjs_card,
-                ]);
-                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
-            }
-            return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
+        $reservation = Reservation::where('schedule_id', $schedule->id)->orderBy('nomor_urut', 'desc')->first();
+        $antrian = 1;
+        if ($reservation != null) {
+            $antrian = $reservation->nomor_urut + 1;
         }
-        return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
+
+        if ($approve == 1){
+            if ($jumlah < $schedule->qty) {
+                if ($request->hasFile('bukti_pembayaran')) {
+                    $reservation = Reservation::create([
+                        'patient_id' => $request->patient_id,
+                        'schedule_id' => $request->schedule_id,
+                        'reservation_code' => $request->reservation_code,
+                        'approve' => $request->approve,
+                        'status' => $request->status,
+                        'nomor_urut' => $antrian,
+                    ]);
+                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                    $reservation->update([
+                        'bukti_pembayaran' => $image,
+                    ]);
+                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+                } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
+                    $reservation = Reservation::create([
+                        'patient_id' => $request->patient_id,
+                        'schedule_id' => $request->schedule_id,
+                        'reservation_code' => $request->reservation_code,
+                        'approve' => $request->approve,
+                        'status' => $request->status,
+                        'nomor_urut' => $antrian,
+                    ]);
+                    $ktp = $request->file('ktp')->store('ktp', 'public');
+                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
+                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                    $reservation->update([
+                        'bpjs' => 1,
+                        'ktp' => $ktp,
+                        'surat_rujukan' => $surat_rujukan,
+                        'bpjs_card' => $bpjs_card,
+                    ]);
+                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+                }
+                return redirect()->route('admin.reservation.create')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
+            }
+            return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
+        }
+        else{
+            if ($jumlah < $schedule->qty) {
+                if ($request->hasFile('bukti_pembayaran')) {
+                    $reservation = Reservation::create([
+                        'patient_id' => $request->patient_id,
+                        'schedule_id' => $request->schedule_id,
+                        'reservation_code' => $request->reservation_code,
+                        'approve' => $request->approve,
+                        'status' => $request->status,
+                        'nomor_urut' => 0,
+                    ]);
+                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                    $reservation->update([
+                        'bukti_pembayaran' => $image,
+                    ]);
+                    return redirect()->route('admin.waiting-list')->with('success', 'Reservation berhasil dibuat !');
+                } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
+                    $reservation = Reservation::create([
+                        'patient_id' => $request->patient_id,
+                        'schedule_id' => $request->schedule_id,
+                        'reservation_code' => $request->reservation_code,
+                        'approve' => $request->approve,
+                        'status' => $request->status,
+                        'nomor_urut' => 0,
+                    ]);
+                    $ktp = $request->file('ktp')->store('ktp', 'public');
+                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
+                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                    $reservation->update([
+                        'bpjs' => 1,
+                        'ktp' => $ktp,
+                        'surat_rujukan' => $surat_rujukan,
+                        'bpjs_card' => $bpjs_card,
+                    ]);
+                    return redirect()->route('admin.waiting-list')->with('success', 'Reservation berhasil dibuat !');
+                }
+                return redirect()->route('admin.reservation.create')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
+            }
+            return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
+        }
     }
 
     public function show($reservation)
@@ -239,11 +333,38 @@ class ReservationController extends Controller
         return view('reservasi.wait', compact('waits'));
     }
 
+    // public function approve($id)
+    // {
+    //     Reservation::findOrFail($id)->update(['approve' => 1]);
+    //     return redirect()->route('admin.waiting-list');
+    // }
+
     public function approve($id)
     {
-        Reservation::findOrFail($id)->update(['approve' => 1]);
-        return redirect()->route('admin.waiting-list');
+        $schedule_id = Reservation::where('id', $id)->value('schedule_id');
+
+        $schedule = Schedule::findOrFail($schedule_id);
+        $jumlah = Reservation::where('schedule_id', $schedule_id)->where('approve', 1)->get()->count();
+
+        $reservation = Reservation::where('schedule_id', $schedule_id)->orderBy('nomor_urut', 'desc')->first();
+        $antrian = 1;
+        if ($reservation != null) {
+            $antrian = $reservation->nomor_urut + 1;
+        }
+
+        if ($jumlah < $schedule->qty) {
+            $reservation = Reservation::findOrFail($id);
+            $reservation->update([
+                'approve' => 1,
+                'nomor_urut' => $antrian,
+            ]);
+        
+            return redirect()->route('admin.waiting-list');
+        }
+        return redirect()->route('admin.waiting-list')->with('error', 'Maaf, kamu tidak dapat approve reservasi karena kuota sudah penuh');
+        
     }
+    
 
     public function restore($id)
     {

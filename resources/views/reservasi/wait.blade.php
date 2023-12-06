@@ -20,7 +20,7 @@
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Jadwal</th>
-                                    <th scope="col" class="text-center">Nomor Urut</th>
+                                    {{-- <th scope="col" class="text-center">Nomor Urut</th> --}}
                                     <th scope="col" class="text-center">Image</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
@@ -32,7 +32,7 @@
                                         <td>{{ $wait->patient->user->name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($wait->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $wait->schedule->schedule_time }}</td>
-                                        <td class="text-center">{{ $wait->nomor_urut }}</td>
+                                        {{-- <td class="text-center">{{ $wait->nomor_urut }}</td> --}}
                                         <td>
                                             @if($wait->bpjs == 0)
                                             <img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
@@ -86,6 +86,7 @@
 </div>
 
 <script>
+
     var dropdown = document.getElementsByClassName("dropdown-btn");
 
     function showSweetAlert(type, message) {
@@ -93,7 +94,7 @@
             icon: type,
             title: message,
             showConfirmButton: false,
-            timer: 2000 // Change this value to adjust the display time
+            timer: 2500 // Change this value to adjust the display time
         });
     }
 
@@ -122,6 +123,8 @@
                 $('#sidebar').toggleClass('active');
             });
     });
+
+ 
 </script>
 </body>
 
