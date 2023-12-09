@@ -79,6 +79,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::get('/tableDoctor/day', [DashboardController::class, 'tableDoctorsDay'])->name('admin.table.doctors.day');
     Route::get('/tableDoctor/week', [DashboardController::class, 'tableDoctorsWeek'])->name('admin.table.doctors.week');
     Route::get('/tableDoctor/month', [DashboardController::class, 'tableDoctorsMonth'])->name('admin.table.doctors.month');
+    Route::get('/get-counts', [DashboardController::class, 'getCounts']);
     Route::get('/tableReservations/{patient}', [PatientManageController::class, 'tableReservations'])->name('admin.table.reservations');
     Route::get('/icd', [ICDController::class, 'index'])->name('icd.index');
     Route::post('/icd/search', [ICDController::class, 'search'])->name('icd.search');

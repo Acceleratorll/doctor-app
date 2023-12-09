@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Patient;
 use App\Models\Reservation;
 use App\Models\Schedule;
 use App\Models\User;
@@ -264,5 +265,21 @@ class DashboardController extends Controller
                 return $totalReservations;
             })
             ->make(true);
+    }
+
+    public function getCounts()
+    {
+        $waiting_list = Reservation::where('approve', 0)->count();
+        $patients_today = Reservation::join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
+            ->whereDate('schedules.schedule_date', now())
+            ->where('reservations.approve', 1)
+            ->count();
+        $total_patients = Patient::count();
+
+        return response()->json([
+            'waiting_list' => $waiting_list,
+            'patients_today' => $patients_today,
+            'total_patients' => $total_patients,
+        ]);
     }
 }

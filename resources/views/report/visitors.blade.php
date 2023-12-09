@@ -24,7 +24,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Pasien</th>
-                        <th>Tanggal Kunjungan</th>
+                        <th>Tanggal Pembayaran</th>
                         <th>Jadwal Kunjungan</th>
                     </tr>
                 </thead>
@@ -32,7 +32,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Pasien</th>
-                        <th>Tanggal Kunjungan</th>
+                        <th>Tanggal Pembayaran</th>
                         <th>Jadwal Kunjungan</th>
                     </tr>
                 </tfoot>

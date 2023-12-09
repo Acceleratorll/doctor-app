@@ -7,7 +7,49 @@
 @endsection
 
 @section('container')
-     <main>
+    <main>
+        <section>
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <div class="small-box" style="background:#2c3034">
+                        <div class="inner">
+                            <h3 id="totalPatientsCount">0</h3>
+                            <p>Total Pasien</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-users" style="color: #1a1d20;font-size:60px"></i>
+                        </div>
+                        <a href="{{ route('admin.pasien.index') }}" class="small-box-footer" style="background: #1a1d20">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box" style="background:#2c3034">
+                        <div class="inner">
+                            <h3 id="waitingListCount">0</h3>
+                            <p>Menunggu Approval</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars" style="color: #1a1d20"></i>
+                        </div>
+                        <a href="{{ route('admin.waiting-list') }}" class="small-box-footer" style="background: #1a1d20">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-6">
+                    <div class="small-box" style="background:#2c3034">
+                        <div class="inner">
+                            <h3 id="patientsTodayCount">0</h3>
+                            <p>Pasien hari ini</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph" style="color: #1a1d20"></i>
+                        </div>
+                        <a href="{{ route('admin.reservation.index') }}" class="small-box-footer" style="background: #1a1d20">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="filters">
             <h2>Jadwal Dokter</h2>
             <label for="date-filter">Date Filter:</label>
@@ -63,6 +105,25 @@
 
 @section('js')
 <script>
+    $(document).ready(function() {
+        $.ajax({
+            type:'GET',
+            data : {"_token":"{{ csrf_token() }}"},
+            url: '/admin/get-counts',
+            dataType: "json",
+            success:function(data) {
+                console.log("success");
+                $('#waitingListCount').text(data.waiting_list);
+                $('#patientsTodayCount').text(data.patients_today);
+                $('#totalPatientsCount').text(data.total_patients);
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    });
+
     $(document).ready(function() {
         var columns = [
             { data: 'doctor', name: 'doctor' },
@@ -152,6 +213,5 @@
             }
         });
     }
-        
 </script>
 @stop

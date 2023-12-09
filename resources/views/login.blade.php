@@ -231,7 +231,7 @@
             @endif
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <h3>user login</h3>
+                {{-- <h3>user login</h3> --}}
                 <!-- Alert -->
                             @if(session()->has('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -256,7 +256,7 @@
                     <input type="password" name="password" placeholder="enter your password" id="" required autocomplete="current-password">
                 </div>
                 <input type="submit" value="sign in" class="btn">
-                <a href="{{ __('register') }}" class="btn">create an account</a>
+                {{-- <a href="{{ __('register') }}" class="btn">create an account</a> --}}
             </form>
 
         </section>
