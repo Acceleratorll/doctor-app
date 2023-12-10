@@ -37,6 +37,7 @@
                                             <th scope="col" class="text-center">Resep</th>
                                             <th scope="col" class="text-center">ICD</th>
                                             <th scope="col" class="text-center">Keterangan</th>
+                                            <th scope="col" class="text-center">Dibuat</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>
@@ -59,6 +60,7 @@
                                                 </button>
                                             </td>
                                             <td>{{ $medical_record->desc ?? 'N/A' }}</td>
+                                            <td>{{ $medical_record->created_at->format('d-m-Y') }}</td>
                                             <td class="project-actions text-center">
                                                 <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf

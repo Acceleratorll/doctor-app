@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row" style="display:none">
                 <div class="col">
                     <div class="form-group">
                         <label for="reservationable">Bisa Reservasi ?</label>
