@@ -104,8 +104,8 @@
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control" required>
-                            <option value="0">Belum Periksa</option>
-                            <option value="1">Sudah Periksa</option>
+                            <option value="1">Belum Periksa</option>
+                            <option value="2">Sudah Periksa</option>
                         </select>
                     </div>
                 </div>

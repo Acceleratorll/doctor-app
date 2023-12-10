@@ -43,7 +43,7 @@ class MedicalRecordManageController extends Controller
             }
         }
 
-        $record->reservation->update(['status' => 1]);
+        $record->reservation->update(['status' => 2]);
 
         return redirect()->route('admin.medis.index')->with('success', 'Rekam Medis berhasil Ditambahkan !');
     }
