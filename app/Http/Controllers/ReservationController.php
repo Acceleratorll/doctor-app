@@ -36,7 +36,7 @@ class ReservationController extends Controller
                 ->where('bpjs', $request->bpjs)
                 ->where('status', 2)
                 ->where('approve', 1)
-                ->orderBy('schedule_id', 'asc')
+                ->orderBy('schedule_id', 'desc')
                 ->orderBy('nomor_urut', 'asc')
                 ->get();
         } else {
@@ -50,7 +50,7 @@ class ReservationController extends Controller
             $reservations_yes = Reservation::with(['patient', 'schedule'])
                 ->where('status', 2)
                 ->where('approve', 1)
-                ->orderBy('schedule_id', 'asc')
+                ->orderBy('schedule_id', 'desc')
                 ->orderBy('nomor_urut', 'asc')
                 ->get();
         }

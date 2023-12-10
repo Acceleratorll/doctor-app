@@ -87,8 +87,8 @@
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
-                            <option value="0"@if($reservation->status == 0) selected @endif>Belum Periksa</option>
-                            <option value="1"@if($reservation->status == 1) selected @endif>Sudah Periksa</option>
+                            <option value="1"@if($reservation->status == 1) selected @endif>Belum Periksa</option>
+                            <option value="2"@if($reservation->status == 2) selected @endif>Sudah Periksa</option>
                         </select>
                     </div>
                 </div>
