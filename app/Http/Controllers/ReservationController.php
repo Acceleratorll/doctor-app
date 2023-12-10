@@ -281,7 +281,7 @@ class ReservationController extends Controller
         return view('reservasi.cancel', compact('cancels'));
     }
 
-    public function wait()
+    public function wait() 
     {
         $waits = Reservation::where('approve', 0)->latest()->get();
         return view('reservasi.wait', compact('waits'));
