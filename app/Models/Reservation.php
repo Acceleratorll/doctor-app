@@ -22,6 +22,7 @@ class Reservation extends Model
         'bpjs_card',
         'approve',
         'status',
+        'reject_reason',
     ];
 
     public function patient()

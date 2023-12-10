@@ -281,10 +281,19 @@ class ReservationController extends Controller
         return view('reservasi.cancel', compact('cancels'));
     }
 
-    public function wait() 
+    public function wait()
     {
-        $waits = Reservation::where('approve', 0)->latest()->get();
+        $waits = Reservation::where('approve', 0)->where('status', 0)->latest()->get();
         return view('reservasi.wait', compact('waits'));
+    }
+
+    public function reject(Request $request, $id)
+    {
+        $reservation = Reservation::find($id);
+        $reservation->update([
+            'status' => 3,
+            'reject_reason' => $request->data,
+        ]);
     }
 
     public function approve($id)

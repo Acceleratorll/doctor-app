@@ -61,7 +61,7 @@
                                         <td>{{ $reservation->nomor_urut }}</td>
                                         <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $reservation->schedule->schedule_time }}</td>
-                                            @if($reservation->status == 0)
+                                            @if($reservation->status == 1)
                                         <td>Belum Periksa</td>
                                         @else
                                         <td>Sudah Periksa</td>

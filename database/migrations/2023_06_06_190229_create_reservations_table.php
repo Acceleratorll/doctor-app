@@ -26,6 +26,7 @@ class CreateReservationsTable extends Migration
             $table->integer('nomor_urut');
             $table->boolean('approve')->default(0);
             $table->boolean('status')->default(0);
+            $table->text('reject_reason')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

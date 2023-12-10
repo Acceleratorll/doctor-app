@@ -90,6 +90,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::put('/approve/{id}', [ReservationController::class, 'approve'])->name('admin.approve');
     Route::put('/restore/{id}', [ReservationController::class, 'restore'], ['as' => 'admin']);
     Route::put('/skip/{id}', [ReservationController::class, 'skip'])->name('admin.reservation.skip');
+    Route::put('/reject/{id}', [ReservationController::class, 'reject'])->name('admin.reservation.reject');
 });
 
 Route::get('/getEmployees', [EmployeeManageController::class, 'getEmployees'])->name('employees.get');

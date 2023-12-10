@@ -50,14 +50,10 @@
                                                     Approve
                                                 </button>
                                             </form>
-                                                <form action="/admin/reservation/{{ $wait->id }}" method="POST" enctype="multipart/form-data">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-sm btn-warning">
-                                                        <i class="fa fa-edit"></i>
-                                                        Tidak Approve
-                                                    </button>
-                                                </form>
+                                            <button type="submit" id="reject" class="reject btn btn-sm btn-warning" data-id="{{ $wait->id }}">
+                                                <i class="fa fa-edit"></i>
+                                                Tidak Approve
+                                            </button>
                                             </td>
                                             <div class="idMyModal modal">
                                               <span class="close">&times;</span>
@@ -107,6 +103,49 @@
         @endif
         
         $('#table').DataTable();
+
+        $('.reject').on('click', function(){
+            var rejectButton = $(this);
+            var defaultId = rejectButton.data('id');
+            Swal.fire({
+                title: 'Tolak Reservasi',
+                input: "textarea",
+                inputLabel: "Alasan",
+                inputPlaceholder: "Masukkan Alasan penolakan reservasi",
+                type: 'warning',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(result);
+                    $.ajax({
+                        type: 'PUT',
+                        url: `{{ route("admin.reservation.reject", ["id" => ":id"]) }}`.replace(':id', defaultId),
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            data:result.value,
+                        },
+                        success: function (response) {
+                            Swal.fire({
+                                title: 'Reservasi Berhasil Ditolak!',
+                                type: 'success',
+                                icon: 'success',
+                                timer: 1700,
+                            });
+                            Swal.showLoading();
+    
+                            $('#table').DataTable().ajax.reload();
+                        },
+                        error: function (error) {
+                            console.error('Error:', error);
+                            Swal.fire('Error', 'Failed !', 'error');
+                        },
+                    });
+                }
+            });
+        });
+        
         var i;
         for (i = 0; i < dropdown.length; i++) {
             dropdown[i].addEventListener("click", function() {
@@ -119,9 +158,10 @@
                 }
             });
         }
-            $('#sidebarcollapse').on('click',function(){
-                $('#sidebar').toggleClass('active');
-            });
+        
+        $('#sidebarcollapse').on('click',function(){
+            $('#sidebar').toggleClass('active');
+        });
     });
 
  
