@@ -123,9 +123,9 @@
                                 <td><center>{{ $reservation->nomor_urut }}</center></td>
                                 <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                     $reservation->schedule->schedule_time }}</td>
-                                    @if($reservation->status == 0)
+                                    @if($reservation->status == 1)
                                 <td>Belum Periksa</td>
-                                @else
+                                @elseif($reservation->status == 2)
                                 <td>Sudah Periksa</td>
                                 @endif
                                 <td class="project-actions text-center">

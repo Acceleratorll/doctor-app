@@ -26,7 +26,7 @@ class ReservationController extends Controller
         if ($request->bpjs != null) {
             $reservations_no = Reservation::with(['patient', 'schedule'])
                 ->where('bpjs', $request->bpjs)
-                ->where('status', 0)
+                ->where('status', 1)
                 ->where('approve', 1)
                 ->orderBy('schedule_id', 'asc')
                 ->orderBy('nomor_urut', 'asc')
@@ -34,21 +34,21 @@ class ReservationController extends Controller
 
             $reservations_yes = Reservation::with(['patient', 'schedule'])
                 ->where('bpjs', $request->bpjs)
-                ->where('status', 1)
+                ->where('status', 2)
                 ->where('approve', 1)
                 ->orderBy('schedule_id', 'asc')
                 ->orderBy('nomor_urut', 'asc')
                 ->get();
         } else {
             $reservations_no = Reservation::with(['patient', 'schedule'])
-                ->where('status', 0)
+                ->where('status', 1)
                 ->where('approve', 1)
                 ->orderBy('schedule_id', 'asc')
                 ->orderBy('nomor_urut', 'asc')
                 ->get();
 
             $reservations_yes = Reservation::with(['patient', 'schedule'])
-                ->where('status', 1)
+                ->where('status', 2)
                 ->where('approve', 1)
                 ->orderBy('schedule_id', 'asc')
                 ->orderBy('nomor_urut', 'asc')
@@ -73,51 +73,6 @@ class ReservationController extends Controller
         ]);
     }
 
-    // public function store(ReservationRequest $request)
-    // {
-    //     $schedule = Schedule::findOrFail($request->schedule_id);
-    //     $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
-
-    //     if ($jumlah < $schedule->qty) {
-    //         if ($request->hasFile('bukti_pembayaran')) {
-    //             $reservation = Reservation::create([
-    //                 'patient_id' => $request->patient_id,
-    //                 'schedule_id' => $request->schedule_id,
-    //                 'reservation_code' => $request->reservation_code,
-    //                 'approve' => $request->approve,
-    //                 'status' => $request->status,
-    //                 'nomor_urut' => $request->nomor_urut,
-    //             ]);
-    //             $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
-    //             $reservation->update([
-    //                 'bukti_pembayaran' => $image,
-    //             ]);
-    //             return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
-    //         } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
-    //             $reservation = Reservation::create([
-    //                 'patient_id' => $request->patient_id,
-    //                 'schedule_id' => $request->schedule_id,
-    //                 'reservation_code' => $request->reservation_code,
-    //                 'approve' => $request->approve,
-    //                 'status' => $request->status,
-    //                 'nomor_urut' => $request->nomor_urut,
-    //             ]);
-    //             $ktp = $request->file('ktp')->store('ktp', 'public');
-    //             $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
-    //             $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
-    //             $reservation->update([
-    //                 'bpjs' => 1,
-    //                 'ktp' => $ktp,
-    //                 'surat_rujukan' => $surat_rujukan,
-    //                 'bpjs_card' => $bpjs_card,
-    //             ]);
-    //             return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
-    //         }
-    //         return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
-    //     }
-    //     return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
-    // }
-
     public function store(ReservationRequest $request)
     {
         $schedule = Schedule::findOrFail($request->schedule_id);
@@ -130,7 +85,7 @@ class ReservationController extends Controller
             $antrian = $reservation->nomor_urut + 1;
         }
 
-        if ($approve == 1){
+        if ($approve == 1) {
             if ($jumlah < $schedule->qty) {
                 if ($request->hasFile('bukti_pembayaran')) {
                     $reservation = Reservation::create([
@@ -169,8 +124,7 @@ class ReservationController extends Controller
                 return redirect()->route('admin.reservation.create')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
             }
             return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
-        }
-        else{
+        } else {
             if ($jumlah < $schedule->qty) {
                 if ($request->hasFile('bukti_pembayaran')) {
                     $reservation = Reservation::create([
@@ -333,12 +287,6 @@ class ReservationController extends Controller
         return view('reservasi.wait', compact('waits'));
     }
 
-    // public function approve($id)
-    // {
-    //     Reservation::findOrFail($id)->update(['approve' => 1]);
-    //     return redirect()->route('admin.waiting-list');
-    // }
-
     public function approve($id)
     {
         $schedule_id = Reservation::where('id', $id)->value('schedule_id');
@@ -356,15 +304,15 @@ class ReservationController extends Controller
             $reservation = Reservation::findOrFail($id);
             $reservation->update([
                 'approve' => 1,
+                'status' => 1,
                 'nomor_urut' => $antrian,
             ]);
-        
+
             return redirect()->route('admin.waiting-list');
         }
         return redirect()->route('admin.waiting-list')->with('error', 'Maaf, kamu tidak dapat approve reservasi karena kuota sudah penuh');
-        
     }
-    
+
 
     public function restore($id)
     {
@@ -465,7 +413,7 @@ class ReservationController extends Controller
         DB::beginTransaction();
 
         try {
-            $reservation->update(['status' => 1]);
+            $reservation->update(['status' => 2]);
             $record = MedicalRecord::create($medicalData);
 
             if ($fileRequest->hasFile('files')) {
