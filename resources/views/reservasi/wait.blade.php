@@ -134,8 +134,7 @@
                                 timer: 1700,
                             });
                             Swal.showLoading();
-    
-                            $('#table').DataTable().ajax.reload();
+                            location.reload();
                         },
                         error: function (error) {
                             console.error('Error:', error);
