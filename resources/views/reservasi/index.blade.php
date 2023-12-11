@@ -275,7 +275,8 @@
             "order": []
         });
         $('#myTable').DataTable({
-            "order": []
+            "order": [],
+            "pageLength":5
         });
         for (var i = 0; i <100; i++) {
         }

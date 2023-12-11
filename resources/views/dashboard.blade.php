@@ -142,6 +142,7 @@
         ];
 
         var table = $('#table').DataTable({
+            pageLength:5,
             processing: true,
             serverSide: true,
             searchable: true,

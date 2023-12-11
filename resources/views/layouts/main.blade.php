@@ -153,7 +153,7 @@
                         @endif
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-users"></i>
+                                <i class="nav-icon fa fa-address-book"></i>
                                 <p>
                                     Pegawai
                                     <i class="right fas fa-angle-left"></i>
@@ -199,7 +199,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-retweet"></i>
+                                <i class="nav-icon fa fa-map-marker"></i>
                                 <p>
                                     Tempat Praktik
                                     <i class="right fas fa-angle-left"></i>
@@ -222,7 +222,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-retweet"></i>
+                                <i class="nav-icon fa fa-file-text"></i>
                                 <p>
                                     Pengumuman
                                     <i class="right fas fa-angle-left"></i>
@@ -245,7 +245,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-retweet"></i>
+                                <i class="nav-icon fa fa-calendar"></i>
                                 <p>
                                     Jadwal
                                     <i class="right fas fa-angle-left"></i>
@@ -268,7 +268,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fa fa-tags"></i>
+                                <i class="nav-icon fa fa-calendar-check"></i>
                                 <p>
                                     Reservasi
                                     <i class="right fas fa-angle-left"></i>
