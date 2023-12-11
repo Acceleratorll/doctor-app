@@ -20,7 +20,6 @@
                                     <th scope="col" class="text-center">Reservation Code</th>
                                     <th scope="col" class="text-center">Nama Pasien</th>
                                     <th scope="col" class="text-center">Jadwal</th>
-                                    <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -35,26 +34,21 @@
                                         <td>{{ $cancel->patient->user->name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($cancel->schedule->schedule_date)->format('l, d F Y') . ' / ' .
                                             $cancel->schedule->schedule_time }}</td>
-                                            @if($cancel->status == 0)
-                                        <td>Belum Periksa</td>
-                                        @elseif($cancel->status == 1)
-                                        <td>Sudah Periksa</td>
-                                        @endif
                                         <td class="project-actions text-center">
                                                 <form action="{{ route('admin.reservation.destroy', $cancel->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
                                                     <i class="fas fa-trash"></i>
-                                                    Approve
+                                                    Delete
                                                 </button>
                                         </form>
-                                                <form action="/admin/restore/{{ $cancel->id }}" method="POST" enctype="multipart/form-data">
+                                                <form action="/admin/approve/{{ $cancel->id }}" method="POST" enctype="multipart/form-data">
                                                     @method('PUT')
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm btn-warning">
                                                         <i class="fa fa-edit"></i>
-                                                        Tidak Approve
+                                                        Approve
                                                     </button>
                                                 </form>
                                             </td>

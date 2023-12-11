@@ -277,7 +277,7 @@ class ReservationController extends Controller
 
     public function cancel()
     {
-        $cancels = Reservation::onlyTrashed()->orderByDesc('deleted_at')->get();
+        $cancels = Reservation::where('status', 3)->orderByDesc('updated_at')->get();
         return view('reservasi.cancel', compact('cancels'));
     }
 
