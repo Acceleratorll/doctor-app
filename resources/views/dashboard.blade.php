@@ -13,7 +13,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box" style="background:#2c3034">
                         <div class="inner">
-                            <h3 id="totalPatientsCount">0</h3>
+                            <h3 id="totalPatientsCount">{{ $total_patients }}</h3>
                             <p>Total Pasien</p>
                         </div>
                         <div class="icon">
@@ -26,7 +26,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box" style="background:#2c3034">
                         <div class="inner">
-                            <h3 id="waitingListCount">0</h3>
+                            <h3 id="waitingListCount">{{ $waiting_list }}</h3>
                             <p>Menunggu Approval</p>
                         </div>
                         <div class="icon">
@@ -39,7 +39,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box" style="background:#2c3034">
                         <div class="inner">
-                            <h3 id="patientsTodayCount">0</h3>
+                            <h3 id="patientsTodayCount">{{ $patients_today }}</h3>
                             <p>Pasien hari ini</p>
                         </div>
                         <div class="icon">
@@ -105,24 +105,24 @@
 
 @section('js')
 <script>
-    $(document).ready(function() {
-        $.ajax({
-            type:'GET',
-            data : {"_token":"{{ csrf_token() }}"},
-            url: '/admin/get-counts',
-            dataType: "json",
-            success:function(data) {
-                console.log("success");
-                $('#waitingListCount').text(data.waiting_list);
-                $('#patientsTodayCount').text(data.patients_today);
-                $('#totalPatientsCount').text(data.total_patients);
-            },
-            error: function(data){
-                console.log("error");
-                console.log(data);
-            }
-        });
-    });
+    // $(document).ready(function() {
+    //     $.ajax({
+    //         type:'GET',
+    //         data : {"_token":"{{ csrf_token() }}"},
+    //         url: '/admin/get-counts',
+    //         dataType: "json",
+    //         success:function(data) {
+    //             console.log("success");
+    //             $('#waitingListCount').text(data.waiting_list);
+    //             $('#patientsTodayCount').text(data.patients_today);
+    //             $('#totalPatientsCount').text(data.total_patients);
+    //         },
+    //         error: function(data){
+    //             console.log("error");
+    //             console.log(data);
+    //         }
+    //     });
+    // });
 
     $(document).ready(function() {
         var columns = [

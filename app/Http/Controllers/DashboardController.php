@@ -16,7 +16,14 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
-        return view('dashboard');
+        $waiting_list = Reservation::where('approve', 0)->count();
+        $patients_today = Reservation::join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
+            ->whereDate('schedules.schedule_date', now())
+            ->where('reservations.approve', 1)
+            ->count();
+        $total_patients = Patient::count();
+
+        return view('dashboard', compact('waiting_list', 'patients_today', 'total_patients'));
     }
 
     public function tableSchedules()
