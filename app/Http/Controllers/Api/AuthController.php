@@ -52,7 +52,7 @@ class AuthController extends Controller
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender,
                 'username' => $request->username,
-                'password' => $request->password,
+                'password' => bcrypt($request->password),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
