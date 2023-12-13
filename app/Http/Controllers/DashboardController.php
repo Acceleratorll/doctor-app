@@ -43,7 +43,7 @@ class DashboardController extends Controller
                 return Carbon::parse($schedule->schedule_date)->format('Y-m-d');
             })
             ->addColumn('time', function ($schedule) {
-                return $schedule->schedule_time . ' ' . $schedule->schedule_time_end;
+                return $schedule->schedule_time . ' - ' . $schedule->schedule_time_end;
             })
             ->addColumn('place', function ($schedule) {
                 return $schedule->place->name;
