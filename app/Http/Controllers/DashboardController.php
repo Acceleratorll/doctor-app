@@ -30,7 +30,8 @@ class DashboardController extends Controller
 
     public function tableSchedules()
     {
-        $schedules = Schedule::with('employee', 'reservations.patient')->orderBy('schedule_date', 'desc')->get();
+        $today = Carbon::today()->timezone('Asia/Jakarta')->toDateString();
+        $schedules = Schedule::with('employee', 'reservations.patient')->where('schedule_date', '>=', $today)->orderBy('schedule_date', 'asc')->get();
         return DataTables::of($schedules)
             ->addColumn('doctor', function ($schedule) {
                 return $schedule->employee->user->name;
