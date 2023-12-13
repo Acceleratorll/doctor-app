@@ -17,7 +17,7 @@ class EmployeeSeeder extends Seeder
         $employee = [
             [
                 'user_id' => 1,
-                'qualification' => 'Kulit dan Kelamin',
+                'qualification' => 'Umum',
             ],
             [
                 'user_id' => 2,
