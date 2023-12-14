@@ -79,11 +79,17 @@ class ReservationController extends Controller
         $jumlah = Reservation::where('schedule_id', $schedule->id)->where('approve', 1)->get()->count();
         $approve = $request->approve;
 
-        $reservation = Reservation::where('schedule_id', $schedule->id)->orderBy('nomor_urut', 'desc')->first();
-        $antrian = 1;
-        if ($reservation != null) {
-            $antrian = $reservation->nomor_urut + 1;
-        }
+        $reservation = Reservation::where('schedule_id', $schedule->id)
+        ->where('approve', 1)
+        ->orderBy('nomor_urut', 'desc')
+        ->first();
+
+        $antrian = ($reservation != null) ? $reservation->nomor_urut + 1 : 1;
+        // $reservation = Reservation::where('schedule_id', $schedule->id)->orderBy('nomor_urut', 'desc')->first();
+        // $antrian = 1;
+        // if ($reservation != null) {
+        //     $antrian = $reservation->nomor_urut + 1;
+        // }
 
         if ($approve == 1) {
             if ($jumlah < $schedule->qty) {
@@ -271,8 +277,18 @@ class ReservationController extends Controller
 
     public function destroy($id)
     {
-        Reservation::withTrashed()->findOrFail($id)->forceDelete();
+        $reservation = Reservation::withTrashed()->findOrFail($id);
+        $scheduleId = $reservation->schedule_id;
+        $queueNumberDeleted = $reservation->nomor_urut;
+        $reservation->forceDelete();
+
+    // dd($scheduleId, $queueNumberDeleted);
+
+        $this->resetQueueNumber($queueNumberDeleted, $scheduleId);
+
         return back();
+        // Reservation::withTrashed()->findOrFail($id)->forceDelete();
+        // return back();
     }
 
     public function cancel()
@@ -304,11 +320,17 @@ class ReservationController extends Controller
         $schedule = Schedule::findOrFail($schedule_id);
         $jumlah = Reservation::where('schedule_id', $schedule_id)->where('approve', 1)->get()->count();
 
-        $reservation = Reservation::where('schedule_id', $schedule_id)->orderBy('nomor_urut', 'desc')->first();
-        $antrian = 1;
-        if ($reservation != null) {
-            $antrian = $reservation->nomor_urut + 1;
-        }
+        $reservation = Reservation::where('schedule_id', $schedule_id)
+            ->where('approve', 1)
+            ->orderBy('nomor_urut', 'desc')
+            ->first();
+
+        $antrian = ($reservation != null) ? $reservation->nomor_urut + 1 : 1;
+        // $reservation = Reservation::where('schedule_id', $schedule_id)->orderBy('nomor_urut', 'desc')->first();
+        // $antrian = 1;
+        // if ($reservation != null) {
+        //     $antrian = $reservation->nomor_urut + 1;
+        // }
 
         if ($jumlah < $schedule->qty) {
             $reservation = Reservation::findOrFail($id);
