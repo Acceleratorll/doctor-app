@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\MedicalRecordsController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,7 @@ Route::middleware('auth:sanctum')->group(
                 Route::get('/my_schedule', 'getMySchedules');
                 Route::post('/schedule/create', 'createDoctorSchedule');
                 Route::post('/schedule/update', 'updateDoctorSchedule');
+                Route::post('/schedule/delete', 'deleteDoctorSchedule');
             }
         );
 
@@ -106,5 +108,15 @@ Route::middleware('auth:sanctum')->group(
                 Route::post('/read', 'readNotif');
             }
         );
+
+        Route::controller(PlaceController::class)->prefix('place')->group(
+            function () {
+                Route::get('/my', 'myPlace');
+                Route::post('/create', 'createPlace');
+                Route::post('/update', 'updatePlace');
+                Route::post('/delete', 'deletePlace');
+            }
+        );
+
     }
 );

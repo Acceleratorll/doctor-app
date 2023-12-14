@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -57,7 +58,7 @@ class AuthController extends Controller
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
 
-            if ($role_id == 2) {
+            if ($role_id == 2 || $role_id == 1) {
                 $employee = DB::table('employees')
                     ->insert([
                         'user_id' => $user->id,
@@ -189,8 +190,7 @@ class AuthController extends Controller
     public function me()
     {
         $user = auth()->user();
-        if ($user->role_id == 1) {
-        } else if ($user->role_id == 2) {
+        if ($user->role_id == 2 || $user->role_id == 1) {
             $employee_data = DB::table('employees')
                 ->where('user_id', $user->id)
                 ->first();
@@ -207,7 +207,7 @@ class AuthController extends Controller
             [
                 'status_code' => 200,
                 'message' => 'Successfully get user data',
-                'data' => auth()->user(),
+                'data' => $user,
             ]
         );
     }
@@ -300,6 +300,8 @@ class AuthController extends Controller
             if($gender != null){
                 $data_to_be_updated['gender'] = $gender;
             }
+
+            $data_to_be_updated['updated_at'] = date('Y-m-d H:i:s');    
 
             $user = DB::table('users')
                 ->where('id', $user->id)

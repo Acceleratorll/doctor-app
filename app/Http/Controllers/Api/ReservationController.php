@@ -195,7 +195,7 @@ class ReservationController extends Controller
                 ->where('schedule_id', $value->schedule_id)
                 ->where('approve', 1)
                 ->where('status', 1)
-                ->orderBy('nomor_urut', 'desc')
+                ->orderBy('nomor_urut', 'asc')
                 ->first();
 
             $reservation_data[$key]->current_active_reservation = $current_active_reservation->nomor_urut ?? null;
@@ -248,7 +248,7 @@ class ReservationController extends Controller
             ->where('schedule_id', $reservation_data->schedule_id)
             ->where('approve', 1)
             ->where('status', 1)
-            ->orderBy('nomor_urut', 'desc')
+            ->orderBy('nomor_urut', 'asc')
             ->first();
 
         $reservation_data->current_active_reservation = $current_active_reservation->nomor_urut ?? null;

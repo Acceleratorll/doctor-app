@@ -292,4 +292,34 @@ class DoctorController extends Controller
             ]);
         }
     }
+
+    /**
+     * Delete Doctor Schedule
+     */
+
+    public function deleteDoctorSchedule(Request $request)
+    {
+        try {
+            $schedule = DB::table('schedules')
+                ->where('id', $request->id)
+                ->delete();
+
+            if (!$schedule) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Failed to delete schedule'
+                ]);
+            }
+
+            return response()->json([
+                'status_code' => 200,
+                'message' => 'Success to delete schedule'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => $th->getMessage(),
+            ]);
+        }
+    }
 }
