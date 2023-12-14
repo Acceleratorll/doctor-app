@@ -276,17 +276,8 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         $reservation = Reservation::withTrashed()->findOrFail($id);
-        $scheduleId = $reservation->schedule_id;
-        $queueNumberDeleted = $reservation->nomor_urut;
         $reservation->forceDelete();
-
-        // dd($scheduleId, $queueNumberDeleted);
-
-        $this->resetQueueNumber($queueNumberDeleted, $scheduleId);
-
         return back();
-        // Reservation::withTrashed()->findOrFail($id)->forceDelete();
-        // return back();
     }
 
     public function cancel()
