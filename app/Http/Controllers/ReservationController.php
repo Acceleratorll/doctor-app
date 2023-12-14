@@ -80,9 +80,9 @@ class ReservationController extends Controller
         $approve = $request->approve;
 
         $reservation = Reservation::where('schedule_id', $schedule->id)
-        ->where('approve', 1)
-        ->orderBy('nomor_urut', 'desc')
-        ->first();
+            ->where('approve', 1)
+            ->orderBy('nomor_urut', 'desc')
+            ->first();
 
         $antrian = ($reservation != null) ? $reservation->nomor_urut + 1 : 1;
         // $reservation = Reservation::where('schedule_id', $schedule->id)->orderBy('nomor_urut', 'desc')->first();
@@ -282,7 +282,7 @@ class ReservationController extends Controller
         $queueNumberDeleted = $reservation->nomor_urut;
         $reservation->forceDelete();
 
-    // dd($scheduleId, $queueNumberDeleted);
+        // dd($scheduleId, $queueNumberDeleted);
 
         $this->resetQueueNumber($queueNumberDeleted, $scheduleId);
 
