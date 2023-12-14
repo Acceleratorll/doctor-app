@@ -17,8 +17,8 @@ class DashboardController extends Controller
     public function index(): View
     {
         $waiting_list = Reservation::where('approve', 0)
-        ->where('status',0)
-        ->count();
+            ->where('status', 0)
+            ->count();
         $patients_today = Reservation::join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
             ->whereDate('schedules.schedule_date', now())
             ->where('reservations.approve', 1)
@@ -30,7 +30,8 @@ class DashboardController extends Controller
 
     public function tableSchedules()
     {
-        $schedules = Schedule::with('employee', 'reservations.patient')->orderBy('schedule_date', 'desc')->get();
+        $today = Carbon::today()->timezone('Asia/Jakarta')->toDateString();
+        $schedules = Schedule::with('employee', 'reservations.patient')->where('schedule_date', '>=', $today)->orderBy('schedule_date', 'asc')->get();
         return DataTables::of($schedules)
             ->addColumn('doctor', function ($schedule) {
                 return $schedule->employee->user->name;
@@ -42,7 +43,7 @@ class DashboardController extends Controller
                 return Carbon::parse($schedule->schedule_date)->format('Y-m-d');
             })
             ->addColumn('time', function ($schedule) {
-                return $schedule->schedule_time . ' ' . $schedule->schedule_time_end;
+                return $schedule->schedule_time . ' - ' . $schedule->schedule_time_end;
             })
             ->addColumn('place', function ($schedule) {
                 return $schedule->place->name;
@@ -279,8 +280,8 @@ class DashboardController extends Controller
     public function getCounts()
     {
         $waiting_list = Reservation::where('approve', 0)
-        ->where('status',0)
-        ->count();
+            ->where('status', 0)
+            ->count();
         $patients_today = Reservation::join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
             ->whereDate('schedules.schedule_date', now())
             ->where('reservations.approve', 1)

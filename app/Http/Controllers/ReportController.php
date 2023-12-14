@@ -16,17 +16,34 @@ class ReportController extends Controller
     {
         return view('report.recipes');
     }
+    public function cetakRecipes()
+    {
+        $cetakData = MedicalRecord::with('reservation.patient.user');
+        $cetakData = $cetakData->orderBy('updated_at', 'desc')->get();
+        return view('report.printrecipes', compact('cetakData'));
+    }
 
     public function visitors()
     {
         return view('report.visitors');
+    }
+    public function cetakVisitors()
+    {
+        $cetakData = Reservation::with('patient.user', 'schedule.place')->where('approve', 1)->where('status', 2);
+        $cetakData = $cetakData->orderBy('updated_at', 'desc')->get();
+        return view('report.printvisitors', compact('cetakData'));
     }
 
     public function opens()
     {
         return view('report.opens');
     }
-
+    public function cetakOpens()
+    {
+        $cetakData = Place::with('schedules.reservations');
+        $cetakData = $cetakData->orderBy('updated_at', 'desc')->get();
+        return view('report.printopens', compact('cetakData'));
+    }
     public function doctors()
     {
         return view('report.doctors');
@@ -159,7 +176,7 @@ class ReportController extends Controller
 
     public function getVisitors(Request $request)
     {
-        $data = Reservation::with('patient.user', 'schedule.place')->where('approve', 1);
+        $data = Reservation::with('patient.user', 'schedule.place')->where('approve', 1)->where('status', 2);
 
         if ($request->filter == 'day') {
             $data = $data->whereHas('schedule', function ($query) {

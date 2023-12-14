@@ -91,6 +91,10 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::put('/restore/{id}', [ReservationController::class, 'restore'], ['as' => 'admin']);
     Route::put('/skip/{id}', [ReservationController::class, 'skip'])->name('admin.reservation.skip');
     Route::put('/reject/{id}', [ReservationController::class, 'reject'])->name('admin.reservation.reject');
+    // Print Laporan
+    Route::get('/printvisitors', [ReportController::class, 'cetakVisitors'])->name('cetakVisitors');
+    Route::get('/printopens', [ReportController::class, 'cetakOpens'])->name('cetakOpens');
+    Route::get('/printrecipes', [ReportController::class, 'cetakRecipes'])->name('cetakRecipes');
 });
 
 Route::get('/getEmployees', [EmployeeManageController::class, 'getEmployees'])->name('employees.get');
@@ -129,5 +133,6 @@ Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])-
 Route::fallback(function () {
     return redirect()->route('dashboard');
 });
+
 
 require __DIR__ . '/auth.php';

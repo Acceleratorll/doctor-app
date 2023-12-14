@@ -167,12 +167,7 @@
                 <form method="post" action="{{ route('admin.medis.store') }}" enctype="multipart/form-data">
                     @csrf
                     <input type="number" name="reservation_id" id="reservation_id" hidden>
-                    <div class="form-group">
-                        <select class="form-control select2" name="icd_code" id="icd_code"></select>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="action" placeholder="Masukkan Tindakan" class="form-control" id="action"/>
-                    </div>
+                    
                     <div class="form-group">
                         <input type="text" name="complaint" placeholder="Masukkan Keluhan Pasien" class="form-control" id="complaint"/>
                     </div>
@@ -183,11 +178,18 @@
                         <input type="text" name="diagnosis" placeholder="Masukkan Hasil Diagnosa" class="form-control" id="diagnosis"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="recommendation" placeholder="Masukkan Anjuran" class="form-control" id="recommendation"/>
+                        <select class="form-control select2" name="icd_code" id="icd_code"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="action" placeholder="Masukkan Tindakan" class="form-control" id="action"/>
                     </div>
                     <div class="form-group">
                         <input type="text" name="recipe" placeholder="Masukkan Resep" class="form-control" id="recipe"/>
                     </div>
+                    <div class="form-group">
+                        <input type="text" name="recommendation" placeholder="Masukkan Anjuran" class="form-control" id="recommendation"/>
+                    </div>
+                    
                     <div class="form-group">
                         <textarea name="desc" placeholder="Masukkan Deskripsi(Optional)" class="form-control" id="desc"></textarea>
                     </div>

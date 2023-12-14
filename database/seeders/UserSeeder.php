@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Dr. Suhardji Sp. D. R.mN',
+                'name' => 'dr. Sutomo Surya',
                 'role_id' => 1,
                 'phone' => '6259106919966',
                 'birth_date' => '1984-2-26',

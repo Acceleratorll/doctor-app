@@ -18,6 +18,7 @@
                 <option value="month">Bulan</option>
             </select>
         </section>
+        <a href="{{ route('cetakOpens') }}" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print</a>
         <section class="schedule">
             <table id="table" class="table table-dark table-striped text-center">
                 <thead>
