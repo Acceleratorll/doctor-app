@@ -159,8 +159,7 @@ class AuthController extends Controller
     protected function respondWithToken($token, $user)
     {
 
-        if ($user->role_id == 1) {
-        } else if ($user->role_id == 2) {
+       if ($user->role_id == 2 || $user->role_id == 1) {
             $employee_data = DB::table('employees')
                 ->where('user_id', $user->id)
                 ->first();
