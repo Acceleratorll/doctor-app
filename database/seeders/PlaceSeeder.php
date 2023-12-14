@@ -19,7 +19,7 @@ class PlaceSeeder extends Seeder
                 'employee_id' => 1,
                 'name' => 'Cabang Citraland',
                 'address' => 'Jl. Sentra Taman G-Walk No.22',
-                'reservationable' => '0'
+                'reservationable' => '1'
             ],
             [
                 'employee_id' => 1,

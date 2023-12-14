@@ -62,9 +62,7 @@ class ReservationController extends Controller
     {
         $today = Carbon::today()->toDateString();
         $integerCode = hexdec(substr(uniqid(), 6, 6));
-        $schedules = Schedule::whereHas('place', function ($query) {
-            $query->where('reservationable', 1);
-        })->where('schedule_date', '>=', $today)->get();
+        $schedules = Schedule::with('place')->where('schedule_date', '>=', $today)->get();
 
         return view('reservasi.create', [
             'code' => $integerCode,
