@@ -28,6 +28,20 @@ class ReservationController extends Controller
         try {
             $patient_id = $request->patient_id;
             $schedule_id = $request->schedule_id;
+
+            // cek if patient already book this schedule
+            $cek_reservation = DB::table('reservations')
+                ->where('patient_id', $patient_id)
+                ->where('schedule_id', $schedule_id)
+                ->first();
+
+            if ($cek_reservation) {
+                return response()->json([
+                    'status_code' => 500,
+                    'message' => 'Kamu sudah melakukan reservasi pada jadwal ini',
+                ]);
+            }
+
             $reservation_code = rand(100000, 999999);
             $is_bpjs = $request->is_bpjs;
 
@@ -168,6 +182,7 @@ class ReservationController extends Controller
                 ->where('status', 0)
                 ->where('nomor_urut', '<', $value->nomor_urut)
                 ->count();
+
 
             if ($nomor_urut == 0) {
                 $reservation_data[$key]->ahead_reservation = null;
@@ -360,6 +375,7 @@ class ReservationController extends Controller
 
         $limit = $request->query('limit') ?? 10;
         $status = $request->query('status');
+        $approve = $request->query('approve');
 
         if ($status != null) {
 
@@ -371,6 +387,7 @@ class ReservationController extends Controller
                 ->leftJoin('places', 'schedules.place_id', '=', 'places.id')
                 ->where('schedules.employee_id', $employee_id)
                 ->where('reservations.status', $status)
+                ->where('reservations.approve', $approve)
                 ->select('reservations.*',  'users.name as patient_name', 'users.phone', 'places.name as place_name', 'schedule_date', 'schedule_time', 'schedule_time_end', 'nomor_urut')
                 ->paginate($limit);
         } else {
@@ -382,6 +399,7 @@ class ReservationController extends Controller
                 ->leftJoin('users', 'patients.user_id', '=', 'users.id')
                 ->leftJoin('places', 'schedules.place_id', '=', 'places.id')
                 ->where('schedules.employee_id', $employee_id)
+                ->where('reservations.approve', $approve)
                 ->select('reservations.*',  'users.name as patient_name', 'users.phone', 'places.name as place_name', 'schedule_date', 'schedule_time', 'schedule_time_end', 'nomor_urut')
                 ->paginate($limit);
         }
