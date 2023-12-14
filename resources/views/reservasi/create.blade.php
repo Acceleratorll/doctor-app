@@ -65,7 +65,7 @@
                                     <option value="0" selected>Tidak Memakai BPJS</option>
                                 </select> --}}
                                 <div class="form-check form-switch" id="bpjs-switch">
-                                    <input class="form-check-input" type="checkbox" id="bpjsCheckbox"">
+                                    <input class="form-check-input" type="checkbox" id="bpjsCheckbox">
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Memakai BPJS</label>
                                     <input type="number" id="bpjs" name="bpjs" value="0" hidden>
                                 </div>

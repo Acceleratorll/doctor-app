@@ -17,8 +17,8 @@ class DashboardController extends Controller
     public function index(): View
     {
         $waiting_list = Reservation::where('approve', 0)
-        ->where('status',0)
-        ->count();
+            ->where('status', 0)
+            ->count();
         $patients_today = Reservation::join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
             ->whereDate('schedules.schedule_date', now())
             ->where('reservations.approve', 1)
@@ -280,8 +280,8 @@ class DashboardController extends Controller
     public function getCounts()
     {
         $waiting_list = Reservation::where('approve', 0)
-        ->where('status',0)
-        ->count();
+            ->where('status', 1)
+            ->count();
         $patients_today = Reservation::join('schedules', 'reservations.schedule_id', '=', 'schedules.id')
             ->whereDate('schedules.schedule_date', now())
             ->where('reservations.approve', 1)
