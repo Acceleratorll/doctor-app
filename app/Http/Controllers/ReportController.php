@@ -61,6 +61,12 @@ class ReportController extends Controller
                 ->whereDate('updated_at', '<=', now()->endOfWeek());
         } else if ($request->filter == 'month') {
             $data = $data->whereMonth('updated_at', now()->month);
+        } else if ($request->filled('min') && $request->filled('max')) {
+            $data = $data->whereBetween('updated_at', [$request->input('min'), $request->input('max')]);
+        } else if ($request->filled('min')) {
+            $data = $data->where('updated_at', '>=', $request->input('min'));
+        } else if ($request->filled('max')) {
+            $data = $data->where('updated_at', '<=', $request->input('max'));
         }
 
         $data = $data->orderBy('updated_at', 'desc')->get();
@@ -148,9 +154,22 @@ class ReportController extends Controller
             $data = $data->whereHas('schedules', function ($query) {
                 $query->whereMonth('schedule_date', now()->month);
             });
+        } else if ($request->filled('min') && $request->filled('max')) {
+            $data = $data->whereHas('schedules', function ($q) use ($request) {
+                $q->whereBetween('schedule_date', [$request->input('min'), $request->input('max')]);
+            });
+        } else if ($request->filled('min')) {
+            $data = $data->whereHas('schedules', function ($q) use ($request) {
+                $q->where('schedule_date', '>=', $request->input('min'));
+            });
+        } else if ($request->filled('max')) {
+            $data = $data->whereHas('schedules', function ($q) use ($request) {
+                $q->where('schedule_date', '<=', $request->input('max'));
+            });
         }
 
         $data = $data->orderBy('updated_at', 'desc')->get();
+        dd($data);
 
         return DataTables::of($data)
             ->addColumn('id', function ($item) {
@@ -206,7 +225,7 @@ class ReportController extends Controller
                 return Carbon::parse($item->updated_at)->format('l, Y-m-d');
             })
             ->addColumn('schedule_date', function ($item) {
-                return Carbon::parse($item->schedule_date)->format('l, Y-m-d');
+                return Carbon::parse($item->schedule->schedule_date)->format('l, Y-m-d');
             })
             ->make(true);
     }

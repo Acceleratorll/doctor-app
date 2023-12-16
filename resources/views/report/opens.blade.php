@@ -20,6 +20,18 @@
         </section>
         <a href="{{ route('cetakOpens') }}" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Print</a>
         <section class="schedule">
+            <table border="0" cellspacing="5" cellpadding="5">
+                <tbody>
+                    <tr>
+                        <td>Minimum date:</td>
+                        <td><input type="date" id="min" name="min"></td>
+                    </tr>
+                    <tr>
+                        <td>Maximum date:</td>
+                        <td><input type="date" id="max" name="max"></td>
+                    </tr>
+                </tbody>
+            </table>
             <table id="table" class="table table-dark table-striped text-center">
                 <thead>
                     <tr>
@@ -80,6 +92,26 @@
                 .search( this.value )
                 .draw();
         } );
+
+        var min = $('min').val();
+        var max = $('max').val();
+
+        $('#min, #max').on('change', function() {
+            var minDate = $('#min').val();
+            var maxDate = $('#max').val();
+    
+            var url = "{{ route('admin.report.table.opens') }}";
+    
+            if (minDate && maxDate) {
+                url += "?min=" + minDate + "&max=" + maxDate;
+            } else if (minDate) {
+                url += "?min=" + minDate;
+            } else if (maxDate) {
+                url += "?max=" + maxDate;
+            }
+    
+            table.ajax.url(url).load();
+        });
 
         updateTable(table);
     });

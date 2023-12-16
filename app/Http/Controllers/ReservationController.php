@@ -97,7 +97,7 @@ class ReservationController extends Controller
                         'schedule_id' => $request->schedule_id,
                         'reservation_code' => $request->reservation_code,
                         'approve' => $request->approve,
-                        'status' => $request->status,
+                        'status' => 1,
                         'nomor_urut' => $antrian,
                     ]);
                     $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
@@ -111,7 +111,7 @@ class ReservationController extends Controller
                         'schedule_id' => $request->schedule_id,
                         'reservation_code' => $request->reservation_code,
                         'approve' => $request->approve,
-                        'status' => $request->status,
+                        'status' => 1,
                         'nomor_urut' => $antrian,
                     ]);
                     $ktp = $request->file('ktp')->store('ktp', 'public');
