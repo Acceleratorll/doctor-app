@@ -297,7 +297,7 @@ class ReservationController extends Controller
         $reservation = Reservation::find($id);
         $reservation->update([
             'status' => 3,
-            'approve' => 0,
+            'approve' => 1,
             'reject_reason' => $request->data,
         ]);
     }
