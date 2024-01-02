@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FileRequest;
 use App\Http\Requests\MedicalRecordRequest;
 use App\Http\Requests\ReservationRequest;
+use App\Models\Employee;
 use App\Models\File;
 use App\Models\Icd;
 use App\Models\MedicalRecord;
@@ -18,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Api\NotificationController;
 
 class ReservationController extends Controller
 {
@@ -295,6 +297,31 @@ class ReservationController extends Controller
     public function reject(Request $request, $id)
     {
         $reservation = Reservation::find($id);
+        $schedule_data  = Schedule::find($reservation->schedule_id);
+        $doctor_data = Employee::find($schedule_data->employee_id);
+        $patient_data = Patient::find($reservation->patient_id);
+
+        $title = 'Reservasi Ditolak';
+        //  $message = 'Maaf, reservasi anda pada ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . ' telah ditolak oleh Dokter ' . $doctor_data->name . ' dengan alasan ' . $reason;
+        $message = 'Maaf, reservasi anda pada ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . ' telah ditolak oleh Dokter ' . $doctor_data->name . ' dengan alasan ' . $request->data;
+
+
+        $data_notification = [
+            'title' => $title,
+            'message' => $message,
+        ];
+
+        $notification_controller = new NotificationController();
+        $data_notification = json_encode($data_notification);
+
+        $notification_controller->saveNotifToDBArray([
+            'type' => 'reservation',
+            'notifiable_type' => 'patient',
+            'notifiable_id' => $patient_data->user_id,
+            'data' => $data_notification,
+        ]);
+
+
         $reservation->update([
             'status' => 3,
             'approve' => 1,
@@ -307,6 +334,9 @@ class ReservationController extends Controller
         $schedule_id = Reservation::where('id', $id)->value('schedule_id');
 
         $schedule = Schedule::findOrFail($schedule_id);
+        $doctor_data = Employee::find($schedule->employee_id);
+        $schedule_data  = Schedule::find($schedule_id);
+        
         $jumlah = Reservation::where('schedule_id', $schedule_id)->where('approve', 1)->get()->count();
 
         $reservation = Reservation::where('schedule_id', $schedule_id)
@@ -320,6 +350,27 @@ class ReservationController extends Controller
         // if ($reservation != null) {
         //     $antrian = $reservation->nomor_urut + 1;
         // }
+
+        // send notif to users 
+        $title = 'Reservasi Diterima';
+        $message = 'Reservasi anda disetujui oleh Dokter ' . $doctor_data->name . ' di ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . '. Silahkan datang ke tempat praktek sesuai jadwal yang telah ditentukan';
+
+        $data_notification = [
+            'title' => $title,
+            'message' => $message,
+        ];
+
+        $notification_controller = new NotificationController();
+        $data_notification = json_encode($data_notification);
+
+        $patient_id = Reservation::where('id', $id)->value('patient_id');
+        $notification_controller->saveNotifToDBArray([
+            'type' => 'reservation',
+            'notifiable_type' => 'patient',
+            'notifiable_id' => $patient_id,
+            'data' => $data_notification,
+        ]);
+
 
         if ($jumlah < $schedule->qty) {
             $reservation = Reservation::findOrFail($id);
