@@ -212,6 +212,20 @@ class ReportController extends Controller
             });
         }
 
+        if ($request->filled('min') && $request->filled('max')) {
+            $data = $data->whereHas('schedule', function ($q) use ($request) {
+                $q->whereBetween('schedule_date', [$request->input('min'), $request->input('max')]);
+            });
+        } else if ($request->filled('min')) {
+            $data = $data->whereHas('schedule', function ($q) use ($request) {
+                $q->where('schedule_date', '>=', $request->input('min'));
+            });
+        } else if ($request->filled('max')) {
+            $data = $data->whereHas('schedule', function ($q) use ($request) {
+                $q->where('schedule_date', '<=', $request->input('max'));
+            });
+        }
+
         $data = $data->orderBy('updated_at', 'desc')->get();
 
         return DataTables::of($data)
