@@ -364,10 +364,11 @@ class ReservationController extends Controller
         $data_notification = json_encode($data_notification);
 
         $patient_id = Reservation::where('id', $id)->value('patient_id');
+        $user_id = Patient::where('id', $patient_id)->value('user_id');
         $notification_controller->saveNotifToDBArray([
             'type' => 'reservation',
             'notifiable_type' => 'patient',
-            'notifiable_id' => $patient_id,
+            'notifiable_id' => $user_id,
             'data' => $data_notification,
         ]);
 
