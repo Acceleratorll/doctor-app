@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\ReservationController;
+use App\Http\Controllers\PushNotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

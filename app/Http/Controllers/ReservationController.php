@@ -309,6 +309,9 @@ class ReservationController extends Controller
         $data_notification = [
             'title' => $title,
             'message' => $message,
+            'date' => $schedule_data->schedule_date,
+            'time' => $schedule_data->schedule_time,
+            'type' => 'reservation_reject',
         ];
 
         $notification_controller = new NotificationController();
@@ -320,6 +323,24 @@ class ReservationController extends Controller
             'notifiable_id' => $patient_data->user_id,
             'data' => $data_notification,
         ]);
+
+
+        $push_notif_controller = new PushNotificationController();
+        $request_push_notif = new Request();
+        $request_push_notif->replace([
+            'title' => $title,
+            'body' => $message,
+            'topic' => $patient_data->user_id,
+            'data' => array(
+                'title' => $title,
+                'body' => $message,
+                'date' => $schedule_data->schedule_date,
+                'time' => $schedule_data->schedule_time,
+                'type' => 'reservation_reject',
+            ),
+        ]);
+
+        $push_notif_controller->sendPushNotification($request_push_notif);
 
 
         $reservation->update([
@@ -358,6 +379,9 @@ class ReservationController extends Controller
         $data_notification = [
             'title' => $title,
             'message' => $message,
+            'date' => $schedule_data->schedule_date,
+            'time' => $schedule_data->schedule_time,
+            'type' => 'reservation_approve',
         ];
 
         $notification_controller = new NotificationController();
@@ -372,6 +396,23 @@ class ReservationController extends Controller
             'data' => $data_notification,
         ]);
 
+
+        $push_notif_controller = new PushNotificationController();
+        $request_push_notif = new Request();
+        $request_push_notif->replace([
+            'title' => $title,
+            'body' => $message,
+            'topic' => $user_id,
+            'data' => array(
+                'title' => $title,
+                'body' => $message,
+                'date' => $schedule_data->schedule_date,
+                'time' => $schedule_data->schedule_time,
+                'type' => 'reservation_approve',
+            ),
+        ]);
+
+        $push_notif_controller->sendPushNotification($request_push_notif);
 
         if ($jumlah < $schedule->qty) {
             $reservation = Reservation::findOrFail($id);

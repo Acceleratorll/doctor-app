@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\PushNotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -472,18 +473,24 @@ class ReservationController extends Controller
 
         $title = '';
         $message = '';
+        $type = '';
 
         if ($status == 1) {
             $title = 'Reservasi Disetujui';
             $message = 'Reservasi anda disetujui oleh Dokter ' . $doctor_data->name . ' di ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . '. Silahkan datang ke tempat praktek sesuai jadwal yang telah ditentukan';
+            $type = 'reservation_approve';
         } else {
             $title = 'Reservasi Ditolak';
             $message = 'Maaf, reservasi anda pada ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . ' telah ditolak oleh Dokter ' . $doctor_data->name . ' dengan alasan ' . $reason;
+            $type = 'reservation_reject';
         }
 
         $data_notification = [
             'title' => $title,
             'message' => $message,
+            'date' => $schedule_data->schedule_date,
+            'time' => $schedule_data->schedule_time,
+            'type' => $type,
         ];
 
         $reservation = DB::table('reservations')
@@ -513,7 +520,23 @@ class ReservationController extends Controller
             'data' => $data_notification,
         ]);
 
+        $push_notif_controller = new PushNotificationController();
+        $request_push_notif = new Request();
+        $request_push_notif->replace([
+            'title' => $title,
+            'body' => $message,
+            'topic' => $patient_data->user_id,
+            'data' => array(
+                'title' => $title,
+                'body' => $message,
+                'date' => $schedule_data->schedule_date,
+                'time' => $schedule_data->schedule_time,
+                'type' => $type,
+            ),
+        ]);
 
+        $push_notif_controller->sendPushNotification($request_push_notif);
+    
         return response()->json([
             'status_code' => 200,
             'data' => $reservation_data,
