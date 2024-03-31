@@ -160,20 +160,6 @@
 
         $('.s2').select2();
         $('.select-box').select2();
-        // const selectBtns = document.querySelectorAll(".select-btn");
-        // console.log(selectBtns.length);
-        // const selectBtn = document.querySelector(".select-btn"),
-        // items = document.querySelectorAll(".item");
-        // selectBtn.addEventListener("click", () => {
-        //     selectBtn.classList.toggle("open");
-        // });
-        // items.forEach(item => {
-        //     const itemText = item.querySelector(".item-text").innerText;
-        //     item.addEventListener("click", () => {
-        //         item.classList.toggle("checked");
-        //         updateSelectedText();
-        //     });
-        // })
     });
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -203,14 +189,14 @@
     });
 
     function rearrangeItems(container) {
-    const items = Array.from(container.querySelectorAll(".item"));
-    const checkedItems = items.filter(item => item.classList.contains("checked"));
-    const uncheckedItems = items.filter(item => !item.classList.contains("checked"));
+        const items = Array.from(container.querySelectorAll(".item"));
+        const checkedItems = items.filter(item => item.classList.contains("checked"));
+        const uncheckedItems = items.filter(item => !item.classList.contains("checked"));
 
-    container.innerHTML = '';
-    checkedItems.forEach(item => container.appendChild(item));
-    uncheckedItems.forEach(item => container.appendChild(item));
-}
+        container.innerHTML = '';
+        checkedItems.forEach(item => container.appendChild(item));
+        uncheckedItems.forEach(item => container.appendChild(item));
+    }
 
     function updateSelectedText(selectBtn, originalText) {
         const checkedItems = selectBtn.nextElementSibling.querySelectorAll(".checked");
@@ -223,19 +209,6 @@
             btnText.innerText = originalText;
         }
     }
-
-    // function updateSelectedText() {
-    //     let checkedItems = document.querySelectorAll(".checked");
-    //     let selectedText = Array.from(checkedItems).map(item => item.querySelector('.item-text').innerText).join(', ');
-    //     let btnText = document.querySelector(".btn-text");
-    //     let originalText = btnText.dataset.originalText;
-
-    //     if (checkedItems && checkedItems.length > 0) {
-    //         btnText.innerText = `${originalText} | ${selectedText}`;
-    //     } else {
-    //         btnText.innerText = `${originalText}`;
-    //     }
-    // }
     
     var dropdown = document.getElementsByClassName("dropdown-btn");
     for (var i = 0; i < dropdown.length; i++) {
