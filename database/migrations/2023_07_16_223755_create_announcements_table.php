@@ -19,6 +19,7 @@ class CreateAnnouncementsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('image')->nullable();
+            $table->boolean('publish')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

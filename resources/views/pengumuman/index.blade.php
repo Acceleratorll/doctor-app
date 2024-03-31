@@ -37,7 +37,9 @@
                                             <td>{{ $announcement->title }}</td>
                                             <td>{{ $announcement->content }}</td>
                                             <td>
+                                                @if ($announcement->image)
                                                 <img src="{{ asset('storage/'.$announcement->image)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
+                                                @endif
                                             </td>
                                             <td>{{ $announcement->employee->user->name }}</td>
                                             <td class="project-actions text-center">
@@ -48,10 +50,16 @@
                                                         <i class="fas fa-trash"></i>
                                                         Delete
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/pengumuman/{{ $announcement->id }}/edit'">
+                                                    <button type="button" class="btn btn-sm btn-info" onclick="location.href='/admin/pengumuman/{{ $announcement->id }}/edit'">
                                                         <i class="fa fa-edit"></i>
                                                         Edit
                                                     </button>
+                                                    @if ($announcement->publish == 0)
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/pengumuman/broadcast/{{ $announcement->id }}'">
+                                                        <i class="fa fa-bullhorn"></i>
+                                                        Broadcast
+                                                    </button>
+                                                    @endif
                                                 </form>
                                             </td>
                                         </tr>

@@ -12,7 +12,7 @@ class EmployeeManageController extends Controller
 {
     public function index()
     {
-        $employees = User::with('role')->where('role_id', 2)->get();
+        $employees = User::role('pegawai')->get();
         return view('pegawai.index', compact('employees'));
     }
 

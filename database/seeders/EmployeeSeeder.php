@@ -17,11 +17,11 @@ class EmployeeSeeder extends Seeder
         $employee = [
             [
                 'user_id' => 1,
-                'qualification' => 'Umum',
+                'qualification' => 'Dokter Umum',
             ],
             [
                 'user_id' => 2,
-                'qualification' => '',
+                'qualification' => 'Spesialis Gigi',
             ],
         ];
         DB::table('employees')->insert($employee);

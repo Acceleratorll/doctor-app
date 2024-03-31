@@ -52,7 +52,7 @@
                             <option value="" selected>--- Pilih Jadwal ---</option>
                             @foreach($schedules as $schedule)
                             <option value="{{ $schedule->id }}">{{\Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
-                            $schedule->schedule_time}}</option>
+                            $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' ' . $schedule->schedule_type->name = 'Gigi' ? 'Dokter Gigi' : 'Dokter Umum'}}</option>
                             @endforeach
                             @endif
                         </select>
@@ -124,7 +124,7 @@
 
 <script>
     $("#namapasien").select2();
-    $("#schedule").select2();
+    $("#jadwal").select2();
 
     const bpjsCheckbox = document.getElementById('bpjsCheckbox');
     const bpjsFieldsContainer = document.getElementById('bpjsFieldsContainer');
@@ -211,6 +211,7 @@
             scheduleSelect.innerHTML = `<option value="0">- Pilih Jadwal -</option>`;
         }
     })
+    
     var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
         for (i = 0; i < dropdown.length; i++) {

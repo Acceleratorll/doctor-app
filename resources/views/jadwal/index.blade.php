@@ -39,6 +39,8 @@
                             <table class="table-dark table-striped" id="table{{ $placeId }}">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th scope="col" class="text-center">Spesialis</th>
+                                        <th scope="col" class="text-center">Dokter</th>
                                         <th scope="col" class="text-center">Tanggal</th>
                                         <th scope="col" class="text-center">Kuota</th>
                                         <th scope="col" class="text-center">Jam Mulai</th>
@@ -49,12 +51,13 @@
                                 <tbody>
                                     @foreach($placeSchedules as $schedule)
                                     <tr>
+                                        <td>{{ $schedule->schedule_type->name }}</td>
+                                        <td>{{ $schedule->employee->user->name }}</td>
                                         <td>{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') }}</td>
                                         <td>{{ $schedule->qty }}</td>
                                         <td>{{ $schedule->schedule_time }}</td>
                                         <td>{{ $schedule->schedule_time_end }}</td>
                                         <td class="project-actions text-center">
-                                            
                                                 <button type="submit" id="delete" data-id="{{ $schedule->id }}" class="delete btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     Delete

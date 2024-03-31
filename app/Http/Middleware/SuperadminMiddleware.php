@@ -10,21 +10,14 @@ class SuperadminMiddleware
 
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->role_id === 1 || auth()->user()->role_id === 2) {
+        $userRoles = auth()->user()->getRoleNames();
+
+        $allowedRoles = ['superadmin', 'pegawai', 'dokter umum', 'dokter gigi'];
+
+        if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
             return $next($request);
         }
 
         return abort(401);
     }
-
-    // private function userHasAnyRole($user, $roles)
-    // {
-    //     foreach ($roles as $role) {
-    //         if ($user->hasRole($role)) {
-    //             return true;
-    //         }
-    //     }
-
-    //     return false;
-    // }
 }

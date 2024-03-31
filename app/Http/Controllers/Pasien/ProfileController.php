@@ -25,6 +25,7 @@ class ProfileController extends Controller
                 $query->where('schedule_date', '>=', $today);
             })
             ->where('status', 0)
+            ->orWhere('status', 1)
             ->get();
 
         $data = session()->get('data');

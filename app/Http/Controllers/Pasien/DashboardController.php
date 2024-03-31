@@ -15,7 +15,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $doctor = User::with('employee')->where('role_id', 1)->first();
+        $doctor = User::role('superadmin')->first();
         return view('web.home', compact('doctor'));
     }
 }

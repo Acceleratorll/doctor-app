@@ -19,7 +19,7 @@
             @endif
         <div id="rcorners1">
             <form action="/admin/jadwal" method="POST" enctype="multipart/form-data">
-                @csrf
+            @csrf
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
@@ -36,8 +36,22 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col">
+            <div class="form-row justify-content-between">
+                <div class="col-md-6">
+                    <label for="basic-url">Jadwal untuk</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">Spesialis</span>
+                        </div>
+                        <select name="schedule_type_id" class="custom-select" id="inputGroupSelect01">
+                            <option selected disabled>Pilih...</option>
+                            @foreach ($schedule_types as $schedule_type)
+                            <option value="{{ $schedule_type->id }}">{{ $schedule_type->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="Tanggal">Tanggal</label>
                         <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
@@ -48,13 +62,24 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
+                        <label for="doctor">Dokter</label>
+                        <select class="form-control" name="user_id" id="user_id">
+                            <option value="#" selected disabled>Pilih Dokter...</option>
+                            @foreach ($doctors as $doctor)
+                            <option value="{{ $doctor->employee->id }}">{{ $doctor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row justify-content-center">
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label for="Jam">Jam Mulai</label>
                         <input type="time" placeholder="Masukkan Jam Mulai" class="form-control" name="schedule_time" id="jam" required>
                     </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="col">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="Jam">Jam Berakhir</label>
                         <input type="time" placeholder="Masukkan Jam Berakhir" class="form-control" name="schedule_time_end" id="jam" required>
@@ -125,7 +150,27 @@
                         // If none of the specific frequencies are selected, reset the identifier dropdown
                         $('#identifier').val('');
                 }
-            });    
+            });
+            
+            $('#inputGroupSelect01').change(function() {
+                var id = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('get.users', ['id' => ':id']) }}".replace(':id', id),
+                    method: 'GET',
+                    success: function(response) {
+                        $('#user_id').empty();
+                        $('#user_id').append('<option value="">Pilih Dokter...</option>');
+                        $.each(response, function(i,data) {
+                            console.log(i, data.employee);
+                            $('#user_id').append('<option value="' + data.employee.id + '">' + data.name + '</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
 
             $('#sidebarcollapse').on('click',function(){
                 $('#sidebar').toggleClass('active');

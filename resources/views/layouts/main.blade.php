@@ -8,6 +8,7 @@
     
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script defer src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
@@ -19,12 +20,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.1/css/dataTables.dateTime.min.css">
     <!-- Google Font: Source Sans Pro -->
 
-    @yield('css')
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -51,6 +52,7 @@
     <link rel="stylesheet" href="{{ asset('css/image-zoom.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
+    @yield('css')
     <style>
         .select2 {
             width: 100%!important;
@@ -126,17 +128,6 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="true">
-                        <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
-
-                        {{-- <li class="nav-item">
-                            <a href="{{ url('/dashboard') }}" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                </p>
-                            </a>
-                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
                                 <i class="nav-icon fa fa-tachometer-alt"></i>
@@ -145,7 +136,11 @@
                                 </p>
                             </a>
                         </li>
-                        @if(auth()->user()->role_id === 1)
+                        @php
+                            $allowedRoles = ['superadmin'];
+                            $userRoles = auth()->user()->getRoleNames();
+                        @endphp
+                        @if ($userRoles->intersect($allowedRoles)->isNotEmpty())
                         <li class="nav-item">
                             <a href="{{ route('admin.dokter.index') }}" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
@@ -265,7 +260,19 @@
                                 <li class="nav-item">
                                     <a href="/admin/jadwal" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Master Jadwal</p>
+                                        <p>Semua Jadwal</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/gigi/jadwal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Jadwal Dokter Gigi</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/umum/jadwal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Jadwal Dokter Umum</p>
                                     </a>
                                 </li>
                             </ul>

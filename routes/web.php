@@ -8,6 +8,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ICDController;
 use App\Http\Controllers\MedicalRecordManageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OdontogramController;
 use App\Http\Controllers\Pasien\AnnouncementController as PasienAnnouncementController;
 use App\Http\Controllers\Pasien\ContactController;
 use App\Http\Controllers\Pasien\DashboardController as PasienDashboardController;
@@ -20,8 +21,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
 use App\Http\Controllers\SuperadminController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,6 +56,14 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         '/pengumuman' => AnnouncementController::class,
     ], ['as' => 'admin']);
 
+    Route::prefix('/pengumuman')->name('admin.announcement.')->controller(AnnouncementController::class)->group(function () {
+        Route::get('/broadcast/{id}', 'broadcast')->name('broadcast');
+    });
+
+    Route::prefix('/rme/gigi')->name('admin.rme.gigi.')->controller(OdontogramController::class)->group(function () {
+        Route::get('/create', 'create')->name('create');
+    });
+
     Route::prefix('/report')->controller(ReportController::class)->group(function () {
         Route::get('/visitors', 'visitors')->name('admin.report.visitors');
         Route::get('/opens', 'opens')->name('admin.report.opens');
@@ -68,6 +77,9 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         });
     });
 
+    Route::get('/get-users/{id}', [UserController::class, 'getByScheduleType'])->name('get.users');
+    Route::get('/gigi/jadwal', [ScheduleManageController::class, 'indexTeeth'])->name('admin.jadwal.gigi.index');
+    Route::get('/umum/jadwal', [ScheduleManageController::class, 'indexGeneral'])->name('admin.jadwal.umum.index');
     Route::get('/patient-reservations/{id}', [PatientManageController::class, 'getReservations'])->name('admin.patient.reservations');
     Route::get('/schedules/day', [DashboardController::class, 'getScheduleDay'])->name('admin.schedules.day');
     Route::get('/schedules/week', [DashboardController::class, 'getScheduleWeek'])->name('admin.schedules.week');
@@ -118,6 +130,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
     ]);
     Route::put('/saveCode', [AccessCodeController::class, 'saveCode'])->name('save.code');
     Route::get('/verifyCode', [AccessCodeController::class, 'verifyCode'])->name('verifyCode');
+    Route::get('/chooseDoctor', [PasienReservationController::class, 'chooseDoctor'])->name('choose.doctor');
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
     Route::get('/bukti-pembayaran', [PasienReservationController::class, 'bukti']);
     Route::get('/cancel/{id}', [PasienReservationController::class, 'cancel']);
@@ -128,11 +141,18 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/notifikasi', [NotificationController::class, 'index']);
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
 });
+
 Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])->name('show.queue');
 
 Route::fallback(function () {
-    return redirect()->route('dashboard');
-});
+    $userRoles = auth()->user()->getRoleNames();
+    $allowedRoles = ['superadmin', 'pegawai', 'dokter umum', 'dokter gigi'];
 
+    if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
+        return redirect()->route('admin.dashboard.index');
+    } else {
+        return redirect()->route('dashboard');
+    }
+});
 
 require __DIR__ . '/auth.php';

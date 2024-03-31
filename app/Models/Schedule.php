@@ -13,6 +13,7 @@ class Schedule extends Model
     protected $fillable = [
         'employee_id',
         'place_id',
+        'schedule_type_id',
         'schedule_date',
         'schedule_time',
         'schedule_time_end',
@@ -32,5 +33,10 @@ class Schedule extends Model
     public function place()
     {
         return $this->belongsTo(Place::class);
+    }
+
+    public function schedule_type()
+    {
+        return $this->belongsTo(ScheduleType::class);
     }
 }

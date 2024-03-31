@@ -14,17 +14,33 @@
             @method('PUT')
             <div class="form-row">
                 <div class="col">
-                    <label for="tempat">Tempat</label>
-                    <select name="place_id" id="tempat" class="form-control">
-                        <option value="{{ $schedule->place_id }}">{{ $schedule->place->name }}</option>
-                        @foreach($places as $place)
-                        <option value="{{ $place->id }}">{{ $place->name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label for="tempat">Tempat</label>
+                        <select name="place_id" id="tempat" class="form-control">
+                            <option value="{{ $schedule->place_id }}">{{ $schedule->place->name }}</option>
+                            @foreach($places as $place)
+                            <option value="{{ $place->id }}">{{ $place->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col">
+            <div class="form-row justify-content-center">
+                <div class="col-md-6">
+                    <label for="basic-url">Jadwal untuk</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">Spesialis</span>
+                        </div>
+                        <select name="schedule_type_id" class="custom-select" id="inputGroupSelect01">
+                            <option value="{{ $schedule->schedule_type_id }}" selected>{{ $schedule->schedule_type->name }}</option>
+                            @foreach ($schedule_types as $schedule_type)
+                            <option value="{{ $schedule_type->id }}">{{ $schedule_type->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
                         <label for="Tanggal">Tanggal</label>

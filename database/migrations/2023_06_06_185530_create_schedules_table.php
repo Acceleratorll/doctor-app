@@ -17,12 +17,15 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->foreignId('place_id')->constrained();
             $table->foreignId('employee_id')->constrained();
+            $table->uuid('schedule_type_id');
             $table->date('schedule_date');
             $table->time('schedule_time');
             $table->time('schedule_time_end');
             $table->integer('qty');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('schedule_type_id')->references('id')->on('schedule_types');
         });
     }
 

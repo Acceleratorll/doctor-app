@@ -73,6 +73,11 @@ class ReservationController extends Controller
         ]);
     }
 
+    public function odontogram()
+    {
+        return view('reservasi.odontogram');
+    }
+
     public function store(ReservationRequest $request)
     {
         $schedule = Schedule::findOrFail($request->schedule_id);

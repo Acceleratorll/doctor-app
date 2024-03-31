@@ -46,12 +46,23 @@ class ReservationController extends Controller
         }
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $today = Carbon::today()->toDateString();
+        if ($request->type == 'umum') {
+            $type = 1;
+        } else {
+            $type = 2;
+        }
         $schedules = Schedule::with(['place' => function ($query) {
             $query->where('reservationable', 1);
-        }])->where('schedule_date', '>=', $today)->orderBy('schedule_date', 'asc')->select(DB::raw('distinct(schedule_date)'))->get();
+        }, 'schedule_type'])
+            ->where('schedule_type_id', $type)
+            ->where('schedule_date', '>=', $today)
+            ->orderBy('schedule_date', 'asc')
+            ->select(DB::raw('distinct(schedule_date)'))
+            ->get();
+
         return view('web.janji_temu', compact('schedules'));
     }
 
@@ -154,6 +165,11 @@ class ReservationController extends Controller
     public function bukti(Request $request)
     {
         return view('web.bukti_pembayaran', compact(['request']));
+    }
+
+    public function chooseDoctor()
+    {
+        return view('web.pilih_dokter');
     }
 
     public function show($id)

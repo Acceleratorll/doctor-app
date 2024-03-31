@@ -6,6 +6,7 @@ use App\Http\Requests\ScheduleRequest;
 use App\Models\Employee;
 use App\Models\Place;
 use App\Models\Schedule;
+use App\Models\ScheduleType;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -32,6 +33,48 @@ class ScheduleManageController extends Controller
         return view('jadwal.index', compact(['schedules', 'places']));
     }
 
+    public function indexTeeth()
+    {
+        $today = Carbon::today()->timezone('Asia/Jakarta')->toDateString();
+        $places = Place::all();
+
+        $schedules = [];
+
+        foreach ($places as $place) {
+            $schedules[$place->id] = Schedule::with('place')
+                ->where('schedule_date', '>=', $today)
+                ->where('place_id', $place->id)
+                ->whereHas('schedule_type', function ($q) {
+                    $q->where('name', 'Gigi');
+                })
+                ->orderBy('schedule_date', 'desc')
+                ->get();
+        }
+
+        return view('jadwal.gigi.index', compact(['schedules', 'places']));
+    }
+
+    public function indexGeneral()
+    {
+        $today = Carbon::today()->timezone('Asia/Jakarta')->toDateString();
+        $places = Place::all();
+
+        $schedules = [];
+
+        foreach ($places as $place) {
+            $schedules[$place->id] = Schedule::with('place')
+                ->where('schedule_date', '>=', $today)
+                ->where('place_id', $place->id)
+                ->whereHas('schedule_type', function ($q) {
+                    $q->where('name', 'Umum');
+                })
+                ->orderBy('schedule_date', 'desc')
+                ->get();
+        }
+
+        return view('jadwal.umum.index', compact(['schedules', 'places']));
+    }
+
     public function table($query)
     {
         return DataTables::of($query)
@@ -51,9 +94,10 @@ class ScheduleManageController extends Controller
 
     public function create()
     {
-        $doctor = User::where('role_id', 1)->first();
+        $doctors = User::with('employee')->withoutRole('pasien')->get();
         $places = Place::all();
-        return view('jadwal.create', compact(['doctor', 'places']));
+        $schedule_types = ScheduleType::all();
+        return view('jadwal.create', compact(['doctors', 'places', 'schedule_types']));
     }
 
     public function store(ScheduleRequest $request)
@@ -75,6 +119,7 @@ class ScheduleManageController extends Controller
             while ($startDate <= $endDate) {
                 Schedule::create([
                     'employee_id' => $input['employee_id'],
+                    'schedule_type_id' => $input['schedule_type_id'],
                     'place_id' => $input['place_id'],
                     'schedule_date' => $startDate,
                     'schedule_time' => $input['schedule_time'],
@@ -93,6 +138,7 @@ class ScheduleManageController extends Controller
             }
         } else {
             Schedule::create([
+                'schedule_type_id' => $input['schedule_type_id'],
                 'employee_id' => $input['employee_id'],
                 'place_id' => $input['place_id'],
                 'schedule_date' => $startDate,
@@ -129,7 +175,8 @@ class ScheduleManageController extends Controller
     {
         $schedule = Schedule::with('place')->findOrFail($id);
         $places = Place::all();
-        return view('jadwal.edit', compact(['schedule', 'places']));
+        $schedule_types = ScheduleType::all();
+        return view('jadwal.edit', compact(['schedule', 'places', 'schedule_types']));
     }
 
     public function update(ScheduleRequest $request, $id)

@@ -30,11 +30,7 @@ class AnnouncementController extends Controller
             $image = $image->store('announcement', 'public');
             $input['image'] = $image;
         }
-        $announcement = Announcement::create($input);
-        $patients = Patient::all();
-        foreach ($patients as $patient) {
-            $patient->notify(new NotificationsAnnouncement($announcement->content, $announcement->title, $announcement->created_at));
-        }
+        Announcement::create($input);
 
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil ditambahkan !');
     }
@@ -43,6 +39,18 @@ class AnnouncementController extends Controller
     {
         $announcement = Announcement::findOrFail($id);
         return view('pengumuman.edit', compact('announcement'));
+    }
+
+    public function broadcast($id)
+    {
+        $announcement = Announcement::findOrFail($id);
+        $patients = Patient::all();
+        foreach ($patients as $patient) {
+            $patient->notify(new NotificationsAnnouncement($announcement->content, $announcement->title, $announcement->created_at));
+        }
+
+        $announcement->update(['publish' => 1]);
+        return redirect()->back()->with('success', 'Pengumuman berhasil di broadcast');
     }
 
     public function update(AnnouncementRequest $request, $id)

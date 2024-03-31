@@ -11,6 +11,7 @@ use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -26,9 +27,18 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if (auth()->user()->role_id == '1' || auth()->user()->role_id == '2') {
+        $userRoles = auth()->user()->getRoleNames();
+
+        $allowedRoles = ['superadmin', 'pegawai', 'dokter umum', 'dokter gigi'];
+
+        $patientRoles = collect(['pasien'])
+            ->map(function ($role) {
+                return Str::lower($role); // Convert role names to lowercase
+            });
+
+        if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
             return redirect()->intended(RouteServiceProvider::HOME);
-        } elseif (Auth::user()->role_id == '3') {
+        } elseif ($userRoles->intersect($patientRoles)->isNotEmpty()) {
             $today = Carbon::today()->timezone('Asia/Jakarta')->toDateString();
             $now = Carbon::now()->format('H:i');
             $patient = Patient::where('user_id', auth()->user()->id)->first();

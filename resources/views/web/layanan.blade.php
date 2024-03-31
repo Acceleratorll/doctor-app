@@ -86,8 +86,7 @@
             Slider
         ============================== -->
         <section class="slider slider-centerd"
-        <div class="slick-carousel m-slides-0 carousel-arrows-light carousel-dots-light"
-            data-slick='{"slidesToShow": 1, "arrows": true, "dots": false, "speed": 700,"fade": true,"cssEase": "linear"}'>
+        <div class="slick-carousel m-slides-0 carousel-arrows-light carousel-dots-light" data-slick='{"slidesToShow": 1, "arrows": true, "dots": false, "speed": 700,"fade": true,"cssEase": "linear"}'>
             <div class="slide-item align-v-h">
             <div class="bg-img"><img src="assets/images/sliders/12.png" alt="slide img"></div>
             <div class="container">
@@ -97,7 +96,7 @@
                     <h2 class="slide__title" style="color: #213360;">{{ $doctor->name }}</h2>
                     <p class="slide__desc" style="color: #213360;">"Kesehatan Utama, Layanan Terbaik"</p>
                     <div class="d-flex flex-wrap justify-content-center align-items-center">
-                        <a href="/reservasi/create" class="btn btn__white btn__rounded mr-30">
+                        <a href="/chooseDoctor" class="btn btn__white btn__rounded mr-30">
                         <span>Buat Janji Temu Doctors</span>
                         <i class="icon-arrow-right"></i>
                         </a>
@@ -359,8 +358,4 @@
         </div><!-- /.container -->
     </section><!-- /.blog Grid -->
 
-@endsection
-
-@section('container')
-    
 @endsection

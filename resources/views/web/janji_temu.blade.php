@@ -208,7 +208,7 @@
 <header class="header header-layout1">
     <!-- /.header-top -->
     <nav class="navbar navbar-expand-lg sticky-navbar">
-            <div class="container-fluid">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
                 <img src="{{ asset('assets/images/logo/2.png') }}" class="logo-light" alt="logo">
                 <img src="{{ asset('assets/images/logo/1.png') }}" class="logo-dark" alt="logo">
@@ -218,50 +218,50 @@
             </button>
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="navbar-nav ml-auto">
-                <li class="nav__item">
-                    <a href="{{ route('dashboard') }}" class="nav__item-link">Home</a>
-                </li>
-                <!-- /.nav-item -->
-                <li class="nav__item">
-                    <a href="{{ route('jadwal.index') }}" class="nav__item-link active">Layanan</a>
-                </li><!-- /.nav-item -->
-                <li class="nav__item notif">
-                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
-                        @if(auth()->user())
-                        <span>
-                            {{ auth()->user()->patient->unreadNotifications->count() }}
-                        </span>
-                        @endif</a>
-                </li><!-- /.nav-item -->
-                <li class="nav__item">
-                    <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
-                </li><!-- /.nav-item -->
-                <li class="nav__item notif">
-                    <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
-                </li><!-- /.nav-item -->
-                @if(auth()->user())
-                <li class="nav__item dropdown">
-                                <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ Auth::user()->name }}
-                                </a>
-                                    
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                                    <a class="dropdown-item" href="/profile">My Profile</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                    <li class="nav__item">
+                        <a href="{{ route('dashboard') }}" class="nav__item-link">Home</a>
+                    </li>
+                    <!-- /.nav-item -->
+                    <li class="nav__item">
+                        <a href="{{ route('jadwal.index') }}" class="nav__item-link active">Layanan</a>
+                    </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
+                            @if(auth()->user())
+                            <span>
+                                {{ auth()->user()->patient->unreadNotifications->count() }}
+                            </span>
+                            @endif</a>
+                    </li><!-- /.nav-item -->
+                    <li class="nav__item">
+                        <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
+                    </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
+                    </li><!-- /.nav-item -->
+                    @if(auth()->user())
+                    <li class="nav__item dropdown">
+                        <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </a>
+                            
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="/profile">My Profile</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
                 </ul><!-- /.navbar-nav -->
                 <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>
             </div><!-- /.navbar-collapse -->
-            
+                    
             @else
             <div class="d-none d-xl-flex align-items-center position-relative ml-30">
                 <a href="{{ route('login') }}" class="btn btn__primary btn__rounded ml-30">
@@ -270,9 +270,9 @@
                 </a>
             </div>
             @endif
-            </div><!-- /.container -->
-        </nav><!-- /.navabr -->
-
+        </div><!-- /.container -->
+    </nav><!-- /.navabr -->
+        
 </header>
 <div class="about-layout4 pb-0 ">
     <div class="row ">
@@ -296,6 +296,11 @@
         {{-- sebelah sidebar --}}
         <div class="col-md-2">
             <div class="px-5 py-5">
+                <ul class=" list-items list-items-layout3 list-unstyled">
+                    <li>
+                        <h6>Pilih Dokter</h6>
+                    </li>
+                </ul>
                 <ul class="package__list list-items list-items-layout2 list-unstyled">
                     <li>
                         <h6>Alur Jadwal</h6>
@@ -324,52 +329,50 @@
                             <div class="card date">
                                 <input class="form-check-input schedule_date" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date}}">
                                 <div class="card-body active-card1 form-check">
-                                        <small class="card-title">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l')}}</small><br>
-                                        <small class="card-subtitle text-muted">
-                                            {{\Carbon\Carbon::parse($schedule->schedule_date)->format('d-m-Y')}}
-                                        </small>
-                                    </div>
+                                    <small class="card-title">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l')}}</small><br>
+                                    <small class="card-subtitle text-muted">
+                                        {{\Carbon\Carbon::parse($schedule->schedule_date)->format('d-m-Y')}}
+                                    </small>
                                 </div>
-                            </a>
+                            </div>
+                        </a>
                     </div>
                     @endforeach
-                </div>
-            </div>
-            
-        
-            <div class="row">
-    <div class="py-5 mt-5">
-        <h5>Pilih Waktu</h5>
-        <div id="accordion">
-            <div class="accordion-item">
-                <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
-                    <a class="accordion__title" href="#">Waktu</a>
-                </div>
-                <div id="collapse1" class="collapse show" data-parent="#accordion">
-                    <div class="accordion__body" id="schedule_time">
-                        {{-- Example time slots --}}
-                        {{-- <div class="row">
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <input class="form-check-input" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date }}">
-                                    <label for="schedule_date{{ $schedule->id }}">
-                                        <div class="card active-card">
-                                            <div class="card-body">
-                                                <p class="card-title">08.00</p>
-                                            </div>
-                                        </div>
-                                    </label>
-                                </a>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
             
+            
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Pilih Waktu</h5>
+                        <div id="accordion">
+                            <div class="accordion-item">
+                                <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
+                                    <a class="accordion__title" href="#">Waktu</a>
+                                </div>
+                                <div id="collapse1" class="collapse show" data-parent="#accordion">
+                                    <div class="accordion__body" id="schedule_time">
+                                        {{-- Example time slots --}}
+                                        {{-- <div class="row">
+                                            <div class="col-md-3">
+                                                <a href="#">
+                                                    <input class="form-check-input" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date }}">
+                                                    <label for="schedule_date{{ $schedule->id }}">
+                                                        <div class="card active-card">
+                                                            <div class="card-body">
+                                                                <p class="card-title">08.00</p>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </a>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <button class="btn btn-primary mt-3 text-end">Lanjutkan</button>
             </form>
         </div>

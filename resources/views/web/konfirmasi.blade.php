@@ -278,6 +278,9 @@
             <div class="px-5 py-5">
                 <ul class=" list-items list-items-layout3 list-unstyled">
                     <li>
+                        <h6>Pilih Dokter</h6>
+                    </li>
+                    <li>
                         <h6>Alur Jadwal</h6>
                     </li>
                 </ul>

@@ -16,6 +16,7 @@ class ScheduleRequest extends FormRequest
         $rules = [
             'place_id' => 'required',
             'employee_id' => 'required',
+            'schedule_type_id' => 'required',
             'schedule_date' => 'required|date',
             'schedule_time' => 'required',
             'schedule_time_end' => 'required',
@@ -23,7 +24,7 @@ class ScheduleRequest extends FormRequest
         ];
 
         $frequency = $this->input('frequency');
-        if($frequency){
+        if ($frequency) {
             if ($frequency !== -1 || $frequency !== null) {
                 $rules['duration'] = 'required|integer|min:1';
                 $rules['identifier'] = 'required|in:day,week,month,year';

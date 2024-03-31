@@ -2,7 +2,7 @@
 <html lang="id">
 @php
 use App\Models\User;
-$doctor = User::with('employee')->where('role_id', 1)->first();
+$doctor = User::role('superadmin')->first();
 @endphp
 <head>
     <meta charset="UTF-8" />
@@ -21,7 +21,7 @@ $doctor = User::with('employee')->where('role_id', 1)->first();
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @stack('css')
-    </head>
+</head>
 
     <body>
     {{-- <div class="wrapper">
