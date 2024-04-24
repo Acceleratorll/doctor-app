@@ -63,35 +63,38 @@
 
         ::placeholder {
             color: white;
+            opacity: 70%;
         }
-            
-/* Additional specificity if needed */
-.form-control::placeholder {
-    color: white;
-}
+                    
+        /* Additional specificity if needed */
+        .form-control::placeholder {
+            color: white;
+            opacity: 70%;
+        }
 
-    .modal-body {
-        max-height: 60vh;
-        overflow-y: auto;
-    }
+        .modal-body {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .hidden {
+            display: none;
+        }
+
     </style>
     
 </head>
 
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-closed sidebar-collapse" id="sidebar">
     <div class="wrapper">
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-dark">
             <!-- Left navbar links -->
-            {{-- <ul class="navbar-nav">
+            <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                <a id="bars" class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="" class="nav-link">Home</a>
-            </li>
-            </ul> --}}
+            </ul>
             <ul class="navbar-nav">
                 <a href="" class="nav-link">
                     <li class="nav-item">
@@ -102,16 +105,24 @@
                 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link">
-                    <div id="datetime"></div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <div id="datetime"></div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+                <form action="{{ route('logout') }}" id="logout-form" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="submitForm()">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </a>
+                    </li>
+                </form>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -126,8 +137,7 @@
             <div class="sidebar">
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="true">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
                         <li class="nav-item">
                             <a href="{{ route('admin.dashboard.index') }}" class="nav-link">
                                 <i class="nav-icon fa fa-tachometer-alt"></i>
@@ -376,14 +386,6 @@
                                 </li>
                             </ul>
                         </li>
-                        <form action="{{ route('logout') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    <button type="submit" class="btn btn-danger">Logout</button>
-                                </a>
-                            </li>
-                        </form>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -423,34 +425,17 @@
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
+        <footer class="bg-secondary text-white p-3">
+        <div class="container">
+            <p>&copy; 2024 Moch Fajrul Falah. All rights reserved.</p>
+        </div>
+    </footer>
     </div>
     <!-- ./wrapper -->
 
     <!-- jQuery UI 1.11.4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        function updateDatetime() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
-            const formattedDatetime = now.toLocaleString('en-US', options);
-        
-            document.getElementById('datetime').textContent = formattedDatetime;
-        }
-        
-        // Update the datetime every second
-        setInterval(updateDatetime, 1000);
-        
-        // Initial update
-        updateDatetime();
-            
-        $('select[data-role="select2"]').select2({
-            theme: 'bootstrap',
-            width: '100%'
-        });
-        $.widget.bridge('uibutton', $.ui.button)
-
-    </script>
     <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('js/image-zoom.js') }}"></script>
 
@@ -491,5 +476,35 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     
 </body>
+    <script>
+        function updateDatetime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+            const formattedDatetime = now.toLocaleString('en-US', options);
+        
+            document.getElementById('datetime').textContent = formattedDatetime;
+        }
+        
+        // Update the datetime every second
+        setInterval(updateDatetime, 1000);
+        
+        // Initial update
+        updateDatetime();
+            
+        $('select[data-role="select2"]').select2({
+            theme: 'bootstrap',
+            width: '100%'
+        });
+        $.widget.bridge('uibutton', $.ui.button)
+
+        function submitForm() {
+            // Find the form element by its ID
+            const form = document.getElementById('logout-form');
+            
+            // Submit the form
+            form.submit();
+        }
+    </script>
+
 @yield('js')
 </html>

@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Dashboard
+        Halaman Dashboard
     </h1>
 @endsection
 

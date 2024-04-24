@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Odontogram extends Model
 {
@@ -12,28 +13,33 @@ class Odontogram extends Model
     protected $fillable = [
         'medical_record_id',
         'teeth_id',
-        'symbol_id',
-        'occlusi',
-        'torus_palatinus',
-        'torus_mandibularis',
-        'palatum',
         'diastema',
-        'anomali_teeth',
+        'anomali',
         'others',
     ];
 
-    public function teeth()
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    public static function booted()
     {
-        $this->belongsTo(Teeth::class);
+        static::creating(function ($model) {
+            $model->id = Str::uuid();
+        });
     }
 
-    public function symbol()
+    public function teeth()
     {
-        $this->belongsTo(Symbol::class);
+        return $this->belongsTo(Teeth::class);
     }
 
     public function medical_record()
     {
-        $this->belongsTo(MedicalRecord::class);
+        return $this->belongsTo(MedicalRecord::class);
+    }
+
+    public function symbols()
+    {
+        return $this->belongsToMany(Symbol::class)->withTimestamps();
     }
 }

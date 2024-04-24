@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeethsTable extends Migration
+class CreateGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateTeethsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teeths', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('quadrant_id')->constrained();
-            $table->foreignId('tooth_type_id')->constrained();
             $table->string('name');
-            $table->string('fdi')->unique();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateTeethsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teeths');
+        Schema::dropIfExists('groups');
     }
 }

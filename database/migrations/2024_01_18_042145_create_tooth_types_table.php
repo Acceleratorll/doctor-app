@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOdontogramsTable extends Migration
+class CreateToothTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateOdontogramsTable extends Migration
      */
     public function up()
     {
-        Schema::create('odontograms', function (Blueprint $table) {
+        Schema::create('tooth_types', function (Blueprint $table) {
             $table->id();
-            $table->string('diastema')->nullable();
-            $table->string('anomali')->nullable();
-            $table->string('others')->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateOdontogramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('odontograms');
+        Schema::dropIfExists('tooth_types');
     }
 }

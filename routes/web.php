@@ -61,7 +61,9 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     });
 
     Route::prefix('/rme/gigi')->name('admin.rme.gigi.')->controller(OdontogramController::class)->group(function () {
+        Route::get('/index', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
     });
 
     Route::prefix('/report')->controller(ReportController::class)->group(function () {

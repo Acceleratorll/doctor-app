@@ -12,7 +12,6 @@ class MedicalRecord extends Model
 
     protected $fillable = [
         'reservation_id',
-        'employee_id',
         'icd_code',
         'desc',
         'action',
@@ -21,6 +20,10 @@ class MedicalRecord extends Model
         'diagnosis',
         'recommendation',
         'recipe',
+        'occlusi',
+        'palatum',
+        'torus_palatinus',
+        'torus_mandibularis',
     ];
 
     public function reservation()

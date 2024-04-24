@@ -10,7 +10,7 @@ class CreateMedicalRecordsTable extends Migration
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reservation_id')->constrained();
+            $table->foreignId('reservation_id')->constrained()->nullable();
             $table->string('icd_code')->nullable();
             $table->string('action')->nullable();
             $table->string('complaint')->nullable();
@@ -19,8 +19,8 @@ class CreateMedicalRecordsTable extends Migration
             $table->string('recommendation')->nullable();
             $table->string('recipe')->nullable();
             $table->enum('occlusi', ['normal'], ['cross'], ['steep'])->nullable();
-            $table->enum('torus_palatinus', ['none'], ['kecil'], ['sedang'], ['besar'], ['multiple'])->nullable();
-            $table->enum('torus_mandibularis', ['none'], ['sisi_kiri'], ['sisi_kanan'], ['kedua_sisi'])->nullable();
+            $table->enum('torus_palatinus', ['tidak ada'], ['kecil'], ['sedang'], ['besar'], ['multiple'])->nullable();
+            $table->enum('torus_mandibularis', ['tidak ada'], ['sisi kiri'], ['sisi kanan'], ['kedua sisi'])->nullable();
             $table->enum('palatum', ['dalam'], ['sedang'], ['rendah'])->nullable();
             $table->string('desc')->nullable();
             $table->softDeletes();

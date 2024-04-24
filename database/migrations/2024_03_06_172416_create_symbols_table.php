@@ -15,6 +15,7 @@ class CreateSymbolsTable extends Migration
     {
         Schema::create('symbols', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('group_id')->constrained();
             $table->string('name');
             $table->string('action')->nullable();
             $table->string('short');

@@ -16,199 +16,232 @@ class SymbolSeeder extends Seeder
     {
         $data = [
             [
+                'group_id' => 1,
                 'name' => 'Mesial',
                 'action' => '',
-                'short' => 'M'
+                'short' => 'M',
             ],
             [
+                'group_id' => 1,
                 'name' => 'Occlusal',
                 'action' => '',
-                'short' => 'O'
+                'short' => 'O',
             ],
             [
+                'group_id' => 1,
                 'name' => 'Distal',
                 'action' => '',
-                'short' => 'D'
+                'short' => 'D',
             ],
             [
+                'group_id' => 1,
                 'name' => 'Vestibular/Bukal/Labial',
                 'action' => '',
-                'short' => 'V'
+                'short' => 'V',
             ],
             [
+                'group_id' => 1,
                 'name' => 'Lingual/Palatal',
                 'action' => '',
-                'short' => 'L'
+                'short' => 'L',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Normal/baik',
                 'action' => '',
-                'short' => 'sou'
+                'short' => 'sou',
             ],
             [
+                'group_id' => 3,
                 'name' => 'Tambalan Amalgam',
                 'action' => '',
-                'short' => 'amf'
+                'short' => 'amf',
             ],
             [
+                'group_id' => 3,
                 'name' => 'Tambalan Composite',
                 'action' => 'arsir',
-                'short' => 'cof'
+                'short' => 'cof',
             ],
             [
+                'group_id' => 3,
                 'name' => 'pit dan fissure sealant',
                 'action' => '',
-                'short' => 'fis'
+                'short' => 'fis',
             ],
             [
+                'group_id' => 2,
                 'name' => 'gigi non-vital',
                 'action' => '',
-                'short' => 'nvt'
+                'short' => 'nvt',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Perawatan Saluran Akar',
                 'action' => '',
-                'short' => 'rct'
+                'short' => 'rct',
             ],
             [
+                'group_id' => 2,
                 'name' => 'gigi tidak ada, tidak diketahui ada atau tidak ada',
                 'action' => '',
-                'short' => 'non'
+                'short' => 'non',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Un-Erupted',
                 'action' => '',
-                'short' => 'une'
+                'short' => 'une',
             ],
             [
-                'name' => 'Partial Erupt',
-                'action' => '',
-                'short' => 'pre'
-            ],
-            [
+                'group_id' => 2,
                 'name' => 'Anomali (Pegshaped, micro, fusi, etc)',
                 'action' => '',
-                'short' => 'ano'
+                'short' => 'ano',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Caries',
                 'action' => '',
-                'short' => 'car'
+                'short' => 'car',
             ],
             [
+                'group_id' => 2,
                 'name' => 'fracture',
                 'action' => '',
-                'short' => 'cfr'
+                'short' => 'cfr',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Full metal crown',
                 'action' => '',
-                'short' => 'fmc'
+                'short' => 'fmc',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Partial erupted',
                 'action' => '',
-                'short' => 'pre'
+                'short' => 'pre',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Impacted visible',
                 'action' => '',
-                'short' => 'imv'
+                'short' => 'imv',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Diasterma',
                 'action' => '',
-                'short' => 'dia'
+                'short' => 'dia',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Atrisi',
                 'action' => '',
-                'short' => 'att'
+                'short' => 'att',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Abrasi',
                 'action' => '',
-                'short' => 'abr'
+                'short' => 'abr',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Sisa Akar',
                 'action' => '',
-                'short' => 'rrx'
+                'short' => 'rrx',
             ],
             [
+                'group_id' => 2,
                 'name' => 'Gigi Hilang',
                 'action' => '',
-                'short' => 'mis'
+                'short' => 'mis',
             ],
             [
+                'group_id' => 3,
                 'name' => 'GIC/Silika',
                 'action' => '',
-                'short' => 'gif'
+                'short' => 'gif',
             ],
             [
+                'group_id' => 3,
                 'name' => 'Inlay',
                 'action' => '',
-                'short' => 'inl'
+                'short' => 'inl',
             ],
             [
+                'group_id' => 3,
                 'name' => 'Onlay',
                 'action' => '',
-                'short' => 'onl'
+                'short' => 'onl',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Porcelain Crown',
                 'action' => '',
-                'short' => 'poc'
+                'short' => 'poc',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Metal Porcelain Crown',
                 'action' => '',
-                'short' => 'mpc'
+                'short' => 'mpc',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Gold Metal Crown',
                 'action' => '',
-                'short' => 'gmc'
+                'short' => 'gmc',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Implan',
                 'action' => '',
-                'short' => 'ipx'
+                'short' => 'ipx',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Metal Bridge',
                 'action' => '',
-                'short' => 'meb'
+                'short' => 'meb',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Porcelain Bridge',
                 'action' => '',
-                'short' => 'pob'
+                'short' => 'pob',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Pontic',
                 'action' => '',
-                'short' => 'pon'
+                'short' => 'pon',
             ],
             [
+                'group_id' => 4,
                 'name' => 'Gigi Abutment',
                 'action' => '',
-                'short' => 'abu'
+                'short' => 'abu',
             ],
             [
+                'group_id' => 5,
                 'name' => 'Partial Denture',
                 'action' => '',
-                'short' => 'prd'
+                'short' => 'prd',
             ],
             [
+                'group_id' => 5,
                 'name' => 'Full Denture',
                 'action' => '',
-                'short' => 'fld'
+                'short' => 'fld',
             ],
             [
+                'group_id' => 5,
                 'name' => 'Acrilic',
                 'action' => '',
-                'short' => 'acr'
+                'short' => 'acr',
             ],
         ];
 

@@ -24,7 +24,7 @@ class MedicalRecordRequest extends FormRequest
     public function rules()
     {
         return [
-            'reservation_id' => 'required',
+            'reservation_id' => 'nullable',
             'icd_code' => 'nullable',
             'desc' => 'nullable',
             'action' => 'required',
