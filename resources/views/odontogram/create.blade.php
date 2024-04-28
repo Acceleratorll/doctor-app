@@ -30,6 +30,7 @@
             <form action="{{ route('admin.rme.gigi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="text" name="reservation_id" id="reservation_id" value="1" hidden>
+                <div class="marker">Kode : {{ $reservation->reservation_code }}</i></div>
                 <div class="row">
                     <div class="col-md-3">
                         @foreach ($right as $teeth)
@@ -189,6 +190,13 @@
             content: "*";
             color: #999;
             margin-right: 5px;
+        }
+        .marker {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 16px;
+            opacity: 0.8;
         }
     </style>
 @endsection

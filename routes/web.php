@@ -62,9 +62,11 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
 
     Route::prefix('/rme/gigi')->name('admin.rme.gigi.')->controller(OdontogramController::class)->group(function () {
         Route::get('/index', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
+        Route::get('/create/{id}', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
+        Route::delete('/destroy', 'destroy')->name('destroy');
     });
+
 
     Route::prefix('/report')->controller(ReportController::class)->group(function () {
         Route::get('/visitors', 'visitors')->name('admin.report.visitors');
@@ -79,6 +81,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         });
     });
 
+    Route::get('/reservasi/gigi', [ReservationController::class, 'indexTeeth'])->name('admin.reservation.gigi.index');
     Route::get('/get-users/{id}', [UserController::class, 'getByScheduleType'])->name('get.users');
     Route::get('/gigi/jadwal', [ScheduleManageController::class, 'indexTeeth'])->name('admin.jadwal.gigi.index');
     Route::get('/umum/jadwal', [ScheduleManageController::class, 'indexGeneral'])->name('admin.jadwal.umum.index');
@@ -146,15 +149,15 @@ Route::middleware(['auth', 'patient'])->group(function () {
 
 Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])->name('show.queue');
 
-Route::fallback(function () {
-    $userRoles = auth()->user()->getRoleNames();
-    $allowedRoles = ['superadmin', 'pegawai', 'dokter umum', 'dokter gigi'];
+// Route::fallback(function () {
+//     $userRoles = auth()->user()->getRoleNames();
+//     $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
 
-    if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
-        return redirect()->route('admin.dashboard.index');
-    } else {
-        return redirect()->route('dashboard');
-    }
-});
+//     if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
+//         return redirect()->route('admin.dashboard.index');
+//     } else {
+//         return redirect()->route('dashboard');
+//     }
+// });
 
 require __DIR__ . '/auth.php';

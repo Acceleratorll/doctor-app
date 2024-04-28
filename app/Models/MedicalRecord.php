@@ -40,4 +40,9 @@ class MedicalRecord extends Model
     {
         return $this->belongsTo(Icd::class, 'icd_code', 'code');
     }
+
+    public function odontograms()
+    {
+        return $this->hasMany(Odontogram::class);
+    }
 }

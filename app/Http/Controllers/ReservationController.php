@@ -26,7 +26,12 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         if ($request->bpjs != null) {
-            $reservations_no = Reservation::with(['patient', 'schedule'])
+            $reservations_no = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Umum');
+                    });
+                })
                 ->where('bpjs', $request->bpjs)
                 ->where('status', 1)
                 ->where('approve', 1)
@@ -34,7 +39,12 @@ class ReservationController extends Controller
                 ->orderBy('nomor_urut', 'asc')
                 ->get();
 
-            $reservations_yes = Reservation::with(['patient', 'schedule'])
+            $reservations_yes = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Umum');
+                    });
+                })
                 ->where('bpjs', $request->bpjs)
                 ->where('status', 2)
                 ->where('approve', 1)
@@ -42,14 +52,24 @@ class ReservationController extends Controller
                 ->orderBy('nomor_urut', 'asc')
                 ->get();
         } else {
-            $reservations_no = Reservation::with(['patient', 'schedule'])
+            $reservations_no = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Umum');
+                    });
+                })
                 ->where('status', 1)
                 ->where('approve', 1)
                 ->orderBy('schedule_id', 'asc')
                 ->orderBy('nomor_urut', 'asc')
                 ->get();
 
-            $reservations_yes = Reservation::with(['patient', 'schedule'])
+            $reservations_yes = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Umum');
+                    });
+                })
                 ->where('status', 2)
                 ->where('approve', 1)
                 ->orderBy('schedule_id', 'desc')
@@ -58,6 +78,66 @@ class ReservationController extends Controller
         }
 
         return view('reservasi.index', compact(['reservations_no', 'reservations_yes']));
+    }
+
+    public function indexTeeth(Request $request)
+    {
+        $route = "";
+        if ($request->bpjs != null) {
+            $reservations_no = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Gigi');
+                    });
+                })
+                ->where('bpjs', $request->bpjs)
+                ->where('status', 1)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+
+            $reservations_yes = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Gigi');
+                    });
+                })
+                ->where('bpjs', $request->bpjs)
+                ->where('status', 2)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'desc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+            $route = "Teeth";
+        } else {
+            $reservations_no = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Gigi');
+                    });
+                })
+                ->where('status', 1)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'asc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+
+            $reservations_yes = Reservation::with(['patient', 'schedule.schedule_type'])
+                ->whereHas('schedule', function ($query) {
+                    $query->whereHas('schedule_type', function ($query) {
+                        $query->where('name', 'Gigi');
+                    });
+                })
+                ->where('status', 2)
+                ->where('approve', 1)
+                ->orderBy('schedule_id', 'desc')
+                ->orderBy('nomor_urut', 'asc')
+                ->get();
+            $route = "Teeth";
+        }
+
+        return view('reservasi.index', compact(['reservations_no', 'reservations_yes', 'route']));
     }
 
     public function create()
@@ -80,7 +160,7 @@ class ReservationController extends Controller
 
     public function store(ReservationRequest $request)
     {
-        $schedule = Schedule::findOrFail($request->schedule_id);
+        $schedule = Schedule::with('schedule_type')->findOrFail($request->schedule_id);
         $jumlah = Reservation::where('schedule_id', $schedule->id)->where('approve', 1)->get()->count();
         $approve = $request->approve;
 
@@ -90,11 +170,6 @@ class ReservationController extends Controller
             ->first();
 
         $antrian = ($reservation != null) ? $reservation->nomor_urut + 1 : 1;
-        // $reservation = Reservation::where('schedule_id', $schedule->id)->orderBy('nomor_urut', 'desc')->first();
-        // $antrian = 1;
-        // if ($reservation != null) {
-        //     $antrian = $reservation->nomor_urut + 1;
-        // }
 
         if ($approve == 1) {
             if ($jumlah < $schedule->qty) {
@@ -111,7 +186,11 @@ class ReservationController extends Controller
                     $reservation->update([
                         'bukti_pembayaran' => $image,
                     ]);
-                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+
+
+                    return $schedule->schedule_type->name == "Gigi" ?
+                        redirect()->route('admin.reservation.gigi.index')->with('success', 'Reservation berhasil dibuat !') :
+                        redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
                 } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
                     $reservation = Reservation::create([
                         'patient_id' => $request->patient_id,
@@ -130,7 +209,10 @@ class ReservationController extends Controller
                         'surat_rujukan' => $surat_rujukan,
                         'bpjs_card' => $bpjs_card,
                     ]);
-                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
+
+                    return $schedule->schedule_type->name == "Gigi" ?
+                        redirect()->route('admin.reservation.gigi.index')->with('success', 'Reservation berhasil dibuat !') :
+                        redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
                 }
                 return redirect()->route('admin.reservation.create')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
             }
@@ -307,7 +389,6 @@ class ReservationController extends Controller
         $patient_data = Patient::find($reservation->patient_id);
 
         $title = 'Reservasi Ditolak';
-        //  $message = 'Maaf, reservasi anda pada ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . ' telah ditolak oleh Dokter ' . $doctor_data->name . ' dengan alasan ' . $reason;
         $message = 'Maaf, reservasi anda pada ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . ' telah ditolak oleh Dokter ' . $doctor_data->name . ' dengan alasan ' . $request->data;
 
 
@@ -362,7 +443,7 @@ class ReservationController extends Controller
         $schedule = Schedule::findOrFail($schedule_id);
         $doctor_data = Employee::find($schedule->employee_id);
         $schedule_data  = Schedule::find($schedule_id);
-        
+
         $jumlah = Reservation::where('schedule_id', $schedule_id)->where('approve', 1)->get()->count();
 
         $reservation = Reservation::where('schedule_id', $schedule_id)
@@ -441,30 +522,16 @@ class ReservationController extends Controller
 
     private function checkData($patient, $schedule)
     {
-        /* 
-            // check apakah data pasien atau data jadwal tidak ada 
-            */
         $patient_data   = Patient::find($patient);
         $schedule_data  = Schedule::find($schedule);
         if (!$patient_data || !$schedule_data) {
             return response()->json('The data you provided was not found', 400);
         }
-        /* 
-        // end check 
-        */
-
-
-        /* 
-        // check apakah pasien daftar 2x pada reservasi tersebut 
-        */
         $reservationExists    = Reservation::where('patient_id', $patient)->where('schedule_id', $schedule)->where('status', 0)->first();
 
         if ($reservationExists) {
             return response()->json('You have signed up for the schedule', 403);
         }
-        /* 
-        // end check 
-        */
     }
 
 
@@ -482,7 +549,6 @@ class ReservationController extends Controller
         }
 
 
-        //Jika ada ambil semua reservasi yang jadwal nya sama
         $reservationId = $reservation->id;
         $reservations = Reservation::where('schedule_id', $reservation->schedule_id)->where('status', 0)->get();
         $reservationIndex = $reservations->search(function ($reservation) use ($reservationId) {

@@ -2,7 +2,11 @@
 
 @section('header')
 <h1 class="m-0">
-    Master Reservasi
+    @if (isset($route))
+    Reservasi Gigi
+    @else
+    Reservasi Umum
+    @endif
 </h1>
 @endsection
 
@@ -22,7 +26,7 @@
                         </div>
                         <div class="col-md-7"></div>
                         <div class="col-md-3">
-                            <form action="{{ route('admin.reservation.index') }}" method="GET">
+                            <form action="{{ route('admin.reservation.gigi.index') }}" method="GET">
                                 <label for="bpjsFilter">Filter Pembayaran:</label><br>
                                 <select class="" id="bpjsFilter" name="bpjs">
                                     <option value="">All</option>
@@ -50,47 +54,49 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @if($reservations_no->count() < 1)
-                                    <td><strong>Tidak ada Data</strong></td>
-                                    @else --}}
                                     @foreach($reservations_no as $reservation)
                                     <tr>
                                         <td>{{ $reservation->id }}</td>
                                         <td>{{ $reservation->reservation_code }}</td>
                                         <td>{{ $reservation->patient->user->name }}</td>
                                         <td>{{ $reservation->nomor_urut }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' .
-                                            $reservation->schedule->schedule_time }}</td>
-                                            @if($reservation->status == 1)
+                                        <td>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y') . ' / ' . $reservation->schedule->schedule_time }}</td>
+                                        @if($reservation->status == 1)
                                         <td>Belum Periksa</td>
                                         @else
                                         <td>Sudah Periksa</td>
                                         @endif
                                         <td class="project-actions text-center">
-                                            <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                            
-                                            <button class="btn btn-primary btn-sm isiHasil" id="isiHasil" data-id="{{ $reservation->id }}" data-toggle="modal" data-target="#medicalRecordModal">
-                                                <span>Hasil</span>
-                                            </button>
+                                            <div class="d-flex justify-content-end">
+                                                @if (isset($route))
+                                                    <a href="{{ route('admin.rme.gigi.create', $reservation->id) }}" class="btn btn-primary btn-sm mr-2">
+                                                        <i class="fas fa-plus"></i> Hasil
+                                                    </a>
+                                                @else
+                                                    <button class="btn btn-primary btn-sm isiHasil mr-2" data-id="{{ $reservation->id }}" data-toggle="modal" data-target="#medicalRecordModal">
+                                                        <i class="fas fa-plus"></i> Hasil
+                                                    </button>
+                                                @endif
 
-                                            <form action="{{ route('admin.reservation.skip', $reservation->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to skip this reservation?')">
-                                                    Skip
-                                                </button>
-                                            </form>
-                                        
-                                            <a href="/admin/reservation/{{ $reservation->id }}/edit"
-                                                class="btn btn-sm btn-warning">
-                                                Edit
-                                            </a>
+                                                <form action="{{ route('admin.reservation.skip', $reservation->id) }}" method="POST" class="mr-2">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Lanjutkan ke pasien selanjutnya?')">
+                                                        <i class="fas fa-arrow-right"></i> Skip
+                                                    </button>
+                                                </form>
+
+                                                <a href="/admin/reservation/{{ $reservation->id }}/edit" class="btn btn-warning btn-sm mr-2">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus reservasi?')">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     @endforeach
                                     {{-- @endif --}}
@@ -129,19 +135,18 @@
                                 <td>Sudah Periksa</td>
                                 @endif
                                 <td class="project-actions text-center">
-                                    <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reservarion?')">
-                                            <i class="fas fa-trash"></i>
-                                            Delete
-                                        </button>
-                                        <a href="/admin/reservation/{{ $reservation->id }}/edit"
-                                            class="btn btn-sm btn-warning">
-                                            <i class="fa fa-edit"></i>
-                                            Edit
-                                        </a>
-                                    </form>
+                                    <div class="d-flex justify-content-end">
+                                            <a href="/admin/reservation/{{ $reservation->id }}/edit" class="btn btn-warning btn-sm mr-2">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus reservasi?')">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                    </div>
                                 </td>
                                 @endforeach
                                 @endif

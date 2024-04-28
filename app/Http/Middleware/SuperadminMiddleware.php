@@ -12,7 +12,7 @@ class SuperadminMiddleware
     {
         $userRoles = auth()->user()->getRoleNames();
 
-        $allowedRoles = ['superadmin', 'pegawai', 'dokter umum', 'dokter gigi'];
+        $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
 
         if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
             return $next($request);

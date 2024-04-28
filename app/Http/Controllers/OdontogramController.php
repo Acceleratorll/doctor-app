@@ -2,27 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MedicalRecordRequest;
 use App\Models\Group;
 use App\Models\MedicalRecord;
 use App\Models\Odontogram;
 use App\Models\Quadrant;
-use App\Models\Symbol;
+use App\Models\Reservation;
 use App\Models\Teeth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use PDO;
-use Ramsey\Uuid\Uuid;
 
 class OdontogramController extends Controller
 {
     public function index()
     {
-        return view('odontogram.index');
+        $data = MedicalRecord::with('odontograms', 'reservation.schedule.schedule_type', 'reservation.patient.user')
+            ->whereHas('reservation', function ($q) {
+                $q->whereHas('schedule', function ($q) {
+                    $q->whereHas('schedule_type', function ($q) {
+                        $q->where('name', 'like', '%Gigi%');
+                    });
+                });
+            })
+            ->get();
+
+        return view('odontogram.index', compact('data'));
     }
 
-    public function create()
+    public function create($id)
     {
+        $reservation = Reservation::find($id);
         $groups = Group::with('symbols')->get();
         $quadrants = Quadrant::with(['teeths' => function ($query) {
             $query->orderBy('quadrant_id')->orderBy('fdi');
@@ -42,14 +49,14 @@ class OdontogramController extends Controller
         $mid2 = $q7->merge($q8);
         $left = $q4->merge($q3);
 
-        return view('odontogram.create', compact(['groups', 'right', 'mid1', 'mid2', 'left']));
+        return view('odontogram.create', compact(['groups', 'right', 'mid1', 'mid2', 'left', 'reservation']));
     }
 
     public function store(Request $request)
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'reservation_id' => 'nullable|integer',
+            'reservation_id' => 'required|integer',
             'teeth' => 'array',
             'occlusi' => 'required|string',
             'torus_palatinus' => 'required|string',
@@ -67,36 +74,40 @@ class OdontogramController extends Controller
 
         // Create a new medical record
         $medicalRecord = MedicalRecord::create([
+            'reservation_id' => $validatedData['reservation_id'],
             'occlusi' => $validatedData['occlusi'],
             'palatum' => $validatedData['palatum'],
             'torus_palatinus' => $validatedData['torus_palatinus'],
             'torus_mandibularis' => $validatedData['torus_mandibularis'],
         ]);
 
-        foreach ($validatedData['teeth'] as $teethId => $symbols) {
+        if (isset($validatedData['teeth'])) {
+            foreach ($validatedData['teeth'] as $teethId => $symbols) {
 
-            $fdi = Teeth::find($teethId)->fdi;
-            $diastemaValue = $this->getDescriptionForTooth($diastema, $fdi);
-            $anomaliValue = $this->getDescriptionForTooth($anomali, $fdi);
-            $othersValue = $this->getDescriptionForTooth($others, $fdi);
+                $fdi = Teeth::find($teethId)->fdi;
+                $diastemaValue = $this->getDescriptionForTooth($diastema, $fdi);
+                $anomaliValue = $this->getDescriptionForTooth($anomali, $fdi);
+                $othersValue = $this->getDescriptionForTooth($others, $fdi);
 
-            $odontogram = Odontogram::create([
-                'medical_record_id' => $medicalRecord->id,
-                'teeth_id' => $teethId,
-                'diastema' => implode(', ', $diastemaValue),
-                'anomali' => implode(', ', $anomaliValue),
-                'others' => implode(', ', $othersValue),
-            ]);
+                $odontogram = Odontogram::create([
+                    'medical_record_id' => $medicalRecord->id,
+                    'teeth_id' => $teethId,
+                    'diastema' => implode(', ', $diastemaValue),
+                    'anomali' => implode(', ', $anomaliValue),
+                    'others' => implode(', ', $othersValue),
+                ]);
 
-            foreach ($symbols as $s) {
-                $odontogram->symbols()->attach($s);
+                foreach ($symbols as $s) {
+                    $odontogram->symbols()->attach($s);
+                }
             }
         }
+
+        $medicalRecord->reservation->update(['status' => 2]);
 
         return redirect()->route('admin.rme.gigi.index')->with('success', 'Medical record and odontogram created successfully.');
     }
 
-    // Helper method to get descriptions for a specific tooth
     private function getDescriptionForTooth($data, $toothNumber)
     {
         $descriptions = [];
@@ -110,8 +121,6 @@ class OdontogramController extends Controller
 
         return $descriptions;
     }
-
-
 
     private function getTrimmedData($input)
     {

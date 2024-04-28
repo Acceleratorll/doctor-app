@@ -90,7 +90,7 @@ class RoleSeeder extends Seeder
         );
 
         $pasien = Role::create(['name' => 'pasien']);
-        $dokter_umum = Role::create(['name' => 'dokter umum'])->givePermissionTo(
+        $dokter_umum = Role::create(['name' => 'dokter_umum'])->givePermissionTo(
             'add announcement',
             'view announcement',
             'edit announcement',
@@ -120,7 +120,7 @@ class RoleSeeder extends Seeder
             'delete employee',
             'manage reports',
         );
-        $dokter_gigi = Role::create(['name' => 'dokter gigi'])->givePermissionTo(
+        $dokter_gigi = Role::create(['name' => 'dokter_gigi'])->givePermissionTo(
             'add announcement',
             'view announcement',
             'edit announcement',

@@ -7,120 +7,119 @@
 @endsection
 
 @section('container')
-                <div class="row">
-                    <div class="col-md-12">
-                        
-                        <div class="row" style="height: 10px"></div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="button-action" style="margin-bottom: 20px">
-                                    <button type="button" class="btn btn-primary" onclick="location.href='/admin/medis/create'">
-                                        <span>+ Add Items</span>
-                                    </button>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table-dark table-striped" id="table">
-                                        @if($medical_records->count() < 1)
-                                        Tidak ada Data Rekam Medis
-                                        @else
-                                        <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col" class="text-center">ID</th>
-                                            <th scope="col" class="text-center">Dokter</th>
-                                            <th scope="col" class="text-center">Nama Pasien</th>
-                                            <th scope="col" class="text-center">Gender</th>
-                                            <th scope="col" class="text-center">Tindakan</th>
-                                            <th scope="col" class="text-center">Keluhan</th>
-                                            <th scope="col" class="text-center">Pemeriksaan Fisik</th>
-                                            <th scope="col" class="text-center">Diagnosis</th>
-                                            <th scope="col" class="text-center">Anjuran</th>
-                                            <th scope="col" class="text-center">Resep</th>
-                                            <th scope="col" class="text-center">ICD</th>
-                                            <th scope="col" class="text-center">Keterangan</th>
-                                            <th scope="col" class="text-center">Dibuat</th>
-                                            <th scope="col" class="text-center">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($medical_records as $medical_record)
-                                        <tr>
-                                            <td>{{ $medical_record->id }}</td>
-                                            <td>{{ $medical_record->reservation->schedule->employee->user->name}}</td>
-                                            <td>{{ $medical_record->reservation->patient->user->name }}</td>
-                                            <td>{{ $medical_record->reservation->patient->user->gender }}</td>
-                                            <td>{{ $medical_record->action }}</td>
-                                            <td>{{ $medical_record->complaint }}</td>
-                                            <td>{{ $medical_record->physical_exam }}</td>
-                                            <td>{{ $medical_record->diagnosis }}</td>
-                                            <td>{{ $medical_record->recommendation }}</td>
-                                            <td>{{ $medical_record->recipe }}</td>
-                                            <td>
-                                                <button class="btn btn-outline-info icdDetailButton" data-icd-name="{{ $medical_record->icd->name_id ?? 'N/A' }}">
-                                                    {{ $medical_record->icd_code ?? 'N/A' }}
-                                                </button>
-                                            </td>
-                                            <td>{{ $medical_record->desc ?? 'N/A' }}</td>
-                                            <td>{{ $medical_record->created_at->format('d-m-Y') }}</td>
-                                            <td class="project-actions text-center">
-                                                <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
-                                                        <i class="fas fa-trash"></i>
-                                                        Delete
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/medis/{{ $medical_record->id }}/edit'">
-                                                        <i class="fa fa-edit"></i>
-                                                        Edit
-                                                    </button>
-                                                    @if($medical_record->files->count() >0)
-                                                    <button type="button" class="btn btn-sm btn-primary" onclick="location.href='/download/{{ $medical_record->id }}'">
-                                                        <i class="fa fa-edit"></i>
-                                                        Download
-                                                    </button>
-                                                    @endif
-                                                </form>
-                                            </td>
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot class="tfoot-dark">
-                                            <tr>
-                                                <th scope="col" class="text-center">ID</th>
-                                                <th scope="col" class="text-center">Dokter</th>
-                                                <th scope="col" class="text-center">Nama Pasien</th>
-                                                <th scope="col" class="text-center">Gender</th>
-                                                <th scope="col" class="text-center">Tindakan</th>
-                                                <th scope="col" class="text-center">Keluhan</th>
-                                                <th scope="col" class="text-center">Pemeriksaan Fisik</th>
-                                                <th scope="col" class="text-center">Diagnosis</th>
-                                                <th scope="col" class="text-center">Anjuran</th>
-                                                <th scope="col" class="text-center">Resep</th>
-                                                <th scope="col" class="text-center">ICD</th>
-                                                <th scope="col" class="text-center">Keterangan</th>
-                                            </tr>
-                                        </tfoot>
-                                        @endif
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" style="height: 10px"></div>
+        <div class="card">
+            <div class="card-body">
+                <div class="button-action" style="margin-bottom: 20px">
+                    <button type="button" class="btn btn-primary" onclick="location.href='/admin/medis/create'">
+                        <span>+ Add Items</span>
+                    </button>
                 </div>
-            </div>
-            <div class="modal" id="icdModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">ICD Name</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p id="icdName"></p>
+                <div class="table-responsive">
+                    <table class="table-dark table-striped" id="table">
+                        @if($medical_records->count() < 1)
+                        Tidak ada Data Rekam Medis
+                        @else
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">ID</th>
+                            <th scope="col" class="text-center">Dokter</th>
+                            <th scope="col" class="text-center">Nama Pasien</th>
+                            <th scope="col" class="text-center">Gender</th>
+                            <th scope="col" class="text-center">Tindakan</th>
+                            <th scope="col" class="text-center">Keluhan</th>
+                            <th scope="col" class="text-center">Pemeriksaan Fisik</th>
+                            <th scope="col" class="text-center">Diagnosis</th>
+                            <th scope="col" class="text-center">Anjuran</th>
+                            <th scope="col" class="text-center">Resep</th>
+                            <th scope="col" class="text-center">ICD</th>
+                            <th scope="col" class="text-center">Keterangan</th>
+                            <th scope="col" class="text-center">Dibuat</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($medical_records as $medical_record)
+                        <tr>
+                            <td>{{ $medical_record->id }}</td>
+                            <td>{{ $medical_record->reservation->schedule->employee->user->name}}</td>
+                            <td>{{ $medical_record->reservation->patient->user->name }}</td>
+                            <td>{{ $medical_record->reservation->patient->user->gender }}</td>
+                            <td>{{ $medical_record->action }}</td>
+                            <td>{{ $medical_record->complaint }}</td>
+                            <td>{{ $medical_record->physical_exam }}</td>
+                            <td>{{ $medical_record->diagnosis }}</td>
+                            <td>{{ $medical_record->recommendation }}</td>
+                            <td>{{ $medical_record->recipe }}</td>
+                            <td>
+                                <button class="btn btn-outline-info icdDetailButton" data-icd-name="{{ $medical_record->icd->name_id ?? 'N/A' }}">
+                                    {{ $medical_record->icd_code ?? 'N/A' }}
+                                </button>
+                            </td>
+                            <td>{{ $medical_record->desc ?? 'N/A' }}</td>
+                            <td>{{ $medical_record->created_at->format('d-m-Y') }}</td>
+                            <td class="project-actions text-center">
+                                <form action="{{ route('admin.medis.destroy', $medical_record->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this schedule?')">
+                                        <i class="fas fa-trash"></i>
+                                        Delete
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="location.href='/admin/medis/{{ $medical_record->id }}/edit'">
+                                        <i class="fa fa-edit"></i>
+                                        Edit
+                                    </button>
+                                    @if($medical_record->files->count() >0)
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="location.href='/download/{{ $medical_record->id }}'">
+                                        <i class="fa fa-edit"></i>
+                                        Download
+                                    </button>
+                                    @endif
+                                </form>
+                            </td>
+                            @endforeach
+                        </tbody>
+                        <tfoot class="tfoot-dark">
+                            <tr>
+                                <th scope="col" class="text-center">ID</th>
+                                <th scope="col" class="text-center">Dokter</th>
+                                <th scope="col" class="text-center">Nama Pasien</th>
+                                <th scope="col" class="text-center">Gender</th>
+                                <th scope="col" class="text-center">Tindakan</th>
+                                <th scope="col" class="text-center">Keluhan</th>
+                                <th scope="col" class="text-center">Pemeriksaan Fisik</th>
+                                <th scope="col" class="text-center">Diagnosis</th>
+                                <th scope="col" class="text-center">Anjuran</th>
+                                <th scope="col" class="text-center">Resep</th>
+                                <th scope="col" class="text-center">ICD</th>
+                                <th scope="col" class="text-center">Keterangan</th>
+                            </tr>
+                        </tfoot>
+                        @endif
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-            
+</div>
+<div class="modal" id="icdModal" tabindex="-1">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">ICD Name</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p id="icdName"></p>
+        </div>
+    </div>
+</div>
+</div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

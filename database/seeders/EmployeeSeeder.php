@@ -23,6 +23,10 @@ class EmployeeSeeder extends Seeder
                 'user_id' => 2,
                 'qualification' => 'Spesialis Gigi',
             ],
+            [
+                'user_id' => 3,
+                'qualification' => 'Karyawan',
+            ],
         ];
         DB::table('employees')->insert($employee);
     }

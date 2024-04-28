@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
 
         $userRoles = auth()->user()->getRoleNames();
 
-        $allowedRoles = ['superadmin', 'pegawai', 'dokter umum', 'dokter gigi'];
+        $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
 
         $patientRoles = collect(['pasien'])
             ->map(function ($role) {

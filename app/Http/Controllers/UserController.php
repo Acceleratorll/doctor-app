@@ -13,9 +13,9 @@ class UserController extends Controller
         $type = ScheduleType::findorFail($id)->name;
 
         if ($type == 'Gigi') {
-            $type = ['dokter gigi'];
+            $type = ['dokter_gigi'];
         } else if ($type == 'Umum') {
-            $type = ['dokter umum'];
+            $type = ['dokter_umum'];
         }
 
         $users = User::with('employee')->role($type)->get();

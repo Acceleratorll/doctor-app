@@ -24,7 +24,18 @@ class UserSeeder extends Seeder
             'address' => 'Jl. Address Palace',
             'username' => 'superadmin',
             'password' => bcrypt('12345'),
-        ])->assignRole('superadmin', 'dokter umum');
+        ])->assignRole('superadmin', 'dokter_umum');
+
+        User::create([
+            'name' => 'dr. Dentist',
+            'phone' => '628897637221',
+            'birth_date' => '1990-2-26',
+            'email' => 'dentist@mail.com',
+            'gender' => 'Pria',
+            'address' => 'Jl. Address Dentist',
+            'username' => 'dentist',
+            'password' => bcrypt('12345'),
+        ])->assignRole('dokter_gigi');
 
         User::create([
             'name' => 'Pegawai 1',
@@ -47,6 +58,5 @@ class UserSeeder extends Seeder
             'username' => 'pasien',
             'password' => bcrypt('12345'),
         ])->assignRole('pasien');
-        // DB::table('users')->insert($users);
     }
 }

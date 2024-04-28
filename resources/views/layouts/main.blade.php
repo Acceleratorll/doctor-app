@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
@@ -120,6 +120,7 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link" onclick="submitForm()">
                             <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
                         </a>
                     </li>
                 </form>
@@ -147,10 +148,12 @@
                             </a>
                         </li>
                         @php
-                            $allowedRoles = ['superadmin'];
+                            $superadmin = ['superadmin'];
+                            $dokter_gigi = ['dokter_gigi'];
+                            $dokter_umum = ['dokter_umum'];
                             $userRoles = auth()->user()->getRoleNames();
                         @endphp
-                        @if ($userRoles->intersect($allowedRoles)->isNotEmpty())
+                        @if ($userRoles->intersect($superadmin)->isNotEmpty())
                         <li class="nav-item">
                             <a href="{{ route('admin.dokter.index') }}" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
@@ -317,7 +320,13 @@
                                 <li class="nav-item">
                                     <a href="{{ route('admin.reservation.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Master Resevasi</p>
+                                        <p>Resevasi Umum</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.reservation.gigi.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Resevasi Gigi</p>
                                     </a>
                                 </li>
                             </ul>
@@ -331,16 +340,24 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                @if ($userRoles->intersect($dokter_umum)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="/admin/medis/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Rekam Medis</p>
                                     </a>
                                 </li>
+                                @endif
                                 <li class="nav-item">
                                     <a href="/admin/medis" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Master Rekam Medis</p>
+                                        <p>Rekam Medis Umum</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/admin/rme/gigi/index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Rekam Medis Gigi</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
