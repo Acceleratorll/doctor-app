@@ -11,7 +11,6 @@
     <table class="table table-bordered text-center" style="width: 100%">
         <thead class="thead-dark">
             <tr>
-                
                 <th>ID</th>
                 <th>Dokter</th>
                 <th>Pasien</th>

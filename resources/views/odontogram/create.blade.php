@@ -9,28 +9,32 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-            @if($message = Session::get('success'))
-            <div class="alert alert-success" role="alert">
-                {{ $message }}
-            </div>
-            @elseif($message =  Session::get('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ $message }}
-            </div>
-            @endif
             <form action="{{ route('admin.rme.gigi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="text" name="reservation_id" id="reservation_id" value="1" hidden>
-                <div class="marker">Kode : {{ $reservation->reservation_code }}</i></div>
+                <div class="row">
+                    <div class="col-auto align-self-start text-left">
+                        <div class="mb-2">
+                            <div class="text-muted small">Kode Reservasi</div>
+                            <h4 class="m-0">{{ $reservation->reservation_code }}</h4>
+                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="mb-2">
+                            <div class="text-muted small">Nama Pasien</div>
+                            <h4 class="m-0">{{ $reservation->patient->user->name }}</h4>
+                        </div>
+                    </div>
+                    <div class="col-auto align-self-end text-right">
+                        <div class="mb-2">
+                            <small class="text-muted d-block mb-1">Riwayat RME</small>
+                            <button type="button" class="btn btn-link p-0" data-toggle="modal" data-patient-id="{{ $reservation->patient_id }}" data-target="#odontogramModal">
+                                Lihat RME Terakhir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
                 <div class="row">
                     <div class="col-md-3">
                         @foreach ($right as $teeth)
@@ -162,6 +166,31 @@
             </form>
         </div>
     </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="odontogramModal" tabindex="-1" role="dialog" aria-labelledby="odontogramModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="odontogramModalLabel">ODONTOGRAM TERAKHIR</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div id="odontogramData"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a href="#" class="btn btn-primary" id="more-info-link" target="_blank">More Information</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('css')    
@@ -212,9 +241,43 @@
                 timer: 2000 // Change this value to adjust the display time
             });
         }
-        
+
+        function loadOdontogramData(patientId) {
+            $.ajax({
+                url: '/admin/rme/gigi/fetch/'  + patientId,
+                method: 'GET',
+                data: { patient_id: patientId },
+                success: function(response) {
+                    var htmlContent = '<ul>';
+                    htmlContent += '<div class="row">';
+                    response.odontograms.forEach(function(item, index) {
+                        htmlContent += '<div class="col-4">';
+                        htmlContent += '<li><strong>(' + item.tooth_number + ')</strong> : ' + item.description + '</li>';
+                        htmlContent += '</div>';
+                    });
+                    htmlContent += '</div>';
+                    htmlContent += '</ul>';
+
+                    htmlContent += '<hr>';
+
+                    htmlContent += '<ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap;">';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Occlusi:</strong><br>' + (response.additional_data.occlusi == 'cross' ? 'Cross Bite' : response.additional_data.occlusi == 'steep' ? 'Steep Bite' : 'Normal') + '</li>';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Torus Palatinus:</strong><br>' + response.additional_data.torus_palatinus + '</li>';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Torus Mandibularis:</strong><br>' + response.additional_data.torus_mandibularis + '</li>';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Palatum:</strong><br>' + response.additional_data.palatum + '</li>';
+                    htmlContent += '</ul>';
+
+                    $('#odontogramData').html(htmlContent);
+                    $('#more-info-link').attr('href', '/admin/rme/gigi/' + response.medical_record_id + '/edit');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching odontogram data:', error);
+                }
+            });
+        }
+            
         $(document).ready(function() {
-             @if ($message = Session::get('success'))
+            @if ($message = Session::get('success'))
                 showSweetAlert('success', '{{ $message }}');
             @elseif ($message = Session::get('error'))
                 showSweetAlert('error', '{{ $message }}');
@@ -241,6 +304,13 @@
                 } else {
                     $('#diastemaInput').hide();
                 }
+            });
+
+            $('#odontogramModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var patientId = button.data('patient-id'); // Extract info from data-* attributes
+                
+                loadOdontogramData(patientId);
             });
         });
 

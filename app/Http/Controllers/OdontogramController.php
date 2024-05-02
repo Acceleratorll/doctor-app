@@ -113,6 +113,38 @@ class OdontogramController extends Controller
         return view('odontogram.edit', compact('medicalRecord', 'groups', 'teethSymbols', 'right', 'mid1', 'mid2', 'left', 'diastemaValue', 'anomaliValue', 'othersValue'));
     }
 
+    public function fetch($id)
+    {
+        $medicalRecord = MedicalRecord::whereHas('reservation.patient', function ($query) use ($id) {
+            $query->where('id', $id);
+        })->with('odontograms.teeth', 'odontograms.symbols')->latest()->first();
+
+        if (!$medicalRecord) {
+            return response()->json(['error' => 'Medical record not found'], 404);
+        }
+
+        // Transform the data as needed before returning
+        $odontograms = $medicalRecord->odontograms->map(function ($odontogram) {
+            return [
+                'tooth_number' => $odontogram->teeth->fdi,
+                'description' => $odontogram->symbols->pluck('short')->implode(', '),
+            ];
+        });
+
+        $additionalData = [
+            'palatum' => ucfirst($medicalRecord->palatum),
+            'torus_mandibularis' => ucfirst($medicalRecord->torus_mandibularis),
+            'torus_palatinus' => ucfirst($medicalRecord->torus_palatinus),
+            'occlusi' => $medicalRecord->occlusi,
+        ];
+
+        return response()->json([
+            'odontograms' => $odontograms, 
+            'additional_data' => $additionalData,
+            'medical_record_id' => $medicalRecord->id,
+        ]);
+    }
+
     public function store(Request $request)
     {
         try {
