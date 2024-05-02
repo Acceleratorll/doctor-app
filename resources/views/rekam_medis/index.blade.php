@@ -129,13 +129,13 @@
         var i;
 
         function showSweetAlert(type, message) {
-        Swal.fire({
-            icon: type,
-            title: message,
-            showConfirmButton: false,
-            timer: 2000 // Change this value to adjust the display time
-        });
-    }
+            Swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000 // Change this value to adjust the display time
+            });
+        }
 
     
     

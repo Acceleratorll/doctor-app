@@ -63,8 +63,10 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::prefix('/rme/gigi')->name('admin.rme.gigi.')->controller(OdontogramController::class)->group(function () {
         Route::get('/index', 'index')->name('index');
         Route::get('/create/{id}', 'create')->name('create');
+        Route::get('/{id}/edit', 'edit')->name('edit');
         Route::post('/store', 'store')->name('store');
-        Route::delete('/destroy', 'destroy')->name('destroy');
+        Route::put('/update/{id}', 'update')->name('update');
+        Route::delete('/destroy/{id}', 'destroy')->name('destroy');
     });
 
 

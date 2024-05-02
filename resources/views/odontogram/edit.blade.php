@@ -9,28 +9,11 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-            @if($message = Session::get('success'))
-            <div class="alert alert-success" role="alert">
-                {{ $message }}
-            </div>
-            @elseif($message =  Session::get('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ $message }}
-            </div>
-            @endif
-            <form action="{{ route('admin.rme.gigi.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.rme.gigi.update', $medicalRecord->id) }}" method="POST" enctype="multipart/form-data">
+                @method('PUT')
                 @csrf
                 <input type="text" name="reservation_id" id="reservation_id" value="1" hidden>
-                <div class="marker">Kode : {{ $reservation->reservation_code }}</i></div>
+                <div class="marker">Kode : {{ $medicalRecord->reservation->reservation_code }}</i></div>
                 <div class="row">
                     <div class="col-md-3">
                         @foreach ($right as $teeth)
@@ -40,7 +23,7 @@
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)
-                                    <option value="{{ $symbol->id }}">{{ $symbol->short }}</option>
+                                    <option value="{{ $symbol->id }}" @if(isset($teethSymbols[$teeth->id]) && in_array($symbol->id, $teethSymbols[$teeth->id])) selected @endif>{{ $symbol->short }}</option>
                                     @endforeach
                                 </optgroup>
                                 @endforeach
@@ -56,7 +39,7 @@
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)
-                                    <option value="{{ $symbol->id }}">{{ $symbol->short }}</option>
+                                    <option value="{{ $symbol->id }}" @if(isset($teethSymbols[$teeth->id]) && in_array($symbol->id, $teethSymbols[$teeth->id])) selected @endif>{{ $symbol->short }}</option>
                                     @endforeach
                                 </optgroup>
                                 @endforeach
@@ -72,7 +55,7 @@
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)
-                                    <option value="{{ $symbol->id }}">{{ $symbol->short }}</option>
+                                    <option value="{{ $symbol->id }}" @if(isset($teethSymbols[$teeth->id]) && in_array($symbol->id, $teethSymbols[$teeth->id])) selected @endif>{{ $symbol->short }}</option>
                                     @endforeach
                                 </optgroup>
                                 @endforeach
@@ -88,7 +71,7 @@
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)
-                                    <option value="{{ $symbol->id }}">{{ $symbol->short }}</option>
+                                    <option value="{{ $symbol->id }}" @if(isset($teethSymbols[$teeth->id]) && in_array($symbol->id, $teethSymbols[$teeth->id])) selected @endif>{{ $symbol->short }}</option>
                                     @endforeach
                                 </optgroup>
                                 @endforeach
@@ -103,7 +86,8 @@
                     <div class="col">
                         <label for="occlusi">Occlusi</label>
                         <select class="form-control" name="occlusi" id="occlusi">
-                            <option value="normal" selected>Normal Bite</option>
+                            <option value="{{ $medicalRecord->occlusi }}" selected>{{ $medicalRecord->occlusi === 'normal' ? 'Normal Bite' : ($medicalRecord->occlusi === 'cross' ? 'Cross Bite' : 'Steep Bite') }}</option>
+                            <option value="normal">Normal Bite</option>
                             <option value="cross">Cross Bite</option>
                             <option value="steep">Steep Bite</option>
                         </select>
@@ -111,7 +95,8 @@
                     <div class="col">
                         <label for="torus_palatinus">Torus Palatinus</label>
                         <select class="form-control" name="torus_palatinus" id="torus_palatinus" required>
-                            <option value="tidak ada" selected>Tidak Ada</option>
+                            <option value="{{ $medicalRecord->torus_palatinus }}" selected>{{ $medicalRecord->torus_palatinus === 'tidak ada' ? 'Tidak Ada' : ($medicalRecord->torus_palatinus === 'kecil' ? 'Kecil' : ($medicalRecord->torus_palatinus === 'sedang' ? 'Sedang' : ($medicalRecord->torus_palatinus === 'besar' ? 'Besar' : 'Multiple'))) }}</option>
+                            <option value="tidak ada">Tidak Ada</option>
                             <option value="kecil">Kecil</option>
                             <option value="sedang">Sedang</option>
                             <option value="besar">Besar</option>
@@ -121,7 +106,8 @@
                     <div class="col">
                         <label for="torus_mandibularis">Torus Mandibularis</label>
                         <select class="form-control" name="torus_mandibularis" id="torus_mandibularis" required>
-                            <option value="tidak ada" selected>Tidak Ada</option>
+                            <option value="{{ $medicalRecord->torus_mandibularis }}" selected>{{ $medicalRecord->torus_mandibularis === 'tidak ada' ? 'Tidak Ada' : ($medicalRecord->torus_mandibularis === 'sisi kiri' ? 'Sisi Kiri' : ($medicalRecord->torus_mandibularis === 'sisi kanan' ? 'Sisi Kanan' : 'Kedua Sisi')) }}</option>
+                            <option value="tidak ada">Tidak Ada</option>
                             <option value="sisi kiri">Sisi Kiri</option>
                             <option value="sisi kanan">Sisi Kanan</option>
                             <option value="kedua sisi">Kedua Sisi</option>
@@ -130,7 +116,8 @@
                     <div class="col">
                         <label for="palatum">Palatum</label>
                         <select class="form-control" name="palatum" id="palatum" required>
-                            <option value="dalam" selected>Dalam</option>
+                            <option value="{{ $medicalRecord->palatum }}" selected>{{ $medicalRecord->palatum === 'dalam' ? 'Dalam' : ($medicalRecord->palatum === 'sedang' ? 'Sedang' : 'Rendah') }}</option>
+                            <option value="dalam">Dalam</option>
                             <option value="sedang">Sedang</option>
                             <option value="rendah">Rendah</option>
                         </select>
@@ -139,16 +126,15 @@
                 <div class="row">
                     <div class="col">
                         <label for="diastema" class="optional-label">Diastema</label>
-                        <input type="text" class="form-control" name="diastema" id="diastema" placeholder="Jelaskan gigi yang mana dan bentuknya">
-                        <small class="form-text text-muted">Pastikan telah memilih diastema, anomali atau other sesuai dengan gigi</small>
+                        <input type="text" class="form-control" name="diastema" id="diastema" placeholder="Jelaskan gigi yang mana dan bentuknya" value="{{ $diastemaValue }}">
                     </div>
                     <div class="col">
                         <label for="anomali" class="optional-label">Gigi Anomali</label>
-                        <input type="text" class="form-control" name="anomali" id="anomali" placeholder="Jelaskan gigi yang mana dan bentuknya">
+                        <input type="text" class="form-control" name="anomali" id="anomali" placeholder="Jelaskan gigi yang mana dan bentuknya" value="{{ $anomaliValue }}">
                     </div>
                     <div class="col">
                         <label for="others" class="optional-label">Lain-lain</label>
-                        <input type="text" class="form-control" name="others" id="others" placeholder="Hal-hal yang tidak tercakup di atas">
+                        <input type="text" class="form-control" name="others" id="others" placeholder="Hal-hal yang tidak tercakup di atas" value="{{ $othersValue }}">
                     </div>
                     <small class="form-text text-muted">Format Penulisan: nomor gigi deskripsi, nomor gigi deskripsi
                         <br>Contoh: 21 peg shape, 22 peg shape</small>
@@ -204,7 +190,7 @@
 
 @section('js')
     <script>
-        function showSweetAlert(type, message) {
+         function showSweetAlert(type, message) {
             Swal.fire({
                 icon: type,
                 title: message,
@@ -212,14 +198,14 @@
                 timer: 2000 // Change this value to adjust the display time
             });
         }
-        
+
         $(document).ready(function() {
              @if ($message = Session::get('success'))
                 showSweetAlert('success', '{{ $message }}');
             @elseif ($message = Session::get('error'))
                 showSweetAlert('error', '{{ $message }}');
             @endif
-
+            
             $('#sidebarcollapse').on('click',function(){
                 $('#sidebar').toggleClass('active');
             });

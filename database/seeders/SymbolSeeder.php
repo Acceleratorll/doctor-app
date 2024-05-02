@@ -243,6 +243,12 @@ class SymbolSeeder extends Seeder
                 'action' => '',
                 'short' => 'acr',
             ],
+            [
+                'group_id' => 6,
+                'name' => 'Lain-lain',
+                'action' => '',
+                'short' => 'lain',
+            ],
         ];
 
         DB::table('symbols')->insert($data);

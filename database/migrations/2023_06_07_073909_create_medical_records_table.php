@@ -18,10 +18,10 @@ class CreateMedicalRecordsTable extends Migration
             $table->string('diagnosis')->nullable();
             $table->string('recommendation')->nullable();
             $table->string('recipe')->nullable();
-            $table->enum('occlusi', ['normal'], ['cross'], ['steep'])->nullable();
-            $table->enum('torus_palatinus', ['tidak ada'], ['kecil'], ['sedang'], ['besar'], ['multiple'])->nullable();
-            $table->enum('torus_mandibularis', ['tidak ada'], ['sisi kiri'], ['sisi kanan'], ['kedua sisi'])->nullable();
-            $table->enum('palatum', ['dalam'], ['sedang'], ['rendah'])->nullable();
+            $table->enum('occlusi', ['normal', 'cross', 'steep'])->nullable();
+            $table->enum('torus_palatinus', ['tidak ada', 'kecil', 'sedang', 'besar', 'multiple'])->nullable();
+            $table->enum('torus_mandibularis', ['tidak ada', 'sisi kiri', 'sisi kanan', 'kedua sisi'])->nullable();
+            $table->enum('palatum', ['dalam', 'sedang', 'rendah'])->nullable();
             $table->string('desc')->nullable();
             $table->softDeletes();
             $table->timestamps();

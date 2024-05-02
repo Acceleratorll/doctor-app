@@ -30,6 +30,9 @@ class GroupSeeder extends Seeder
             [
                 'name' => 'Protesa',
             ],
+            [
+                'name' => 'Lain-lain',
+            ],
         ];
 
         DB::table('groups')->insert($data);

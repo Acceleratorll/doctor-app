@@ -11,6 +11,9 @@
     <table class="table table-bordered text-center" style="width: 100%">
         <thead class="thead-dark">
             <tr>
+                
+                <th>ID</th>
+                <th>Dokter</th>
                 <th>Pasien</th>
                 <th>Tanggal</th>
                 <th>Occlusi</th>
@@ -22,7 +25,9 @@
         </thead>
         <tbody>
             @foreach($data as $item)
-                <tr>
+            <tr>
+                    <td>{{  $item->id }}</td>
+                    <td>{{  $item->reservation->schedule->employee->user->name }}</td>
                     <td>{{  $item->reservation->patient->user->name }}</td>
                     <td>{{  $item->created_at->format('d-m-Y') }}</td>
                     <td>{{  $item->occlusi }}</td>
@@ -31,7 +36,7 @@
                     <td>{{  $item->torus_mandibularis }}</td>
                     <td class="project-actions text-center">
                         <div class="d-flex justify-content-center">
-                            <a href="/admin/odontogram/{{ $item->id }}/edit" class="btn btn-warning btn-sm mr-2">
+                            <a href="/admin/rme/gigi/{{ $item->id }}/edit" class="btn btn-warning btn-sm mr-2">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                             <form action="{{ route('admin.rme.gigi.destroy', $item->id) }}" method="POST">
@@ -80,7 +85,24 @@
 
 @section('js')
     <script>
+
+        function showSweetAlert(type, message) {
+            Swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000 // Change this value to adjust the display time
+            });
+        }
+
         $(document).ready(function() {
+
+            @if ($message = Session::get('success'))
+                showSweetAlert('success', '{{ $message }}');
+            @elseif ($message = Session::get('error'))
+                showSweetAlert('error', '{{ $message }}');
+            @endif
+
             var table = $('.table').DataTable({
                 processing: true,
                 fixedColumns: true,
