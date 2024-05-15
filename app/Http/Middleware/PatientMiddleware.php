@@ -16,7 +16,11 @@ class PatientMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->role_id == 3) {
+        $userRoles = auth()->user()->getRoleNames();
+
+        $allowedRoles = ['pasien'];
+
+        if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
             return $next($request);
         }
 

@@ -107,7 +107,7 @@ class ReservationController extends Controller
         if ($reservation != null) {
             $antrian = $reservation->max('nomor_urut') + 1;
         }
-        $doctor = User::where('role_id', 1)->first();
+        $doctor = User::role('superadmin')->first();
         return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code']));
     }
 

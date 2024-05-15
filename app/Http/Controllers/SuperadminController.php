@@ -10,7 +10,7 @@ class SuperadminController extends Controller
 {
     public function index()
     {
-        $superadmins = User::with('employee')->where('role_id', 1)->get();
+        $superadmins = User::with('employee')->role('superadmin')->get();
         return view('superadmin.index', compact('superadmins'));
     }
 

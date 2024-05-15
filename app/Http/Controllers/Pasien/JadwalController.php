@@ -19,7 +19,7 @@ class JadwalController extends Controller
      */
     public function index()
     {
-        $doctor = User::with('employee')->where('role_id', 1)->first();
+        $doctor = User::with('employee')->role('superadmin')->first();
         $places = Place::all();
         return view('web.layanan', compact('doctor', 'places'));
     }

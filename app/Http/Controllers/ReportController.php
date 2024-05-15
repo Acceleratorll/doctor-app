@@ -52,7 +52,7 @@ class ReportController extends Controller
     public function getRecipes(Request $request)
     {
         $data = MedicalRecord::with('reservation.patient.user');
-        $doctor = User::where('role_id', 1)->first();
+        $doctor = User::role('superadmin')->first();
 
         if ($request->filter == 'day') {
             $data = $data->whereDate('updated_at', now()->toDateString());
@@ -92,7 +92,7 @@ class ReportController extends Controller
 
     public function getDoctors(Request $request)
     {
-        $data = User::with('employee.schedules.reservations')->where('role_id', 1);
+        $data = User::with('employee.schedules.reservations')->role('superadmin');
 
         if ($request->filter == 'day') {
             $data = $data->whereHas('employee', function ($query) {

@@ -15,7 +15,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $doctor = User::with('employee')->where('role_id', 1)->first();
+        $doctor = User::with('employee')->role('superadmin')->first();
         return view('web.contact', compact('doctor'));
     }
 

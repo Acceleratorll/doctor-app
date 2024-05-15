@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="announcement-content">
-                    <h2 class="announcement-title">Important Announcements</h2>
+                    <h2 class="announcement-title">Pengumuman</h2>
                     @forelse(auth()->user()->patient->unreadNotifications as $announcement)
                     <div class="announcement-item">
                         <div class="announcement-image">
