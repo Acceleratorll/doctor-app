@@ -139,7 +139,7 @@ class OdontogramController extends Controller
         ];
 
         return response()->json([
-            'odontograms' => $odontograms, 
+            'odontograms' => $odontograms,
             'additional_data' => $additionalData,
             'medical_record_id' => $medicalRecord->id,
         ]);

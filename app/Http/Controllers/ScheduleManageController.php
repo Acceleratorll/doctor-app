@@ -94,7 +94,7 @@ class ScheduleManageController extends Controller
 
     public function create()
     {
-        $doctors = User::with('employee')->withoutRole('pasien')->get();
+        $doctors = User::role(['dokter_umum', 'dokter_gigi'])->get();
         $places = Place::all();
         $schedule_types = ScheduleType::all();
         return view('jadwal.create', compact(['doctors', 'places', 'schedule_types']));

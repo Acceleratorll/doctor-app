@@ -11,7 +11,7 @@
         <div id="rcorners1">
             <form action="{{ route('admin.rme.gigi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="text" name="reservation_id" id="reservation_id" value="1" hidden>
+                <input type="text" name="reservation_id" id="reservation_id" value="{{ $reservation->id }}" hidden>
                 <div class="row">
                     <div class="col-auto align-self-start text-left">
                         <div class="mb-2">
@@ -41,6 +41,7 @@
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
                             <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                                <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)
@@ -57,6 +58,7 @@
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
                             <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                                <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)
@@ -73,6 +75,7 @@
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
                             <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                                <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)
@@ -89,6 +92,7 @@
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
                             <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                                <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
                                     @foreach ($group->symbols as $symbol)

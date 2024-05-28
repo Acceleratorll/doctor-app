@@ -30,6 +30,7 @@
     "dependencies": {
         "inputmask": "^5.0.8",
         "jquery": "^3.7.1",
+        "puppeteer": "^22.10.0",
         "sweetalert2": "^11.6.13"
     }
 }

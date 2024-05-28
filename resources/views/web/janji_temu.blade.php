@@ -120,7 +120,6 @@
         margin-top: 10px;
         position: relative;
     }
-
     .list-bullet {
         float: left;
         margin-right: 20px;
@@ -134,7 +133,6 @@
         text-align: center;
         outline-style: solid;
     }
-
     .list-bullet2 {
         float: left;
         margin-right: 20px;
@@ -148,20 +146,16 @@
         text-align: center;
         outline-style: solid;
     }
-
     .list-item {
         display: table-row;
         vertical-align: middle;
     }
-
     .list-title {
         font-weight: 700;
     }
-
     .list-text {
         font-weight: 400;
     }
-
     .red-line {
         background: #0b015b;
         z-index: -1;
@@ -170,7 +164,6 @@
         position: absolute;
         left: 15px;
     }
-
     .white-line {
         background: #fff;
         z-index: -1;
@@ -182,17 +175,12 @@
 
 
     }
-
     .active-card {
         outline: solid rgb(22, 44, 142) 1.5px;
     }
-
     .active-card1 {
         outline: solid rgb(22, 44, 142) 1.5px;
     }
-
-</style>
-<style>
     .list-items-layout3 li:before {
         color: #ffffff;
         border-color: #3f6d6a;
@@ -321,54 +309,33 @@
                 Pilih tanggal dan waktu kunjungan
             </h5>
             <form action="/confirm" method="get">
-                <div id="mycard" class="dates" >
+                <div id="mycard" class="dates">
                     <div class="row">
-                    @foreach($schedules as $schedule)
-                    <div class="col-md-3">
-                        <a href="#">
-                            <div class="card date">
-                                <input class="form-check-input schedule_date" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date}}">
-                                <div class="card-body active-card1 form-check">
-                                    <small class="card-title">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l')}}</small><br>
-                                    <small class="card-subtitle text-muted">
-                                        {{\Carbon\Carbon::parse($schedule->schedule_date)->format('d-m-Y')}}
-                                    </small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    @endforeach
-                    </div>
-                </div>
-            
-            
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5>Pilih Waktu</h5>
-                        <div id="accordion">
-                            <div class="accordion-item">
-                                <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
-                                    <a class="accordion__title" href="#">Waktu</a>
-                                </div>
-                                <div id="collapse1" class="collapse show" data-parent="#accordion">
-                                    <div class="accordion__body" id="schedule_time">
-                                        {{-- Example time slots --}}
-                                        {{-- <div class="row">
-                                            <div class="col-md-3">
-                                                <a href="#">
-                                                    <input class="form-check-input" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date }}">
-                                                    <label for="schedule_date{{ $schedule->id }}">
-                                                        <div class="card active-card">
-                                                            <div class="card-body">
-                                                                <p class="card-title">08.00</p>
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                </a>
-                                            </div>
-                                        </div> --}}
+                        @foreach($schedules as $schedule)
+                        <div class="col-md-3">
+                            <a href="#">
+                                <div class="card date">
+                                    <input class="form-check-input schedule_date" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date}}">
+                                    <div class="card-body active-card1 form-check">
+                                        <small class="card-title">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l')}}</small><br>
+                                        <small class="card-subtitle text-muted">
+                                            {{\Carbon\Carbon::parse($schedule->schedule_date)->format('d-m-Y')}}
+                                        </small>
                                     </div>
                                 </div>
+                            </a>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion__header" data-toggle="collapse" data-target="#collapse1">
+                                <a class="accordion__title" href="#">Waktu</a>
+                            </div>
+                            <div id="collapse1" class="collapse show" data-parent="#accordion">
+                                <div class="accordion__body" id="schedule_time"></div>
                             </div>
                         </div>
                     </div>

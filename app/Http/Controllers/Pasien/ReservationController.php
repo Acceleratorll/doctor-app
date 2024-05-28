@@ -49,15 +49,14 @@ class ReservationController extends Controller
     public function create(Request $request)
     {
         $today = Carbon::today()->toDateString();
-        if ($request->type == 'umum') {
-            $type = 1;
-        } else {
-            $type = 2;
-        }
+
+        $type = $request->type;
         $schedules = Schedule::with(['place' => function ($query) {
             $query->where('reservationable', 1);
         }, 'schedule_type'])
-            ->where('schedule_type_id', $type)
+            ->whereHas('schedule_type', function ($q) use ($type) {
+                $q->where('name', $type);
+            })
             ->where('schedule_date', '>=', $today)
             ->orderBy('schedule_date', 'asc')
             ->select(DB::raw('distinct(schedule_date)'))
@@ -78,19 +77,17 @@ class ReservationController extends Controller
 
         foreach ($times as $time) {
             $sum = $time->qty - $time->reservations->count();
-            $html .= '<div class="col-md-3">
-            <a href="#">
+            $html .= '<div class="col">
             <input class="form-check-input" type="radio" name="schedule_time" id="schedule_time' . $time->id . '" value="' . $time->schedule_time . '">
-            <label for="schedule_time' . $time->id . '">
-            <div class="card active-card">
-            <div class="card-body">
-            <p class="card-title">' . $time->schedule_time . ' Hingga ' . $time->schedule_time_end . '</p>
+            <div class="card" style="border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 150px">
+                <div class="card-body">
+                    <label for="schedule_time' . $time->id . '">
+                        <h5 class="card-title" style="font-size: medium;">' . $time->schedule_time . ' - ' . $time->schedule_time_end . '</h5>
+                        <p class="caption">Sisa Kuota: ' . $sum . '</p>
+                    </label>
+                </div>
             </div>
-            <caption>Sisa Kuota : ' . $sum . '</caption>
-            </div>
-            </label>
-            </a>
-            </div>&nbsp';
+        </div>';
         }
 
         $html .= '</div>';

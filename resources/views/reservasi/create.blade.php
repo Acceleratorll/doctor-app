@@ -52,7 +52,7 @@
                             <option value="" selected>--- Pilih Jadwal ---</option>
                             @foreach($schedules as $schedule)
                             <option value="{{ $schedule->id }}">{{\Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
-                            $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' ' . $schedule->schedule_type->name = 'Gigi' ? 'Dokter Gigi' : 'Dokter Umum'}}</option>
+                            $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' Dokter ' . $schedule->schedule_type->name }}</option>
                             @endforeach
                             @endif
                         </select>

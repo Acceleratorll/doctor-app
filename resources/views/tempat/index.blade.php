@@ -75,8 +75,8 @@
 <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script>
     var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
-        function showSweetAlert(type, message) {
+    
+    function showSweetAlert(type, message) {
         Swal.fire({
             icon: type,
             title: message,
@@ -84,9 +84,8 @@
             timer: 2000 // Change this value to adjust the display time
         });
     }
-
     
-    for (i = 0; i < dropdown.length; i++) {
+    for (var i = 0; i < dropdown.length; i++) {
         dropdown[i].addEventListener("click", function() {
             this.classList.toggle("active");
             var dropdownContent = this.nextElementSibling;

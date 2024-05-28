@@ -137,6 +137,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
         '/pengumuman' => PasienAnnouncementController::class,
         '/code' => AccessCodeController::class,
     ]);
+
     Route::put('/saveCode', [AccessCodeController::class, 'saveCode'])->name('save.code');
     Route::get('/verifyCode', [AccessCodeController::class, 'verifyCode'])->name('verifyCode');
     Route::get('/chooseDoctor', [PasienReservationController::class, 'chooseDoctor'])->name('choose.doctor');
@@ -149,6 +150,7 @@ Route::middleware(['auth', 'patient'])->group(function () {
     Route::get('/jadwal-klinik', [JadwalController::class, 'indexKlinik']);
     Route::get('/notifikasi', [NotificationController::class, 'index']);
     Route::get('/notifikasi-remove/{id}', [NotificationController::class, 'destroy']);
+    Route::get('/print/{id}', [ProfileController::class, 'print'])->name('print.record');
 });
 
 Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])->name('show.queue');

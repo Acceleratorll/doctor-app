@@ -1,0 +1,47 @@
+.centered-table {
+    margin: 0 auto;
+}
+
+.centered-table td {
+    padding: 5px 10px;
+    text-align: left;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    margin-bottom: 1rem;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.text-warning {
+    color: #ffc107;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.custom-btn-small.btn.btn-primary {
+    font-size: 0.6rem !important; /* Adjust font size */
+    padding: 0.2rem 0.4rem !important; /* Adjust padding */
+    line-height: 1 !important; /* Adjust line height */
+    border-radius: 0.2rem !important; /* Adjust border radius */
+    height: 30px !important; /* Explicitly set height */
+    min-height: 30px !important; /* Ensure no minimum height is applied */
+    min-width: 70px !important; /* Ensure no minimum width is applied */
+    margin: 0 !important; /* Remove extra margins */
+}

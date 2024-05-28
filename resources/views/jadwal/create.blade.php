@@ -54,7 +54,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="Tanggal">Tanggal</label>
-                        <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
+                        {{-- <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden> --}}
                         <input type="date" placeholder="Masukkan Tanggal" class="form-control" value="<?php echo date('Y-m-d'); ?>" name="schedule_date" id="linkmaps" required>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="doctor">Dokter</label>
-                        <select class="form-control" name="user_id" id="user_id">
+                        <select class="form-control" name="employee_id" id="employee_id">
                             <option value="#" selected disabled>Pilih Dokter...</option>
                             @foreach ($doctors as $doctor)
                             <option value="{{ $doctor->employee->id }}">{{ $doctor->name }}</option>
@@ -159,6 +159,7 @@
                     url: "{{ route('get.users', ['id' => ':id']) }}".replace(':id', id),
                     method: 'GET',
                     success: function(response) {
+                        console.log(response);
                         $('#user_id').empty();
                         $('#user_id').append('<option value="">Pilih Dokter...</option>');
                         $.each(response, function(i,data) {

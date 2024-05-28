@@ -74,7 +74,6 @@
 </header>
 <div class="container">
     <div class="main-body">
-    
           <!-- Breadcrumb -->
           <nav aria-label="breadcrumb" class="main-breadcrumb">
             <ol class="breadcrumb">
@@ -187,48 +186,37 @@
                     @endif
                   </div>
                 </div>
-              </div>
-              <div class="row gutters-sm">
+              </div><div class="row gutters-sm">
                 <div class="col-sm-6 mb-3">
                   <div class="card h-100">
                     <div class="card-body">
-                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">List</i>Rekam Medis</h6>
+                      <h6 class="d-flex justify-content-center mb-3"><i class="material-icons text-info mr-2">List</i>Rekam Medis</h6>
                       @if(auth()->user()->patient->access_code != null)
-                      @if($records->count() > 0)
-                      <div id="medical-records-container">
-                        @if($data != null)
-                        @foreach($records as $record)
-                        <p>Periksa pada tanggal <strong>{{ date('d F Y', strtotime($record->medical_record->updated_at)) }}</strong></p>
-                        <small>Dokter : <strong>{{ $record->schedule->employee->user->name }} [{{ $record->schedule->employee->qualification }}]</strong></small><br>
-                        <small>Fisik : <strong>{{ $record->medical_record->physical_exam }}</strong></small><br>
-                        <small>Anjuran : <strong>{{ $record->medical_record->recommendation }}</strong></small><br>
-                        <small>Tindakan : <strong>{{ $record->medical_record->action }}</strong></small><br>
-                        <small>Keluhan : <strong>{{ $record->medical_record->complaint }}</strong></small><br>
-                        <small>Diagnosa : <strong>{{ $record->medical_record->diagnosis }}</strong></small><br>
-                        @if($record->medical_record->icd)
-                        <small>ICD : <strong>{{ $record->medical_record->icd->name_id }}</strong></small><br>
-                        @endif
-                        <strong>{{ $record->medical_record->desc ?? '' }}</strong><br>
-                        {{-- <a href="" id="details"><i class="fa fa-info"></i>More Details</a> --}}
-                        @if($record->files)
-                        <button type="button" class="btn btn-sm btn-success" onclick="location.href='/download/{{ $record->medical_record_id }}'">
-                          <i class="fa fa-download"></i>
-                          Download
-                        </button>
-                        @endif
-                        <br>
-                        <div class="divider"></div>
-                        @endforeach
+                        @if($records->count() > 0)
+                        <div id="medical-records-container">
+                          @if($data != null)
+                            @foreach($records as $record)
+                            <div class="card mb-3">
+                              <div class="card-body">
+                                <h5 class="card-title">Tanggal Periksa <strong>{{ date('d F Y', strtotime($record->medical_record->updated_at)) }}</strong></h5>
+                                <p class="card-text">
+                                  <small class="text-muted">Dokter: <strong>{{ $record->schedule->employee->user->name }} [{{ $record->schedule->employee->qualification }}]</strong></small>
+                                </p>
+                                <span class="float-right">
+                                  <a href="{{ route('print.record', $record->medical_record->id) }}" target="_blank" class="btn btn-primary btn-sm custom-btn-small">Lihat</a>
+                                </span>
+                              </div>
+                            </div>
+                            @endforeach
+                          @else
+                            <a class="btn btn-info" target="__blank" href="{{ route('code.index') }}" name="btn-code">Lihat Hasil Periksa</a>
+                          @endif
+                        </div>
                         @else
-                        <a class="btn btn-info" target="__blank" href="{{ route('code.index') }}" name="btn-code">Lihat Hasil Periksa</a>
+                        <strong>Tidak ada Data Rekam Medis</strong><br><br>
                         @endif
-                      </div>
-                      @else
-                      <strong>Tidak ada Data Rekam Medis</strong><br><br>
-                      @endif
                       @else
                       <strong>Penting ! <br>Dimohon untuk membuat PIN terlebih dahulu</strong><br><br>
-                      {{-- <a class="btn btn-danger" target="__blank" href="{{ route('code.create') }}">Set PIN Here !</a> --}}
                       @endif
                     </div>
                 </div>
@@ -237,22 +225,46 @@
                   <div class="card h-100">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center">
-                      <h6><i class="material-icons text-info mr-2">List</i>Reservasi</h6>
-                      @if($reservation->count() > 0)
-                      @foreach($reservation as $reservationItem)
-                      <p>Nomor Urut</p><h5>{{ $reservationItem->nomor_urut }}</h5>
-                      <small>Tanggal <b>{{ date('d F Y', strtotime($reservationItem->schedule->schedule_date)) }}</b></small><br>
-                      <small>Jam Periksa Dimulai <b>{{ date('H:i', strtotime($reservationItem->schedule->schedule_time)) }}</b></small><br><br>
-                      @if($reservationItem->approve == 0)
-                      <p class="text-center"><b>Status :</b> <strong>Menunggu Konfirmasi</strong></p><br>
-                      @else
-                      <p class="text-center"><b>Status :</b> <strong>Sudah di Konfirmasi</strong></p><br>
-                      @endif
-                      <a href="cancel/{{ $reservationItem->id }}" class="btn btn-danger">Batalkan Pesanan</a><br>
-                      @endforeach
-                      @else
-                      <strong>Anda belum melakukan reservasi</strong><br><br>
-                      @endif
+                        <h6 class="mb-4"><i class="material-icons text-info mr-2">List</i>Reservasi</h6>
+                        @if($reservation->count() > 0)
+                          @foreach($reservation as $reservationItem)
+                            <div class="card mb-3 w-100">
+                              <div class="card-body">
+                                <h5 class="card-title text-center">Nomor Urut: <strong>{{ $reservationItem->nomor_urut }}</strong></h5>
+                                <p class="card-text text-center">
+                                  <table class="centered-table">
+                                    <tr>
+                                      <td><small class="text-muted">Tanggal</small></td>
+                                      <td>:</td>
+                                      <td><small class="text-muted"><b>{{ date('d F Y', strtotime($reservationItem->schedule->schedule_date)) }}</b></small></td>
+                                  </tr>
+                                  <tr>
+                                      <td><small class="text-muted">Jam Mulai</small></td>
+                                      <td>:</td>
+                                      <td><small class="text-muted"><b>{{ date('H:i', strtotime($reservationItem->schedule->schedule_time)) }}</b></small></td>
+                                  </tr>
+                                  <tr>
+                                      <td><small class="text-muted">Status</small></td>
+                                      <td>:</td>
+                                      <td>
+                                          @if($reservationItem->approve == 0)
+                                              <strong class="text-warning">Menunggu Konfirmasi</strong>
+                                          @else
+                                              <strong class="text-success">Sudah di Konfirmasi</strong>
+                                          @endif
+                                      </td>
+                                  </tr>
+                                  </table>
+                                </p>
+                                <div class="text-center">
+                                  <a href="cancel/{{ $reservationItem->id }}" class="btn btn-danger btn-sm">Batalkan Pesanan</a>
+                                </div>
+                              </div>
+                            </div>
+                          @endforeach
+                        @else
+                          <strong>Anda belum melakukan reservasi</strong>
+                        @endif
                       </div>
                     </div>
                   </div>
@@ -260,41 +272,97 @@
               </div>
             </div>
           </div>
-
         </div>
     </div>
 @endsection
 
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+  <style>
+    #medical-records-container {
+      margin-top: 20px;
+    }
+
+    .card {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-text {
+      margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .divider {
+      border-top: 1px solid #e0e0e0;
+      margin: 20px 0;
+    }
+  </style>
+@endpush
+
 @push('js')
     <script>
+      $(document).ready( function () {
+        @if ($message = Session::get('success'))
+            showSweetAlert('success', '{{ $message }}');
+            @elseif ($message = Session::get('error'))
+            showSweetAlert('error', '{{ $message }}');
+            @endif
+      });
+
+      function showSweetAlert(type, message) {
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 2000 // Change this value to adjust the display time
+        });
+      }
+
         function editPin() {
             Swal.fire({
               title: 'Edit PIN',
               html: `
               <div class="row">
-            <div class="col-md-4">
-                <label for="currentPin">Current PIN</label>
-            </div>
-            <div class="col-md-6">
-                <input type="password" id="currentPin" class="swal2-input" maxlength="4" style="text-security: disc;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <label for="newPin">New PIN</label>
-            </div>
-            <div class="col-md-6">
-                <input type="password" id="newPin" class="swal2-input" maxlength="4" style="text-security: disc;">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <label for="confirmPin">Confirm PIN</label>
-            </div>
-            <div class="col-md-6">
-                <input type="password" id="confirmPin" class="swal2-input" maxlength="4" style="text-security: disc;">
-            </div>
-        </div>
+                  <div class="col-md-4">
+                      <label for="currentPin">Current PIN</label>
+                  </div>
+                  <div class="col-md-6">
+                      <input type="password" id="currentPin" class="swal2-input" maxlength="4" style="text-security: disc;">
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-4">
+                      <label for="newPin">New PIN</label>
+                  </div>
+                  <div class="col-md-6">
+                      <input type="password" id="newPin" class="swal2-input" maxlength="4" style="text-security: disc;">
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-4">
+                      <label for="confirmPin">Confirm PIN</label>
+                  </div>
+                  <div class="col-md-6">
+                      <input type="password" id="confirmPin" class="swal2-input" maxlength="4" style="text-security: disc;">
+                  </div>
+              </div>
               `,
               showCancelButton: true,
               confirmButtonText: 'Submit',
@@ -401,6 +469,5 @@
             }
           });
         }
-            
       </script>
       @endpush

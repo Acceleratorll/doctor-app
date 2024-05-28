@@ -296,16 +296,13 @@
             </div>
         </div>
         <div class="col-md-5 px-5 py-5">
-            <h5>
-                Pilih Dokter
-            </h5>
             <div class="card" style="width: 20rem;">
                 <img class="card-img-top" src="{{url('/assets/images/cards/pexels-pavel-danilyuk-7108344.jpg')}}">
                 <div class="card-body">
                     <h5 class="card-title">Praktek Dokter Umum</h5>
                     <p class="card-text">Pelayanan pemeriksaan Dokter Umum.</p>
                     <form action="reservasi/create" method="get">
-                        <input type="hidden" name="type" value="umum">
+                        <input type="hidden" name="type" value="Umum">
                         <button type="submit" class="btn btn-primary">Dokter Umum</button>
                     </form>
                 </div>
@@ -318,7 +315,7 @@
                     <h5 class="card-title">Praktek Dokter Gigi</h5>
                     <p class="card-text">Pelayanan pemeriksaan Dokter Spesialis Gigi.</p>
                     <form action="reservasi/create" method="get">
-                        <input type="hidden" name="type" value="gigi">
+                        <input type="hidden" name="type" value="Gigi">
                         <button type="submit" class="btn btn-primary">Dokter Gigi</button>
                     </form>
                 </div>

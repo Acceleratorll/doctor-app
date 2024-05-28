@@ -4,12 +4,17 @@ namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PatientRequest;
+use App\Models\Group;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use App\Models\Quadrant;
 use App\Models\Reservation;
+use App\Models\Symbol;
+use App\Models\Teeth;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -32,6 +37,74 @@ class ProfileController extends Controller
         session()->forget('data');
 
         return view('web.pasien.index', compact(['records', 'reservation', 'data']));
+    }
+
+    public function print($id)
+    {
+        $record = MedicalRecord::find($id);
+
+        if (auth()->user()->patient->access_code == null || $record == null) {
+            return redirect()->back()->with('error', 'No medical records available or access code not set.');
+        }
+
+        $symbols = Symbol::all();
+
+        $teethSymbols = [];
+        $diastema = [];
+        $anomali = [];
+        $others = [];
+
+        // Check if the medical record has odontograms
+        if ($record->odontograms) {
+            foreach ($record->odontograms as $odontogram) {
+                // Retrieve the symbols associated with the odontogram
+                $symbols = $odontogram->symbols;
+                // Map symbols to their corresponding teeth and store them in the $teethSymbols array
+                foreach ($symbols as $symbol) {
+                    $teethSymbols[$odontogram->teeth_id][] = $symbol->short;
+                }
+
+                $teeth = Teeth::find($odontogram->teeth_id);
+                // Add descriptions to the corresponding array
+                if ($odontogram->diastema) {
+                    $diastema[] = $teeth->fdi . ' ' . $odontogram->diastema;
+                }
+                if ($odontogram->anomali) {
+                    $anomali[] = $teeth->fdi . ' ' . $odontogram->anomali;
+                }
+                if ($odontogram->others) {
+                    $others[] = $teeth->fdi . ' ' . $odontogram->others;
+                }
+            }
+        }
+
+
+        // Implode arrays to form comma-separated strings
+        $diastemaValue = implode(', ', $diastema);
+        $anomaliValue = implode(', ', $anomali);
+        $othersValue = implode(', ', $others);
+
+        $quadrants = Quadrant::with(['teeths' => function ($query) {
+            $query->orderBy('quadrant_id')->orderBy('fdi');
+        }])->get();
+
+        $q1 = $quadrants->find(1)->teeths->sortBy('fdi');
+        $q2 = $quadrants->find(2)->teeths->sortByDesc('fdi');
+        $q3 = $quadrants->find(3)->teeths->sortBy('fdi');
+        $q4 = $quadrants->find(4)->teeths->sortByDesc('fdi');
+        $q5 = $quadrants->find(5)->teeths->sortBy('fdi');
+        $q6 = $quadrants->find(6)->teeths->sortByDesc('fdi');
+        $q7 = $quadrants->find(7)->teeths->sortBy('fdi');
+        $q8 = $quadrants->find(8)->teeths->sortByDesc('fdi');
+
+        $right = $q2->merge($q1);
+        $mid1 = $q6->merge($q5);
+        $mid2 = $q7->merge($q8);
+        $left = $q4->merge($q3);
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('web.pasien.print', compact('record', 'symbols', 'teethSymbols', 'right', 'mid1', 'mid2', 'left', 'diastemaValue', 'anomaliValue', 'othersValue'));
+        return $pdf->stream('rekam_medis.pdf');
     }
 
     public function create()

@@ -42,9 +42,9 @@
                         </span>
                         @endif</a>
                 </li><!-- /.nav-item -->
-                <li class="nav__item">
+                {{-- <li class="nav__item">
                     <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
-                </li><!-- /.nav-item -->
+                </li><!-- /.nav-item --> --}}
                 <li class="nav__item notif">
                     <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
                 </li><!-- /.nav-item -->
