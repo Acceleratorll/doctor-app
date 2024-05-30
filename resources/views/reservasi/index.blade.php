@@ -68,7 +68,16 @@
                                         @endif
                                         <td class="project-actions text-center">
                                             <div class="d-flex justify-content-end">
-                                                @if (isset($route))
+                                                <form action="/admin/medis/create" method="get">
+                                                    <input type="hidden" name="type" value="{{ isset($route) ? $route : '' }}">
+                                                    <input type="hidden" name="patient_id" value="{{ $reservation->patient->id }}">
+                                                    <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+                                                    <button type="submit" class="btn btn-primary btn-sm mr-2">
+                                                        <i class="fas fa-plus"></i> Hasil
+                                                    </button>
+                                                </form>
+
+                                                {{-- @if (isset($route))
                                                     <a href="{{ route('admin.rme.gigi.create', $reservation->id) }}" class="btn btn-primary btn-sm mr-2">
                                                         <i class="fas fa-plus"></i> Hasil
                                                     </a>
@@ -76,7 +85,7 @@
                                                     <button class="btn btn-primary btn-sm isiHasil mr-2" data-id="{{ $reservation->id }}" data-toggle="modal" data-target="#medicalRecordModal">
                                                         <i class="fas fa-plus"></i> Hasil
                                                     </button>
-                                                @endif
+                                                @endif --}}
 
                                                 <form action="{{ route('admin.reservation.skip', $reservation->id) }}" method="POST" class="mr-2">
                                                     @csrf

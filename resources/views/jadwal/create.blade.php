@@ -160,11 +160,11 @@
                     method: 'GET',
                     success: function(response) {
                         console.log(response);
-                        $('#user_id').empty();
-                        $('#user_id').append('<option value="">Pilih Dokter...</option>');
+                        $('#employee_id').empty();
+                        $('#employee_id').append('<option value="">Pilih Dokter...</option>');
                         $.each(response, function(i,data) {
-                            console.log(i, data.employee);
-                            $('#user_id').append('<option value="' + data.employee.id + '">' + data.name + '</option>');
+                            console.log(i, data.employee, data.name);
+                            $('#employee_id').append('<option value="' + data.employee.id + '">' + data.name + '</option>');
                         });
                     },
                     error: function(xhr, status, error) {

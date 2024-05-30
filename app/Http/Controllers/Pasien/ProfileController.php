@@ -23,7 +23,10 @@ class ProfileController extends Controller
     {
         $id = auth()->user()->patient->id;
         $today = Carbon::today()->toString();
-        $records = Reservation::with('medical_record')->whereHas('medical_record')->where('patient_id', $id)->get();
+        $records = Reservation::with('medical_record', 'schedule')->where('patient_id', $id)->get()->sortByDesc(function ($reservation) {
+            return $reservation->schedule->schedule_date;
+        });
+
         $reservation = Reservation::with('schedule')
             ->where('patient_id', $id)
             ->whereHas('schedule', function ($query) use ($today) {
@@ -31,7 +34,10 @@ class ProfileController extends Controller
             })
             ->where('status', 0)
             ->orWhere('status', 1)
-            ->get();
+            ->get()
+            ->sortByDesc(function ($reservation) {
+                return $reservation->schedule->schedule_date;
+            });
 
         $data = session()->get('data');
         session()->forget('data');
@@ -42,68 +48,71 @@ class ProfileController extends Controller
     public function print($id)
     {
         $record = MedicalRecord::find($id);
+        $pdf = App::make('dompdf.wrapper');
 
         if (auth()->user()->patient->access_code == null || $record == null) {
             return redirect()->back()->with('error', 'No medical records available or access code not set.');
-        }
+        } else if ($record->reservation->schedule->schedule_type->name == 'Gigi') {
+            $symbols = Symbol::all();
 
-        $symbols = Symbol::all();
+            $teethSymbols = [];
+            $diastema = [];
+            $anomali = [];
+            $others = [];
 
-        $teethSymbols = [];
-        $diastema = [];
-        $anomali = [];
-        $others = [];
+            // Check if the medical record has odontograms
+            if ($record->odontograms) {
+                foreach ($record->odontograms as $odontogram) {
+                    // Retrieve the symbols associated with the odontogram
+                    $symbols = $odontogram->symbols;
+                    // Map symbols to their corresponding teeth and store them in the $teethSymbols array
+                    foreach ($symbols as $symbol) {
+                        $teethSymbols[$odontogram->teeth_id][] = $symbol->short;
+                    }
 
-        // Check if the medical record has odontograms
-        if ($record->odontograms) {
-            foreach ($record->odontograms as $odontogram) {
-                // Retrieve the symbols associated with the odontogram
-                $symbols = $odontogram->symbols;
-                // Map symbols to their corresponding teeth and store them in the $teethSymbols array
-                foreach ($symbols as $symbol) {
-                    $teethSymbols[$odontogram->teeth_id][] = $symbol->short;
-                }
-
-                $teeth = Teeth::find($odontogram->teeth_id);
-                // Add descriptions to the corresponding array
-                if ($odontogram->diastema) {
-                    $diastema[] = $teeth->fdi . ' ' . $odontogram->diastema;
-                }
-                if ($odontogram->anomali) {
-                    $anomali[] = $teeth->fdi . ' ' . $odontogram->anomali;
-                }
-                if ($odontogram->others) {
-                    $others[] = $teeth->fdi . ' ' . $odontogram->others;
+                    $teeth = Teeth::find($odontogram->teeth_id);
+                    // Add descriptions to the corresponding array
+                    if ($odontogram->diastema) {
+                        $diastema[] = $teeth->fdi . ' ' . $odontogram->diastema;
+                    }
+                    if ($odontogram->anomali) {
+                        $anomali[] = $teeth->fdi . ' ' . $odontogram->anomali;
+                    }
+                    if ($odontogram->others) {
+                        $others[] = $teeth->fdi . ' ' . $odontogram->others;
+                    }
                 }
             }
+
+
+            // Implode arrays to form comma-separated strings
+            $diastemaValue = implode(', ', $diastema);
+            $anomaliValue = implode(', ', $anomali);
+            $othersValue = implode(', ', $others);
+
+            $quadrants = Quadrant::with(['teeths' => function ($query) {
+                $query->orderBy('quadrant_id')->orderBy('fdi');
+            }])->get();
+
+            $q1 = $quadrants->find(1)->teeths->sortBy('fdi');
+            $q2 = $quadrants->find(2)->teeths->sortByDesc('fdi');
+            $q3 = $quadrants->find(3)->teeths->sortBy('fdi');
+            $q4 = $quadrants->find(4)->teeths->sortByDesc('fdi');
+            $q5 = $quadrants->find(5)->teeths->sortBy('fdi');
+            $q6 = $quadrants->find(6)->teeths->sortByDesc('fdi');
+            $q7 = $quadrants->find(7)->teeths->sortBy('fdi');
+            $q8 = $quadrants->find(8)->teeths->sortByDesc('fdi');
+
+            $right = $q2->merge($q1);
+            $mid1 = $q6->merge($q5);
+            $mid2 = $q7->merge($q8);
+            $left = $q4->merge($q3);
+
+            $pdf->loadView('web.pasien.print', compact('record', 'symbols', 'teethSymbols', 'right', 'mid1', 'mid2', 'left', 'diastemaValue', 'anomaliValue', 'othersValue'));
+        } else {
+            $pdf->loadView('web.pasien.print', compact('record'));
         }
 
-
-        // Implode arrays to form comma-separated strings
-        $diastemaValue = implode(', ', $diastema);
-        $anomaliValue = implode(', ', $anomali);
-        $othersValue = implode(', ', $others);
-
-        $quadrants = Quadrant::with(['teeths' => function ($query) {
-            $query->orderBy('quadrant_id')->orderBy('fdi');
-        }])->get();
-
-        $q1 = $quadrants->find(1)->teeths->sortBy('fdi');
-        $q2 = $quadrants->find(2)->teeths->sortByDesc('fdi');
-        $q3 = $quadrants->find(3)->teeths->sortBy('fdi');
-        $q4 = $quadrants->find(4)->teeths->sortByDesc('fdi');
-        $q5 = $quadrants->find(5)->teeths->sortBy('fdi');
-        $q6 = $quadrants->find(6)->teeths->sortByDesc('fdi');
-        $q7 = $quadrants->find(7)->teeths->sortBy('fdi');
-        $q8 = $quadrants->find(8)->teeths->sortByDesc('fdi');
-
-        $right = $q2->merge($q1);
-        $mid1 = $q6->merge($q5);
-        $mid2 = $q7->merge($q8);
-        $left = $q4->merge($q3);
-
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('web.pasien.print', compact('record', 'symbols', 'teethSymbols', 'right', 'mid1', 'mid2', 'left', 'diastemaValue', 'anomaliValue', 'othersValue'));
         return $pdf->stream('rekam_medis.pdf');
     }
 

@@ -11,7 +11,7 @@
         <div id="rcorners1">
             <form action="{{ route('admin.rme.gigi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="text" name="reservation_id" id="reservation_id" value="{{ $reservation->id }}" hidden>
+                <input type="text" name="medical_record_id" id="medical_record_id" value="{{ $id }}" hidden>
                 <div class="row">
                     <div class="col-auto align-self-start text-left">
                         <div class="mb-2">

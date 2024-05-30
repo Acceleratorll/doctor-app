@@ -30,7 +30,7 @@ class OdontogramController extends Controller
 
     public function create($id)
     {
-        $reservation = Reservation::find($id);
+        $reservation = MedicalRecord::find($id)->reservation;
         $groups = Group::with('symbols')->get();
         $quadrants = Quadrant::with(['teeths' => function ($query) {
             $query->orderBy('quadrant_id')->orderBy('fdi');
@@ -50,7 +50,7 @@ class OdontogramController extends Controller
         $mid2 = $q7->merge($q8);
         $left = $q4->merge($q3);
 
-        return view('odontogram.create', compact(['groups', 'right', 'mid1', 'mid2', 'left', 'reservation']));
+        return view('odontogram.create', compact(['groups', 'right', 'mid1', 'mid2', 'left', 'reservation', 'id']));
     }
 
     public function edit($id)
@@ -150,7 +150,7 @@ class OdontogramController extends Controller
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
-                'reservation_id' => 'required|integer',
+                'medical_record_id' => 'required|integer',
                 'teeth' => 'array',
                 'occlusi' => 'required|string',
                 'torus_palatinus' => 'required|string',
@@ -168,9 +168,8 @@ class OdontogramController extends Controller
 
             DB::beginTransaction();
 
-            // Create a new medical record
-            $medicalRecord = MedicalRecord::create([
-                'reservation_id' => $validatedData['reservation_id'],
+            $medicalRecord = MedicalRecord::find($request->medical_record_id);
+            $medicalRecord->update([
                 'occlusi' => $validatedData['occlusi'],
                 'palatum' => $validatedData['palatum'],
                 'torus_palatinus' => $validatedData['torus_palatinus'],

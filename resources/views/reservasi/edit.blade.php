@@ -41,10 +41,9 @@
                         <input class="form-check-input" type="number" name="hide_button" id="hide_button" value="0" hidden>
                     </div>
                     <div class="form-group" id="file_input" hidden>
-                        <label for="bpjs">BPJS</label>
-                        <div class="form-check form-switch" id="bpjs-switch">
-                            <input class="form-check-input" type="checkbox" id="bpjsCheckbox"">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">BPJS</label>
+                        <div class="form-check form-switch float-end" id="bpjs-switch">
+                            <input class="form-check-input" type="checkbox" id="bpjsCheckbox">
+                            <label class="form-check-label" for="bpjsCheckbox">BPJS</label>
                             <input type="number" id="bpjs" name="bpjs" value="{{ $reservation->bpjs }}" hidden>
                         </div>
                         <div class="form-group" id="con-pembayaran">

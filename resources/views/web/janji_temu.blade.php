@@ -308,6 +308,7 @@
             <h5>
                 Pilih tanggal dan waktu kunjungan
             </h5>
+            @if ($schedules->count() > 0)
             <form action="/confirm" method="get">
                 <div id="mycard" class="dates">
                     <div class="row">
@@ -342,6 +343,11 @@
                 </div>
             <button class="btn btn-primary mt-3 text-end">Lanjutkan</button>
             </form>
+            @else
+            <div class="col">
+                <strong style="font-size: larger">Belum Ada Jadwal</strong>
+            </div>
+            @endif
         </div>
     </div>
 </div>

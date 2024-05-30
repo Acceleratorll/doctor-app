@@ -109,6 +109,7 @@
     <div class="section">
         @include('web.pasien.rekamMedis', ['record' => $record])
     </div>
+    @if ($record->reservation->schedule->schedule_type->name == 'Gigi')
     <div class="page-break"></div>
     <div class="section">
     @include('odontogram.odontogram', [
@@ -124,6 +125,7 @@
             'othersValue' => $othersValue
     ])
     </div>
+    @endif
     <div class="signature-section">
         <p>Tanda Tangan Dokter:</p>
         <div class="signature-space"></div>

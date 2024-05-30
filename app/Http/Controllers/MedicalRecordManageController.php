@@ -8,6 +8,7 @@ use App\Models\File;
 use App\Models\Icd;
 use App\Models\MedicalRecord;
 use App\Models\Patient;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class MedicalRecordManageController extends Controller
@@ -18,11 +19,20 @@ class MedicalRecordManageController extends Controller
         return view('rekam_medis.index', compact('medical_records'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $patients = Patient::with('user')->get();
-        $icds = Icd::all();
-        return view('rekam_medis.create', compact(['patients', 'icds']));
+        if (isset($request)) {
+            $patient = Patient::find($request->patient_id);
+            $reservation = Reservation::find($request->reservation_id);
+            $icds = Icd::all();
+            $route = isset($request->route) ? $request->route : null;
+            return view('rekam_medis.create', compact(['patient', 'icds', 'route', 'reservation']));
+        } else {
+            $patient = Patient::all();
+            $icds = Icd::all();
+            $route = isset($request->route) ? $request->route : null;
+            return view('rekam_medis.create', compact(['patient', 'icds', 'route']));
+        }
     }
 
     public function store(MedicalRecordRequest $request, FileRequest $fileRequest)
@@ -45,7 +55,11 @@ class MedicalRecordManageController extends Controller
 
         $record->reservation->update(['status' => 2]);
 
-        return redirect()->route('admin.medis.index')->with('success', 'Rekam Medis berhasil Ditambahkan !');
+        if (isset($input['route'])) {
+            return redirect()->route('admin.medis.index')->with('success', 'Rekam Medis berhasil Ditambahkan !');
+        } else {
+            return redirect()->route('admin.rme.gigi.create', ['id' => $record->id]);
+        }
     }
 
     private function sanitizeFilename($filename)

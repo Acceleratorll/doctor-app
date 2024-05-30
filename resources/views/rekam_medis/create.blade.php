@@ -20,22 +20,31 @@
         <div id="rcorners1">
             <form action="/admin/medis" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="route" value="{{ isset($route) ? $route : '' }}">
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
                             <label for="namapasien">Nama Pasien</label>
                             <select class="form-control" name="patient_id" id="namapasien" required>
+                                @if (isset($patient))
+                                <option value="{{ $patient->id }}" selected disabled>{{ $patient->user->name }}</option>
+                                @else
                                 @foreach($patients as $patient)
                                 <option value="0" selected disabled>Pilih Pasien</option>
                                 <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="reservation_id">Kode Reservasi</label>
-                    <select class="form-control select2" name="reservation_id" id="reservation_id" required></select>
+                    <select class="form-control select2" name="reservation_id" id="reservation_id" required>
+                        @if (isset($reservation))
+                        <option value="{{ $reservation->id }}" selected>{{ $reservation->reservation_code }}</option>
+                        @endif
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="icd_code">ICD (Optional)</label>
@@ -84,8 +93,8 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="recipe">Resep</label>
-                            <input class="form-control" type="text" name="recipe" id="recipe" placeholder="Masukkan Resep" required>
+                            <label for="recipe">Resep Dokter</label>
+                            <input class="form-control" type="text" name="recipe" id="recipe" placeholder="Masukkan Resep Dokter" required>
                         </div>
                     </div>
                 </div>

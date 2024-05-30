@@ -86,8 +86,6 @@
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-closed sidebar-collapse" id="sidebar">
     <div class="wrapper">
-
-        <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-dark">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
@@ -428,25 +426,18 @@
                 <div class="container">
                     <!-- Main row -->
                     @yield('container')
-                    
-                    <!-- /.row (main row) -->
                 </div><!-- /.container-fluid -->
             </section>
-            <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
-        
 
-        <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
         </aside>
-        <!-- /.control-sidebar -->
         <footer class="bg-secondary text-white p-3">
-        <div class="container">
-            <p>&copy; 2024 Moch Fajrul Falah. All rights reserved.</p>
-        </div>
-    </footer>
+            <div class="container">
+                <p>&copy; 2024 Moch Fajrul Falah. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
     <!-- ./wrapper -->
 

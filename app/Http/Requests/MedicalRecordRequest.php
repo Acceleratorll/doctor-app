@@ -24,7 +24,7 @@ class MedicalRecordRequest extends FormRequest
     public function rules()
     {
         return [
-            'reservation_id' => 'nullable',
+            'reservation_id' => 'required',
             'icd_code' => 'nullable',
             'desc' => 'nullable',
             'action' => 'required',
@@ -33,6 +33,7 @@ class MedicalRecordRequest extends FormRequest
             'diagnosis' => 'required',
             'recommendation' => 'required',
             'recipe' => 'required',
+            'route' => 'nullable',
         ];
     }
 }

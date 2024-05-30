@@ -198,12 +198,15 @@
                             @foreach($records as $record)
                             <div class="card mb-3">
                               <div class="card-body">
-                                <h5 class="card-title">Tanggal Periksa <strong>{{ date('d F Y', strtotime($record->medical_record->updated_at)) }}</strong></h5>
+                                <h5 class="card-title">Tanggal <strong>{{ date('d F Y', strtotime($record->schedule->schedule_date)) }}</strong></h5>
                                 <p class="card-text">
                                   <small class="text-muted">Dokter: <strong>{{ $record->schedule->employee->user->name }} [{{ $record->schedule->employee->qualification }}]</strong></small>
                                 </p>
+                                <span class="float-left">
+                                    <a href="/print/{{ $record->medical_record_id }}" target="_blank" class="btn btn-primary btn-sm custom-btn-small">Lihat Rekam Medis</a>
+                                </span>
                                 <span class="float-right">
-                                  <a href="{{ route('print.record', $record->medical_record->id) }}" target="_blank" class="btn btn-primary btn-sm custom-btn-small">Lihat</a>
+                                    <a href="" target="_blank" class="btn btn-primary btn-sm custom-btn-small">File Lainnya</a>
                                 </span>
                               </div>
                             </div>
