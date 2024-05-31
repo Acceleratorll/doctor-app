@@ -23,7 +23,7 @@ class ProfileController extends Controller
     {
         $id = auth()->user()->patient->id;
         $today = Carbon::today()->toString();
-        $records = Reservation::with('medical_record', 'schedule')->where('patient_id', $id)->get()->sortByDesc(function ($reservation) {
+        $records = Reservation::whereHas('medical_record')->where('patient_id', $id)->get()->sortByDesc(function ($reservation) {
             return $reservation->schedule->schedule_date;
         });
 

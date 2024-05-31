@@ -207,7 +207,7 @@
 <header class="header header-layout1">
     <!-- /.header-top -->
     <nav class="navbar navbar-expand-lg sticky-navbar">
-            <div class="container-fluid">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
                 <img src="{{ asset('assets/images/logo/2.png') }}" class="logo-light" alt="logo">
                 <img src="{{ asset('assets/images/logo/1.png') }}" class="logo-dark" alt="logo">
@@ -334,6 +334,10 @@
                     <td>: {{ $doctor['name'] }}</td>
                 </tr>
                 <tr>
+                    <td>Dokter Spesialis</td>
+                    <td>: {{ $request['type'] }}</td>
+                </tr>
+                <tr>
                     <td>Tanggal Periksa</td>
                     <td>: {{ $request['schedule_date'] }}</td>
                 </tr>
@@ -348,6 +352,7 @@
             <input type="number" value="{{ $code }}" name="reservation_code" hidden>
             <input type="date" value="{{ $request['schedule_date'] }}" name="schedule_date" hidden>
             <input type="time" value="{{ $request['schedule_time'] }}" name="schedule_time" hidden>
+            <input type="hidden" value="{{ $request['type'] }}" name="type">
             <br>
             <input type="checkbox" id="konfirmasi" style="margin-right:12px" required>
             <label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>

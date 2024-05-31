@@ -310,6 +310,7 @@
             </h5>
             @if ($schedules->count() > 0)
             <form action="/confirm" method="get">
+                <input type="hidden" name="type" value="{{ $type }}">
                 <div id="mycard" class="dates">
                     <div class="row">
                         @foreach($schedules as $schedule)
@@ -351,31 +352,34 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
         $(".schedule_date").on('change', function() {
             var selectedScheduleId = $(this).val();
             if(selectedScheduleId){
-            $.ajax({
-                type:'GET',
-                data : {"_token":"{{ csrf_token() }}"},
-                url: '/getTime/' + selectedScheduleId,
-                dataType: "json",
-            success:function(data) {
-                console.log("success");
-                document.getElementById('schedule_time').innerHTML = data;
-            },
-            error: function(data){
-                console.log("error");
-                console.log(data);
+                $.ajax({
+                    type:'GET',
+                    data : {
+                        "_token":"{{ csrf_token() }}",
+                        "jenis": "{{ $type }}",
+                    },
+                    url: '/getTime/' + selectedScheduleId,
+                    dataType: "json",
+                    success:function(data) {
+                        console.log("success", data);
+                        document.getElementById('schedule_time').innerHTML = data;
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
             }
         });
-    }
     });
-});
-        var header = document.getElementById("collapse1");
-        var btns = header.getElementsByClassName("card");
+    
+    var header = document.getElementById("collapse1");
+    var btns = header.getElementsByClassName("card");
     for (var i = 0; i <btns.length; i++){
         btns[i].addEventListener("click", function (){
             var current =

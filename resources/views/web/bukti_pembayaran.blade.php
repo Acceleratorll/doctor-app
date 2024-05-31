@@ -128,6 +128,7 @@
             <div class="form-container">
                 <form id="default-form" action="{{ route('reservasi.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" value="{{ $request->type }}" name="type">
                     <div class="row">
                         <div class="-col-md-4">
                             <div class="file-input">

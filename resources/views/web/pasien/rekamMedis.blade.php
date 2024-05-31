@@ -23,40 +23,41 @@
     </div>
     <div class="row border p-3 mb-3">
         <p class="judul text-uppercase">Keluhan</p>
-        <p style="font-size: 10px">ANAMNESA (dari penderita/orang lain)</p>
-        <div style="margin-top: 150px">
-            <p>
-                {{ $record->complaint }}
+        <div>
+            <p style="font-size: xx-small">
+                {{ $record->complaint ? $record->complaint : '-' }}
             </p>
         </div>
+        <div class="divider"></div>
+        <small style="font-size: 10px">ANAMNESA (dari penderita/orang lain)</small>
     </div>
     <div class="row border p-3 text-uppercase mb-3">
         <p class="judul text-uppercase">Pemeriksaan Fisik</p>
-        <p>{{ $record->physical_exam }}</p>
+        <p style="font-size: xx-small">{{ $record->physical_exam ? $record->physical_exam : '-' }}</p>
     </div>
     <div class="row border p-3 mb-3">
         <p class="judul text-uppercase">Diagnosa</p>
-        <p>
-            {{ $record->diagnosis }}
+        <p style="font-size: xx-small">
+            {{ $record->diagnosis ? $record->diagnosis : '-' }}
         </p>
     </div>
     <div class="row border p-3 mb-3">
         <p class="judul text-uppercase">Tindakan</p>
-        <p>
-            {{ $record->action }}
+        <p style="font-size: xx-small">
+            {{ $record->action ? $record->action : '-' }}
         </p>
     </div>
     <div class="row border p-3 mb-3">
         <p class="judul text-uppercase">Anjuran</p>
-        <p>
-            {{ $record->recommendation }}
+        <p style="font-size: xx-small">
+            {{ $record->recommendation ? $record->recommendation : '-' }}
         </p>
     </div>
     @if ($record->desc)
     <div class="row border p-3 mb-3">
         <p class="judul text-uppercase">Catatan</p>
-        <p>
-            {{ $record->desc }}
+        <p style="font-size: xx-small">
+            {{ $record->desc ? $record->desc : '-' }}
         </p>
     </div>
     @endif

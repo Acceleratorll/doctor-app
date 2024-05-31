@@ -158,13 +158,13 @@
             </tr>
             <tr>
                 <td>
-                        <p>{{ $diastemaValue }}</p>
+                        <p>{{ $diastemaValue ? $diastemaValue : '-' }}</p>
                 </td>
                 <td>
-                        <p>{{ $anomaliValue }}</p>
+                        <p>{{ $anomaliValue ? $anomaliValue : '-' }}</p>
                 </td>
                 <td>
-                        <p>{{ $othersValue }}</p>
+                        <p>{{ $othersValue ? $othersValue : '-' }}</p>
                 </td>
             </tr>
         </table>

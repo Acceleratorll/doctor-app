@@ -59,10 +59,10 @@ class ReservationController extends Controller
             })
             ->where('schedule_date', '>=', $today)
             ->orderBy('schedule_date', 'asc')
-            ->select(DB::raw('distinct(schedule_date)'))
-            ->get();
+            ->distinct('schedule_date')
+            ->get(['schedule_date', 'schedule_time_end', 'id', 'place_id', 'schedule_type_id']);
 
-        return view('web.janji_temu', compact('schedules'));
+        return view('web.janji_temu', compact('schedules', 'type'));
     }
 
     public function getTime(Request $request)
@@ -71,6 +71,9 @@ class ReservationController extends Controller
             $query->where('reservationable', 1);
         }, 'reservations'])
             ->whereDate('schedule_date', $request['date'])
+            ->whereHas('schedule_type', function ($q) use ($request) {
+                $q->where('name', $request['jenis']);
+            })
             ->get();
 
         $html = '<div class="row" id="schedule_time">';
@@ -110,7 +113,13 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $schedule = Schedule::whereDate('schedule_date', $request['schedule_date'])->where('schedule_time', $request['schedule_time'])->first();
+        $schedule = Schedule::whereDate('schedule_date', $request['schedule_date'])
+            ->where('schedule_time', $request['schedule_time'])
+            ->whereHas('schedule_type', function ($q) {
+                $q->where('name', 'like', '%Gigi%');
+            })
+            ->first();
+
         $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
 
         if ($jumlah < $schedule->qty) {
