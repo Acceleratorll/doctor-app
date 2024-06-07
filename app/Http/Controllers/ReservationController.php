@@ -160,6 +160,10 @@ class ReservationController extends Controller
 
     public function store(ReservationRequest $request)
     {
+        if(!$request->validated()){
+            return redirect()->back()->withInput()->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
+        }
+
         $schedule = Schedule::with('schedule_type')->findOrFail($request->schedule_id);
         $jumlah = Reservation::where('schedule_id', $schedule->id)->where('approve', 1)->get()->count();
         $approve = $request->approve;
@@ -253,9 +257,9 @@ class ReservationController extends Controller
                     ]);
                     return redirect()->route('admin.waiting-list')->with('success', 'Reservation berhasil dibuat !');
                 }
-                return redirect()->route('admin.reservation.create')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
+                return redirect()->back()->withInput()->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
             }
-            return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
+            return redirect()->route('admin.reservation.index')->withInput()->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh');
         }
     }
 
@@ -280,79 +284,50 @@ class ReservationController extends Controller
         ]);
     }
 
-    public function update($id, ReservationRequest $request)
+    public function update($id, Request $request)
     {
-        $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id)->first();
-        if ($reservation->status == 1 && $request['status'] == 0) {
-            $medic = MedicalRecord::where('patient_id', $reservation->patient_id)->latest()->first();
-            $medic->delete();
+        $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id);
 
-            File::where('medical_record_id', $medic->id)->forceDelete();
+        if ($reservation->status == 2 && $request->status == 1) {
+            $medic = MedicalRecord::where('reservation_id', $reservation->id)->first();
 
-            if ($request->hide_button == 1) {
-                if ($request->bpjs == 0 && $request->bukti_pembayaran != null) {
-                    $reservation->update($request->all());
-                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
-                    $reservation->update([
-                        'bukti_pembayaran' => $image,
-                        'bpjs' => $request->bpjs,
-                        'ktp' => '',
-                        'surat_rujukan' => '',
-                        'bpjs_card' => '',
-                    ]);
-
-                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
-                } elseif ($request->ktp != null && $request->bpjs_card != null && $request->surat_rujukan != null) {
-                    $reservation->update($request->all());
-                    $ktp = $request->file('ktp')->store('ktp', 'public');
-                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
-                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
-                    $reservation->update([
-                        'bukti_pembayaran' => '',
-                        'bpjs' => $request->bpjs,
-                        'ktp' => $ktp,
-                        'surat_rujukan' => $surat_rujukan,
-                        'bpjs_card' => $bpjs_card,
-                    ]);
-                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
-                }
-                return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
-            }
-
-            $reservation->update($request->all());
-            return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
-        } else {
-            if ($request->hide_button == 1) {
-                if ($request->bpjs == 0 && $request->bukti_pembayaran != null) {
-                    $reservation->update($request->all());
-                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
-                    $reservation->update([
-                        'bukti_pembayaran' => $image,
-                        'bpjs' => $request->bpjs,
-                        'ktp' => '',
-                        'surat_rujukan' => '',
-                        'bpjs_card' => '',
-                    ]);
-
-                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
-                } elseif ($request->ktp != null && $request->bpjs_card != null && $request->surat_rujukan != null) {
-                    $reservation->update($request->all());
-                    $ktp = $request->file('ktp')->store('ktp', 'public');
-                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
-                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
-                    $reservation->update([
-                        'bukti_pembayaran' => '',
-                        'bpjs' => $request->bpjs,
-                        'ktp' => $ktp,
-                        'surat_rujukan' => $surat_rujukan,
-                        'bpjs_card' => $bpjs_card,
-                    ]);
-                    return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah !');
-                }
-                return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
+            if ($medic) {
+                File::where('medical_record_id', $medic->id)->forceDelete();
+                $medic->delete();
             }
         }
-        return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
+
+        if ($request->hide_button == 1) {
+            if ($request->bpjs == 0) {
+                $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                $reservation->update([
+                    'bukti_pembayaran' => $image,
+                    'bpjs' => $request->bpjs,
+                    'ktp' => '',
+                    'surat_rujukan' => '',
+                    'bpjs_card' => '',
+                ] + $request->all());
+
+                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah!');
+            } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
+                $ktp = $request->file('ktp')->store('ktp', 'public');
+                $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
+                $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                $reservation->update([
+                    'bukti_pembayaran' => '',
+                    'bpjs' => 1,
+                    'ktp' => $ktp,
+                    'surat_rujukan' => $surat_rujukan,
+                    'bpjs_card' => $bpjs_card,
+                ] + $request->all());
+
+                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah!');
+            }
+            return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
+        }
+
+        $reservation->update($request->all());
+        return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah!');
     }
 
     public function finish(Reservation $reservation)
@@ -384,6 +359,11 @@ class ReservationController extends Controller
     public function reject(Request $request, $id)
     {
         $reservation = Reservation::find($id);
+
+        if (!$reservation) {
+            return response()->json(['error' => 'Reservation not found.']);
+        }
+
         $schedule_data  = Schedule::find($reservation->schedule_id);
         $doctor_data = Employee::find($schedule_data->employee_id);
         $patient_data = Patient::find($reservation->patient_id);
@@ -434,6 +414,8 @@ class ReservationController extends Controller
             'approve' => 1,
             'reject_reason' => $request->data,
         ]);
+
+        return response()->json(['success' => 'Reservation rejected successfully!']);
     }
 
     public function approve($id)
@@ -452,13 +434,6 @@ class ReservationController extends Controller
             ->first();
 
         $antrian = ($reservation != null) ? $reservation->nomor_urut + 1 : 1;
-        // $reservation = Reservation::where('schedule_id', $schedule_id)->orderBy('nomor_urut', 'desc')->first();
-        // $antrian = 1;
-        // if ($reservation != null) {
-        //     $antrian = $reservation->nomor_urut + 1;
-        // }
-
-        // send notif to users 
         $title = 'Reservasi Diterima';
         $message = 'Reservasi anda disetujui oleh Dokter ' . $doctor_data->name . ' di ' . $schedule_data->schedule_date . ' ' . $schedule_data->schedule_time . ' - ' . $schedule_data->schedule_time_end . ' di ' . $schedule_data->name . '. Silahkan datang ke tempat praktek sesuai jadwal yang telah ditentukan';
 
@@ -508,7 +483,7 @@ class ReservationController extends Controller
                 'nomor_urut' => $antrian,
             ]);
 
-            return redirect()->route('admin.waiting-list');
+            return redirect()->route('admin.waiting-list')->with('success', 'Reservation approved successfully');
         }
         return redirect()->route('admin.waiting-list')->with('error', 'Maaf, kamu tidak dapat approve reservasi karena kuota sudah penuh');
     }

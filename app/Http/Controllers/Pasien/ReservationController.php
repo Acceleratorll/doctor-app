@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View as ViewView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ReservationController extends Controller
 {
@@ -59,8 +60,10 @@ class ReservationController extends Controller
             })
             ->where('schedule_date', '>=', $today)
             ->orderBy('schedule_date', 'asc')
-            ->distinct('schedule_date')
             ->get(['schedule_date', 'schedule_time_end', 'id', 'place_id', 'schedule_type_id']);
+
+        // Filter out duplicate schedule_date entries
+        $schedules = $schedules->unique('schedule_date');
 
         return view('web.janji_temu', compact('schedules', 'type'));
     }
@@ -100,6 +103,10 @@ class ReservationController extends Controller
 
     public function confirm(Request $request)
     {
+        if ($request == null || $request->schedule_date == null || $request->schedule_time == null) {
+            return back()->with('error', 'Mohon untuk memilih Tanggal dan Waktu terlebih dahulu');
+        }
+
         $schedule = Schedule::whereDate('schedule_date', $request->schedule_date)->where('schedule_time', $request->schedule_time)->first();
         $reservation = Reservation::where('schedule_id', $schedule->id)->get();
         $code = hexdec(substr(uniqid(), 6, 6));

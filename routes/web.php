@@ -34,7 +34,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', [PasienDashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [PasienDashboardController::class, 'index'])
+    ->name('dashboard');
 
 Route::get('/test-covid', function () {
     return view('web.tescovid');
@@ -155,15 +156,17 @@ Route::middleware(['auth', 'patient'])->group(function () {
 
 Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])->name('show.queue');
 
-// Route::fallback(function () {
-//     $userRoles = auth()->user()->getRoleNames();
-//     $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
-
-//     if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
-//         return redirect()->route('admin.dashboard.index');
-//     } else {
-//         return redirect()->route('dashboard');
-//     }
-// });
+Route::fallback(function () {
+    if(!auth()->check() || auth()->user()->patient != null) {
+        return redirect()->route('dashboard');
+    } else {
+        $userRoles = auth()->user()->getRoleNames();
+        $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
+    
+        if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
+            return redirect()->route('admin.dashboard.index');
+        }
+    }
+});
 
 require __DIR__ . '/auth.php';

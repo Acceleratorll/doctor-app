@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class JadwalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $doctor = User::with('employee')->role('superadmin')->first();
@@ -69,22 +64,11 @@ class JadwalController extends Controller
         return view('web.list_klinik', compact(['schedules', 'place']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('web.layanan');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //

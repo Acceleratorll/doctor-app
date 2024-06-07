@@ -69,20 +69,17 @@
                         <label for="code">Nomor Antrian</label>
                         <input type="number" class="form-control" name="reservation_code" value="{{ $reservation->nomor_urut }}" readonly>
                     </div>
-
                     <div class="form-group">
                         <label for="schedule">Jadwal</label>
                         <select name="schedule_id" id="schedule" class="form-control">
                             <option value="0">- Pilih Jadwal -</option>
-                            <option value="{{ $reservation->schedule_id }}" selected>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y'). ' / ' . $reservation->schedule->schedule_time }}</option>
+                            <option value="{{ $reservation->schedule_id }}" selected>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y'). ' / ' . $reservation->schedule->schedule_time. ' | ' . $reservation->schedule->employee->user->name . ' Dokter ' . $reservation->schedule->schedule_type->name }}</option>
                             @foreach ($schedules as $schedule)
-                            <option value="{{ $schedule->id }}">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
-                                $schedule->schedule_time }}
-                            </option>
+                            <option value="{{ $schedule->id }}">{{\Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
+                            $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' Dokter ' . $schedule->schedule_type->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
@@ -92,7 +89,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal"
                     data-target="#modalconfirm">Simpan</button>
@@ -140,6 +136,7 @@
     bpjsCheckbox.addEventListener('change', function () {
         bpjsFieldsContainer.style.display = this.checked ? 'block' : 'none';
         conPembayaran.style.display = this.checked ? 'none' : 'block';
+        this.checked ? bpjs.value = '1' : bpjs.value = '0';
     });
     
     employee.addEventListener('change', async function(e){

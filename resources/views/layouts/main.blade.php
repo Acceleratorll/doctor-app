@@ -156,7 +156,7 @@
                             <a href="{{ route('admin.dokter.index') }}" class="nav-link">
                                 <i class="nav-icon fa fa-users"></i>
                                 <p>
-                                    Dokter
+                                    Superadmin
                                 </p>
                             </a>
                         </li>

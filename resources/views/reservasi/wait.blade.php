@@ -34,25 +34,25 @@
                                             $wait->schedule->schedule_time }}</td>
                                         <td class="text-center">
                                             @if($wait->bpjs == 0)
-                                                <img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
+                                                <img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
                                             @else
-                                                <img src="{{ asset('storage/'.$wait->ktp)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
-                                                <img src="{{ asset('storage/'.$wait->surat_rujukan)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
-                                                <img src="{{ asset('storage/'.$wait->bpjs_card)}}" class="toZoom" style="max-height: 150px; max-width: 150px;" data-zoom-image>
+                                                <img src="{{ asset('storage/'.$wait->ktp)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
+                                                <img src="{{ asset('storage/'.$wait->surat_rujukan)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
+                                                <img src="{{ asset('storage/'.$wait->bpjs_card)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
                                             @endif
                                         </td>
                                         <td class="project-actions text-center">
-                                            <div class="d-flex justify-content-center">
-                                                <form action="{{ route('admin.approve', ['id' => $wait->id]) }}" method="POST">
+                                            <div class="d-flex">
+                                                <form id="approve-form" action="{{ route('admin.approve', ['id' => $wait->id]) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                    <a onclick="approve()" class="btn btn-primary" style="margin-right:4px">
                                                         <i class="fa fa-check"></i>
-                                                    </button>
+                                                    </a>
                                                 </form>
-                                                <button type="submit" id="reject" data-id="{{ $wait->id }}" class="reject btn btn-sm btn-danger">
-                                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
-                                                </button>
+                                                    <button id="reject" data-id="{{ $wait->id }}" class="reject btn btn-sm btn-danger">
+                                                        <i class="fa fa-times-circle"></i>
+                                                    </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -65,7 +65,21 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="imageModalLabel">Zoomed Image</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <img src="" id="modalImage" class="img-fluid" alt="Zoomed Image">
+          </div>
+        </div>
+      </div>
+    </div>
 <script>
     var dropdown = document.getElementsByClassName("dropdown-btn");
 
@@ -78,6 +92,19 @@
         });
     }
 
+    function approve(){
+        Swal.fire({
+            title: 'Approve Reservasi',
+                type: 'info',
+                icon: 'info',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#approve-form').submit();
+                }
+            });
+    }
     
     $(document).ready( function () {
         @if ($message = Session::get('success'))
@@ -110,20 +137,24 @@
                             _token: '{{ csrf_token() }}',
                             data:result.value,
                         },
-                        success: function (response) {
+                        success: function(response) {
                             Swal.fire({
-                                title: 'Reservasi Berhasil Ditolak!',
-                                type: 'success',
+                                title: 'Rejected!',
+                                text: 'Reservation has been rejected.',
                                 icon: 'success',
-                                timer: 1700,
+                                timer: 2000,
+                                showConfirmButton: false
+                            }).then(() => {
+                                location.reload();
                             });
-                            Swal.showLoading();
-                            location.reload();
                         },
-                        error: function (error) {
-                            console.error('Error:', error);
-                            Swal.fire('Error', 'Failed !', 'error');
-                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Failed to reject the reservation.',
+                                icon: 'error'
+                            });
+                        }
                     });
                 }
             });

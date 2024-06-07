@@ -354,7 +354,7 @@
             <input type="time" value="{{ $request['schedule_time'] }}" name="schedule_time" hidden>
             <input type="hidden" value="{{ $request['type'] }}" name="type">
             <br>
-            <input type="checkbox" id="konfirmasi" style="margin-right:12px" required>
+            <input type="checkbox" name="konfirmasi" id="konfirmasi" style="margin-right:12px" required>
             <label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
             <div>
                 <a href="javascript:window.history.go(-1); return false;" class="btn mt-3 text-end">

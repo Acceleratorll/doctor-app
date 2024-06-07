@@ -148,7 +148,7 @@ class ScheduleManageController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.jadwal.index');
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal created successfully !');
     }
 
     private function calculateEndDate($startDate, $frequency, $duration, $identifier)
@@ -183,8 +183,11 @@ class ScheduleManageController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         $input = $request->validated();
+        if(!$input){
+            return redirect()->back()->withInput();
+        }
         $schedule->update($input);
-        return redirect()->route('admin.jadwal.index');
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal updated successfully');
     }
 
     public function destroy($id)

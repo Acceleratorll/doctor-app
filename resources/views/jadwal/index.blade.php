@@ -25,7 +25,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                
                 <div class="row" style="height: 10px"></div>
                 <div class="card">
                     <div class="card-body">

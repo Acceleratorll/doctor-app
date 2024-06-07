@@ -27,7 +27,7 @@
             {{ $message }}
         </div>
         @endif
-        <form action="{{ route('admin.reservation.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="reservation" action="{{ route('admin.reservation.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
                 <div class="col">
@@ -60,10 +60,6 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                {{-- <select class="form-control" name="bpjs" id="bpjsSelect">
-                                    <option value="1">Memakai BPJS</option>
-                                    <option value="0" selected>Tidak Memakai BPJS</option>
-                                </select> --}}
                                 <div class="form-check form-switch" id="bpjs-switch">
                                     <input class="form-check-input" type="checkbox" id="bpjsCheckbox">
                                     <label class="form-check-label" for="flexSwitchCheckDefault">Memakai BPJS</label>

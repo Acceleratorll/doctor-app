@@ -24,18 +24,18 @@ class ReservationRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'required',
-            'schedule_id' => 'required',
-            'reservation_code' => 'required',
-            'bpjs' => '',
-            'bukti_pembayaran' => 'mimes:jpeg,png,jpg',
-            'ktp' => 'file|mimes:jpeg,png,jpg',
-            'bpjs_card' => 'file|mimes:jpeg,png,jpg',
-            'surat_rujukan' => 'file|mimes:jpeg,png,jpg',
-            'approve' => '',
-            'status' => '',
-            'hide_button' => '',
-            'nomor_urut' => '',
+            'patient_id' => 'required|exists:patients,id',
+            'schedule_id' => 'required|exists:schedules,id',
+            'reservation_code' => 'required|string|max:255',
+            'bpjs' => 'nullable|boolean',
+            'bukti_pembayaran' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            'ktp' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            'bpjs_card' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            'surat_rujukan' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            'approve' => 'nullable|boolean',
+            'status' => 'nullable|integer',
+            'hide_button' => 'nullable|boolean',
+            'nomor_urut' => 'nullable|integer',
         ];
     }
 }

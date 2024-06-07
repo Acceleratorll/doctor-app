@@ -316,7 +316,7 @@
                         @foreach($schedules as $schedule)
                         <div class="col-md-3">
                             <a href="#">
-                                <div class="card date">
+                                <div class="card date" style="margin-bottom: 4px">
                                     <input class="form-check-input schedule_date" type="radio" name="schedule_date" id="schedule_date{{ $schedule->id }}" value="{{ $schedule->schedule_date}}">
                                     <div class="card-body active-card1 form-check">
                                         <small class="card-title">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l')}}</small><br>
@@ -354,6 +354,12 @@
 </div>
 <script>
     $(document).ready(function() {
+        @if ($message = Session::get('success'))
+            showSweetAlert('success', '{{ $message }}');
+        @elseif ($message = Session::get('error'))
+            showSweetAlert('error', '{{ $message }}');
+        @endif
+
         $(".schedule_date").on('change', function() {
             var selectedScheduleId = $(this).val();
             if(selectedScheduleId){
@@ -390,6 +396,15 @@
         });
     };
     var cards = document.querySelectorAll(".date");
+
+    function showSweetAlert(type, message) {
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 2000 // Change this value to adjust the display time
+        });
+    }
 
     cards.forEach(function(card) {
     card.addEventListener("click", function() {

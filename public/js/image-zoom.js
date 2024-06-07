@@ -1,16 +1,16 @@
-const modal = document.getElementsByClassName("idMyModal");
-const img = document.getElementsByClassName("toZoom");
-const modalImg = document.getElementsByClassName("modal-content");
-for (let i = 0; i < img.length; i++) {
-    img[i].onclick = function () {
-        modal[i].style.display = "block";
-        modalImg[i].src = this.src;
-    };
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const img = document.getElementsByClassName("toZoom");
 
-var span = document.getElementsByClassName("close");
-for (let i = 0; i < span.length; i++) {
-    span[i].onclick = function () {
-        modal[i].style.display = "none";
+    for (let i = 0; i < img.length; i++) {
+        img[i].onclick = function () {
+            $("#imageModal").modal("show");
+            modalImg.src = this.src;
+        };
+    }
+
+    document.getElementsByClassName("close")[0].onclick = function () {
+        $("#imageModal").modal("hide");
     };
-}
+});
