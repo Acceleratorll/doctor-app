@@ -20,6 +20,11 @@ class PatientSeeder extends Seeder
                 'height' => '144',
                 'weight' => '44',
             ],
+            [
+                'user_id' => 5,
+                'height' => '175',
+                'weight' => '60',
+            ],
         ];
         DB::table('patients')->insert($patient);
     }

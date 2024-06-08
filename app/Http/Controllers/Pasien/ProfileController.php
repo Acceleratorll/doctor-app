@@ -34,6 +34,7 @@ class ProfileController extends Controller
             })
             ->where('status', 0)
             ->orWhere('status', 1)
+            ->orWhere('status', 3)
             ->get()
             ->sortByDesc(function ($reservation) {
                 return $reservation->schedule->schedule_date;

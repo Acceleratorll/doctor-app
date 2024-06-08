@@ -98,13 +98,9 @@
                                                 <a href="/admin/reservation/{{ $reservation->id }}/edit" class="btn btn-warning btn-sm mr-2">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </a>
-                                                <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus reservasi?')">
-                                                        <i class="fas fa-trash"></i> Hapus
-                                                    </button>
-                                                </form>
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $reservation->id }}')">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
                                             </div>
                                         </td>
                                     @endforeach
@@ -148,13 +144,9 @@
                                             <a href="/admin/reservation/{{ $reservation->id }}/edit" class="btn btn-warning btn-sm mr-2">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <form action="{{ route('admin.reservation.destroy', $reservation->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus reservasi?')">
-                                                    <i class="fas fa-trash"></i> Hapus
-                                                </button>
-                                            </form>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $reservation->id }}')">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
                                     </div>
                                 </td>
                                 @endforeach
@@ -328,7 +320,49 @@
             const reservationId = this.id.replace('cancelButton', '');
             hideCollapsible(reservationId);
         });
+        
     });
+    
+    function confirmDelete(reservationId) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send AJAX request
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/admin/reservation/' + reservationId,
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Reservasi berhasil dihapus.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire(
+                            'Error!',
+                            'Terjadi kesalahan saat menghapus reservasi.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
         
 </script>
 @endsection

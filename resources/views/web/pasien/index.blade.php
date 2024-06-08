@@ -235,7 +235,11 @@
                           @foreach($reservation as $reservationItem)
                             <div class="card mb-3 w-100">
                               <div class="card-body">
+                                @if($reservationItem->status == 3)
+                                <h5 class="card-title text-center">Tertolak</strong></h5>
+                                @else
                                 <h5 class="card-title text-center">Nomor Urut: <strong>{{ $reservationItem->nomor_urut }}</strong></h5>
+                                @endif
                                 <p class="card-text text-center">
                                   <table class="centered-table">
                                     <tr>
@@ -249,20 +253,24 @@
                                       <td><small class="text-muted"><b>{{ date('H:i', strtotime($reservationItem->schedule->schedule_time)) }}</b></small></td>
                                   </tr>
                                   <tr>
-                                      <td><small class="text-muted">Status</small></td>
+                                      <td><small class="text-muted">{{ $reservationItem->status == 3 ? 'Alasan' : 'Status' }}</small></td>
                                       <td>:</td>
                                       <td>
-                                          @if($reservationItem->approve == 0)
-                                              <strong class="text-warning">Menunggu Konfirmasi</strong>
-                                          @else
-                                              <strong class="text-success">Sudah di Konfirmasi</strong>
+                                          @if($reservationItem->status == 3)
+                                          <strong class="text-danger">{{ $reservationItem->reject_reason }}</strong>
+                                          @elseif($reservationItem->approve == 1)
+                                          <strong class="text-success">Sudah di Konfirmasi</strong>
+                                          @elseif($reservationItem->approve == 0)
+                                          <strong class="text-warning">Menunggu Konfirmasi</strong>
                                           @endif
                                       </td>
                                   </tr>
                                   </table>
                                 </p>
                                 <div class="text-center">
+                                  @if ($reservationItem->status !== 3)
                                   <a href="cancel/{{ $reservationItem->id }}" class="btn btn-danger btn-sm">Batalkan Pesanan</a>
+                                  @endif
                                 </div>
                               </div>
                             </div>

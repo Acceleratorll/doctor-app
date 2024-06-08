@@ -287,6 +287,7 @@ class ReservationController extends Controller
     public function update($id, Request $request)
     {
         $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id);
+        $type = $reservation->schedule->schedule_type->name;
 
         if ($reservation->status == 2 && $request->status == 1) {
             $medic = MedicalRecord::where('reservation_id', $reservation->id)->first();
@@ -297,7 +298,7 @@ class ReservationController extends Controller
             }
         }
 
-        if ($request->hide_button == 1) {
+        if ($request->hide_button == 1 && $request->bukti_pembayaran != null) {
             if ($request->bpjs == 0) {
                 $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
                 $reservation->update([
@@ -308,7 +309,7 @@ class ReservationController extends Controller
                     'bpjs_card' => '',
                 ] + $request->all());
 
-                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah!');
+                return $this->redirectBasedOnType($type, 'Reservation berhasil diubah!');
             } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
                 $ktp = $request->file('ktp')->store('ktp', 'public');
                 $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
@@ -321,13 +322,24 @@ class ReservationController extends Controller
                     'bpjs_card' => $bpjs_card,
                 ] + $request->all());
 
-                return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah!');
+                return $this->redirectBasedOnType($type, 'Reservation berhasil diubah!');
             }
-            return redirect()->route('admin.reservation.index')->with('error', 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
+            return $this->redirectBasedOnType($type, 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
+        } else if ($request->hide_button == 1 && $request->bukti_pembayaran == null) {
+            return $this->redirectBasedOnType($type, 'Maaf, kamu tidak dapat mengedit reservasi karena terdapat data yang kosong atau tidak tepat');
         }
 
         $reservation->update($request->all());
-        return redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil diubah!');
+        return $this->redirectBasedOnType($type, 'Reservation berhasil diubah!');
+    }
+
+    private function redirectBasedOnType($type, $message)
+    {
+        if ($type == 'Umum') {
+            return redirect()->route('admin.reservation.index')->with('success', $message);
+        } elseif ($type == 'Gigi') {
+            return redirect()->route('admin.reservation.gigi.index')->with('success', $message);
+        }
     }
 
     public function finish(Reservation $reservation)
@@ -341,7 +353,7 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::withTrashed()->findOrFail($id);
         $reservation->forceDelete();
-        return back();
+        return response()->json(['success' => 'Reservation deleted successfully.']);
     }
 
     public function cancel()

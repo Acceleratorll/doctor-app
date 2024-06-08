@@ -58,5 +58,16 @@ class UserSeeder extends Seeder
             'username' => 'pasien',
             'password' => bcrypt('12345'),
         ])->assignRole('pasien');
+
+        User::create([
+            'name' => 'Pasien 2',
+            'phone' => '628219221221',
+            'birth_date' => '1999-3-31',
+            'email' => 'pasien2@mail.com',
+            'gender' => 'Wanita',
+            'address' => 'Jl. Free Palestina',
+            'username' => 'pasien 2',
+            'password' => bcrypt('12345'),
+        ])->assignRole('pasien');
     }
 }

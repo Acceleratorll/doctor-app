@@ -31,7 +31,7 @@ class ReservationRequest extends FormRequest
             'bukti_pembayaran' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
             'ktp' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
             'bpjs_card' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
-            'surat_rujukan' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            'surat_rujukan' => 'nullable|file|mimes:jpeg,png,jpg',
             'approve' => 'nullable|boolean',
             'status' => 'nullable|integer',
             'hide_button' => 'nullable|boolean',
