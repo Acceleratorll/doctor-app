@@ -232,9 +232,7 @@
                         </span>
                         @endif</a>
                 </li><!-- /.nav-item -->
-                <li class="nav__item">
-                    <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
-                </li><!-- /.nav-item -->
+                
                 <li class="nav__item notif">
                     <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
                 </li><!-- /.nav-item -->
@@ -357,9 +355,9 @@
             <input type="checkbox" name="konfirmasi" id="konfirmasi" style="margin-right:12px" required>
             <label for="konfirmasi"> Saya menyatakan bahwa semua data diatas adalah benar.</label>
             <div>
-                <a href="javascript:window.history.go(-1); return false;" class="btn mt-3 text-end">
+                <button onclick="history.back()" class="btn mt-3 text-end">
                     <i class="icon-arrow-left"></i><span>Kembali</span>
-                </a>
+                </button>
                 <button type="submit" class="btn btn-primary mt-3 text-end">Konfirmasi</button>
             </div>
         </form>

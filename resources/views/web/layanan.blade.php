@@ -37,9 +37,6 @@
                         @endif
                     </a>
                 </li><!-- /.nav-item -->
-                <li class="nav__item">
-                    <a href="{{ route('contact.index') }}" class="nav__item-link">Contacts Us</a>
-                </li><!-- /.nav-item -->
                 <li class="nav__item notif">
                     <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi
                         <span>
@@ -97,7 +94,7 @@
                     <p class="slide__desc" style="color: #213360;">"Kesehatan Utama, Layanan Terbaik"</p>
                     <div class="d-flex flex-wrap justify-content-center align-items-center">
                         <a href="/chooseDoctor" class="btn btn__white btn__rounded mr-30">
-                        <span>Buat Janji Temu Doctors</span>
+                        <span>Buat Janji Temu</span>
                         <i class="icon-arrow-right"></i>
                         </a>
                     </div>
