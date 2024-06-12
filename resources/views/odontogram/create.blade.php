@@ -40,7 +40,7 @@
                         @foreach ($right as $teeth)
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
-                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple" required>
                                 <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
@@ -57,7 +57,7 @@
                         @foreach ($mid1 as $teeth)
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
-                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple" required>
                                 <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
@@ -74,7 +74,7 @@
                         @foreach ($mid2 as $teeth)
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
-                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple" required>
                                 <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
@@ -91,7 +91,7 @@
                         @foreach ($left as $teeth)
                         <div class="select2-custom">
                             <label class="select2-label">{{ $teeth->fdi }}</label>
-                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple">
+                            <select name="teeth[{{ $teeth->id }}][]" class="select-custom" multiple="multiple" place required>
                                 <option value="6" selected>sou</option>
                                 @foreach ($groups as $group)
                                 <optgroup label="{{ $group->name }}">
@@ -104,7 +104,6 @@
                         </div>
                         @endforeach
                     </div>
-                    <small class="form-text text-muted">*Default value 'sou'</small>
                     <br>
                 </div>
                 <div class="row">
@@ -252,6 +251,7 @@
                 method: 'GET',
                 data: { patient_id: patientId },
                 success: function(response) {
+                    console.log(response);
                     var htmlContent = '<ul>';
                     htmlContent += '<div class="row">';
                     response.odontograms.forEach(function(item, index) {
@@ -265,10 +265,10 @@
                     htmlContent += '<hr>';
 
                     htmlContent += '<ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap;">';
-                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Occlusi:</strong><br>' + (response.additional_data.occlusi == 'cross' ? 'Cross Bite' : response.additional_data.occlusi == 'steep' ? 'Steep Bite' : 'Normal') + '</li>';
-                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Torus Palatinus:</strong><br>' + response.additional_data.torus_palatinus + '</li>';
-                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Torus Mandibularis:</strong><br>' + response.additional_data.torus_mandibularis + '</li>';
-                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Palatum:</strong><br>' + response.additional_data.palatum + '</li>';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Occlusi:</strong><br>' + (response.additional_data.occlusi === 'cross' ? 'Cross Bite' : response.additional_data.occlusi === 'steep' ? 'Steep Bite' : 'Normal') + '</li>';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Torus Palatinus:</strong><br>' + (response.additional_data.torus_palatinus === 'kecil' ? 'Kecil' : response.additional_data.torus_palatinus === 'sedang' ? 'Sedang' : response.additional_data.torus_palatinus === 'besar' ? 'Besar' : 'Multiple') + '</li>';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Torus Mandibularis:</strong><br>' + (response.additional_data.torus_mandibularis === 'sisi kiri' ? 'Sisi Kiri' : response.additional_data.torus_mandibularis === 'sisi kanan' ? 'Sisi Kanan' : response.additional_data.torus_mandibularis === 'kedua sisi' ? 'Kedua Sisi' : 'Tidak Ada') + '</li>';
+                    htmlContent += '<li style="width: 25%;" class="text-center"><strong>Palatum:</strong><br>' + (response.additional_data.palatum === 'sedang' ? 'Sedang' : response.additional_data.palatum === 'rendah' ? 'Rendah' : 'Dalam') + '</li>';
                     htmlContent += '</ul>';
 
                     $('#odontogramData').html(htmlContent);
@@ -292,7 +292,7 @@
             });
             $('.select-custom').select2({
                 closeOnSelect: false,
-                placeholder: "sou",
+                placeholder: "choose option",
                 allowClear: true
             });
             

@@ -38,7 +38,12 @@ class MedicalRecordManageController extends Controller
     public function store(MedicalRecordRequest $request, FileRequest $fileRequest)
     {
         $input = $request->validated();
-        $record = MedicalRecord::create($input);
+        $record = MedicalRecord::where('reservation_id', $input['reservation_id'])->first();
+        if(!$record){
+            $record = MedicalRecord::create($input);
+        }else{
+            $record->update($input);
+        }
 
         if ($fileRequest->hasFile('files')) {
             foreach ($fileRequest->file('files') as $file) {
@@ -53,9 +58,9 @@ class MedicalRecordManageController extends Controller
             }
         }
 
-        $record->reservation->update(['status' => 2]);
-
-        if (isset($input['route'])) {
+        
+        if ($record->reservation->schedule->schedule_type->name == 'Umum') {
+            $record->reservation->update(['status' => 2]);
             return redirect()->route('admin.medis.index')->with('success', 'Rekam Medis berhasil Ditambahkan !');
         } else {
             return redirect()->route('admin.rme.gigi.create', ['id' => $record->id]);
@@ -102,7 +107,26 @@ class MedicalRecordManageController extends Controller
 
     public function destroy($id)
     {
-        MedicalRecord::findOrFail($id)->forceDelete();
-        return back()->with('success', 'Rekam medis berhasil dihapus !');
+        $data = MedicalRecord::where('id', $id)->first();
+
+        if ($data) {
+            if ($data->files) {
+                $data->files()->delete();
+            }
+
+            if($data->odontograms){
+                $data->odontograms()->each(function ($odontogram) {
+                    $odontogram->symbols()->detach();
+                });
+    
+                $data->odontograms()->delete();
+            }
+
+            $data->forceDelete();
+
+            return back()->with('success', 'Rekam medis deleted successfully!');
+        }
+
+        return back()->with('error', 'Odontogram not found.');
     }
 }

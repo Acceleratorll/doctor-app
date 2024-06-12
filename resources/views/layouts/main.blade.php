@@ -124,9 +124,6 @@
                 </form>
             </ul>
         </nav>
-        <!-- /.navbar -->
-
-        <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="#" class="brand-link" style="text-align:center;">
                 KLINIK
@@ -274,18 +271,22 @@
                                         <p>Semua Jadwal</p>
                                     </a>
                                 </li>
+                                @if ($userRoles->intersect($dokter_gigi)->isNotEmpty() || $userRoles->intersect($superadmin)->isNotEmpty() || $userRoles->intersect($pegawai)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="/admin/gigi/jadwal" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Jadwal Dokter Gigi</p>
                                     </a>
                                 </li>
+                                @endif
+                                @if ($userRoles->intersect($dokter_umum)->isNotEmpty() || $userRoles->intersect($superadmin)->isNotEmpty() || $userRoles->intersect($pegawai)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="/admin/umum/jadwal" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Jadwal Dokter Umum</p>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -315,18 +316,22 @@
                                         <p>Cancel Reservation</p>
                                     </a>
                                 </li>
+                                @if ($userRoles->intersect($dokter_umum)->isNotEmpty() || $userRoles->intersect($superadmin)->isNotEmpty() || $userRoles->intersect($pegawai)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="{{ route('admin.reservation.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Resevasi Umum</p>
                                     </a>
                                 </li>
+                                @endif
+                                @if ($userRoles->intersect($dokter_gigi)->isNotEmpty() || $userRoles->intersect($superadmin)->isNotEmpty() || $userRoles->intersect($pegawai)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="{{ route('admin.reservation.gigi.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Resevasi Gigi</p>
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -338,26 +343,26 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                @if ($userRoles->intersect($dokter_umum)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="/admin/medis/create" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Rekam Medis</p>
                                     </a>
                                 </li>
-                                @endif
                                 <li class="nav-item">
                                     <a href="/admin/medis" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Rekam Medis Umum</p>
                                     </a>
                                 </li>
+                                @if ($userRoles->intersect($dokter_gigi)->isNotEmpty() || $userRoles->intersect($superadmin)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="/admin/rme/gigi/index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Rekam Medis Gigi</p>
+                                        <p>Odontogram</p>
                                     </a>
                                 </li>
+                                @endif
                                 <li class="nav-item">
                                     <a href="{{ route('icd.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -381,12 +386,6 @@
                                         <p>Laporan Kunjungan</p>
                                     </a>
                                 </li>
-                                {{-- <li class="nav-item">
-                                    <a href="{{ route('admin.report.doctors') }}" class="nav-link">
-                                        <i class="nav-icon fa-regular fa-file-lines"></i>
-                                        <p>Laporan Dokter</p>
-                                    </a>
-                                </li> --}}
                                 <li class="nav-item">
                                     <a href="{{ route('admin.report.opens') }}" class="nav-link">
                                         <i class="nav-icon fa-solid fa-file-invoice"></i>

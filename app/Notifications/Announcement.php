@@ -14,12 +14,14 @@ class Announcement extends Notification
     protected $title;
     protected $content;
     protected $created_at;
+    protected $image;
 
-    public function __construct($title, $content, $created_at)
+    public function __construct($title, $content, $created_at, $image)
     {
         $this->title = $title;
         $this->content = $content;
         $this->created_at = $created_at;
+        $this->image = $image;
     }
 
     public function via($notifiable)
@@ -33,6 +35,7 @@ class Announcement extends Notification
             'content' => $this->content,
             'title' => $this->title,
             'created_at' => $this->created_at,
+            'image' => $this->image,
         ];
     }
 
@@ -42,6 +45,7 @@ class Announcement extends Notification
             'content' => $this->content,
             'title' => $this->title,
             'created_at' => $this->created_at,
+            'image' => $this->image,
         ];
     }
 }

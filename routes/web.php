@@ -61,18 +61,6 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         Route::get('/broadcast/{id}', 'broadcast')->name('broadcast');
     });
 
-    Route::prefix('/rme/gigi')->name('admin.rme.gigi.')->controller(OdontogramController::class)->group(function () {
-        Route::get('/index', 'index')->name('index');
-        Route::get('/create/{id}', 'create')->name('create');
-        Route::get('/fetch/{id}', 'fetch')->name('fetch');
-        Route::get('/show/{id}', 'show')->name('show');
-        Route::get('/{id}/edit', 'edit')->name('edit');
-        Route::post('/store', 'store')->name('store');
-        Route::put('/update/{id}', 'update')->name('update');
-        Route::delete('/destroy/{id}', 'destroy')->name('destroy');
-    });
-
-
     Route::prefix('/report')->controller(ReportController::class)->group(function () {
         Route::get('/visitors', 'visitors')->name('admin.report.visitors');
         Route::get('/opens', 'opens')->name('admin.report.opens');
@@ -119,6 +107,17 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
     Route::get('/printrecipes', [ReportController::class, 'cetakRecipes'])->name('cetakRecipes');
 });
 
+Route::middleware(['auth', 'role:dokter_gigi,superadmin'])->prefix('/admin/rme/gigi')->name('admin.rme.gigi.')->controller(OdontogramController::class)->group(function () {
+    Route::get('/index', 'index')->name('index');
+    Route::get('/create/{id}', 'create')->name('create');
+    Route::get('/fetch/{id}', 'fetch')->name('fetch');
+    Route::get('/show/{id}', 'show')->name('show');
+    Route::get('/{id}/edit', 'edit')->name('edit');
+    Route::post('/store', 'store')->name('store');
+    Route::put('/update/{id}', 'update')->name('update');
+    Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+});
+
 Route::get('/getEmployees', [EmployeeManageController::class, 'getEmployees'])->name('employees.get');
 Route::get('/getReservations/{patient}', [ReservationController::class, 'getReservationsByPatient'])->name('reservations.get.by.patient');
 Route::get('/getJsonReservations/{patient}', [ReservationController::class, 'getJsonReservationsByPatient'])->name('reservations.json.get.by.patient');
@@ -128,7 +127,7 @@ Route::get('/antrian/{id}', [ReservationController::class, 'getAntrian']);
 
 Route::get('/download/{id}', [FileController::class, 'download'])->name('files.download');
 
-Route::middleware(['auth', 'patient'])->group(function () {
+Route::middleware(['auth', 'role:pasien'])->group(function () {
     Route::resources([
         '/jadwal' => JadwalController::class,
         '/contact' => ContactController::class,
@@ -156,17 +155,17 @@ Route::middleware(['auth', 'patient'])->group(function () {
 
 Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])->name('show.queue');
 
-Route::fallback(function () {
-    if(!auth()->check() || auth()->user()->patient != null) {
-        return redirect()->route('dashboard');
-    } else {
-        $userRoles = auth()->user()->getRoleNames();
-        $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
+// Route::fallback(function () {
+//     if(!auth()->check() || auth()->user()->patient != null) {
+//         return redirect()->route('dashboard');
+//     } else {
+//         $userRoles = auth()->user()->getRoleNames();
+//         $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
     
-        if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
-            return redirect()->route('admin.dashboard.index');
-        }
-    }
-});
+//         if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
+//             return redirect()->route('admin.dashboard.index');
+//         }
+//     }
+// });
 
 require __DIR__ . '/auth.php';

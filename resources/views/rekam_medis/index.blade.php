@@ -140,7 +140,6 @@
         } );
             
         var table = $('#table').DataTable({
-            scrollY:        "300px",
             scrollX:        true,
             scrollCollapse: true,
             paging:         false,

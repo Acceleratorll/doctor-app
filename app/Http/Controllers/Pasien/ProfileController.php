@@ -139,8 +139,14 @@ class ProfileController extends Controller
 
     public function update(PatientRequest $request, $id)
     {
-        $patient = Patient::findOrFail($id);
         $input = $request->validated();
+
+        if($input){
+            return redirect()->back()->withInput()->with('error', 'Failed to update profile');
+        }
+
+        $patient = Patient::findOrFail($id);
+
         $user = User::findOrFail($patient->user_id);
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             if ($patient->user->image && Storage::exists($patient->user->image)) {
@@ -168,7 +174,8 @@ class ProfileController extends Controller
             'height' => $input['height'],
             'weight' => $input['weight'],
         ]);
-        return redirect()->route('profile.index');
+
+        return redirect()->route('profile.index')->with('success', 'Profile successfully updated');
     }
 
     public function getMedical(Request $request)

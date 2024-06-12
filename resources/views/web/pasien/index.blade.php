@@ -173,7 +173,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-6">
-                      <a class="btn btn-info" target="__blank" href="/profile/{{ auth()->user()->patient->id }}/edit">Edit</a>
+                      <a class="btn btn-info" href="/profile/{{ auth()->user()->patient->id }}/edit">Edit</a>
                     </div>
                       @if(auth()->user()->patient->access_code == null)
                     <div class="col-sm-6">
@@ -203,18 +203,18 @@
                                   <small class="text-muted">Dokter: <strong>{{ $record->schedule->employee->user->name }} [{{ $record->schedule->employee->qualification }}]</strong></small>
                                 </p>
                                 <span class="float-left">
-                                    <a href="/print/{{ $record->medical_record->id }}" target="_blank" class="btn btn-primary btn-sm custom-btn-small">Lihat Rekam Medis</a>
+                                    <a href="/print/{{ $record->medical_record->id }}" class="btn btn-primary btn-sm custom-btn-small">Lihat Rekam Medis</a>
                                 </span>
                                 @if ($record->medical_record->files->count() > 0)
                                 <span class="float-right">
-                                    <a href="/download/{{ $record->medical_record->id }}" target="_blank" class="btn btn-primary btn-sm custom-btn-small">File Lainnya</a>
+                                    <a href="/download/{{ $record->medical_record->id }}" class="btn btn-primary btn-sm custom-btn-small">File Lainnya</a>
                                 </span>
                                 @endif
                               </div>
                             </div>
                             @endforeach
                           @else
-                            <a class="btn btn-info" target="__blank" href="{{ route('code.index') }}" name="btn-code">Lihat Hasil Periksa</a>
+                            <a class="btn btn-info" href="{{ route('code.index') }}" name="btn-code">Lihat Hasil Periksa</a>
                           @endif
                         </div>
                         @else

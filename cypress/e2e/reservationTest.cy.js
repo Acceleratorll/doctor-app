@@ -14,12 +14,36 @@ describe("Reservation Test", () => {
         cy.url().should("include", "/admin/dashboard");
     });
 
-    it("create reservation umum approved", () => {
+    it("create reservation approved", () => {
         cy.visit("http://127.0.0.1:8000/admin/reservation/create");
         cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
         cy.get("#approve").select("Approved");
         cy.get('select[name="schedule_id"]').select(1, { force: true });
         cy.get('select[name="patient_id"]').select(0, { force: true });
+        cy.get(".btn-primary").click();
+        cy.visit("http://127.0.0.1:8000/admin/reservation/create");
+        cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
+        cy.get("#approve").select("Approved");
+        cy.get('select[name="schedule_id"]').select(1, { force: true });
+        cy.get('select[name="patient_id"]').select(0, { force: true });
+        cy.get(".btn-primary").click();
+        cy.visit("http://127.0.0.1:8000/admin/reservation/create");
+        cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
+        cy.get("#approve").select("Approved");
+        cy.get('select[name="schedule_id"]').select(4, { force: true });
+        cy.get('select[name="patient_id"]').select(1, { force: true });
+        cy.get(".btn-primary").click();
+        cy.visit("http://127.0.0.1:8000/admin/reservation/create");
+        cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
+        cy.get("#approve").select("Approved");
+        cy.get('select[name="schedule_id"]').select(4, { force: true });
+        cy.get('select[name="patient_id"]').select(1, { force: true });
+        cy.get(".btn-primary").click();
+        cy.visit("http://127.0.0.1:8000/admin/reservation/create");
+        cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
+        cy.get("#approve").select("Approved");
+        cy.get('select[name="schedule_id"]').select(4, { force: true });
+        cy.get('select[name="patient_id"]').select(1, { force: true });
         cy.get(".btn-primary").click();
         cy.contains("Reservation berhasil dibuat").should("exist");
     });

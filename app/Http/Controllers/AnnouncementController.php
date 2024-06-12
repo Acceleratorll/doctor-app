@@ -46,7 +46,7 @@ class AnnouncementController extends Controller
         $announcement = Announcement::findOrFail($id);
         $patients = Patient::all();
         foreach ($patients as $patient) {
-            $patient->notify(new NotificationsAnnouncement($announcement->content, $announcement->title, $announcement->created_at));
+            $patient->notify(new NotificationsAnnouncement($announcement->content, $announcement->title, $announcement-> updated_at->format('F d, Y'), $announcement->image));
         }
 
         $announcement->update(['publish' => 1]);

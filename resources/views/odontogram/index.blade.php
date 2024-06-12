@@ -8,7 +8,7 @@
 
 @section('container')
 <div class="table-responsive">
-    <table class="table table-bordered text-center" style="width: 100%">
+    <table class="table table-bordered text-center" style="width: 100%; height: 100%">
         <thead class="thead-dark">
             <tr>
                 <th>ID</th>
@@ -107,7 +107,7 @@
                 fixedColumns: true,
                 scrollCollapse: true,
                 scrollX: true,
-                scrollY: 300,
+                // scrollY: 700,
                 initComplete: function () {
                     this.api()
                         .columns()

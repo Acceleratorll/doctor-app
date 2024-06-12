@@ -27,7 +27,7 @@
                                             <th scope="col" class="text-center">Judul</th>
                                             <th scope="col" class="text-center">Konten</th>
                                             <th scope="col" class="text-center">Image</th>
-                                            <th scope="col" class="text-center">Pegawai</th>
+                                            <th scope="col" class="text-center">Author</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                         </thead>

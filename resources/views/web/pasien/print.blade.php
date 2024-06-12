@@ -98,7 +98,7 @@
             text-align: center;
         }
         .judul {
-            font-size: small;
+            font-size: x-small;
             font-weight: bold;
         }
         .divider {

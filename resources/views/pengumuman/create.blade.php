@@ -40,7 +40,7 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="image">Gambar Pengumuman</label>
+                        <label for="image">Gambar Pengumuman(Optional)</label>
                         <input type="file" placeholder="Masukkan gambar Pengumuman" class="form-control" name="image" id="image"/>
                     </div>
                 </div>

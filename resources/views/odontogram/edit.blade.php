@@ -211,7 +211,7 @@
             });
             $('.select-custom').select2({
                 closeOnSelect: false,
-                placeholder: "sou",
+                placeholder: "choose option",
                 allowClear: true
             });
             

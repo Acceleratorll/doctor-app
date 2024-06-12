@@ -10,7 +10,7 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        $announcements = Announcement::orderBy('created_at', 'desc')->get();
+        $announcements = Announcement::orderBy('created_at', 'desc')->where('publish', 1)->get();
         return view('web.pengumuman.index', compact('announcements'));
     }
 

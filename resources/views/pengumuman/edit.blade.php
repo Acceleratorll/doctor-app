@@ -43,6 +43,7 @@
                     <div class="form-group">
                         <label for="image">Gambar Pengumuman</label>
                         <input type="file" placeholder="Masukkan gambar Pengumuman" class="form-control" name="image" id="image"/>
+                        <small>* (Jika tidak mengubah gambar kosongi saja)</small>
                     </div>
                 </div>
             </div>

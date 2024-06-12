@@ -23,6 +23,7 @@ class OdontogramController extends Controller
                     });
                 });
             })
+            ->whereHas('odontograms')
             ->get();
 
         return view('odontogram.index', compact('data'));
@@ -201,7 +202,7 @@ class OdontogramController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.rme.gigi.index')->with('success', 'Medical record and odontogram created successfully.');
+            return redirect()->route('admin.rme.gigi.index')->with('success', 'Medical record and odontogram created successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->with('error', $e->getMessage());
@@ -306,12 +307,16 @@ class OdontogramController extends Controller
         $data = MedicalRecord::where('id', $id)->first();
 
         if ($data) {
+            if($data->files){
+                $data->files()->delete();
+            }
+
             $data->odontograms()->each(function ($odontogram) {
                 $odontogram->symbols()->detach(); // Remove associations with symbols
             });
-            $data->odontograms()->delete();
 
-            $data->forceDelete();
+            $data->odontograms()->delete();
+            
             return back()->with('success', 'Odontogram deleted successfully.');
         }
 

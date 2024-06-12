@@ -169,7 +169,6 @@ class ReportController extends Controller
         }
 
         $data = $data->orderBy('updated_at', 'desc')->get();
-        dd($data);
 
         return DataTables::of($data)
             ->addColumn('id', function ($item) {
