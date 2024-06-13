@@ -28,7 +28,6 @@ class PatientManageController extends Controller
     {
         $input = $request->validated();
         $user = User::create([
-            'role_id' => $input['role_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
             'address' => $input['address'],
@@ -44,7 +43,10 @@ class PatientManageController extends Controller
             'height' => $input['height'],
             'weight' => $input['weight'],
         ]);
-        return redirect()->route('admin.pasien.index');
+
+        $user->assignRole('pasien');
+
+        return redirect()->route('admin.pasien.index')->with('success', 'Patient successfully created');
     }
 
     public function show($id)
@@ -64,7 +66,6 @@ class PatientManageController extends Controller
         $user = User::findOrFail($patient->user_id);
 
         $user->update([
-            'role_id' => $input['role_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
             'address' => $input['address'],
@@ -72,7 +73,6 @@ class PatientManageController extends Controller
             'gender' => $input['gender'],
             'email' => $input['email'],
             'username' => $input['username'],
-            'password' => bcrypt($input['password']),
         ]);
 
         $patient->update([
@@ -81,13 +81,13 @@ class PatientManageController extends Controller
             'weight' => $input['weight'],
         ]);
 
-        return redirect()->route('admin.pasien.index');
+        return redirect()->route('admin.pasien.index')->with('success', 'Patient successfully updated');
     }
 
     public function destroy($id)
     {
         Patient::findOrFail($id)->forceDelete();
-        return back();
+        return back()->with('success', 'Patient successfully deleted');
     }
 
     public function tableReservations($patient)

@@ -25,7 +25,6 @@ class PatientRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'role_id' => '',
             'phone' => 'required',
             'email' => 'required',
             'address' => 'required',

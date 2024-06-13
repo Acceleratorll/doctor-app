@@ -9,15 +9,6 @@
 @section('container')
     <div class="container">
         <div id="rcorners1">
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
             <form action="/admin/pasien/{{ $patient->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -94,14 +85,6 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="Password">Password</label>
-                        <input type="password" placeholder="Masukkan Password" class="form-control" name="password" id="password" required>
-                    </div>
-                </div>
-            </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
                 <form>
@@ -118,16 +101,26 @@
         var i;
 
         for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-            } else {
-            dropdownContent.style.display = "block";
-            }
-        });
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+                } else {
+                dropdownContent.style.display = "block";
+                }
+            });
         }
+
+        function showSweetAlert(type, message) {
+            Swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000 // Change this value to adjust the display time
+            });
+        }
+
         $(document).ready(
             function(){
                 $('#sidebarcollapse').on('click',function(){

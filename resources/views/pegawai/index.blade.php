@@ -81,21 +81,35 @@
         var i;
 
         for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-            } else {
-            dropdownContent.style.display = "block";
-            }
-        });
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+                } else {
+                dropdownContent.style.display = "block";
+                }
+            });
         }
-    $(document).ready( function () {
-        $('#table').DataTable();
-    } );
+
+        function showSweetAlert(type, message) {
+            Swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000 // Change this value to adjust the display time
+            });
+        }
+
     $(document).ready(
         function(){
+            @if ($message = Session::get('success'))
+            showSweetAlert('success', '{{ $message }}');
+            @elseif ($message = Session::get('error'))
+            showSweetAlert('error', '{{ $message }}');
+            @endif
+            
+            $('#table').DataTable();
             $('#sidebarcollapse').on('click',function(){
                 $('#sidebar').toggleClass('active');
             });

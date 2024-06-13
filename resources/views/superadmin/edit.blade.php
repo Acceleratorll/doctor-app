@@ -8,15 +8,6 @@
 
 @section('container')
     <div class="container">
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
         <div id="rcorners1">
             <form action="/admin/dokter/{{ $superadmin->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -80,17 +71,25 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="Username">Username</label>
-                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role_id" value="1" hidden>
-                        <input type="text" value="{{ $superadmin->username }}" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
+                        <label for="Role">Role</label>
+                        <select name="role[]" id="role" class="select-custom form-control" multiple>
+                            @foreach ($superadmin->getRoleNames() as $role)
+                                <option value="{{ $role }}" selected>{{ $role == 'dokter_umum' ? 'Dokter Umum' : ($role == 'dokter_gigi' ? 'Dokter Gigi' : ($role == 'superadmin' ? 'Superadmin' : 'Pegawai')) }}</option>
+                            @endforeach
+                            <option value="superadmin">Superadmin</option>
+                            <option value="pegawai">Pegawai</option>
+                            <option value="dokter_umum">Dokter Umum</option>
+                            <option value="dokter_gigi">Dokter Gigi</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="Password">Password</label>
-                        <input type="password" placeholder="Masukkan Password" class="form-control" name="password" id="password" required>
+                        <label for="Username">Username</label>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role_id" value="1" hidden>
+                        <input type="text" value="{{ $superadmin->username }}" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
                     </div>
                 </div>
             </div>
@@ -98,9 +97,8 @@
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
                 <form>
                     <input type="button" value="Batal" class="btn btn-danger" onclick="history.back()">
-                   </form>
+                </form>
             </div>
-            
             </form>
         </div>
     </div>
@@ -110,20 +108,42 @@
         var i;
 
         for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-            } else {
-            dropdownContent.style.display = "block";
-            }
-        });
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+                } else {
+                dropdownContent.style.display = "block";
+                }
+            });
         }
+
+        function showSweetAlert(type, message) {
+            Swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000 // Change this value to adjust the display time
+            });
+        }
+
         $(document).ready(
             function(){
+                @if ($message = Session::get('success'))
+                showSweetAlert('success', '{{ $message }}');
+                @elseif ($message = Session::get('error'))
+                showSweetAlert('error', '{{ $message }}');
+                @endif
+                
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');
+                });
+
+                $('.select-custom').select2({
+                    closeOnSelect: false,
+                    placeholder: "choose role",
+                    allowClear: true
                 });
             }
         )
