@@ -1,7 +1,6 @@
 @extends('layouts.mainweb')
 
 @section('content')
-<header class="bg-light py-5">
     <div class="container px-5">
         @if(isset($schedule))
         <div class="row gx-5 align-items-center justify-content-center">
@@ -34,5 +33,4 @@
         @endif
 
     </div>
-</header>
 @endsection

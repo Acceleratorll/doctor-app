@@ -21,20 +21,96 @@ $doctor = User::role('superadmin')->first();
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @stack('css')
+    <style>
+        .logo{
+            max-width: 150px;
+            max-height: 50px;
+        }
+    </style>
 </head>
 
-    <body>
-    {{-- <div class="wrapper">
-        <div class="preloader">
-        <div class="loading"><span></span><span></span><span></span><span></span></div>
-        </div> --}}
-        <!-- /.preloader -->
+<body>
+    <!-- =========================
+            Header
+        =========================== -->
+    <header class="header header-layout1">
+        <nav class="navbar navbar-expand-lg sticky-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ route('dashboard') }}">
+                    <img src="{{ asset('assets/images/logo/LOGO_1.png') }}" class="logo logo-light" alt="logo">
+                    <img src="{{ asset('assets/images/logo/LOGO_1.png') }}" class="logo logo-dark" alt="logo">
+                </a>
+                <button class="navbar-toggler" type="button">
+                    <span class="menu-lines"><span></span></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavigation">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav__item">
+                            <a href="{{ route('dashboard') }}" class="nav__item-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">Home</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="{{ route('jadwal.index') }}" class="nav__item-link {{ request()->routeIs('jadwal.index') ? 'active' : '' }}">Layanan</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="{{ route('show.queue') }}" class="nav__item-link {{ request()->routeIs('show.queue') ? 'active' : '' }}">Saat Ini</a>
+                        </li>
+                        <li class="nav__item notif">
+                            <a href="{{ route('pengumuman.index') }}" class="nav__item-link {{ request()->routeIs('pengumuman.index') ? 'active' : '' }}">Pengumuman
+                                @if(auth()->user())
+                                <span>
+                                    {{ auth()->user()->patient->unreadNotifications->where('type', 'App\Notifications\Announcement')->count() }}
+                                </span>
+                                @endif
+                            </a>
+                        </li>
+                        <li class="nav__item notif">
+                            <a href="{{ url('/notifikasi') }}" class="nav__item-link {{ request()->is('notifikasi') ? 'active' : '' }}">Notifikasi
+                                @if(auth()->user())
+                                <span>
+                                    {{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\ReservationReminder')->count() }}
+                                </span>
+                                @endif
+                            </a>
+                        </li>
+                        @if(auth()->user())
+                        <li class="nav__item dropdown">
+                            <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ Auth::user()->name }}
+                            </a>
+                                
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" href="/profile">My Profile</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>
+                </div>
+                
+                @else
+                <div class="d-none d-xl-flex align-items-center position-relative ml-30">
+                    <a href="{{ route('login') }}" class="btn btn__primary btn__rounded ml-30">
+                        <i class="icon-calendar"></i>
+                        <span>Login</span>
+                    </a>
+                </div>
+                @endif
+            </div>
+        </nav>
+    </header>
 
-        @yield('content')
-        <!-- ========================
-        Footer
-        ========================== -->
-        <footer class="footer">
+    @yield('content')
+    <!-- ========================
+    Footer
+    ========================== -->
+    <footer class="footer">
         <div class="footer-primary">
             <div class="container">
             <div class="row">
@@ -88,10 +164,9 @@ $doctor = User::role('superadmin')->first();
             </div><!-- /.row -->
             </div><!-- /.container -->
         </div><!-- /.footer-primary -->
-        </footer><!-- /.Footer -->
-        <button id="scrollTopBtn"><i class="fas fa-long-arrow-alt-up"></i></button>
-    </div><!-- /.wrapper -->
-
+    </footer><!-- /.Footer -->
+    <button id="scrollTopBtn"><i class="fas fa-long-arrow-alt-up"></i></button>
+    
     <script src=" {{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <script src=" {{ asset('assets/js/plugins.js') }}"></script>
     <script src=" {{ asset('assets/js/main.js') }}"></script>

@@ -141,6 +141,7 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
     Route::put('/saveCode', [AccessCodeController::class, 'saveCode'])->name('save.code');
     Route::get('/verifyCode', [AccessCodeController::class, 'verifyCode'])->name('verifyCode');
     Route::get('/chooseDoctor', [PasienReservationController::class, 'chooseDoctor'])->name('choose.doctor');
+    Route::get('/choosePlace', [PasienReservationController::class, 'choosePlace'])->name('choose.place');
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
     Route::get('/bukti-pembayaran', [PasienReservationController::class, 'bukti']);
     Route::get('/cancel/{id}', [PasienReservationController::class, 'cancel']);

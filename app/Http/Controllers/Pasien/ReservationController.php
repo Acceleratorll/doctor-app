@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FileRequest;
+use App\Models\Place;
 use App\Models\Reservation;
 use App\Models\Schedule;
 use App\Models\User;
@@ -55,17 +56,19 @@ class ReservationController extends Controller
         $schedules = Schedule::with(['place' => function ($query) {
             $query->where('reservationable', 1);
         }, 'schedule_type'])
-            ->whereHas('schedule_type', function ($q) use ($type) {
-                $q->where('name', $type);
-            })
-            ->where('schedule_date', '>=', $today)
-            ->orderBy('schedule_date', 'asc')
-            ->get(['schedule_date', 'schedule_time_end', 'id', 'place_id', 'schedule_type_id']);
-
+        ->where('place_id', $request->place_id)
+        ->whereHas('schedule_type', function ($q) use ($type) {
+            $q->where('name', $type);
+        })
+        ->where('schedule_date', '>=', $today)
+        ->orderBy('schedule_date', 'asc')
+        ->get(['schedule_date', 'schedule_time_end', 'id', 'place_id', 'schedule_type_id']);
+        
         // Filter out duplicate schedule_date entries
         $schedules = $schedules->unique('schedule_date');
+        $place_id = $request->place_id;
 
-        return view('web.janji_temu', compact('schedules', 'type'));
+        return view('web.janji_temu', compact('schedules', 'type', 'place_id'));
     }
 
     public function getTime(Request $request)
@@ -73,6 +76,7 @@ class ReservationController extends Controller
         $times = Schedule::with(['place' => function ($query) {
             $query->where('reservationable', 1);
         }, 'reservations'])
+            ->where('place_id', $request->place_id)
             ->whereDate('schedule_date', $request['date'])
             ->whereHas('schedule_type', function ($q) use ($request) {
                 $q->where('name', $request['jenis']);
@@ -129,7 +133,7 @@ class ReservationController extends Controller
 
         $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
         $haveReservation = Reservation::where('schedule_id', $schedule->id)->where('patient_id', auth()->user()->patient->id)->first();
-        if(isset($haveReservation)){
+        if (isset($haveReservation)) {
             return redirect()->route('profile.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kamu telah melakukan reservasi pada jadwal ini');
         }
 
@@ -184,9 +188,15 @@ class ReservationController extends Controller
         return view('web.bukti_pembayaran', compact(['request']));
     }
 
-    public function chooseDoctor()
+    public function chooseDoctor(Request $request)
     {
-        return view('web.pilih_dokter');
+        $place_id = $request->place_id;
+        return view('web.pilih_dokter', compact('place_id'));
+    }
+    public function choosePlace()
+    {
+        $place = Place::all();
+        return view('web.pilih_tempat', compact('place'));
     }
 
     public function show($id)

@@ -199,23 +199,27 @@
         border-color: #3f6d6a;
         background-color: #547d7a;
     }
-
+    img {
+        display: block;
+        max-width:300px;
+        max-height:300px;
+        width: auto;
+        height: auto;
+    }
 </style>
 <div class="about-layout4 pb-0 ">
     <div class="row">
         <div class="col-md-2">
             <div class="px-5 py-5">
-                <ul class="list-items list-items-layout3 list-unstyled">
+                <ul class="package__list list-items list-items-layout2 list-unstyled">
                     <li>
                         <h6>Pilih Tempat</h6>
                     </li>
                 </ul>
-                <ul class=" package__list list-items list-items-layout2 list-unstyled">
+                <ul class=" list-items list-items-layout3 list-unstyled">
                     <li>
                         <h6>Pilih Dokter</h6>
                     </li>
-                </ul>
-                <ul class="list-items list-items-layout3 list-unstyled">
                     <li>
                         <h6>Alur Jadwal</h6>
                     </li>
@@ -229,34 +233,23 @@
                 
             </div>
         </div>
+        @foreach ($place as $item)
         <div class="col-md-5 px-5 py-5">
             <div class="card" style="width: 20rem;">
-                <img class="card-img-top" src="{{url('/assets/images/cards/pexels-pavel-danilyuk-7108344.jpg')}}">
                 <div class="card-body">
-                    <h5 class="card-title">Praktek Dokter Umum</h5>
-                    <p class="card-text">Pelayanan pemeriksaan Dokter Umum.</p>
-                    <form action="reservasi/create" method="get">
-                        <input type="hidden" name="type" value="Umum">
-                        <input type="hidden" name="place_id" value="{{ $place_id }}">
-                        <button type="submit" class="btn btn-primary">Dokter Umum</button>
+                    <img class="card-img-top" height="400px" width="400px" src="{{url('/assets/images/logo/LOGO-2.png')}}" style="margin-bottom: 15px">
+                    <h5 class="card-title text-center">{{ $item->name }}</h5>
+                    <p class="card-text">{{ $item->desc }}</p>
+                    <form action="chooseDoctor" method="get">
+                        <input type="hidden" name="place_id" value="{{ $item->id }}">
+                        <center>
+                            <button type="submit" class="btn btn-primary">Pilih</button>
+                        </center>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-md-5 px-5 py-5">
-            <div class="card" style="width: 20rem;">
-                <img class="card-img-top" src="{{url('/assets/images/cards/pexels-cottonbro-studio-6528907.jpg')}}">
-                <div class="card-body">
-                    <h5 class="card-title">Praktek Dokter Gigi</h5>
-                    <p class="card-text">Pelayanan pemeriksaan Dokter Spesialis Gigi.</p>
-                    <form action="reservasi/create" method="get">
-                        <input type="hidden" name="place_id" value="{{ $place_id }}">
-                        <input type="hidden" name="type" value="Gigi">
-                        <button type="submit" class="btn btn-primary">Dokter Gigi</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
 
