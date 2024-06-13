@@ -14,34 +14,6 @@
                         </div><!-- /.heading -->
                     </div><!-- /.col-lg-6 -->
                 </div><!-- /.row -->
-                @if($praktikUmum != null)
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="service-item">
-                        <div class="service__content">
-                            <h5 class="service__title">Saat Ini Dokter Sedang Melakukan Praktek di {{ $praktikUmum->place->name }}
-                                <a href="/notifikasi-remove/1" class="btn btn__secondary btn__rounded" style="float: right;">
-                                    <span>Oke</span></i>
-                                </a>
-                            </h5>
-                            <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
-                        </div><!-- /.service__content -->
-                    </div><!-- /.service-item -->
-                </div>
-                @endif
-                @if($praktikGigi != null)
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="service-item">
-                        <div class="service__content">
-                            <h5 class="service__title">Saat Ini Dokter {{ $praktikGigi->schedule_type->name }} Sedang Melakukan Praktek di {{ $praktikGigi->place->name }}
-                                <a href="/notifikasi-remove/1" class="btn btn__secondary btn__rounded" style="float: right;">
-                                    <span>Reservasi</span></i>
-                                </a>
-                            </h5>
-                            <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
-                        </div><!-- /.service__content -->
-                    </div><!-- /.service-item -->
-                </div>
-                @endif
                 @if ($reservation != null)
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="service-item">
@@ -62,7 +34,7 @@
                                             </div><!-- /.service__icon -->
                                             <div class="service__content">
                                                 <h5 class="service__title">Antrian Saai Ini</h5>
-                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $queueNow->nomor_urut }}</h1>
+                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $queueNow != null ? $queueNow->nomor_urut : 1 }}</h1>
                                             </div><!-- /.service__content -->
                                         </div><!-- /.service-item -->
                                     </div><!-- /.col-lg-4 -->
@@ -82,12 +54,41 @@
                                 </div>
                             </div>
                         </div><!-- /.service__content -->
-                        
                     </div><!-- /.service-item -->
                 </div><!-- /.col-lg-4 -->
-                <!-- /.col-lg-4 -->
-
                 @endif<!-- /.col-lg-4 -->
+                @if($praktikUmum != null)
+                @foreach ($praktikUmum as $schedule)
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="service-item">
+                        <div class="service__content">
+                            <h5 class="service__title">Saat Ini Dokter {{ $schedule->schedule_type->name }} Sedang Melakukan Praktek di {{ $schedule->place->name }}
+                                <a href="/choosePlace" class="btn btn__secondary btn__rounded" style="float: right;">
+                                    <span>Reservasi</span></i>
+                                </a>
+                            </h5>
+                            <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
+                        </div><!-- /.service__content -->
+                    </div><!-- /.service-item -->
+                </div>
+                @endforeach
+                @endif
+                @if($praktikGigi != null)
+                @foreach ($praktikGigi as $schedule)
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="service-item">
+                        <div class="service__content">
+                            <h5 class="service__title">Saat Ini Dokter {{ $schedule->schedule_type->name }} Sedang Melakukan Praktek di {{ $schedule->place->name }}
+                                <a href="/choosePlace" class="btn btn__secondary btn__rounded" style="float: right;">
+                                    <span>Reservasi</span></i>
+                                </a>
+                            </h5>
+                            <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
+                        </div><!-- /.service__content -->
+                    </div><!-- /.service-item -->
+                </div>
+                @endforeach
+                @endif
             </div><!-- /.container -->
         </section><!-- /.shop -->
 {{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\ReservationReminder')->markAsRead() }}

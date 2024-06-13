@@ -42,7 +42,6 @@ class EmployeeManageController extends Controller
     {
         $input = $request->validated();
         $user = User::create([
-            'role_id' => $input['role_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
             'address' => $input['address'],
@@ -55,8 +54,10 @@ class EmployeeManageController extends Controller
 
         Employee::create([
             'user_id' => $user->id,
-            'qualification' => "",
+            'qualification' => $input['qualification'],
         ]);
+
+        $user->syncRoles($input['role']);
 
         return redirect()->route('admin.pegawai.index')->with('success', 'Pegawai berhasil ditambahkan !');
     }
@@ -68,7 +69,7 @@ class EmployeeManageController extends Controller
 
     public function edit($id)
     {
-        $employee = User::with('role')->findOrFail($id);
+        $employee = User::findOrFail($id);
         return view('pegawai.edit', compact('employee'));
     }
 
@@ -77,7 +78,6 @@ class EmployeeManageController extends Controller
         $employee = User::findOrFail($id);
         $input = $request->validated();
         $employee->update([
-            'role_id' => $input['role_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
             'address' => $input['address'],
@@ -85,8 +85,9 @@ class EmployeeManageController extends Controller
             'gender' => $input['gender'],
             'email' => $input['email'],
             'username' => $input['username'],
-            'password' => bcrypt($input['password']),
         ]);
+
+        $employee->syncRoles($input['role']);
         return redirect()->route('admin.pegawai.index')->with('success', 'Pegawai berhasil diupdate !');
     }
 

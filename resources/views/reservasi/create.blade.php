@@ -46,13 +46,17 @@
                     <div class="form-group">
                         <label for="schedule">Jadwal</label>
                         <select name="schedule_id" id="jadwal" class="form-control" required>
-                            @if($schedules->count() < 1)
+                            @if($places->count() < 1)
                             <option value="">Tidak Ada Jadwal</option>
                             @else
-                            <option value="" selected>--- Pilih Jadwal ---</option>
-                            @foreach($schedules as $schedule)
-                            <option value="{{ $schedule->id }}">{{\Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
-                            $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' Dokter ' . $schedule->schedule_type->name }}</option>
+                            <option value="" selected disabled>--- Pilih Jadwal ---</option>
+                            @foreach($places as $place)
+                            <optgroup label="{{ $place->name }}">
+                                @foreach ($place->schedules as $schedule)
+                                <option value="{{ $schedule->id }}">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
+                                    $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' Dokter ' . $schedule->schedule_type->name }}</option>
+                                @endforeach
+                            </optgroup>
                             @endforeach
                             @endif
                         </select>

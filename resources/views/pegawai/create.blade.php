@@ -68,23 +68,27 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="form-row">
+            <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="kualifikasi">Spesialisasi</label>
                         <input type="text" placeholder="Masukkan Kualifikasi" class="form-control" name="qualification" id="kualifikasi" required>
                     </div>
                 </div>
-            </div> --}}
-            {{-- <div class="form-row">
+            </div>
+            <div class="form-row">
                 <div class="col">
                     <div class="form-group">
                         <label for="Role">Role</label>
-                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_name" id="role" value="Pegawai" readonly>
-                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role" value="2" hidden>
+                        <select name="role[]" id="role" class="form-control select-custom" multiple>
+                            <option value="" disabled>Pilih Role</option>
+                            <option value="pegawai">Pegawai</option>
+                            <option value="dokter_umum">Dokter Umum</option>
+                            <option value="dokter_gigi">Dokter Gigi</option>
+                        </select>
                     </div>
                 </div>
-            </div> --}}
+            </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
@@ -131,6 +135,12 @@
             function(){
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');
+                });
+
+                $('.select-custom').select2({
+                    closeOnSelect: false,
+                    placeholder: "choose role",
+                    allowClear: true
                 });
             }
         )

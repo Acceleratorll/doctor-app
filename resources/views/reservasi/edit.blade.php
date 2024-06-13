@@ -74,9 +74,13 @@
                         <select name="schedule_id" id="schedule" class="form-control">
                             <option value="0">- Pilih Jadwal -</option>
                             <option value="{{ $reservation->schedule_id }}" selected>{{ \Carbon\Carbon::parse($reservation->schedule->schedule_date)->format('l, d F Y'). ' / ' . $reservation->schedule->schedule_time. ' | ' . $reservation->schedule->employee->user->name . ' Dokter ' . $reservation->schedule->schedule_type->name }}</option>
-                            @foreach ($schedules as $schedule)
-                            <option value="{{ $schedule->id }}">{{\Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
-                            $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' Dokter ' . $schedule->schedule_type->name }}</option>
+                            @foreach($places as $place)
+                            <optgroup label="{{ $place->name }}">
+                                @foreach ($place->schedules as $schedule)
+                                <option value="{{ $schedule->id }}">{{ \Carbon\Carbon::parse($schedule->schedule_date)->format('l, d F Y') . ' / ' .
+                                    $schedule->schedule_time. ' | ' . $schedule->employee->user->name . ' Dokter ' . $schedule->schedule_type->name }}</option>
+                                @endforeach
+                            </optgroup>
                             @endforeach
                         </select>
                     </div>

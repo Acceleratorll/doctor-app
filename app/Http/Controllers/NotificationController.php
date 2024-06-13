@@ -31,34 +31,14 @@ class NotificationController extends Controller
         $praktikUmum = Schedule::with('place', 'reservations')->whereHas('schedule_type', function ($q) {
             $q->where('name', 'Umum');
         })->whereDate('schedule_date', $today)
-            ->where('schedule_time', '<=', $now)->where('schedule_time_end', '>=', $now)->first();
+            ->where('schedule_time', '<=', $now)->where('schedule_time_end', '>=', $now)->get();
 
         $praktikGigi = Schedule::with('place', 'reservations')->whereHas('schedule_type', function ($q) {
             $q->where('name', 'Gigi');
         })->whereDate('schedule_date', $today)
-            ->where('schedule_time', '<=', $now)->where('schedule_time_end', '>=', $now)->first();
+            ->where('schedule_time', '<=', $now)->where('schedule_time_end', '>=', $now)->get();
 
-        $queueGigi = collect();
-        $queueUmum = collect();
-
-        if ($praktikUmum != null) {
-            $scheduleQueue = $praktikUmum->reservations()
-                ->where('status', 1)
-                ->orderBy('nomor_urut', 'asc')
-                ->first();
-
-            // Merge the reservations into the queue collection
-            $queueUmum = $queueUmum->merge($scheduleQueue);
-        } else if($praktikGigi != null) {
-            $scheduleQueue = $praktikGigi->reservations()
-                ->where('status', 1)
-                ->orderBy('nomor_urut', 'asc')
-                ->get();
-    
-            $queueGigi = $queueGigi->merge($scheduleQueue);
-        }
-
-        return view('web.notifikasi', compact(['today', 'praktikUmum', 'praktikGigi', 'reservation', 'queueUmum', 'queueGigi', 'queueNow']));
+        return view('web.notifikasi', compact(['today', 'praktikUmum', 'praktikGigi', 'reservation', 'queueNow']));
     }
 
     public function destroy(Request $request, $id)

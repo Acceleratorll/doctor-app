@@ -290,15 +290,14 @@
             $('#sidebarcollapse').on('click',function(){
                 $('#sidebar').toggleClass('active');
             });
+            
             $('.select-custom').select2({
                 closeOnSelect: false,
                 placeholder: "choose option",
                 allowClear: true
             });
             
-            // Tambahkan event listener untuk setiap select
             $('.select-custom').on('change', function() {
-                // Cek apakah ada option yang dipilih dengan value 'dia'
                 var isDiastemaSelected = $(this).find('option:selected').filter(function() {
                     return this.text === 'dia'; // Sesuaikan jika value untuk 'dia' berbeda
                 }).length > 0;

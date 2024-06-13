@@ -72,25 +72,38 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="Username">Username</label>
-                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role_id" value="2" hidden>
-                        <input type="text" value="{{ $employee->username }}" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
+                        <label for="kualifikasi">Spesialisasi</label>
+                        <input type="text" value="{{ $employee->employee->qualification }}" placeholder="Masukkan Kualifikasi" class="form-control" name="qualification" id="kualifikasi" required>
                     </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="Password">Password</label>
-                        <input type="password" placeholder="Masukkan Password" class="form-control" name="password" id="password" required>
+                        <label for="Role">Role</label>
+                        <select name="role[]" id="role" class="select-custom form-control" multiple>
+                            @foreach ($employee->getRoleNames() as $role)
+                                <option value="{{ $role }}" selected>{{ $role == 'dokter_umum' ? 'Dokter Umum' : ($role == 'dokter_gigi' ? 'Dokter Gigi' : 'Pegawai') }}</option>
+                            @endforeach
+                            <option value="pegawai">Pegawai</option>
+                            <option value="dokter_umum">Dokter Umum</option>
+                            <option value="dokter_gigi">Dokter Gigi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="Username">Username</label>
+                        <input type="text" placeholder="Masukkan Role" class="form-control" name="role_id" id="role_id" value="2" hidden>
+                        <input type="text" value="{{ $employee->username }}" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
                     </div>
                 </div>
             </div>
             <div class="text-right">
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalconfirm">Simpan</button>
-                <form>
-                    <input type="button" value="Batal" class="btn btn-danger" onclick="history.back()">
-                   </form>
+                <button class="btn btn-danger" onclick="history.back()">Batal</button>
             </div>
             
             </form>
@@ -116,6 +129,12 @@
             function(){
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');
+                });
+
+                $('.select-custom').select2({
+                    closeOnSelect: false,
+                    placeholder: "choose role",
+                    allowClear: true
                 });
             }
         )

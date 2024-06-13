@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Api\NotificationController;
+use App\Models\Place;
 
 class ReservationController extends Controller
 {
@@ -144,12 +145,14 @@ class ReservationController extends Controller
     {
         $today = Carbon::today()->toDateString();
         $integerCode = hexdec(substr(uniqid(), 6, 6));
-        $schedules = Schedule::with('place')->where('schedule_date', '>=', $today)->get();
+        $places = Place::with('schedules')->whereHas('schedules', function ($q) use ($today) {
+            $q->where('schedule_date', '>=', $today);
+        })->get();
 
         return view('reservasi.create', [
             'code' => $integerCode,
             'patients' => Patient::all(),
-            'schedules' => $schedules,
+            'places' => $places,
         ]);
     }
 
@@ -160,7 +163,7 @@ class ReservationController extends Controller
 
     public function store(ReservationRequest $request)
     {
-        if(!$request->validated()){
+        if (!$request->validated()) {
             return redirect()->back()->withInput()->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
         }
 
@@ -273,14 +276,14 @@ class ReservationController extends Controller
     {
         $today = Carbon::today()->toDateString();
         $reservation = Reservation::with(['patient', 'schedule'])->findOrFail($id);
-        $schedules = Schedule::whereHas('place', function ($query) {
-            $query->where('reservationable', 1);
-        })->where('schedule_date', '>=', $today)->get();
+        $places = Place::with('schedules')->whereHas('schedules', function ($q) use ($today) {
+            $q->where('schedule_date', '>=', $today);
+        })->get();
 
         return view('reservasi.edit', [
             'reservation'   => $reservation,
             'patients' => Patient::all(),
-            'schedules' => $schedules,
+            'places' => $places,
         ]);
     }
 
