@@ -40,10 +40,24 @@
                             <li class="nav__item">
                                 <a href="{{ route('jadwal.index') }}" class="nav__item-link">Layanan</a>
                             </li><!-- /.nav-item -->
-                            <!-- /.nav-item -->
-                            <li class="nav__item notif">
-                                <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
-                            </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
+                            @if(auth()->user())
+                            <span>
+                                {{ auth()->user()->patient->unreadNotifications->where('type', 'App\Notifications\Announcement')->count() }}
+                            </span>
+                            @endif
+                        </a>
+                    </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi
+                            @if(auth()->user())
+                            <span>
+                                {{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\ReservationReminder')->count() }}
+                            </span>
+                            @endif
+                        </a>
+                    </li><!-- /.nav-item -->
                         </ul><!-- /.navbar-nav -->
                         <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>
                     </div><!-- /.navbar-collapse -->

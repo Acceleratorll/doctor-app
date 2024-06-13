@@ -128,6 +128,10 @@ class ReservationController extends Controller
             ->first();
 
         $jumlah = Reservation::where('schedule_id', $schedule->id)->get()->count();
+        $haveReservation = Reservation::where('schedule_id', $schedule->id)->where('patient_id', auth()->user()->patient->id)->first();
+        if(isset($haveReservation)){
+            return redirect()->route('profile.index')->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena kamu telah melakukan reservasi pada jadwal ini');
+        }
 
         if ($jumlah < $schedule->qty) {
             if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {

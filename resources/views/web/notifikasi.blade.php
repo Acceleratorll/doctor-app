@@ -27,18 +27,24 @@
                             <li class="nav__item">
                                 <a href="{{ route('show.queue') }}" class="nav__item-link">Lihat Antrian</a>
                             </li>
-                <li class="nav__item notif">
-                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
-                        @if(auth()->user())
-                        <span>
-                            {{ auth()->user()->patient->unreadNotifications->count() }}
-                        </span>
-                        @endif</a>
-                </li><!-- /.nav-item -->
-                            <!-- /.nav-item -->
-                            <li class="nav__item notif">
-                                <a href="{{ url('/notifikasi') }}" class="nav__item-link active">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
-                            </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
+                            @if(auth()->user())
+                            <span>
+                                {{ auth()->user()->patient->unreadNotifications->where('type', 'App\Notifications\Announcement')->count() }}
+                            </span>
+                            @endif
+                        </a>
+                    </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi
+                            @if(auth()->user())
+                            <span>
+                                {{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\ReservationReminder')->count() }}
+                            </span>
+                            @endif
+                        </a>
+                    </li><!-- /.nav-item -->
                             @if(auth()->user())
                 <li class="nav__item dropdown">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
@@ -84,15 +90,11 @@
                         </div><!-- /.heading -->
                     </div><!-- /.col-lg-6 -->
                 </div><!-- /.row -->
-                @if(session('notification'))
-                @php
-                $notification = session('notification');
-                @endphp
-                @if($notification['praktik'])
+                @if($praktikUmum != null)
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="service-item">
                         <div class="service__content">
-                            <h5 class="service__title">Saat Ini Dokter Sedang Melakukan Praktek di {{ $praktikNow->place->name }}
+                            <h5 class="service__title">Saat Ini Dokter Sedang Melakukan Praktek di {{ $praktikUmum->place->name }}
                                 <a href="/notifikasi-remove/1" class="btn btn__secondary btn__rounded" style="float: right;">
                                     <span>Oke</span></i>
                                 </a>
@@ -102,7 +104,21 @@
                     </div><!-- /.service-item -->
                 </div>
                 @endif
-                @if ($notification['currentNumber'])
+                @if($praktikGigi != null)
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="service-item">
+                        <div class="service__content">
+                            <h5 class="service__title">Saat Ini Dokter {{ $praktikGigi->schedule_type->name }} Sedang Melakukan Praktek di {{ $praktikGigi->place->name }}
+                                <a href="/notifikasi-remove/1" class="btn btn__secondary btn__rounded" style="float: right;">
+                                    <span>Reservasi</span></i>
+                                </a>
+                            </h5>
+                            <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
+                        </div><!-- /.service__content -->
+                    </div><!-- /.service-item -->
+                </div>
+                @endif
+                @if ($reservation != null)
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="service-item">
                         <div class="service__content">
@@ -110,12 +126,6 @@
                                 <a href="#antrian" class="btn btn__secondary btn__rounded" data-toggle="collapse" aria-expanded="false" style="float: right;">
                                     <span>Lihat Antrian</span></i>
                                 </a>
-                                <br><br>
-                                @if($notification['myNumber'] < $notification['currentNumber'])
-                                <a href="/notifikasi-remove/2" class="btn btn__secondary btn__rounded" style="float: right;">
-                                    <span>Oke</span></i>
-                                </a>
-                                @endif
                             </h5>
                             <h1 class="heading__subtitle" style="margin-top: -25px;">{{ \Carbon\Carbon::parse($today)->format('l, d-m-Y') }}</h1>
                             <div class="collapse multi-collapse" id="antrian">
@@ -128,7 +138,7 @@
                                             </div><!-- /.service__icon -->
                                             <div class="service__content">
                                                 <h5 class="service__title">Antrian Saai Ini</h5>
-                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $notification['currentNumber'] }}</h1>
+                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $queueNow->nomor_urut }}</h1>
                                             </div><!-- /.service__content -->
                                         </div><!-- /.service-item -->
                                     </div><!-- /.col-lg-4 -->
@@ -141,7 +151,7 @@
                                             </div><!-- /.service__icon -->
                                             <div class="service__content">
                                                 <h5 class="service__title">Antrian Anda</h5>
-                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $notification['myNumber'] }}</h1>
+                                                <h1 class="slide__title" style="text-align: center; font-size: 90px;">{{ $reservation->nomor_urut }}</h1>
                                             </div><!-- /.service__content -->
                                         </div><!-- /.service-item -->
                                     </div><!-- /.col-lg-4 -->
@@ -154,10 +164,9 @@
                 <!-- /.col-lg-4 -->
 
                 @endif<!-- /.col-lg-4 -->
-                @endif<!-- /.col-lg-4 -->
             </div><!-- /.container -->
         </section><!-- /.shop -->
-
+{{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\ReservationReminder')->markAsRead() }}
 <script>
         var header = document.getElementById("collapse1");
         var btns = header.getElementsByClassName("card");

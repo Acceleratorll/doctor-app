@@ -25,13 +25,24 @@
                 <li class="nav__item">
                     <a href="{{ route('show.queue') }}" class="nav__item-link">Lihat Antrian</a>
                 </li>
-                <li class="nav__item notif">
-                    <a href="{{ route('pengumuman.index') }}" class="nav__item-link active">Pengumuman</a>
-                </li><!-- /.nav-item -->
-                
-                <li class="nav__item notif">
-                    <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi<span>{{session('notification.count', 0)}}</span></a>
-                </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ route('pengumuman.index') }}" class="nav__item-link">Pengumuman
+                            @if(auth()->user())
+                            <span>
+                                {{ auth()->user()->patient->unreadNotifications->where('type', 'App\Notifications\Announcement')->count() }}
+                            </span>
+                            @endif
+                        </a>
+                    </li><!-- /.nav-item -->
+                    <li class="nav__item notif">
+                        <a href="{{ url('/notifikasi') }}" class="nav__item-link">Notifikasi
+                            @if(auth()->user())
+                            <span>
+                                {{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\ReservationReminder')->count() }}
+                            </span>
+                            @endif
+                        </a>
+                    </li><!-- /.nav-item -->
                 @if(auth()->user())
                 <li class="nav__item dropdown">
                                 <a class="nav__item-link dropdown-toggle" href="#" role="button" id="profileDropdown"
@@ -117,7 +128,7 @@
         </div>
     </div>
 </section>
-{{ auth()->user()->patient->unreadNotifications->markAsRead() }}
+{{ auth()->user()->patient->unreadNotifications->where('type', 'App\Notifications\Announcement')->markAsRead() }}
 <script>
     $(document).ready(function() {
         $('#toggleHistory').on('click', function() {
