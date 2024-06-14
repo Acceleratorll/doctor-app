@@ -20,7 +20,11 @@ class NotificationController extends Controller
             })->first();
 
         if ($reservation == null) {
-            return view('web.notifikasi');
+            $queueNow = null;
+            $praktikUmum = null;
+            $praktikGigi = null;
+            
+            return view('web.notifikasi', compact(['today', 'praktikUmum', 'praktikGigi', 'reservation', 'queueNow']));
         }
 
         $queueNow = $reservation->schedule->reservations()

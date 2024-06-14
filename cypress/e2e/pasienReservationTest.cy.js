@@ -28,18 +28,18 @@ describe("reservation pasien testing", () => {
         cy.get('.btn-primary').click();
     })
 
-    // it("make an appointment valid", () => {
-    //     cy.get(".slide__content > .d-flex > .btn").click();
-    //     cy.get(":nth-child(2) > .card > .card-body > form > .btn").click();
-    //     cy.get("#schedule_date1").click();
-    //     cy.get("#schedule_time1").click();
-    //     cy.get("form > .btn").click();
+    it("make an appointment valid", () => {
+        cy.get(".slide__content > .d-flex > .btn").click();
+        cy.get(":nth-child(2) > .card > .card-body > form > .btn").click();
+        cy.get("#schedule_date1").click();
+        cy.get("#schedule_time1").click();
+        cy.get("form > .btn").click();
 
-    //     cy.get("#konfirmasi").click();
+        cy.get("#konfirmasi").click();
 
-    //     cy.get(".btn-primary").click();
-    //     cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
-    //     cy.get("#default-form > .text-center > .btn-primary").click();
-    //     cy.contains("Menunggu Konfirmasi").should("exist");
-    // });
+        cy.get(".btn-primary").click();
+        cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
+        cy.get("#default-form > .text-center > .btn-primary").click();
+        cy.contains("Menunggu Konfirmasi").should("exist");
+    });
 });
