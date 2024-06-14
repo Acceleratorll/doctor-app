@@ -15,7 +15,7 @@ class CreateOdontogramsTable extends Migration
     {
         Schema::create('odontograms', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('medical_record_id')->constrained();
+            $table->foreignId('medical_record_id')->constrained()->onDelete('cascade');
             $table->foreignId('teeth_id')->constrained();
             $table->string('diastema')->nullable();
             $table->string('anomali')->nullable();

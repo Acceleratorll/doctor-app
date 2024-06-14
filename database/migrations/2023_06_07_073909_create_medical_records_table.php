@@ -10,7 +10,7 @@ class CreateMedicalRecordsTable extends Migration
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reservation_id')->constrained()->nullable();
+            $table->foreignId('reservation_id')->constrained()->nullable()->onDelete('cascade');
             $table->string('icd_code')->nullable();
             $table->string('action')->nullable();
             $table->string('complaint')->nullable();

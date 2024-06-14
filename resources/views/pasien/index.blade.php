@@ -118,6 +118,12 @@
                 showSweetAlert('error', '{{ $message }}');
                 @endif
                 
+                @if ($errors->any())
+                   @foreach ($errors->all() as $error)
+                       showSweetAlert('error', '{{ $error }}');
+                   @endforeach
+                @endif
+                
                 var table = $('#table').DataTable();
                 var detailTable = $('#details-table').DataTable();
                 

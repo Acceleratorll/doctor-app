@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
+use App\Models\Announcement;
 use App\Models\Employee;
+use App\Models\Place;
+use App\Models\Schedule;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -93,7 +96,20 @@ class EmployeeManageController extends Controller
 
     public function destroy($id)
     {
-        User::findOrFail($id)->forceDelete();
+        $user = User::findOrFail($id);
+        Schedule::where('employee_id', $user->employee->id)->update([
+            'employee_id' => 1
+        ]);
+
+        Place::where('employee_id', $user->employee->id)->update([
+            'employee_id' => 1
+        ]);
+
+        Announcement::where('employee_id', $user->employee->id)->update([
+            'employee_id' => 1
+        ]);
+
+        $user->forceDelete();
         return back()->with('success', 'Pegawai berhasil dihapus !');
     }
 }

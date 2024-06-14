@@ -15,7 +15,7 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('medical_record_id')->constrained();
+            $table->foreignId('medical_record_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('type');
             $table->string('url');

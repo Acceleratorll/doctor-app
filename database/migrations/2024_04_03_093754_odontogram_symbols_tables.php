@@ -18,7 +18,7 @@ class OdontogramSymbolsTables extends Migration
             $table->foreignId('symbol_id')->constrained();
             $table->timestamps();
 
-            $table->foreign('odontogram_id')->references('id')->on('odontograms');
+            $table->foreign('odontogram_id')->references('id')->on('odontograms')->onDelete('cascade');
         });
     }
 
