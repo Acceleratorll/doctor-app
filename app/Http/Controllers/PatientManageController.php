@@ -27,6 +27,11 @@ class PatientManageController extends Controller
     public function store(PatientRequest $request)
     {
         $input = $request->validated();
+
+        if (User::where('email', $input['email'])->exists()) {
+            return redirect()->back()->with(['error' => 'The email has already been registered!'])->withInput();
+        }
+
         $user = User::create([
             'name' => $input['name'],
             'phone' => $input['phone'],
@@ -46,7 +51,7 @@ class PatientManageController extends Controller
 
         $user->assignRole('pasien');
 
-        return redirect()->route('admin.pasien.index')->with('success', 'Patient successfully created');
+        return redirect()->route('admin.pasien.index')->with('success', 'Patient created successfully');
     }
 
     public function show($id)
@@ -65,6 +70,10 @@ class PatientManageController extends Controller
         $input = $request->validated();
         $user = User::findOrFail($patient->user_id);
 
+        if ($user->email != $input['email'] && User::where('email', $input['email'])->exists()) {
+            return redirect()->back()->with(['error' => 'The email has already been registered!'])->withInput();
+        }
+
         $user->update([
             'name' => $input['name'],
             'phone' => $input['phone'],
@@ -81,7 +90,7 @@ class PatientManageController extends Controller
             'weight' => $input['weight'],
         ]);
 
-        return redirect()->route('admin.pasien.index')->with('success', 'Patient successfully updated');
+        return redirect()->route('admin.pasien.index')->with('success', 'Patient updated successfully');
     }
 
     public function destroy($id)

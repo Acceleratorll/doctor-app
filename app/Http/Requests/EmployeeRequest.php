@@ -36,4 +36,11 @@ class EmployeeRequest extends FormRequest
             'password' => 'nullable',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'birth_date.before_or_equal' => 'Tanggal lahir tidak boleh lebih dari hari ini.',
+        ];
+    }
 }

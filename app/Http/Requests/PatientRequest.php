@@ -36,4 +36,11 @@ class PatientRequest extends FormRequest
             'password' => '',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'birth_date.before_or_equal' => 'Tanggal lahir tidak boleh lebih dari hari ini.',
+        ];
+    }
 }

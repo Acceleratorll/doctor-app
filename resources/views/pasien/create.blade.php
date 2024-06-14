@@ -136,6 +136,19 @@
                 showSweetAlert('error', '{{ $message }}');
                 @endif
 
+                @if ($errors->any())
+                    var errorMessages = '';
+                    @foreach ($errors->all() as $error)
+                        errorMessages += '{{ $error }}<br>';
+                    @endforeach
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        html: errorMessages,
+                        showConfirmButton: true
+                    });
+                @endif
+
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');
                 });
