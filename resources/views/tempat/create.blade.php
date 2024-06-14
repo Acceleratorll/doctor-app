@@ -20,7 +20,6 @@
         <div id="rcorners1">
             <form action="/admin/tempat" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="number" name="employee_id" value="{{ auth()->user()->employee->id }}" id="linkmaps" required hidden>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">

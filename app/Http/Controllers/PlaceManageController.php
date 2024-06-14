@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PlaceRequest;
 use App\Models\Place;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,8 +25,12 @@ class PlaceManageController extends Controller
     {
         $input = $request->validated();
 
-        $place = Place::create($input);
-        return redirect()->route('admin.tempat.index');
+        if(Place::all()->count() == 2){
+            return redirect()->route('admin.tempat.index')->with('error', 'Maaf, tidak dapat menambahkan lebih dari 2 tempat !');
+        }
+
+        Place::create($input);
+        return redirect()->route('admin.tempat.index')->with('success', 'Tempat created successfully !');
     }
 
     public function show($id)
@@ -47,12 +52,20 @@ class PlaceManageController extends Controller
 
         $place->update($input);
 
-        return redirect()->route('admin.tempat.index');
+        return redirect()->route('admin.tempat.index')->with('success', 'Tempat updated successfully !');
     }
 
     public function destroy($id)
     {
-        Place::findOrFail($id)->forceDelete();
-        return back();
+        $place = Place::findOrFail($id);
+        $schedules = Schedule::where('place_id', $place->id)->get();
+
+        foreach ($schedules as $schedule) {
+            $schedule->update(['place_id' => null]);
+        }
+
+        $place->forceDelete();
+
+        return back()->with('success', 'Tempat deleted successfully !');
     }
 }

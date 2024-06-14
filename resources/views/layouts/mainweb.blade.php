@@ -56,7 +56,7 @@ $doctor = User::role('superadmin')->first();
                         </li>
                         <li class="nav__item notif">
                             <a href="{{ route('pengumuman.index') }}" class="nav__item-link {{ request()->routeIs('pengumuman.index') ? 'active' : '' }}">Pengumuman
-                                @if(auth()->user()->patient)
+                                @if(auth()->user() && auth()->user()->patient)
                                 <span>
                                     {{ auth()->user()->patient->unreadNotifications->where('type', 'App\Notifications\Announcement')->count() }}
                                 </span>
@@ -65,7 +65,7 @@ $doctor = User::role('superadmin')->first();
                         </li>
                         <li class="nav__item notif">
                             <a href="{{ url('/notifikasi') }}" class="nav__item-link {{ request()->is('notifikasi') ? 'active' : '' }}">Notifikasi
-                                @if(auth()->user()->patient)
+                                @if(auth()->user() && auth()->user()->patient)
                                 <span>
                                     {{ auth()->user()->unreadNotifications->where('type', 'App\Notifications\ReservationReminder')->count() }}
                                 </span>

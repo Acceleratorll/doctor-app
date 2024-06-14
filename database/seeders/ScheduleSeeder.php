@@ -39,7 +39,7 @@ class ScheduleSeeder extends Seeder
             ],
             [
                 'employee_id' => 1,
-                'place_id' => 1,
+                'place_id' => 2,
                 'schedule_type_id' => $scheduleType1,
                 'schedule_date' => Carbon::now()->addMonths(3),
                 'schedule_time' => Carbon::now(),
@@ -75,7 +75,7 @@ class ScheduleSeeder extends Seeder
             ],
             [
                 'employee_id' => 2,
-                'place_id' => 1,
+                'place_id' => 2,
                 'schedule_type_id' => $scheduleType2,
                 'schedule_date' => Carbon::now()->addMonths(12),
                 'schedule_time' => Carbon::now(),
