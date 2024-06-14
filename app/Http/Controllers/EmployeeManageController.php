@@ -44,6 +44,11 @@ class EmployeeManageController extends Controller
     public function store(EmployeeRequest $request)
     {
         $input = $request->validated();
+
+        if (User::where('email', $input['email'])->exists()) {
+            return redirect()->back()->with(['error' => 'The email has already been registered!'])->withInput();
+        }
+
         $user = User::create([
             'name' => $input['name'],
             'phone' => $input['phone'],
@@ -80,6 +85,11 @@ class EmployeeManageController extends Controller
     {
         $employee = User::findOrFail($id);
         $input = $request->validated();
+
+        if ($employee->email != $input['email'] && User::where('email', $input['email'])->exists()) {
+            return redirect()->back()->with(['error' => 'The email has already been registered!'])->withInput();
+        }
+
         $employee->update([
             'name' => $input['name'],
             'phone' => $input['phone'],

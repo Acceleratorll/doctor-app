@@ -135,6 +135,11 @@
                 @elseif ($message = Session::get('error'))
                 showSweetAlert('error', '{{ $message }}');
                 @endif
+                @if ($errors->any())
+                   @foreach ($errors->all() as $error)
+                       showSweetAlert('error', '{{ $error }}');
+                   @endforeach
+                @endif
                 
                 $('#sidebarcollapse').on('click',function(){
                     $('#sidebar').toggleClass('active');

@@ -29,7 +29,7 @@ class EmployeeRequest extends FormRequest
             'address' => 'required',
             'birth_date' => 'required|date|before_or_equal:today',
             'gender' => 'required',
-            'email' => 'required|email|unique:users,email,' . $this->route('pegawai'),
+            'email' => 'required|email',
             'phone' => 'required',
             'qualification' => 'required',
             'username' => 'required',
@@ -41,7 +41,6 @@ class EmployeeRequest extends FormRequest
     {
         return [
             'birth_date.before_or_equal' => 'Tanggal lahir tidak boleh lebih dari hari ini.',
-            'email' => 'The email has already been registered!'
         ];
     }
 }

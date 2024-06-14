@@ -24,6 +24,11 @@ class SuperadminController extends Controller
     {
         $superadmin = User::findOrFail($id);
         $input = $request->validated();
+
+        if ($superadmin->email != $input['email'] && User::where('email', $input['email'])->exists()) {
+            return redirect()->back()->with(['error' => 'The email has already been registered!'])->withInput();
+        }
+
         $superadmin->update([
             'name' => $input['name'],
             'phone' => $input['phone'],

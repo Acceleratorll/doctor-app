@@ -4,10 +4,9 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 
 describe("Reservation Test", () => {
     beforeEach(() => {
-        // Log in as a superadmin or doctor
-        cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
+        cy.visit("http://127.0.0.1:8000/login");
 
-        cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
+        cy.get('input[name="email"]').type("superadmin@mail.com");
         cy.get('input[name="password"]').type("12345");
         cy.get("form").submit();
 
