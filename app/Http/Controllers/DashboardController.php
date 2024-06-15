@@ -34,7 +34,7 @@ class DashboardController extends Controller
         $schedules = Schedule::with('employee', 'reservations.patient')->where('schedule_date', '>=', $today)->orderBy('schedule_date', 'asc')->get();
         return DataTables::of($schedules)
             ->addColumn('doctor', function ($schedule) {
-                return $schedule->employee->user->name;
+                return $schedule->employee->user->name ? $schedule->employee->user->name : '';
             })
             ->addColumn('qualification', function ($schedule) {
                 return $schedule->employee->qualification;
@@ -46,7 +46,7 @@ class DashboardController extends Controller
                 return $schedule->schedule_time . ' - ' . $schedule->schedule_time_end;
             })
             ->addColumn('place', function ($schedule) {
-                return $schedule->place->name;
+                return $schedule->place->name ? $schedule->place->name : '';
             })
             ->addColumn('qty', function ($schedule) {
                 return $schedule->qty;
@@ -69,7 +69,7 @@ class DashboardController extends Controller
 
         return DataTables::of($schedules)
             ->addColumn('doctor', function ($schedule) {
-                return $schedule->employee->user->name;
+                return $schedule->employee->user->name ? $schedule->employee->user->name : '';
             })
             ->addColumn('qualification', function ($schedule) {
                 return $schedule->employee->qualification;
@@ -81,7 +81,7 @@ class DashboardController extends Controller
                 return $schedule->schedule_time . ' ' . $schedule->schedule_time_end;
             })
             ->addColumn('place', function ($schedule) {
-                return $schedule->place->name;
+                return $schedule->place->name ? $schedule->place->name : '';
             })
             ->addColumn('qty', function ($schedule) {
                 return $schedule->qty;
@@ -104,7 +104,7 @@ class DashboardController extends Controller
 
         return DataTables::of($schedules)
             ->addColumn('doctor', function ($schedule) {
-                return $schedule->employee->user->name;
+                return $schedule->employee->user->name ? $schedule->employee->user->name : '';
             })
             ->addColumn('qualification', function ($schedule) {
                 return $schedule->employee->qualification;
@@ -116,7 +116,7 @@ class DashboardController extends Controller
                 return $schedule->schedule_time . ' ' . $schedule->schedule_time_end;
             })
             ->addColumn('place', function ($schedule) {
-                return $schedule->place->name;
+                return $schedule->place->name ? $schedule->place->name : '';
             })
             ->addColumn('qty', function ($schedule) {
                 return $schedule->qty;
@@ -139,7 +139,7 @@ class DashboardController extends Controller
 
         return DataTables::of($schedules)
             ->addColumn('doctor', function ($schedule) {
-                return $schedule->employee->user->name;
+                return $schedule->employee->user->name ? $schedule->employee->user->name : '';
             })
             ->addColumn('qualification', function ($schedule) {
                 return $schedule->employee->qualification;
@@ -151,7 +151,7 @@ class DashboardController extends Controller
                 return $schedule->schedule_time . ' ' . $schedule->schedule_time_end;
             })
             ->addColumn('place', function ($schedule) {
-                return $schedule->place->name;
+                return $schedule->place->name ? $schedule->place->name : '';
             })
             ->addColumn('qty', function ($schedule) {
                 return $schedule->qty;

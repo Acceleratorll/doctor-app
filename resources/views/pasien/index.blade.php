@@ -61,6 +61,9 @@
                                                             <i class="fa fa-edit"></i>
                                                             Edit
                                                         </a>
+                                                        <a href="{{ route('admin.user.change-password', $patient->user_id) }}" class="btn btn-sm btn-primary">
+                                                            <i class="fas fa-key"></i> Change Password
+                                                        </a>
                                                         <a href="#" class="btn btn-info btn-sm show-reservations" data-patient-id="{{ $patient->id }}">
                                                             <i class="fas fa-list"></i> Show Reservations
                                                         </a>

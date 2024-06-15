@@ -74,6 +74,10 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->group(function () {
         });
     });
 
+    // web.php
+    Route::get('/user/{id}/change-password', [UserController::class, 'showChangePasswordForm'])->name('admin.user.change-password');
+    Route::post('/user/{id}/change-password', [UserController::class, 'changePassword'])->name('admin.user.update-password');
+
     Route::get('/reservasi/gigi', [ReservationController::class, 'indexTeeth'])->name('admin.reservation.gigi.index');
     Route::get('/get-users/{id}', [UserController::class, 'getByScheduleType'])->name('get.users');
     Route::get('/gigi/jadwal', [ScheduleManageController::class, 'indexTeeth'])->name('admin.jadwal.gigi.index');

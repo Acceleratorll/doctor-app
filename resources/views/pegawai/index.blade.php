@@ -20,52 +20,54 @@
                                     </button>
                                 </div>
                                 <div class="table-responsive">
-    <table class="table-dark table-striped text-center" id="table">
-        <caption>List of Employees</caption>
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="text-center">ID Pegawai</th>
-                <th scope="col" class="text-center">Nama Pegawai</th>
-                <th scope="col" class="text-center">Tanggal Lahir</th>
-                <th scope="col" class="text-center">Gender</th>
-                <th scope="col" class="text-center">Address</th>
-                <th scope="col" class="text-center">Username</th>
-                <th scope="col" class="text-center">Email</th>
-                <th scope="col" class="text-center">Nomor HP</th>
-                <th scope="col" class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($employees as $employee)
-            <tr onclick="window.location.href='/admin/pegawai/{{ $employee->id }}';" style="cursor: pointer;">
-                <td>{{ $employee->id }}</td>
-                <td>{{ $employee->name }}</td>
-                <td>{{ $employee->birth_date->format('Y-m-d') }}</td>
-                <td>{{ $employee->gender }}</td>
-                <td>{{ $employee->address }}</td>
-                <td>{{ $employee->username }}</td>
-                <td><a href="mailto:{{ $employee->email }}">{{ $employee->email }}</a></td>
-                <td>{{ $employee->phone }}</td>
-                <td class="project-actions text-center">
-                    <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?')">
-                            <i class="fas fa-trash"></i>
-                            Delete
-                        </button>
-                        <a href="/admin/pegawai/{{ $employee->id }}/edit" class="btn btn-sm btn-warning">
-                            <i class="fa fa-edit"></i>
-                            Edit
-                        </a>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-
+                                    <table class="table-dark table-striped text-center" id="table">
+                                        <caption>List of Employees</caption>
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" class="text-center">ID Pegawai</th>
+                                                <th scope="col" class="text-center">Nama Pegawai</th>
+                                                <th scope="col" class="text-center">Tanggal Lahir</th>
+                                                <th scope="col" class="text-center">Gender</th>
+                                                <th scope="col" class="text-center">Address</th>
+                                                <th scope="col" class="text-center">Username</th>
+                                                <th scope="col" class="text-center">Email</th>
+                                                <th scope="col" class="text-center">Nomor HP</th>
+                                                <th scope="col" class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($employees as $employee)
+                                            <tr onclick="window.location.href='/admin/pegawai/{{ $employee->id }}';" style="cursor: pointer;">
+                                                <td>{{ $employee->id }}</td>
+                                                <td>{{ $employee->name }}</td>
+                                                <td>{{ $employee->birth_date->format('Y-m-d') }}</td>
+                                                <td>{{ $employee->gender }}</td>
+                                                <td>{{ $employee->address }}</td>
+                                                <td>{{ $employee->username }}</td>
+                                                <td><a href="mailto:{{ $employee->email }}">{{ $employee->email }}</a></td>
+                                                <td>{{ $employee->phone }}</td>
+                                                <td class="project-actions text-center">
+                                                    <form action="{{ route('admin.pegawai.destroy', $employee->id) }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?')">
+                                                            <i class="fas fa-trash"></i>
+                                                            Delete
+                                                        </button>
+                                                        <a href="/admin/pegawai/{{ $employee->id }}/edit" class="btn btn-sm btn-warning">
+                                                            <i class="fa fa-edit"></i>
+                                                            Edit
+                                                        </a>
+                                                        <a href="{{ route('admin.user.change-password', $employee->id) }}" class="btn btn-sm btn-primary">
+                                                            <i class="fas fa-key"></i> Change Password
+                                                        </a>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

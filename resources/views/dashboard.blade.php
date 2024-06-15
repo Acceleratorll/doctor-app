@@ -172,7 +172,28 @@
 
         updateTable(table);
         updateTable2(tableTotal);
+
+        @if ($message = Session::get('success'))
+            showSweetAlert('success', '{{ $message }}');
+            @elseif ($message = Session::get('error'))
+            showSweetAlert('error', '{{ $message }}');
+            @endif
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    showSweetAlert('error', '{{ $error }}');
+                @endforeach
+            @endif
     });
+
+    function showSweetAlert(type, message) {
+            Swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000 // Change this value to adjust the display time
+            });
+        }
     
     function updateTable(table) {
         var selectElement2 = document.getElementById('date-filter');

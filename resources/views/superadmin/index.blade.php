@@ -15,46 +15,48 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-    <table class="table-dark table-striped text-center" id="table">
-        <caption>List of Superadmins</caption>
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="text-center">ID Dokter</th>
-                <th scope="col" class="text-center">Nama Dokter</th>
-                <th scope="col" class="text-center">Spesialisasi</th>
-                <th scope="col" class="text-center">Tanggal Lahir</th>
-                <th scope="col" class="text-center">Gender</th>
-                <th scope="col" class="text-center">Address</th>
-                <th scope="col" class="text-center">Username</th>
-                <th scope="col" class="text-center">Email</th>
-                <th scope="col" class="text-center">Nomor HP</th>
-                <th scope="col" class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($superadmins as $superadmin)
-            <tr onclick="window.location.href='/admin/dokter/{{ $superadmin->id }}';" style="cursor: pointer;">
-                <td>{{ $superadmin->id }}</td>
-                <td>{{ $superadmin->name }}</td>
-                <td>{{ $superadmin->employee->qualification }}</td>
-                <td>{{ $superadmin->birth_date->format('Y-m-d') }}</td>
-                <td>{{ $superadmin->gender }}</td>
-                <td>{{ $superadmin->address }}</td>
-                <td>{{ $superadmin->username }}</td>
-                <td><a href="mailto:{{ $superadmin->email }}">{{ $superadmin->email }}</a></td>
-                <td>{{ $superadmin->phone }}</td>
-                <td class="project-actions text-center">
-                    <a href="/admin/dokter/{{ $superadmin->id }}/edit" class="btn btn-sm btn-warning">
-                        <i class="fa fa-edit"></i>
-                        Edit
-                    </a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-
+                                    <table class="table-dark table-striped text-center" id="table">
+                                        <caption>List of Superadmins</caption>
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col" class="text-center">ID Dokter</th>
+                                                <th scope="col" class="text-center">Nama Dokter</th>
+                                                <th scope="col" class="text-center">Spesialisasi</th>
+                                                <th scope="col" class="text-center">Tanggal Lahir</th>
+                                                <th scope="col" class="text-center">Gender</th>
+                                                <th scope="col" class="text-center">Address</th>
+                                                <th scope="col" class="text-center">Username</th>
+                                                <th scope="col" class="text-center">Email</th>
+                                                <th scope="col" class="text-center">Nomor HP</th>
+                                                <th scope="col" class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($superadmins as $superadmin)
+                                            <tr onclick="window.location.href='/admin/dokter/{{ $superadmin->id }}';" style="cursor: pointer;">
+                                                <td>{{ $superadmin->id }}</td>
+                                                <td>{{ $superadmin->name }}</td>
+                                                <td>{{ $superadmin->employee->qualification }}</td>
+                                                <td>{{ $superadmin->birth_date->format('Y-m-d') }}</td>
+                                                <td>{{ $superadmin->gender }}</td>
+                                                <td>{{ $superadmin->address }}</td>
+                                                <td>{{ $superadmin->username }}</td>
+                                                <td><a href="mailto:{{ $superadmin->email }}">{{ $superadmin->email }}</a></td>
+                                                <td>{{ $superadmin->phone }}</td>
+                                                <td class="project-actions text-center">
+                                                    <a href="/admin/dokter/{{ $superadmin->id }}/edit" class="btn btn-sm btn-warning">
+                                                        <i class="fa fa-edit"></i>
+                                                        Edit
+                                                    </a>
+                                                    <a href="{{ route('admin.user.change-password', $superadmin->id) }}" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-key"></i> Change Password
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
