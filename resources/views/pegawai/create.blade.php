@@ -84,8 +84,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Username">Username</label>
-                        <input type="hidden" placeholder="Masukkan Role" class="form-control" name="role_id" id="role_id" value="2" hidden>
-                        <input type="text" placeholder="Masukkan Username" class="form-control" name="username" id="username" required>
+                        <input type="text" placeholder="Masukkan Username" class="form-control" name="username" id="username" required autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -93,7 +92,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="Password">Password</label>
-                        <input type="password" placeholder="Masukkan Password" class="form-control" name="password" id="password" required>
+                        <input type="password" placeholder="Masukkan Password" class="form-control" name="password" id="password" required autocomplete="new-password">
                     </div>
                 </div>
             </div>
