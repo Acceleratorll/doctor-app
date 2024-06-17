@@ -187,6 +187,8 @@
                                       <td>
                                           @if($reservationItem->status == 3)
                                           <strong class="text-danger">{{ $reservationItem->reject_reason }}</strong>
+                                          @elseif($reservationItem->status == 2)
+                                          <strong class="text-primary">Telah Periksa</strong>
                                           @elseif($reservationItem->approve == 1)
                                           <strong class="text-success">Sudah di Konfirmasi</strong>
                                           @elseif($reservationItem->approve == 0)
@@ -197,9 +199,11 @@
                                   </table>
                                 </p>
                                 <div class="text-center">
-                                  @if ($reservationItem->status !== 3)
-                                  <a href="cancel/{{ $reservationItem->id }}" class="btn btn-danger btn-sm">Batalkan Pesanan</a>
-                                  @endif
+                                  {{-- @if ($reservationItem->status !== 3)
+                                    <button id="reject" data-id="{{ $reservationItem->id }}" class="reject btn btn-sm btn-danger">
+                                      Batalkan Pesanan
+                                    </button>
+                                  @endif --}}
                                 </div>
                               </div>
                             </div>
@@ -268,6 +272,50 @@
             @endif
       });
 
+      // $('.reject').on('click', function(){
+      //   var rejectButton = $(this);
+      //   var defaultId = rejectButton.data('id');
+      //   Swal.fire({
+      //       title: 'Batalkan Reservasi',
+      //       input: "textarea",
+      //       inputLabel: "Alasan",
+      //       inputPlaceholder: "Masukkan Alasan batalkan reservasi",
+      //       icon: 'warning',
+      //       showCancelButton: true,
+      //       cancelButtonText: 'Batal',
+      //   }).then((result) => {
+      //       if (result.isConfirmed) {
+      //           var reason = result.value; // Mengambil alasan dari input
+      //           $.ajax({
+      //               type: 'PUT',
+      //               url: `{{ route("pasien.reservation.cancel", ["id" => ":id"]) }}`.replace(':id', defaultId),
+      //               data: {
+      //                   _token: '{{ csrf_token() }}',
+      //                   reason: reason, // Mengirim alasan sebagai 'reason'
+      //               },
+      //               success: function(response) {
+      //                   Swal.fire({
+      //                       title: 'Success!',
+      //                       text: 'Reservasi telah dibatalkan.',
+      //                       icon: 'success',
+      //                       timer: 2000,
+      //                       showConfirmButton: false
+      //                   }).then(() => {
+      //                       location.reload();
+      //                   });
+      //               },
+      //               error: function(xhr) {
+      //                   Swal.fire({
+      //                       title: 'Error!',
+      //                       text: 'Gagal membatalkan reservasi.',
+      //                       icon: 'error'
+      //                   });
+      //               }
+      //           });
+      //       }
+      //   });
+      // });
+        
       function showSweetAlert(type, message) {
         Swal.fire({
             icon: type,

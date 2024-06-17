@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Api\NotificationController;
+use App\Mail\StatusEmail;
 use App\Models\Place;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -194,6 +196,7 @@ class ReservationController extends Controller
                         'bukti_pembayaran' => $image,
                     ]);
 
+                    Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
 
                     return $schedule->schedule_type->name == "Gigi" ?
                         redirect()->route('admin.reservation.gigi.index')->with('success', 'Reservation berhasil dibuat !') :
@@ -217,6 +220,8 @@ class ReservationController extends Controller
                         'bpjs_card' => $bpjs_card,
                     ]);
 
+                    Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
+
                     return $schedule->schedule_type->name == "Gigi" ?
                         redirect()->route('admin.reservation.gigi.index')->with('success', 'Reservation berhasil dibuat !') :
                         redirect()->route('admin.reservation.index')->with('success', 'Reservation berhasil dibuat !');
@@ -239,6 +244,9 @@ class ReservationController extends Controller
                     $reservation->update([
                         'bukti_pembayaran' => $image,
                     ]);
+
+                    Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
+
                     return redirect()->route('admin.waiting-list')->with('success', 'Reservation berhasil dibuat !');
                 } elseif ($request->hasFile('ktp') && $request->hasFile('bpjs_card') && $request->hasFile('surat_rujukan')) {
                     $reservation = Reservation::create([
@@ -258,6 +266,9 @@ class ReservationController extends Controller
                         'surat_rujukan' => $surat_rujukan,
                         'bpjs_card' => $bpjs_card,
                     ]);
+
+                    Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
+
                     return redirect()->route('admin.waiting-list')->with('success', 'Reservation berhasil dibuat !');
                 }
                 return redirect()->back()->withInput()->with('error', 'Maaf, kamu tidak dapat menambah reservasi karena terdapat data yang kosong atau tidak tepat');
@@ -430,6 +441,8 @@ class ReservationController extends Controller
             'reject_reason' => $request->data,
         ]);
 
+        Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
+
         return response()->json(['success' => 'Reservation rejected successfully!']);
     }
 
@@ -472,7 +485,6 @@ class ReservationController extends Controller
             'data' => $data_notification,
         ]);
 
-
         $push_notif_controller = new PushNotificationController();
         $request_push_notif = new Request();
         $request_push_notif->replace([
@@ -497,6 +509,8 @@ class ReservationController extends Controller
                 'status' => 1,
                 'nomor_urut' => $antrian,
             ]);
+
+            Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
 
             return redirect()->route('admin.waiting-list')->with('success', 'Reservation approved successfully');
         }

@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\TestEmail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 use App\Models\User;
 use App\Notifications\ReservationReminder;
+use Illuminate\Support\Facades\Mail;
 
 class SendReservationReminders extends Command
 {
@@ -23,7 +25,7 @@ class SendReservationReminders extends Command
 
         $usersWithReservationsToday = User::whereHas('patient', function ($query) use ($today) {
             $query->whereHas('reservations', function ($query) use ($today) {
-                $query->whereHas('schedule', function ($query) use ($today) {
+                $query->where('status', '1')->whereHas('schedule', function ($query) use ($today) {
                     $query->where('schedule_date', $today);
                 });
             });
@@ -34,7 +36,7 @@ class SendReservationReminders extends Command
                 $query->where('schedule_date', $today);
             })->first();
 
-            Notification::send($user, new ReservationReminder($reservationsToday));
+            Mail::to($user->email)->send(new TestEmail($reservationsToday));
             $user->notify(new ReservationReminder($reservationsToday));
         }
 

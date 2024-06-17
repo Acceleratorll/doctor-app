@@ -22,6 +22,8 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScheduleManageController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\UserController;
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -148,7 +150,7 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
     Route::get('/choosePlace', [PasienReservationController::class, 'choosePlace'])->name('choose.place');
     Route::get('/confirm', [PasienReservationController::class, 'confirm']);
     Route::get('/bukti-pembayaran', [PasienReservationController::class, 'bukti']);
-    Route::get('/cancel/{id}', [PasienReservationController::class, 'cancel']);
+    Route::put('/cancel/{id}', [PasienReservationController::class, 'cancel'])->name('pasien.reservation.cancel');
     Route::get('/getTime/{date}', [PasienReservationController::class, 'getTime']);
     Route::get('/jadwal-place/{place_id}', [JadwalController::class, 'schedulesByPlace'])->name('schedules.by.place');
     Route::get('/jadwal-rs', [JadwalController::class, 'indexRs']);
@@ -160,17 +162,17 @@ Route::middleware(['auth', 'role:pasien'])->group(function () {
 
 Route::get('/lihat-antrian', [PasienReservationController::class, 'showQueue'])->name('show.queue');
 
-// Route::fallback(function () {
-//     if(!auth()->check() || auth()->user()->patient != null) {
-//         return redirect()->route('dashboard');
-//     } else {
-//         $userRoles = auth()->user()->getRoleNames();
-//         $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
+Route::fallback(function () {
+    if(!auth()->check() || auth()->user()->patient != null) {
+        return redirect()->route('dashboard');
+    } else {
+        $userRoles = auth()->user()->getRoleNames();
+        $allowedRoles = ['superadmin', 'pegawai', 'dokter_umum', 'dokter_gigi'];
     
-//         if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
-//             return redirect()->route('admin.dashboard.index');
-//         }
-//     }
-// });
+        if ($userRoles->intersect($allowedRoles)->isNotEmpty()) {
+            return redirect()->route('admin.dashboard.index');
+        }
+    }
+});
 
 require __DIR__ . '/auth.php';

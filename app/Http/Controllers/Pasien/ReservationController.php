@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FileRequest;
+use App\Mail\StatusEmail;
 use App\Models\Place;
 use App\Models\Reservation;
 use App\Models\Schedule;
@@ -13,6 +14,7 @@ use Facade\FlareClient\View;
 use Illuminate\Contracts\View\View as ViewView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -56,14 +58,14 @@ class ReservationController extends Controller
         $schedules = Schedule::with(['place' => function ($query) {
             $query->where('reservationable', 1);
         }, 'schedule_type'])
-        ->where('place_id', $request->place_id)
-        ->whereHas('schedule_type', function ($q) use ($type) {
-            $q->where('name', $type);
-        })
-        ->where('schedule_date', '>=', $today)
-        ->orderBy('schedule_date', 'asc')
-        ->get(['schedule_date', 'schedule_time_end', 'id', 'place_id', 'schedule_type_id']);
-        
+            ->where('place_id', $request->place_id)
+            ->whereHas('schedule_type', function ($q) use ($type) {
+                $q->where('name', $type);
+            })
+            ->where('schedule_date', '>=', $today)
+            ->orderBy('schedule_date', 'asc')
+            ->get(['schedule_date', 'schedule_time_end', 'id', 'place_id', 'schedule_type_id']);
+
         // Filter out duplicate schedule_date entries
         $schedules = $schedules->unique('schedule_date');
         $place_id = $request->place_id;
@@ -140,7 +142,7 @@ class ReservationController extends Controller
         if ($jumlah < $schedule->qty) {
             if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {
                 $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
-                Reservation::create([
+                $reservation = Reservation::create([
                     'patient_id' => auth()->user()->patient->id,
                     'schedule_id' => $schedule->id,
                     'reservation_code' => $request['reservation_code'],
@@ -152,12 +154,14 @@ class ReservationController extends Controller
                     'nomor_urut' => $request['nomor_urut'],
                 ]);
 
+                Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
+
                 return redirect()->route('profile.index');
             } else if ($request->hasFile('ktp') && $request->hasFile('surat_rujukan') && $request->hasFile('bpjs_card')) {
                 $imageKtp = $request->file('ktp')->store('bpjs', 'public');
                 $imageSurat = $request->file('surat_rujukan')->store('bpjs', 'public');
                 $imageBpjs = $request->file('bpjs_card')->store('bpjs', 'public');
-                Reservation::create([
+                $reservation = Reservation::create([
                     'patient_id' => auth()->user()->patient->id,
                     'schedule_id' => $schedule->id,
                     'reservation_code' => $request['reservation_code'],
@@ -168,6 +172,9 @@ class ReservationController extends Controller
                     'bpjs_card' => $imageBpjs,
                     'nomor_urut' => $request['nomor_urut'],
                 ]);
+
+                Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
+
                 return redirect()->route('profile.index');
             } else {
                 return redirect()->back()->with('error', 'Data tidak valid !');
@@ -177,10 +184,19 @@ class ReservationController extends Controller
         }
     }
 
-    public function cancel($id)
+    public function cancel(Request $request, $id)
     {
-        Reservation::findOrFail($id)->delete();
-        return redirect()->route('profile.index');
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->update([
+            'status' => 3,
+            'approve' => 1,
+            'reject_reason' => $request->reason,
+        ]);
+
+        Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
+
+        return response()->json(['success' => 'Reservation rejected successfully!']);
     }
 
     public function bukti(Request $request)

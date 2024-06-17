@@ -32,9 +32,6 @@ class ProfileController extends Controller
             ->whereHas('schedule', function ($query) use ($today) {
                 $query->where('schedule_date', '>=', $today);
             })
-            ->where('status', 0)
-            ->orWhere('status', 1)
-            ->orWhere('status', 3)
             ->get()
             ->sortByDesc(function ($reservation) {
                 return $reservation->schedule->schedule_date;
@@ -141,7 +138,7 @@ class ProfileController extends Controller
     {
         $input = $request->validated();
 
-        if($input){
+        if ($input) {
             return redirect()->back()->withInput()->with('error', 'Failed to update profile');
         }
 
