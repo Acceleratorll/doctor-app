@@ -38,7 +38,7 @@
                                 <h6 class="mb-0">Nama</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->name }}" name="name">
+                                <input type="text" class="form-control" value="{{ auth()->user()->name }}" name="name" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -46,7 +46,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="email" class="form-control" value="{{ auth()->user()->email }}" name="email">
+                                <input type="email" class="form-control" value="{{ auth()->user()->email }}" name="email" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -54,8 +54,7 @@
                                 <h6 class="mb-0">Nomor Hp</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->phone }}" name="phone">
-                                <input type="text" class="form-control" value="3" name="role_id" hidden>
+                                <input type="text" class="form-control" value="{{ auth()->user()->phone }}" name="phone" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -63,7 +62,7 @@
                                 <h6 class="mb-0">Tinggi Badan</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->patient->height }}" name="height">
+                                <input type="text" class="form-control" value="{{ auth()->user()->patient->height }}" name="height" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -71,7 +70,7 @@
                                 <h6 class="mb-0">Berat Badan</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->patient->weight }}" name="weight">
+                                <input type="text" class="form-control" value="{{ auth()->user()->patient->weight }}" name="weight" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -79,7 +78,7 @@
                                 <h6 class="mb-0">Tanggal Lahir</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->birth_date }}" name="birth_date">
+                                <input type="date" class="form-control" value="{{ auth()->user()->birth_date->format('Y-m-d') }}" name="birth_date" selected>
                                 <small>* Format: 1999-06-31 (tahun-bulan-hari)</small>
                             </div>
                         </div>
@@ -88,7 +87,10 @@
                                 <h6 class="mb-0">Gender</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->gender }}" name="gender">
+                                <select type="text" class="form-control" name="gender">
+                                    <option value="pria" {{ auth()->user()->patient->gender == 'pria' ? 'selected' : '' }}>Pria</option>
+                                    <option value="wanita" {{ auth()->user()->patient->gender == 'wanita' ? 'selected' : '' }}>Wanita</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -96,14 +98,14 @@
                                 <h6 class="mb-0">Alamat</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ auth()->user()->address }}" name="address">
+                                <input type="text" class="form-control" value="{{ auth()->user()->address }}" name="address" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9 text-secondary">
                                 <button onclick="history.back()" class="btn btn-danger px-4" >Cancel</button>
-                                <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                                <button type="submit" class="btn btn-primary px-4">Save Changes</button>
                             </div>
                         </div>
                     </div>

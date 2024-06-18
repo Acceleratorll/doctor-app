@@ -138,7 +138,7 @@ class ProfileController extends Controller
     {
         $input = $request->validated();
 
-        if ($input) {
+        if (!$input) {
             return redirect()->back()->withInput()->with('error', 'Failed to update profile');
         }
 
