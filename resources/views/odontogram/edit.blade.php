@@ -2,7 +2,7 @@
 
 @section('header')
 <h1 class="m-0">
-    ODONTOGRAM
+    Edit ODONTOGRAM
 </h1>
 @endsection
 

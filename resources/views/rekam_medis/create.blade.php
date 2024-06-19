@@ -29,8 +29,8 @@
                                 @if (isset($patient))
                                 <option value="{{ $patient->id }}" selected disabled>{{ $patient->user->name }}</option>
                                 @else
-                                @foreach($patients as $patient)
                                 <option value="0" selected disabled>Pilih Pasien</option>
+                                @foreach($patients as $patient)
                                 <option value="{{ $patient->id }}">{{ $patient->user->name }}</option>
                                 @endforeach
                                 @endif

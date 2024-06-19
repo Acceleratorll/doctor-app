@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Daftar Rekam Medis Gigi
+        Daftar Odontogram
     </h1>
 @endsection
 

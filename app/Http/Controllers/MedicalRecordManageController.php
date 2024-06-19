@@ -21,17 +21,16 @@ class MedicalRecordManageController extends Controller
 
     public function create(Request $request)
     {
-        if (isset($request)) {
+        if ($request->patient_id != null) {
             $patient = Patient::find($request->patient_id);
             $reservation = Reservation::find($request->reservation_id);
             $icds = Icd::all();
             $route = isset($request->route) ? $request->route : null;
             return view('rekam_medis.create', compact(['patient', 'icds', 'route', 'reservation']));
         } else {
-            $patient = Patient::all();
+            $patients = Patient::all();
             $icds = Icd::all();
-            $route = isset($request->route) ? $request->route : null;
-            return view('rekam_medis.create', compact(['patient', 'icds', 'route']));
+            return view('rekam_medis.create', compact(['patients', 'icds']));
         }
     }
 
@@ -39,9 +38,9 @@ class MedicalRecordManageController extends Controller
     {
         $input = $request->validated();
         $record = MedicalRecord::where('reservation_id', $input['reservation_id'])->first();
-        if(!$record){
+        if (!$record) {
             $record = MedicalRecord::create($input);
-        }else{
+        } else {
             $record->update($input);
         }
 
@@ -58,7 +57,7 @@ class MedicalRecordManageController extends Controller
             }
         }
 
-        
+
         if ($record->reservation->schedule->schedule_type->name == 'Umum') {
             $record->reservation->update(['status' => 2]);
             return redirect()->route('admin.medis.index')->with('success', 'Rekam Medis berhasil Ditambahkan !');
@@ -114,11 +113,11 @@ class MedicalRecordManageController extends Controller
                 $data->files()->delete();
             }
 
-            if($data->odontograms){
+            if ($data->odontograms) {
                 $data->odontograms()->each(function ($odontogram) {
                     $odontogram->symbols()->detach();
                 });
-    
+
                 $data->odontograms()->delete();
             }
 

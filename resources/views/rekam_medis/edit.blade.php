@@ -2,7 +2,7 @@
 
 @section('header')
     <h1 class="m-0">
-        Tambah Rekam Medis                  
+        Edit Rekam Medis                  
     </h1>
 @endsection
 
