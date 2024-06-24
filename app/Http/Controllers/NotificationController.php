@@ -19,18 +19,14 @@ class NotificationController extends Controller
                 $query->where('schedule_date', $today);
             })->first();
 
-        if ($reservation == null) {
-            $queueNow = null;
-            $praktikUmum = null;
-            $praktikGigi = null;
-            
-            return view('web.notifikasi', compact(['today', 'praktikUmum', 'praktikGigi', 'reservation', 'queueNow']));
-        }
-
-        $queueNow = $reservation->schedule->reservations()
+        if ($reservation !== null) {
+            $queueNow = $reservation->schedule->reservations()
                 ->where('status', 1)
                 ->orderBy('nomor_urut', 'asc')
                 ->first();
+        }else{
+            $queueNow = null;
+        }
 
         $praktikUmum = Schedule::with('place', 'reservations')->whereHas('schedule_type', function ($q) {
             $q->where('name', 'Umum');

@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
             'name' => 'Pasien 2',
             'phone' => '628219221221',
             'birth_date' => '1999-3-31',
-            'email' => 'pasien2@mail.com',
+            'email' => 't2406748@gmail.com',
             'gender' => 'Wanita',
             'address' => 'Jl. Free Palestina',
             'username' => 'pasien 2',

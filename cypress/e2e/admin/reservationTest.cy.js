@@ -16,31 +16,31 @@ describe("Reservation Test", () => {
     it("create reservation approved", () => {
         cy.visit("http://127.0.0.1:8000/admin/reservation/create");
         cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
-        cy.get("#approve").select("Approved");
+        cy.get("#approve").select(1);
         cy.get('select[name="schedule_id"]').select(1, { force: true });
         cy.get('select[name="patient_id"]').select(0, { force: true });
         cy.get(".btn-primary").click();
         cy.visit("http://127.0.0.1:8000/admin/reservation/create");
         cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
-        cy.get("#approve").select("Approved");
+        cy.get("#approve").select(1);
         cy.get('select[name="schedule_id"]').select(1, { force: true });
         cy.get('select[name="patient_id"]').select(0, { force: true });
         cy.get(".btn-primary").click();
         cy.visit("http://127.0.0.1:8000/admin/reservation/create");
         cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
-        cy.get("#approve").select("Approved");
+        cy.get("#approve").select(1);
         cy.get('select[name="schedule_id"]').select(4, { force: true });
         cy.get('select[name="patient_id"]').select(1, { force: true });
         cy.get(".btn-primary").click();
         cy.visit("http://127.0.0.1:8000/admin/reservation/create");
         cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
-        cy.get("#approve").select("Approved");
+        cy.get("#approve").select(1);
         cy.get('select[name="schedule_id"]').select(4, { force: true });
         cy.get('select[name="patient_id"]').select(1, { force: true });
         cy.get(".btn-primary").click();
         cy.visit("http://127.0.0.1:8000/admin/reservation/create");
         cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
-        cy.get("#approve").select("Approved");
+        cy.get("#approve").select(1);
         cy.get('select[name="schedule_id"]').select(4, { force: true });
         cy.get('select[name="patient_id"]').select(1, { force: true });
         cy.get(".btn-primary").click();
@@ -101,7 +101,7 @@ describe("Reservation Test", () => {
         cy.get('select[name="schedule_id"]').select(7, { force: true });
         cy.get('select[name="patient_id"]').select(0, { force: true });
         cy.get("#bukti_pembayaran").selectFile("D:/Assets/Icons/gradient.jpg");
-        cy.get("#approve").select("Approved");
+        cy.get("#approve").select(1);
         cy.get(".btn-primary").click();
         cy.contains(
             "Maaf, kamu tidak dapat menambah reservasi karena kuota sudah penuh"

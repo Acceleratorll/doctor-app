@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row p-3 border mb-3">
         <div class="col">
-            <h1 class="text-uppercase fw-semibold">Rekam Medik Poli GIGI</h1>
+            <h1 class="text-uppercase fw-semibold">Rekam Medis</h1>
         </div>
         <div class="col">
             <div class="label-colon">
