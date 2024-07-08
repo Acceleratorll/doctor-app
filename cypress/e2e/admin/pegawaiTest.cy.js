@@ -25,9 +25,7 @@ describe("pegawai testing", () => {
         cy.get(":nth-child(5) > .form-control").select(1);
         cy.get("#email").type("pegawaiBaru@mail.com");
         cy.get("#alamat").type("Jl. pegawai Baru");
-        cy.get("#nomorhandphone").type(
-            "081234567890"
-        );
+        cy.get("#nomorhandphone").type("081234567890");
         cy.get("#kualifikasi").type("Pegawai Baru");
 
         cy.get(".select2-selection").click();
@@ -54,9 +52,7 @@ describe("pegawai testing", () => {
         cy.get(":nth-child(5) > .form-control").select(1);
         cy.get("#email").type("employee1@mail.com");
         cy.get("#alamat").type("Jl. pegawai Baru");
-        cy.get("#nomorhandphone").type(
-            "081234567890"
-        );
+        cy.get("#nomorhandphone").type("081234567890");
         cy.get("#kualifikasi").type("Pegawai Baru");
 
         cy.get(".select2-selection").click();
@@ -76,21 +72,17 @@ describe("pegawai testing", () => {
         cy.get("#namapegawai").type("pegawai Baru");
         cy.get("#tanggallahir").type("2000-01-01");
         cy.get(":nth-child(5) > .form-control").select(1);
-        cy.get("#email").type("superadmin@mail.com");
+        cy.get("#email").type("pegawai@mail.com");
         cy.get("#alamat").type("Jl. pegawai Baru");
-        cy.get("#nomorhandphone").type(
-            "081234567890"
-        );
+        cy.get("#nomorhandphone").type("081234567890");
         cy.get("#kualifikasi").type("Pegawai Baru");
-
         cy.get(".select2-selection").click();
         cy.get(".select2-results__option").eq(0).click();
         cy.get(".content > :nth-child(1)").click();
-
         cy.get("#username").type("pegawaiBaru");
         cy.get("#password").type("12345");
         cy.get(".btn-primary").click();
-        cy.contains("The email has already been taken").should("exist");
+        cy.contains("The email has already been registered").should("exist");
     });
 
     it("edit pegawai valid", () => {

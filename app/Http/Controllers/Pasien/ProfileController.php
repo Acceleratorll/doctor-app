@@ -157,7 +157,6 @@ class ProfileController extends Controller
         }
 
         $user->update([
-            'role_id' => $input['role_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
             'address' => $input['address'],

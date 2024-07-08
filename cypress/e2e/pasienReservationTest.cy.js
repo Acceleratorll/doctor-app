@@ -16,6 +16,9 @@ describe("reservation pasien testing", () => {
 
     it("make an appointment invalid", () => {
         cy.get(".slide__content > .d-flex > .btn").click();
+        cy.get(
+            ":nth-child(2) > .card > .card-body > form > center > .btn"
+        ).click();
         cy.get(":nth-child(2) > .card > .card-body > form > .btn").click();
         cy.get("#schedule_date1").click();
         cy.get("#schedule_time1").click();
@@ -30,6 +33,9 @@ describe("reservation pasien testing", () => {
 
     it("make an appointment valid", () => {
         cy.get(".slide__content > .d-flex > .btn").click();
+        cy.get(
+            ":nth-child(2) > .card > .card-body > form > center > .btn"
+        ).click();
         cy.get(":nth-child(2) > .card > .card-body > form > .btn").click();
         cy.get("#schedule_date1").click();
         cy.get("#schedule_time1").click();

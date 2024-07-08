@@ -25,6 +25,7 @@
                     <div class="form-group">
                         <label for="name">Nama Tempat</label>
                         <input type="text" placeholder="Masukkan Nama Tempat Praktik" class="form-control" name="name" id="linkmaps" required>
+                        <input type="hidden" value = "{{ auth()->user()->employee->id }}" name="employee_id" required>
                     </div>
                 </div>
             </div>

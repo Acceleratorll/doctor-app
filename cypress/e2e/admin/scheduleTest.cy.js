@@ -1,38 +1,37 @@
-Cypress.on('uncaught:exception', (err, runnable) => {
+Cypress.on("uncaught:exception", (err, runnable) => {
     return false;
 });
 
 describe("see list jadwal", () => {
-  before(() => {
-      // Log in as a superadmin or doctor
-      cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
+    before(() => {
+        // Log in as a superadmin or doctor
+        cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
 
-      cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
-      cy.get('input[name="password"]').type("12345");
-      cy.get("form").submit();
+        cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
+        cy.get('input[name="password"]').type("12345");
+        cy.get("form").submit();
 
-      // Wait for authentication to complete
-      cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
-  });
-  
+        // Wait for authentication to complete
+        cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
+    });
+
     it("passes", () => {
         cy.visit("http://127.0.0.1:8000/admin/jadwal");
     });
-
 });
 
 describe("create jadwal", () => {
-  beforeEach(() => {
-      // Log in as a superadmin or doctor
-      cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
+    beforeEach(() => {
+        // Log in as a superadmin or doctor
+        cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
 
-      cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
-      cy.get('input[name="password"]').type("12345");
-      cy.get("form").submit();
+        cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
+        cy.get('input[name="password"]').type("12345");
+        cy.get("form").submit();
 
-      // Wait for authentication to complete
-      cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
-  });
+        // Wait for authentication to complete
+        cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
+    });
 
     it("creates a jadwal valid", () => {
         // Visit the jadwal creation page
@@ -86,17 +85,17 @@ describe("create jadwal", () => {
 });
 
 describe("edit jadwal", () => {
-  beforeEach(() => {
-      // Log in as a superadmin or doctor
-      cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
+    beforeEach(() => {
+        // Log in as a superadmin or doctor
+        cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
 
-      cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
-      cy.get('input[name="password"]').type("12345");
-      cy.get("form").submit();
+        cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
+        cy.get('input[name="password"]').type("12345");
+        cy.get("form").submit();
 
-      // Wait for authentication to complete
-      cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
-  });
+        // Wait for authentication to complete
+        cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
+    });
 
     it("edit a jadwal valid", () => {
         // Visit the jadwal creation page
@@ -140,34 +139,36 @@ describe("edit jadwal", () => {
 });
 
 describe("delete jadwal", () => {
-  beforeEach(() => {
-      // Log in as a superadmin or doctor
-      cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
+    beforeEach(() => {
+        // Log in as a superadmin or doctor
+        cy.visit("http://127.0.0.1:8000/login"); // Assuming your login page is located at /login
 
-      cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
-      cy.get('input[name="password"]').type("12345");
-      cy.get("form").submit();
+        cy.get('input[name="email"]').type("superadmin@mail.com"); // Replace with your email
+        cy.get('input[name="password"]').type("12345");
+        cy.get("form").submit();
 
-      // Wait for authentication to complete
-      cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
-  });
+        // Wait for authentication to complete
+        cy.url().should("include", "/admin/dashboard"); // Assuming the dashboard page URL after login
+    });
 
     it("delete a jadwal valid", () => {
         cy.visit("http://127.0.0.1:8000/admin/jadwal");
-        cy.get(":nth-child(4) > .project-actions > #delete").click();
+        cy.get(
+            "#table1 > tbody > :nth-child(1) > .project-actions > #delete"
+        ).click();
 
         cy.contains("Are you sure you want to delete this schedule?").should(
             "exist"
         );
         cy.get(".swal2-confirm").click();
-        cy.contains("Jadwal deleted successfully").should(
-            "exist"
-        );
+        cy.contains("Jadwal deleted successfully").should("exist");
     });
 
     it("delete a jadwal cancel", () => {
         cy.visit("http://127.0.0.1:8000/admin/jadwal");
-        cy.get(":nth-child(4) > .project-actions > #delete").click();
+        cy.get(
+            "#table1 > tbody > :nth-child(1) > .project-actions > #delete"
+        ).click();
 
         cy.contains("Are you sure you want to delete this schedule?").should(
             "exist"

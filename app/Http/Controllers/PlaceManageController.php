@@ -25,7 +25,7 @@ class PlaceManageController extends Controller
     {
         $input = $request->validated();
 
-        if(Place::all()->count() == 2){
+        if(Place::all()->count() >= 2){
             return redirect()->route('admin.tempat.index')->with('error', 'Maaf, tidak dapat menambahkan lebih dari 2 tempat !');
         }
 

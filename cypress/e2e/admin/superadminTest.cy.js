@@ -19,7 +19,7 @@ describe("dokter testing", () => {
     });
 
     it("edit superadmin", () => {
-        cy.get(".btn").click();
+        cy.get(".btn-warning").click();
         cy.get("#namadokter").clear().type("dr. Sutomo Surya Matahari");
         cy.get("#tanggallahir").type("2000-01-01");
         cy.get(":nth-child(6) > .form-control").select(1);
@@ -38,7 +38,7 @@ describe("dokter testing", () => {
     });
 
     it("edit superadmin invalid empty input", () => {
-        cy.get(".btn").click();
+        cy.get(".btn-warning").click();
         cy.get("#namadokter").clear();
         cy.get("#namadokter:invalid")
             .invoke("prop", "validationMessage")

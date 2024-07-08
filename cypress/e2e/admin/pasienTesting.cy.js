@@ -23,7 +23,7 @@ describe("pasien testing", () => {
       cy.get('#namapasien').type("Pasien Baru");
       cy.get('#tanggallahir').type("2000-01-01");
       cy.get(':nth-child(4) > .form-control').select(1);
-      cy.get('#email').type("pasienBaru@mail.com");
+      cy.get('#email').type("pasienBaru1@mail.com");
       cy.get('#alamat').type("Jl. Pasien Baru");
       cy.get(':nth-child(7) > .col > .form-group > #nomorhandphone').type("081234567890");
       cy.get(':nth-child(8) > .col > .form-group > #nomorhandphone').type("80");
@@ -43,7 +43,20 @@ describe("pasien testing", () => {
 
     it("add new pasien invalid tanggal lahir more than today", () => {
       cy.get(".button-action > .btn").click();
-          cy.get("#tanggallahir").type("2025-05-05");
+      cy.get("#namapasien").type("Pasien Baru");
+      cy.get(":nth-child(4) > .form-control").select(1);
+      cy.get("#email").type("pasienBaru@mail.com");
+      cy.get("#alamat").type("Jl. Pasien Baru");
+      cy.get(":nth-child(7) > .col > .form-group > #nomorhandphone").type(
+          "081234567890"
+      );
+      cy.get(":nth-child(8) > .col > .form-group > #nomorhandphone").type("80");
+      cy.get(":nth-child(9) > .col > .form-group > #nomorhandphone").type(
+          "200"
+      );
+      cy.get("#username").type("PasienBaru");
+      cy.get("#password").type("12345");
+        cy.get("#tanggallahir").type("2025-05-05");
         cy.get(".btn-primary").click();
         cy.contains("Tanggal lahir tidak boleh lebih dari hari ini").should(
             "exist"
@@ -55,7 +68,7 @@ describe("pasien testing", () => {
           cy.get('#namapasien').type("Pasien Baru");
           cy.get('#tanggallahir').type("2000-01-01");
           cy.get(':nth-child(4) > .form-control').select(1);
-          cy.get('#email').type("pasienBaru@mail.com");
+          cy.get('#email').type("pasienBaru1@mail.com");
           cy.get('#alamat').type("Jl. Pasien Baru");
           cy.get(':nth-child(7) > .col > .form-group > #nomorhandphone').type("081234567890");
           cy.get(':nth-child(8) > .col > .form-group > #nomorhandphone').type("80");

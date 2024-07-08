@@ -217,15 +217,15 @@ describe("rekam medis", () => {
         ).should("exist");
     });
 
-    it("delete rekam medis", () => {
-        cy.visit("http://127.0.0.1:8000/admin/medis");
-        cy.get(":nth-child(1) > .project-actions > form > .btn-danger").click();
-        cy.contains("Rekam medis deleted successfully").should("exist");
-    });
-
     it("delete odontogram", () => {
         cy.visit("http://127.0.0.1:8000/admin/rme/gigi/index");
         cy.get("form > .btn").click();
         cy.contains("Odontogram deleted successfully").should("exist");
+    });
+
+    it("delete rekam medis", () => {
+        cy.visit("http://127.0.0.1:8000/admin/medis");
+        cy.get(":nth-child(1) > .project-actions > form > .btn-danger").click();
+        cy.contains("Rekam medis deleted successfully").should("exist");
     });
 });
