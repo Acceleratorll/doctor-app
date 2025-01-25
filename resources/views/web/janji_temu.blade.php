@@ -273,6 +273,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" value="{{$place_id}}" name="place_id">
             <button class="btn btn-primary mt-3 text-end">Lanjutkan</button>
             </form>
             @else

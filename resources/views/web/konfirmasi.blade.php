@@ -262,6 +262,10 @@
                     <td>: {{ auth()->user()->gender }}</td>
                 </tr>
                 <tr>
+                    <td>Tempat</td>
+                    <td>: {{ $place->name }}</td>
+                </tr>
+                <tr>
                     <td>Nama Dokter</td>
                     <td>: {{ $doctor['name'] }}</td>
                 </tr>

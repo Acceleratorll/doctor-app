@@ -37,8 +37,8 @@ $doctor = User::role('superadmin')->first();
         <nav class="navbar navbar-expand-lg sticky-navbar">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('dashboard') }}">
-                    <img src="{{ asset('assets/images/logo/LOGO_1.png') }}" class="logo logo-light" alt="logo">
-                    <img src="{{ asset('assets/images/logo/LOGO_1.png') }}" class="logo logo-dark" alt="logo">
+                    <img src="{{ asset('assets/images/logo/LOGO_Polinema.png') }}" class="logo logo-light" alt="logo">
+                    <img src="{{ asset('assets/images/logo/LOGO_Polinema.png') }}" class="logo logo-dark" alt="logo">
                 </a>
                 <button class="navbar-toggler" type="button">
                     <span class="menu-lines"><span></span></span>
@@ -135,7 +135,6 @@ $doctor = User::role('superadmin')->first();
                 <div class="footer-widget-nav">
                     <h6 class="footer-widget__title">Android Apps</h6>
                     <nav>
-                    <p class="color-gray" style="text-align: justify;">@ dralexapps</p>
                     </nav>
                 </div><!-- /.footer-widget__content -->
                 </div><!-- /.col-lg-2 -->

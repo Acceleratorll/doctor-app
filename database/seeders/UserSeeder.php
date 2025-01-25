@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'dr. Sutomo Surya',
-            'phone' => '6259106919966',
+            'phone' => '6287872842868',
             'birth_date' => '1984-2-26',
             'email' => 'superadmin@mail.com',
             'gender' => 'Pria',
@@ -35,6 +35,17 @@ class UserSeeder extends Seeder
             'username' => 'dentist',
             'password' => bcrypt('12345'),
         ])->assignRole('dokter_gigi');
+        
+        User::create([
+            'name' => 'dr. Dokter Umum',
+            'phone' => '628897637221',
+            'birth_date' => '1990-2-26',
+            'email' => 'doctor@mail.com',
+            'gender' => 'Pria',
+            'address' => 'Jl. Address Dentist',
+            'username' => 'dentist',
+            'password' => bcrypt('12345'),
+        ])->assignRole('dokter_umum');
 
         User::create([
             'name' => 'Pegawai 1',

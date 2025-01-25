@@ -8,6 +8,7 @@ use App\Models\Patient;
 use App\Notifications\Announcement as NotificationsAnnouncement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AnnouncementController extends Controller
 {
@@ -27,9 +28,11 @@ class AnnouncementController extends Controller
         $input = $request->validated();
         $image = $request->file('image');
         if ($image) {
-            $image = $image->store('announcement', 'public');
-            $input['image'] = $image;
+            $imageName = Str::random(11) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/announcement/'), $imageName);
+            $input['image'] = 'announcement/'.$imageName;
         }
+        
         Announcement::create($input);
 
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil ditambahkan !');
@@ -59,8 +62,9 @@ class AnnouncementController extends Controller
         $input = $request->validated();
         $image = $request->file('image');
         if ($image) {
-            $image = $image->store('announcement', 'public');
-            $input['image'] = $image;
+            $imageName = Str::random(11) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/announcement/'), $imageName);
+            $input['image'] = 'announcement/'.$imageName;
         }
         $announcement->update($input);
         return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diupdate !');
@@ -71,7 +75,7 @@ class AnnouncementController extends Controller
         $announcement = Announcement::findOrFail($id);
 
         if ($announcement->image) {
-            Storage::disk('public')->delete($announcement->image);
+           unlink(public_path('storage/'.$announcement->image));
         }
 
         $announcement->forceDelete();

@@ -79,34 +79,39 @@ class FileController extends Controller
 
         $record = MedicalRecord::findOrFail($id);
 
-        $folderPath = 'public/record_files/' . $record->patient_id . '/' . $record->id;
+        $folderPath = 'storage/record_files/' . $record->patient_id . '/' . $record->id;
 
-        Log::info("Folder Path: $folderPath");
+    Log::info("Folder Path: $folderPath");
 
-        if (Storage::exists($folderPath)) {
-            $files = Storage::files($folderPath);
+    // Check if the directory exists in public/storage
+    $fullFolderPath = public_path($folderPath);
 
-            Log::info("Files: " . implode(', ', $files));
+    if (file_exists($fullFolderPath)) {
+        // Get all files in the directory
+        $files = glob($fullFolderPath . '/*');
 
-            if (!empty($files)) {
-                $zipFileName = 'patient_files.zip';
-                $zip = new \ZipArchive();
-                $zipPath = storage_path('app/public/' . $zipFileName);
+        Log::info("Files: " . implode(', ', $files));
 
-                if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
-                    foreach ($files as $file) {
-                        $fileName = pathinfo($file, PATHINFO_BASENAME);
-                        $zip->addFile(storage_path('app/' . $file), $fileName);
-                    }
+        if (!empty($files)) {
+            $zipFileName = 'patient_files.zip';
+            $zip = new \ZipArchive();
+            // Store the ZIP file in public/storage
+            $zipPath = public_path('storage/' . $zipFileName);
 
-                    $zip->close();
-
-                    return response()->download($zipPath)->deleteFileAfterSend();
+            if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
+                foreach ($files as $file) {
+                    $fileName = pathinfo($file, PATHINFO_BASENAME);
+                    $zip->addFile($file, $fileName); // Add files to the ZIP
                 }
+
+                $zip->close();
+
+                return response()->download($zipPath)->deleteFileAfterSend();
             }
         }
+    }
 
-        return redirect()->back()->with('error', 'No files to download.');
+    return redirect()->back()->with('error', 'No files to download.');
     }
 
     public function destroy($id)

@@ -133,32 +133,6 @@
             </div><!-- /.col-lg-6 -->
             </div><!-- /.row -->
             <div class="row">
-            <!-- Product item #1 -->
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="product-item">
-                <div class="product__img">
-                    <img src="{{ asset('assets/images/products/13.png') }}" alt="Product" loading="lazy">
-                    <div class="product__action">
-                    </div><!-- /.product-action -->
-                </div><!-- /.product-img -->
-                <div class="product__info">
-                    <h4 class="product__title"><a href="{{ route('test-covid') }}">Paket Tes Covid 19</a></h4>
-                </div><!-- /.product-content -->
-                </div><!-- /.product-item -->
-            </div><!-- /.col-lg-3 -->
-            <!-- Product item #2 -->
-            <div class="col-sm-6 col-md-6 col-lg-3">
-                <div class="product-item">
-                <div class="product__img">
-                    <img src="{{ asset('assets/images/products/14.png') }}" alt="Product" loading="lazy">
-                    <div class="product__action">
-                    </div><!-- /.product-action -->
-                </div><!-- /.product-img -->
-                <div class="product__info">
-                    <h4 class="product__title"><a href="/jadwal-klinik">{{ $firstWord.' '.$secondWord }} At Home</a></h4>
-                </div><!-- /.product-content -->
-                </div><!-- /.product-item -->
-            </div><!-- /.col-lg-3 -->
             <!-- Product item #3 -->
             <div class="col-sm-6 col-md-6 col-lg-3">
                 <div class="product-item">
@@ -168,7 +142,7 @@
                     </div><!-- /.product-action -->
                 </div><!-- /.product-img -->
                 <div class="product__info">
-                    <h4 class="product__title"><a href="{{ route('konsultasi') }}">Konsultasi Online</a></h4>
+                    <h4 class="product__title"><a href="https://wa.me/{{ $doctor->phone }}">Konsultasi Online</a></h4>
                 </div><!-- /.product-content -->
                 </div><!-- /.product-item -->
             </div><!-- /.col-lg-3 -->

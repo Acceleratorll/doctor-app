@@ -25,6 +25,10 @@ class EmployeeSeeder extends Seeder
             ],
             [
                 'user_id' => 3,
+                'qualification' => 'Dokter Gigi',
+            ],
+            [
+                'user_id' => 4,
                 'qualification' => 'Karyawan',
             ],
         ];

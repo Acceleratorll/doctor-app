@@ -27,6 +27,7 @@
                                             <tr>
                                                 <th scope="col" class="text-center">ID Pasien</th>
                                                 <th scope="col" class="text-center">Nama Pasien</th>
+                                                <th scope="col" class="text-center">Email</th>
                                                 <th scope="col" class="text-center">Tanggal Lahir</th>
                                                 <th scope="col" class="text-center">Usia</th>
                                                 <th scope="col" class="text-center">Gender</th>
@@ -42,6 +43,7 @@
                                             <tr>
                                                 <td>{{ $patient->id }}</td>
                                                 <td>{{ $patient->user->name }}</td>
+                                                <td>{{ $patient->user->email }}</td>
                                                 <td>{{ $patient->user->birth_date->format('d M Y') }}</td>
                                                 <td>{{ $patient->user->birth_date->diff(now())->y }}</td>
                                                 <td>{{ $patient->user->gender }}</td>

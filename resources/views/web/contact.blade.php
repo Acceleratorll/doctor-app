@@ -6,10 +6,7 @@
                 Google Map
         =========================  -->
         <section class="google-map py-0">
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.796192767221!2d112.74602877396802!3d-7.264020471368298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f96302ba673b%3A0xa2443b1f043b2251!2sJl.%20Slamet%20Surabaya%2C%20Embong%20Kaliasin%2C%20Kec.%20Genteng%2C%20Surabaya%2C%20Jawa%20Timur%2060271!5e0!3m2!1sid!2sid!4v1686437217710!5m2!1sid!2sid"
-            frameborder="0" height="500" width="100%" 
-            ></iframe>
+        <iframe width="1290" height="383" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=1290&amp;height=383&amp;hl=en&amp;q=Jl.%20Soekarno%20Hatta%20No.9%20Malang+(Polinema)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe> <a href='https://maps-iframe.net/'>auf www.maps-iframe.net</a> <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=56cd06a96d6f0f66c039b65327dd40d70e6d95b2'></script>
         </section><!-- /.GoogleMap -->
 
         <!-- ==========================
@@ -25,12 +22,12 @@
                     <div class="col-12">
                         <div class="form-group">
                         <div class="heading-layout2">
-                            <h3 class="heading__title">Kisah Inspirasi!</h3>
+                            <h3 class="heading__title">Hi, Salam Sehat!</h3>
                         </div>
                         <div class="testimonial-item">
-                            <h5 class="testimonial__title">“Dokter Alex termasuk praktisi berkualifikasi tinggi yang berasal dari berbagai latar belakang dan membawa keragaman
-                            keterampilan dan minat khusus. Dr. Alex juga memiliki perawat terdaftar pada staf yang tersedia untuk melakukan triase
-                            setiap masalah mendesak, dan staf administrasi dan pendukung semuanya memiliki keterampilan orang yang luar biasa”
+                            <h5 class="testimonial__title">“Dokter di Poliklinik termasuk praktisi berkualifikasi tinggi yang berasal dari berbagai latar belakang dan membawa keragaman
+                            keterampilan, minat khusus dan juga memiliki perawat yang bersedia untuk melakukan triase
+                            setiap masalah mendesak, serta staf administrasi dan pendukung lainnya. Semuanya memiliki keterampilan yang luar biasa”
                             </h5>
                         </div>
                         </div>

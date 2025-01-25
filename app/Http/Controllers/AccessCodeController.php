@@ -54,7 +54,7 @@ class AccessCodeController extends Controller
     {
         $id = auth()->user()->patient->id;
         $patient = Patient::findOrFail($id);
-        if ($patient->access_code !== (int)$request->access_code) {
+        if ($patient->access_code !== $request->access_code) {
             return response()->json('error', 'Pin Salah!');
         } else {
             $patient->update(['access_code' => $request->access_code_new]);

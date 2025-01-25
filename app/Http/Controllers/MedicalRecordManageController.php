@@ -10,6 +10,7 @@ use App\Models\MedicalRecord;
 use App\Models\Patient;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class MedicalRecordManageController extends Controller
 {
@@ -46,14 +47,16 @@ class MedicalRecordManageController extends Controller
 
         if ($fileRequest->hasFile('files')) {
             foreach ($fileRequest->file('files') as $file) {
-                $filePath = $file->store('record_files/' . $request->patient_id . '/' . $record->id, 'public');
-
-                File::create([
-                    'medical_record_id' => $record->id,
-                    'title' => $this->sanitizeFilename($file->getClientOriginalName()),
-                    'type' => $file->getClientOriginalExtension(),
-                    'url' => $filePath,
-                ]);
+                $directoryPath = public_path('storage/record_files/' . $request->patient_id . '/' . $record->id);
+                 $fileName = Str::random(11) . '.' . $file->getClientOriginalExtension();
+        $file->move($directoryPath, $fileName);
+        
+        File::create([
+            'medical_record_id' => $record->id,
+            'title' => $this->sanitizeFilename($file->getClientOriginalName()),
+            'type' => $file->getClientOriginalExtension(),
+            'url' => 'record_files/' . $request->patient_id . '/' . $record->id . '/' . $fileName,
+        ]);
             }
         }
 

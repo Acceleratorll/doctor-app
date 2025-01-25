@@ -81,7 +81,6 @@
         }
 
     </style>
-    
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-closed sidebar-collapse" id="sidebar">
@@ -126,7 +125,7 @@
         </nav>
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="#" class="brand-link" style="text-align:center;">
-                KLINIK
+                {{ ucfirst(auth()->user()->getRoleNames()[0]) }}
             </a>
 
             <!-- Sidebar -->
@@ -146,6 +145,7 @@
                             $superadmin = ['superadmin'];
                             $dokter_gigi = ['dokter_gigi'];
                             $dokter_umum = ['dokter_umum'];
+                            $pegawai = ['pegawai'];
                             $userRoles = auth()->user()->getRoleNames();
                         @endphp
                         @if ($userRoles->intersect($superadmin)->isNotEmpty())
@@ -265,12 +265,14 @@
                                         <p>Tambah Jadwal</p>
                                     </a>
                                 </li>
+                                @if ($userRoles->intersect($superadmin)->isNotEmpty() || $userRoles->intersect($pegawai)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="/admin/jadwal" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Semua Jadwal</p>
                                     </a>
                                 </li>
+                                @endif
                                 @if ($userRoles->intersect($dokter_gigi)->isNotEmpty() || $userRoles->intersect($superadmin)->isNotEmpty() || $userRoles->intersect($pegawai)->isNotEmpty())
                                 <li class="nav-item">
                                     <a href="/admin/gigi/jadwal" class="nav-link">
@@ -334,8 +336,9 @@
                                 @endif
                             </ul>
                         </li>
+                        @if (!$userRoles->intersect($pegawai)->isNotEmpty())
                         <li class="nav-item">
-                            <a href="#" class="nav-link ">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fa fa-briefcase"></i>
                                 <p>
                                     Rekam Medis
@@ -371,6 +374,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-folder"></i>

@@ -11,7 +11,7 @@
                     @forelse(auth()->user()->patient->unreadNotifications as $announcement)
                     <div class="announcement-item">
                         <div class="announcement-image">
-                                <img src="{{ asset('storage/' . $announcement->data['image']) }}">
+                            <img src="{{ Illuminate\Support\Facades\Storage::url($announcement->data['image'])}}">
                         </div>
                         <div class="announcement-details">
                             <p class="announcement-title"><b>{{ $announcement->data['content'] }}</b></p>
@@ -35,7 +35,7 @@
                     @forelse($announcements as $announcement)
                     <div class="announcement-item">
                         <div class="announcement-image">
-                                <img src="{{ asset('storage/' . $announcement->image) }}">
+                            <img src="{{ Illuminate\Support\Facades\Storage::url($announcement->image)}}">
                         </div>
                         <div class="announcement-details">
                             <p class="announcement-title"><b>{{ $announcement->title }}</b></p>

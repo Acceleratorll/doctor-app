@@ -57,7 +57,7 @@
                 </ul>
             </div>
         </div>
-        <div class="row" style="margin-top: 50px">
+        <div class="row" style="margin-top: 50px; margin-left: 25px;">
             <div class="form-container">
                 <form id="default-form" action="{{ route('reservasi.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -67,7 +67,6 @@
                             <div class="file-input">
                                 <label for="bukti_pembayaran">Upload Bukti Pembayaran</label>
                                 <input type="file" class="form-control" name="bukti_pembayaran" id="bukti_pembayaran" accept=".jpg, .jpeg, .png, .pdf" required>
-                                <small class="text-muted">Maximum file size: <b>*2MB</b></small>
                             </div>
                         </div>
                         <div class="col-md-1"></div>
@@ -93,7 +92,6 @@
                             <div class="file-input">
                                 <label for="ktp">Upload KTP</label>
                                 <input type="file" class="form-control" name="ktp" id="ktp" accept=".jpg, .jpeg, .png" required>
-                                <small class="text-muted">Maximum file size: <b>*2MB</b></small>
                             </div>
                         </div>
                         <div class="col-md-1"></div>
@@ -108,7 +106,6 @@
                             <div class="file-input">
                                 <label for="surat_rujukan">Upload Surat Rujukan</label>
                                 <input type="file" class="form-control" name="surat_rujukan" id="surat_rujukan" accept=".jpg, .jpeg, .png" required>
-                                <small class="text-muted">Maximum file size: <b>*2MB</b></small>
                             </div>
                         </div>
                         <div class="col-md-1"></div>
@@ -123,7 +120,6 @@
                             <div class="file-input">
                                 <label for="bpjs_card">Upload Kartu BPJS</label>
                                 <input type="file" class="form-control" name="bpjs_card" id="bpjs_card" accept=".jpg, .jpeg, .png" required>
-                                <small class="text-muted">Maximum file size: <b>*2MB</b></small>
                             </div>
                         </div>
                         <div class="col-md-1"></div>

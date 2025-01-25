@@ -17,8 +17,8 @@ class PlaceSeeder extends Seeder
         $places = [
             [
                 'employee_id' => 1,
-                'name' => 'Cabang Citraland',
-                'address' => 'Jl. Sentra Taman G-Walk No.22',
+                'name' => 'Poliklinik Polinema',
+                'address' => 'Jl. Soekarno Hatta No.9',
                 'reservationable' => '1'
             ],
             [

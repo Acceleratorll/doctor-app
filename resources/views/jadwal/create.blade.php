@@ -97,7 +97,7 @@
                     <div class="form-group">
                         <label for="Jam">Di Ulang</label>
                         <select class="form-control" name="frequency" id="frequency">
-                            <option value="-1" selected>Tidak Berulang</option>
+                            <option value="" selected disabled>Pilih Perulangan</option>
                             <option value="daily">Setiap Hari</option>
                             <option value="weekly">Setiap Minggu</option>
                             <option value="monthly">Setiap Bulan</option>

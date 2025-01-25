@@ -113,7 +113,7 @@ class ScheduleManageController extends Controller
 
         // Calculate the end date based on the frequency and duration
         $startDate = Carbon::parse($input['schedule_date']);
-        if ($frequency !== -1) {
+        if ($frequency !== -1 || !$frequency == 'daily' && $duration == 1) {
             $endDate = $this->calculateEndDate($startDate, $frequency, $duration, $identifier);
 
             while ($startDate <= $endDate) {

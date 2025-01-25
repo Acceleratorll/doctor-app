@@ -34,11 +34,11 @@
                                             $wait->schedule->schedule_time }}</td>
                                         <td class="text-center">
                                             @if($wait->bpjs == 0)
-                                                <img src="{{ asset('storage/'.$wait->bukti_pembayaran)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
+                                                <img src="{{ Illuminate\Support\Facades\Storage::url($wait->bukti_pembayaran) }}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
                                             @else
-                                                <img src="{{ asset('storage/'.$wait->ktp)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
-                                                <img src="{{ asset('storage/'.$wait->surat_rujukan)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
-                                                <img src="{{ asset('storage/'.$wait->bpjs_card)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
+                                                <img src="{{ Illuminate\Support\Facades\Storage::url($wait->ktp)}}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
+                                                <img src="{{ Illuminate\Support\Facades\Storage::url($wait->surat_rujukan) }}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
+                                                <img src="{{ Illuminate\Support\Facades\Storage::url($wait->bpjs_card) }}" class="toZoom img-thumbnail" style="max-height: 150px; max-width: 150px; cursor: pointer;" data-zoom-image>
                                             @endif
                                         </td>
                                         <td class="project-actions text-center">

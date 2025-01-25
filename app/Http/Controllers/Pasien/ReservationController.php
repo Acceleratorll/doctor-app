@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ReservationController extends Controller
 {
@@ -115,21 +116,22 @@ class ReservationController extends Controller
 
         $schedule = Schedule::whereDate('schedule_date', $request->schedule_date)->where('schedule_time', $request->schedule_time)->first();
         $reservation = Reservation::where('schedule_id', $schedule->id)->get();
+        $place = Place::find($request->place_id);
         $code = hexdec(substr(uniqid(), 6, 6));
         $antrian = 1;
         if ($reservation != null) {
             $antrian = $reservation->max('nomor_urut') + 1;
         }
         $doctor = User::role('superadmin')->first();
-        return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code']));
+        return view('web.konfirmasi', compact(['request', 'doctor', 'antrian', 'code', 'place']));
     }
 
     public function store(Request $request)
     {
         $schedule = Schedule::whereDate('schedule_date', $request['schedule_date'])
             ->where('schedule_time', $request['schedule_time'])
-            ->whereHas('schedule_type', function ($q) {
-                $q->where('name', 'like', '%Gigi%');
+            ->whereHas('schedule_type', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request['type'] . '%');
             })
             ->first();
 
@@ -141,13 +143,15 @@ class ReservationController extends Controller
 
         if ($jumlah < $schedule->qty) {
             if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid()) {
-                $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                $file = $request->file('bukti_pembayaran');
+                $image = Str::random(11).'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('storage/pembayaran_images/'), $image);
                 $reservation = Reservation::create([
                     'patient_id' => auth()->user()->patient->id,
                     'schedule_id' => $schedule->id,
                     'reservation_code' => $request['reservation_code'],
                     'bpjs' => 0,
-                    'bukti_pembayaran' => $image,
+                    'bukti_pembayaran' => 'pembayaran_images/'.$image,
                     'ktp' => '',
                     'surat_rujukan' => '',
                     'bpjs_card' => '',
@@ -158,18 +162,27 @@ class ReservationController extends Controller
 
                 return redirect()->route('profile.index');
             } else if ($request->hasFile('ktp') && $request->hasFile('surat_rujukan') && $request->hasFile('bpjs_card')) {
-                $imageKtp = $request->file('ktp')->store('bpjs', 'public');
-                $imageSurat = $request->file('surat_rujukan')->store('bpjs', 'public');
-                $imageBpjs = $request->file('bpjs_card')->store('bpjs', 'public');
+                $fileKtp = $request->file('ktp');
+                $imageKtp = Str::random(11) . '.' . $fileKtp->getClientOriginalExtension();
+                $fileKtp->move(public_path('storage/ktp/'), $ktp);
+
+                $fileSurat = $request->file('surat_rujukan');
+                $imageSurat = Str::random(11) . '.' . $fileSurat->getClientOriginalExtension();
+                $fileSurat->move(public_path('storage/surat_rujukan/'), $surat_rujukan);
+
+                $fileBpjs = $request->file('bpjs_card');
+                $imageBpjs = Str::random(11) . '.' . $fileBpjs->getClientOriginalExtension();
+                $fileBpjs->move(public_path('storage/bpjs_card/'), $bpjs_card);
+                
                 $reservation = Reservation::create([
                     'patient_id' => auth()->user()->patient->id,
                     'schedule_id' => $schedule->id,
                     'reservation_code' => $request['reservation_code'],
                     'bpjs' => 1,
                     'bukti_pembayaran' => '',
-                    'ktp' => $imageKtp,
-                    'surat_rujukan' => $imageSurat,
-                    'bpjs_card' => $imageBpjs,
+                    'ktp' => 'ktp/'.$imageKtp,
+                    'surat_rujukan' => 'surat_rujukan/'.$imageSurat,
+                    'bpjs_card' => 'bpjs_card/'.$imageBpjs,
                     'nomor_urut' => $request['nomor_urut'],
                 ]);
 

@@ -237,7 +237,7 @@
         <div class="col-md-5 px-5 py-5">
             <div class="card" style="width: 20rem;">
                 <div class="card-body">
-                    <img class="card-img-top" height="400px" width="400px" src="{{url('/assets/images/logo/LOGO-2.png')}}" style="margin-bottom: 15px">
+                    <img class="card-img-top" height="400px" width="400px" src="{{url('/assets/images/logo/LOGO_Polinema.png')}}" style="margin-bottom: 15px">
                     <h5 class="card-title text-center">{{ $item->name }}</h5>
                     <p class="card-text">{{ $item->desc }}</p>
                     <form action="chooseDoctor" method="get">

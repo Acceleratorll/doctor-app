@@ -34,10 +34,13 @@ class ImageController extends Controller
      * @param  mixed $image_path
      * @return String $image_url
      */
-    public function getAccessibleImageURL($image_path)
-    {
+     public function getAccessibleImageURL($image_path)
+     {
+        // create accessibe image with uri
         $image_url = asset('storage/' . $image_path);
+        
+ 
+         return $image_url;
+     }
 
-        return $image_url;
-    }
 }

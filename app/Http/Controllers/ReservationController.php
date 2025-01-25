@@ -191,9 +191,12 @@ class ReservationController extends Controller
                         'status' => 1,
                         'nomor_urut' => $antrian,
                     ]);
-                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                    
+                    $file = $request->file('bukti_pembayaran');
+                    $image = Str::random(11);
+                    $file->move(public_path('storage/pembayaran_images/'), $image.'.'.$file->getClientOriginalExtension());
                     $reservation->update([
-                        'bukti_pembayaran' => $image,
+                        'bukti_pembayaran' =>'pembayaran_images/'.$image.'.'.$file->getClientOriginalExtension(),
                     ]);
 
                     Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
@@ -210,14 +213,24 @@ class ReservationController extends Controller
                         'status' => 1,
                         'nomor_urut' => $antrian,
                     ]);
-                    $ktp = $request->file('ktp')->store('ktp', 'public');
-                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
-                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                    
+                    $fileKtp = $request->file('ktp');
+                    $ktp = Str::random(11) . '.' . $fileKtp->getClientOriginalExtension();
+                    $fileKtp->move(public_path('storage/ktp/'), $ktp);
+
+                    $fileSurat = $request->file('surat_rujukan');
+                    $surat_rujukan = Str::random(11) . '.' . $fileSurat->getClientOriginalExtension();
+                    $fileSurat->move(public_path('storage/surat_rujukan/'), $surat_rujukan);
+
+                    $fileBpjs = $request->file('bpjs_card');
+                    $bpjs_card = Str::random(11) . '.' . $fileBpjs->getClientOriginalExtension();
+                    $fileBpjs->move(public_path('storage/bpjs_card/'), $bpjs_card);
+
                     $reservation->update([
                         'bpjs' => 1,
-                        'ktp' => $ktp,
-                        'surat_rujukan' => $surat_rujukan,
-                        'bpjs_card' => $bpjs_card,
+                        'ktp' => 'ktp/'.$ktp,
+                        'surat_rujukan' => 'surat_rujukan/'.$surat_rujukan,
+                        'bpjs_card' => 'bpjs_card/'.$bpjs_card,
                     ]);
 
                     Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
@@ -240,9 +253,12 @@ class ReservationController extends Controller
                         'status' => $request->status,
                         'nomor_urut' => 0,
                     ]);
-                    $image = $request->file('bukti_pembayaran')->store('pembayaran_images', 'public');
+                    
+                    $file = $request->file('bukti_pembayaran');
+                    $image = Str::random(11);
+                    $file->move(public_path('storage/pembayaran_images/'), $image.'.'.$file->getClientOriginalExtension());
                     $reservation->update([
-                        'bukti_pembayaran' => $image,
+                        'bukti_pembayaran' =>'pembayaran_images/'.$image.'.'.$file->getClientOriginalExtension(),
                     ]);
 
                     Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));
@@ -257,14 +273,24 @@ class ReservationController extends Controller
                         'status' => $request->status,
                         'nomor_urut' => 0,
                     ]);
-                    $ktp = $request->file('ktp')->store('ktp', 'public');
-                    $surat_rujukan = $request->file('surat_rujukan')->store('surat_rujukan', 'public');
-                    $bpjs_card = $request->file('bpjs_card')->store('bpjs_card', 'public');
+                    
+                    $fileKtp = $request->file('ktp');
+                    $ktp = Str::random(11) . '.' . $fileKtp->getClientOriginalExtension();
+                    $fileKtp->move(public_path('storage/ktp/'), $ktp);
+
+                    $fileSurat = $request->file('surat_rujukan');
+                    $surat_rujukan = Str::random(11) . '.' . $fileSurat->getClientOriginalExtension();
+                    $fileSurat->move(public_path('storage/surat_rujukan/'), $surat_rujukan);
+
+                    $fileBpjs = $request->file('bpjs_card');
+                    $bpjs_card = Str::random(11) . '.' . $fileBpjs->getClientOriginalExtension();
+                    $fileBpjs->move(public_path('storage/bpjs_card/'), $bpjs_card);
+
                     $reservation->update([
                         'bpjs' => 1,
-                        'ktp' => $ktp,
-                        'surat_rujukan' => $surat_rujukan,
-                        'bpjs_card' => $bpjs_card,
+                        'ktp' => 'ktp/'.$ktp,
+                        'surat_rujukan' => 'surat_rujukan/'.$surat_rujukan,
+                        'bpjs_card' => 'bpjs_card/'.$bpjs_card,
                     ]);
 
                     Mail::to($reservation->patient->user->email)->send(new StatusEmail($reservation));

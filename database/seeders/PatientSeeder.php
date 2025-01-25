@@ -16,12 +16,12 @@ class PatientSeeder extends Seeder
     {
         $patient = [
             [
-                'user_id' => 4,
+                'user_id' => 5,
                 'height' => '144',
                 'weight' => '44',
             ],
             [
-                'user_id' => 5,
+                'user_id' => 6,
                 'height' => '175',
                 'weight' => '60',
             ],

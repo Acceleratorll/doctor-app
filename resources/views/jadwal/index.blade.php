@@ -159,34 +159,34 @@
             paging: true
         });
 
-        $('.delete').on('click', function(){
-            var deleteButton = $(this);
-            var defaultId = deleteButton.data('id');
-    
-            Swal.fire({
-                title: 'Delete Schedule',
-                text: 'Are you sure you want to delete this schedule?',
-                type: 'warning',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                console.log(result);
-                if (result.value == true) {
-                    console.log('confirmed');
-                    $.ajax({
-                        type: 'POST',
-                        url: `{{ route("admin.jadwal.destroy", ["jadwal" => ":scheduleId"]) }}`.replace(':scheduleId', defaultId),
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            _method: 'DELETE'
-                        },
-                    });
-                    location.reload();
-                }
+        $(document).on('click', '.delete', function(){
+    var deleteButton = $(this);
+    var defaultId = deleteButton.data('id');
+
+    Swal.fire({
+        title: 'Delete Schedule',
+        text: 'Are you sure you want to delete this schedule?',
+        type: 'warning',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+    }).then((result) => {
+        console.log(result);
+        if (result.value == true) {
+            console.log('confirmed');
+            $.ajax({
+                type: 'POST',
+                url: `{{ route("admin.jadwal.destroy", ["jadwal" => ":scheduleId"]) }}`.replace(':scheduleId', defaultId),
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    _method: 'DELETE'
+                },
             });
-        });
+            location.reload();
+        }
+    });
+});
     });
     
     $(document).ready(
