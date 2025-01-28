@@ -1,0 +1,9 @@
+<<<<<<< SEARCH
+                    ;
+                    errorMessage.textContent = 'Failed to get AI response';
+                    chatContainer.appendChild(errorMessage);
+=======
+                    ;
+                    errorMessage.textContent = 'Failed to get AI response';
+                    chatContainer.appendChild(errorMessage);
+>>>>>>> REPLACE

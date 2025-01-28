@@ -1,0 +1,11 @@
+<<<<<<< SEARCH
+                    `;
+                    chatContainer.appendChild(userMessage);
+                    // Fix this. AI!
+                    const response = await fetch('/consult', {
+=======
+                    `;
+                    chatContainer.appendChild(userMessage);
+                    // Fix this. AI!
+                    const response = await fetch('/consult', {
+>>>>>>> REPLACE
